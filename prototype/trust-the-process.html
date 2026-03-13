@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trust the Process — Prototype</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a0a;
+    color: #e0d8c8;
+    font-family: 'VT323', monospace;
+    font-size: 20px;
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #game {
+    width: 900px;
+    height: 620px;
+    position: relative;
+    border: 3px solid #3a3020;
+    background: #1a1408;
+    overflow: hidden;
+  }
+
+  /* ── Title Screen ── */
+  #title-screen {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    background: linear-gradient(180deg, #0a0a0a 0%, #1a1408 50%, #2a1a0a 100%);
+    z-index: 100;
+  }
+  #title-screen h1 {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 28px;
+    color: #d4a44a;
+    text-shadow: 0 0 20px rgba(212,164,74,0.4);
+    margin-bottom: 10px;
+    text-align: center;
+    line-height: 1.5;
+  }
+  #title-screen .subtitle {
+    font-size: 18px;
+    color: #887755;
+    margin-bottom: 50px;
+  }
+  #title-screen .prompt {
+    font-size: 22px;
+    color: #d4a44a;
+    animation: blink 1.2s infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  /* ── Intro Sequence ── */
+  #intro-screen {
+    position: absolute; inset: 0;
+    display: none; flex-direction: column;
+    justify-content: center; align-items: center;
+    background: #0a0a0a;
+    z-index: 90;
+    padding: 60px 80px;
+  }
+  #intro-screen .intro-text {
+    font-size: 22px;
+    line-height: 1.8;
+    text-align: center;
+    color: #c0b898;
+    max-width: 700px;
+    min-height: 200px;
+  }
+  #intro-screen .intro-prompt {
+    margin-top: 40px;
+    font-size: 18px;
+    color: #887755;
+    animation: blink 1.2s infinite;
+  }
+
+  /* ── Exploration ── */
+  #explore-screen {
+    position: absolute; inset: 0;
+    display: none;
+    z-index: 80;
+  }
+  #scene-bg {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+  }
+  #scene-art {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 10px;
+    position: relative;
+  }
+  #location-label {
+    position: absolute;
+    top: 12px; left: 16px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    color: #d4a44a;
+    background: rgba(0,0,0,0.7);
+    padding: 6px 12px;
+    border: 1px solid #3a3020;
+  }
+
+  /* pixel art characters */
+  .char-sprite {
+    display: inline-block;
+    width: 64px; height: 96px;
+    image-rendering: pixelated;
+    position: relative;
+  }
+  #steve-sprite {
+    background: #607080;
+    border: 2px solid #405060;
+    margin: 0 30px;
+    position: relative;
+  }
+  #steve-sprite::before {
+    content: '';
+    position: absolute; top: 4px; left: 12px;
+    width: 36px; height: 30px;
+    background: #d4b896;
+    border-radius: 50%;
+  }
+  #steve-sprite::after {
+    content: '';
+    position: absolute; top: 36px; left: 8px;
+    width: 44px; height: 50px;
+    background: #4a7a8a;
+    border: 2px solid #3a6070;
+  }
+  .npc-sprite {
+    width: 64px; height: 96px;
+    margin: 0 20px;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .npc-sprite:hover { transform: scale(1.1); }
+  .npc-sprite .npc-label {
+    position: absolute;
+    bottom: -22px; left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    color: #d4a44a;
+    white-space: nowrap;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+  }
+
+  /* dialogue box */
+  #dialogue-box {
+    height: 180px;
+    background: rgba(10,8,4,0.95);
+    border-top: 3px solid #3a3020;
+    padding: 16px 24px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  #speaker-name {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+    color: #d4a44a;
+    margin-bottom: 8px;
+  }
+  #dialogue-text {
+    flex: 1;
+    font-size: 20px;
+    line-height: 1.6;
+    color: #c0b898;
+    overflow-y: auto;
+  }
+  #dialogue-text .steve-thought {
+    color: #7a8a7a;
+    font-style: italic;
+  }
+  #choices {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 8px;
+  }
+  .choice-btn {
+    background: rgba(60,50,30,0.6);
+    border: 1px solid #5a4a2a;
+    color: #d4a44a;
+    font-family: 'VT323', monospace;
+    font-size: 18px;
+    padding: 6px 16px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s;
+  }
+  .choice-btn:hover {
+    background: rgba(100,80,40,0.6);
+    border-color: #d4a44a;
+  }
+  #continue-prompt {
+    position: absolute;
+    bottom: 10px; right: 20px;
+    font-size: 16px;
+    color: #887755;
+    animation: blink 1.2s infinite;
+  }
+
+  /* nav arrows */
+  .nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-80%);
+    font-size: 36px;
+    color: #d4a44a;
+    cursor: pointer;
+    background: rgba(0,0,0,0.5);
+    padding: 10px 8px;
+    border: 1px solid #3a3020;
+    z-index: 5;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .nav-arrow:hover { background: rgba(100,80,40,0.5); }
+  #nav-left { left: 8px; }
+  #nav-right { right: 8px; }
+
+  /* ── HUD ── */
+  #hud {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 44px;
+    background: rgba(10,8,4,0.9);
+    border-bottom: 2px solid #3a3020;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 24px;
+    z-index: 10;
+    font-size: 14px;
+  }
+  .hud-stat {
+    display: flex; align-items: center; gap: 6px;
+  }
+  .hud-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: #887755;
+  }
+  .hud-bar {
+    width: 80px; height: 12px;
+    background: #1a1408;
+    border: 1px solid #3a3020;
+    position: relative;
+    overflow: hidden;
+  }
+  .hud-bar-fill {
+    position: absolute; top: 0; left: 0; bottom: 0;
+    transition: width 0.5s;
+  }
+  .hp-fill { background: #6a8a4a; }
+  .ep-fill { background: #4a6a9a; }
+  .norm-fill { background: #8a7a5a; }
+  .hud-val {
+    font-size: 16px;
+    color: #c0b898;
+    min-width: 30px;
+  }
+  #hud-insight {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: #d4a44a;
+    margin-left: auto;
+  }
+  #hud-cacao {
+    font-size: 16px;
+    color: #c09040;
+  }
+
+  /* ── Battle Screen ── */
+  #battle-screen {
+    position: absolute; inset: 0;
+    display: none;
+    z-index: 85;
+    flex-direction: column;
+  }
+  #battle-scene {
+    flex: 1;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 50px 60px 10px;
+    position: relative;
+  }
+  .battle-char {
+    text-align: center;
+    position: relative;
+  }
+  .battle-char-name {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    margin-bottom: 8px;
+  }
+  .battle-hp-bar {
+    width: 120px; height: 14px;
+    background: #1a1408;
+    border: 1px solid #3a3020;
+    margin: 8px auto 4px;
+    position: relative;
+    overflow: hidden;
+  }
+  .battle-hp-fill {
+    position: absolute; top:0;left:0;bottom:0;
+    background: #6a8a4a;
+    transition: width 0.4s;
+  }
+  .battle-hp-text {
+    font-size: 14px;
+    color: #887755;
+  }
+  .battle-sprite {
+    width: 80px; height: 120px;
+    display: flex; justify-content: center; align-items: center;
+    margin: 0 auto;
+    font-size: 64px;
+    position: relative;
+  }
+  .battle-status {
+    font-size: 13px;
+    color: #aa7744;
+    margin-top: 4px;
+    min-height: 18px;
+  }
+
+  /* battle menu */
+  #battle-ui {
+    height: 200px;
+    background: rgba(10,8,4,0.95);
+    border-top: 3px solid #3a3020;
+    display: flex;
+  }
+  #battle-menu {
+    width: 200px;
+    border-right: 2px solid #3a3020;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .battle-menu-btn {
+    background: rgba(60,50,30,0.6);
+    border: 1px solid #5a4a2a;
+    color: #d4a44a;
+    font-family: 'VT323', monospace;
+    font-size: 20px;
+    padding: 6px 12px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s;
+  }
+  .battle-menu-btn:hover:not(:disabled) {
+    background: rgba(100,80,40,0.6);
+    border-color: #d4a44a;
+  }
+  .battle-menu-btn:disabled {
+    color: #554433;
+    cursor: default;
+  }
+  #battle-log {
+    flex: 1;
+    padding: 10px 16px;
+    overflow-y: auto;
+    font-size: 18px;
+    line-height: 1.5;
+  }
+  #battle-log .log-damage { color: #cc6644; }
+  #battle-log .log-heal { color: #6a8a4a; }
+  #battle-log .log-info { color: #887755; }
+  #battle-log .log-status { color: #aa7744; }
+  #battle-log .log-talk { color: #8ab4d4; }
+  #battle-log .log-crit { color: #dd4444; font-weight: bold; }
+
+  /* sub-menus in battle */
+  #battle-submenu {
+    display: none;
+    width: 200px;
+    border-right: 2px solid #3a3020;
+    padding: 10px;
+    flex-direction: column;
+    gap: 4px;
+    overflow-y: auto;
+  }
+  .submenu-btn {
+    background: rgba(40,50,60,0.6);
+    border: 1px solid #4a5a6a;
+    color: #8ab4d4;
+    font-family: 'VT323', monospace;
+    font-size: 18px;
+    padding: 5px 10px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s;
+  }
+  .submenu-btn:hover {
+    background: rgba(60,80,100,0.6);
+    border-color: #8ab4d4;
+  }
+  .submenu-btn .ep-cost {
+    color: #4a6a9a;
+    font-size: 14px;
+  }
+  .submenu-back {
+    color: #887755;
+    border-color: #5a4a2a;
+    background: rgba(60,50,30,0.4);
+    margin-bottom: 4px;
+  }
+  .submenu-back:hover {
+    background: rgba(80,60,30,0.6);
+  }
+
+  /* damage flash */
+  @keyframes flash-red { 0%{filter:brightness(1)} 50%{filter:brightness(2) sepia(1) hue-rotate(-30deg)} 100%{filter:brightness(1)} }
+  @keyframes flash-heal { 0%{filter:brightness(1)} 50%{filter:brightness(1.5) sepia(0.5) hue-rotate(60deg)} 100%{filter:brightness(1)} }
+  .flash-damage { animation: flash-red 0.3s; }
+  .flash-heal { animation: flash-heal 0.3s; }
+  @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+  .shake { animation: shake 0.2s 2; }
+
+  /* ── Inventory popup ── */
+  #inventory-popup {
+    display: none;
+    position: absolute;
+    top: 50px; left: 50%; transform: translateX(-50%);
+    width: 400px;
+    max-height: 400px;
+    background: rgba(15,12,6,0.97);
+    border: 2px solid #d4a44a;
+    z-index: 50;
+    padding: 16px;
+    overflow-y: auto;
+  }
+  #inventory-popup h3 {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+    color: #d4a44a;
+    margin-bottom: 12px;
+  }
+  .inv-item {
+    padding: 6px 0;
+    border-bottom: 1px solid #2a2010;
+    font-size: 17px;
+  }
+  .inv-item-name { color: #c0b898; }
+  .inv-item-desc { color: #7a7060; font-size: 15px; font-style: italic; margin-top: 2px; }
+  .inv-close {
+    position: absolute; top: 8px; right: 12px;
+    color: #887755; cursor: pointer; font-size: 24px;
+  }
+
+  /* victory / defeat overlay */
+  #overlay {
+    display: none;
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 95;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  #overlay h2 {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 24px;
+    color: #d4a44a;
+    margin-bottom: 20px;
+  }
+  #overlay p {
+    font-size: 20px;
+    color: #c0b898;
+    text-align: center;
+    max-width: 600px;
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+  #overlay .prompt {
+    margin-top: 30px;
+    font-size: 18px;
+    color: #887755;
+    animation: blink 1.2s infinite;
+  }
+
+  /* scene backgrounds */
+  .bg-pavilion {
+    background: linear-gradient(180deg, #2a3a2a 0%, #1a2a18 40%, #2a2018 100%);
+  }
+  .bg-kitchen {
+    background: linear-gradient(180deg, #2a2420 0%, #3a2a1a 40%, #2a1a10 100%);
+  }
+  .bg-firepit {
+    background: linear-gradient(180deg, #0a0a1a 0%, #1a1008 40%, #3a2010 100%);
+  }
+  .bg-garden {
+    background: linear-gradient(180deg, #1a2a1a 0%, #2a3a20 40%, #1a2a18 100%);
+  }
+  .bg-path {
+    background: linear-gradient(180deg, #2a3a3a 0%, #1a2a28 40%, #2a2a18 100%);
+  }
+  .bg-battle {
+    background: linear-gradient(180deg, #2a2420 0%, #3a2a1a 30%, #1a1408 100%);
+  }
+</style>
+</head>
+<body>
+
+<div id="game">
+  <!-- HUD -->
+  <div id="hud" style="display:none">
+    <div class="hud-stat">
+      <span class="hud-label">HP</span>
+      <div class="hud-bar"><div class="hud-bar-fill hp-fill" id="hud-hp" style="width:100%"></div></div>
+      <span class="hud-val" id="hud-hp-val">100</span>
+    </div>
+    <div class="hud-stat">
+      <span class="hud-label">EP</span>
+      <div class="hud-bar"><div class="hud-bar-fill ep-fill" id="hud-ep" style="width:100%"></div></div>
+      <span class="hud-val" id="hud-ep-val">50</span>
+    </div>
+    <div class="hud-stat">
+      <span class="hud-label">NORM</span>
+      <div class="hud-bar"><div class="hud-bar-fill norm-fill" id="hud-norm" style="width:90%"></div></div>
+    </div>
+    <span id="hud-insight">INSIGHT: 0</span>
+    <span id="hud-cacao">🫘 0</span>
+  </div>
+
+  <!-- Title Screen -->
+  <div id="title-screen">
+    <h1>TRUST THE<br>PROCESS</h1>
+    <div class="subtitle">A Dark Humor RPG</div>
+    <div class="prompt">[ Press SPACE or Click to Begin ]</div>
+  </div>
+
+  <!-- Intro -->
+  <div id="intro-screen">
+    <div class="intro-text" id="intro-text"></div>
+    <div class="intro-prompt" id="intro-prompt" style="display:none">[ SPACE / Click ]</div>
+  </div>
+
+  <!-- Exploration -->
+  <div id="explore-screen">
+    <div id="scene-bg">
+      <div id="scene-art">
+        <div id="location-label"></div>
+        <div id="nav-left" class="nav-arrow" style="display:none">◀</div>
+        <div id="nav-right" class="nav-arrow" style="display:none">▶</div>
+        <div id="scene-characters"></div>
+      </div>
+      <div id="dialogue-box">
+        <div id="speaker-name"></div>
+        <div id="dialogue-text"></div>
+        <div id="choices"></div>
+        <div id="continue-prompt" style="display:none">▼</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Battle -->
+  <div id="battle-screen">
+    <div id="battle-scene" class="bg-battle">
+      <div class="battle-char" id="battle-steve">
+        <div class="battle-char-name" style="color:#4a7a8a">STEVE</div>
+        <div class="battle-sprite" id="steve-battle-sprite">🧑‍💼</div>
+        <div class="battle-hp-bar"><div class="battle-hp-fill" id="steve-hp-bar"></div></div>
+        <div class="battle-hp-text" id="steve-hp-text"></div>
+        <div class="battle-status" id="steve-status"></div>
+      </div>
+      <div class="battle-char" id="battle-enemy">
+        <div class="battle-char-name" style="color:#aa6644" id="enemy-name"></div>
+        <div class="battle-sprite" id="enemy-battle-sprite"></div>
+        <div class="battle-hp-bar"><div class="battle-hp-fill" id="enemy-hp-bar"></div></div>
+        <div class="battle-hp-text" id="enemy-hp-text"></div>
+        <div class="battle-status" id="enemy-status"></div>
+      </div>
+    </div>
+    <div id="battle-ui">
+      <div id="battle-menu">
+        <button class="battle-menu-btn" onclick="battleAction('attack')">⚔ Attack</button>
+        <button class="battle-menu-btn" onclick="showSubmenu('skills')">★ Skills</button>
+        <button class="battle-menu-btn" onclick="showSubmenu('talk')">💬 Talk</button>
+        <button class="battle-menu-btn" onclick="battleAction('analyze')">🔍 Analyze</button>
+        <button class="battle-menu-btn" onclick="showSubmenu('items')">🎒 Item</button>
+        <button class="battle-menu-btn" onclick="battleAction('endure')">🛡 Endure</button>
+      </div>
+      <div id="battle-submenu"></div>
+      <div id="battle-log"></div>
+    </div>
+  </div>
+
+  <!-- Inventory -->
+  <div id="inventory-popup">
+    <span class="inv-close" onclick="toggleInventory()">✕</span>
+    <h3>INVENTORY</h3>
+    <div id="inv-list"></div>
+  </div>
+
+  <!-- Overlay (victory/defeat) -->
+  <div id="overlay">
+    <h2 id="overlay-title"></h2>
+    <p id="overlay-text"></p>
+    <p id="overlay-text2"></p>
+    <div class="prompt" id="overlay-prompt">[ SPACE / Click ]</div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+// GAME STATE
+// ═══════════════════════════════════════════
+const G = {
+  phase: 'title', // title, intro, explore, battle, victory, defeat
+  hp: 100, maxHp: 100,
+  ep: 50, maxEp: 50,
+  normality: 90,
+  insight: 0,
+  cacao: 0,
+  inventory: [
+    { id: 'pamphlet', name: 'Orientation Pamphlet', desc: '"Welcome to The Sanctuary of Infinite Becoming! Please note the non-refundable deposit policy on page 3 (in very small print)."', type: 'weapon', equipped: true, dmg: 5 },
+    { id: 'polo', name: "Steve's Polo Shirt", desc: '"100% polyester. Machine washable. Spiritually impenetrable."', type: 'armor', equipped: true, def: 2 },
+    { id: 'energy_bar', name: 'Energy Bar', desc: '"From the glove compartment. Slightly melted. The most normal food within a 50-mile radius."', type: 'consumable', heal: 20, qty: 3 },
+    { id: 'receipt', name: "Wife's Credit Card Receipt", desc: '"$2,400 for a Transformational Immersion (non-refundable). Steve has thoughts about the non-refundable part."', type: 'quest' }
+  ],
+  flags: {},
+  currentRoom: 0,
+  introStep: 0,
+  dialogueQueue: [],
+  dialogueCallback: null,
+  battleTurn: 0,
+  enemy: null,
+  enemyAnalyzed: false,
+  playerTurn: true,
+  battleOver: false,
+  enrolled: false,
+  enrolledTimer: 0,
+  smudged: 0,
+  gaslit: 0,
+  steveEndure: false
+};
+
+// ═══════════════════════════════════════════
+// INTRO SEQUENCE
+// ═══════════════════════════════════════════
+const introPages = [
+  "You are Steve Stevens.\n\nYou are 38 years old. You work in accounting.\nYou are adequate at your job.\nYou are adequate at most things.",
+
+  "Three weeks ago, your wife went to an\nAyahuasca retreat in the mountains.\n\nShe said it would be \"just a weekend.\"\nShe said she'd be back by Monday.",
+
+  "She did not come back by Monday.\n\nShe texted: \"I need more time.\nSomething is opening inside me.\"\n\nSteve did not know what was opening.\nSteve did not want to know.",
+
+  "Then the texts stopped.\n\nThe credit card did not stop.\n$2,400 — \"Transformational Immersion.\"\n$800 — \"Sacred Sound Healing Intensive.\"\n$340 — \"Artisanal Cacao Ceremony Kit.\"\n\nSteve does not know what artisanal cacao is.\nSteve knows what $3,540 is.",
+
+  "You have tracked the charges to a place called\n\"The Sanctuary of Infinite Becoming.\"\n\nIt used to be a golf course.\n\nYou have packed sensible shoes, a change of\nclothes, and the quiet certainty of a man\nwho has filed fourteen years of tax returns\nwithout a single error.",
+
+  "You are going to find your wife.\n\nYou are going to bring her home.\n\nYou are not going to \"open\" anything."
+];
+
+// ═══════════════════════════════════════════
+// ROOMS (Exploration)
+// ═══════════════════════════════════════════
+const rooms = [
+  {
+    id: 'pavilion',
+    name: 'THE WELCOME PAVILION',
+    bg: 'bg-pavilion',
+    npcs: [
+      { id: 'receptionist', emoji: '🧘‍♀️', label: 'Receptionist', x: 50 }
+    ],
+    nav: { right: 1 },
+    enterText: 'The air smells like nag champa and broken expectations. A woman sits behind a desk decorated with crystals and a very normal Dell laptop.'
+  },
+  {
+    id: 'path',
+    name: 'THE GARDEN PATH',
+    bg: 'bg-path',
+    npcs: [
+      { id: 'oil_warrior', emoji: '🧴', label: '???', x: 65 }
+    ],
+    nav: { left: 0, right: 2 },
+    enterText: 'A gravel path winds between prayer flags and hand-painted signs that say things like "You Are Enough" and "Please Compost."'
+  },
+  {
+    id: 'garden',
+    name: 'THE SACRED GARDEN',
+    bg: 'bg-garden',
+    npcs: [
+      { id: 'frank', emoji: '👷', label: 'Groundskeeper', x: 50 }
+    ],
+    nav: { left: 1 },
+    enterText: 'A quiet garden with meditation cushions, crystal grids, and a man in overalls fixing a fence. He is the first normal thing you\'ve seen.'
+  }
+];
+
+// ═══════════════════════════════════════════
+// DIALOGUE TREES
+// ═══════════════════════════════════════════
+const dialogues = {
+  receptionist: [
+    { speaker: 'Receptionist', text: "Namaste, beautiful soul! Welcome to The Sanctuary of Infinite Becoming. I can feel your energy from here. It's very... dense." },
+    { speaker: 'Steve', text: "I have a reservation. Steve Stevens. The weekend package." },
+    { speaker: 'Receptionist', text: 'We don\'t use the word "reservation" here. You\'ve set an INTENTION to arrive, and the universe has honored it.' },
+    { speaker: '', text: '(She opens a completely normal Excel spreadsheet.)' , thought: true },
+    { speaker: 'Receptionist', text: "Before we begin, I'll need your phone, any watches, and anything with a screen. We're creating a sacred container free from digital interference." },
+    { speaker: '', text: '', choices: [
+      { text: '"My phone? Absolutely not."', next: 'receptionist_phone_no' },
+      { text: '"Fine. Take it."', next: 'receptionist_phone_yes' },
+      { text: '"Is there Wi-Fi here?"', next: 'receptionist_wifi' }
+    ]},
+  ],
+  receptionist_phone_no: [
+    { speaker: 'Receptionist', text: "I hear your resistance. That's beautiful. The attachment you feel is exactly what we're here to release. Also it's mandatory — it says so in the waiver you signed online. On your phone." },
+    { speaker: '', text: '(Steve reluctantly hands over his phone. He feels a phantom vibration in his pocket immediately.)', thought: true },
+    { speaker: '', text: '', goto: 'receptionist_name' }
+  ],
+  receptionist_phone_yes: [
+    { speaker: 'Receptionist', text: "Beautiful surrender. You're already doing the work." },
+    { speaker: '', text: '(Steve hands over his phone. He feels a phantom vibration in his pocket immediately.)', thought: true },
+    { speaker: '', text: '', goto: 'receptionist_name' }
+  ],
+  receptionist_wifi: [
+    { speaker: 'Receptionist', text: 'We find that disconnecting from the digital realm allows us to connect more deeply with...' },
+    { speaker: 'Receptionist', text: "(her voice drops to a whisper) ...there's none. There's no Wi-Fi. I haven't checked my email in nine weeks. I don't know what's happening out there. Is everything okay out there?" },
+    { speaker: '', text: '(The smile returns.)', thought: true },
+    { speaker: 'Receptionist', text: "I mean — isn't that LIBERATING?" },
+    { speaker: '', text: '(Steve hands over his phone.)', thought: true },
+    { speaker: '', text: '', goto: 'receptionist_name' }
+  ],
+  receptionist_name: [
+    { speaker: 'Receptionist', text: "Now! Every guest receives a Sanskrit name to honor their soul's essence. I'm going to look into your eyes and channel the name that's been waiting for you across lifetimes." },
+    { speaker: '', text: '(She stares at Steve for an uncomfortable amount of time.)', thought: true },
+    { speaker: 'Receptionist', text: '...Akash Prem. Sky Love.' },
+    { speaker: 'Steve', text: 'My name is Steve.' },
+    { speaker: 'Receptionist', text: 'Steve is the name your PARENTS gave you. Akash Prem is the name your SOUL chose before incarnation.' },
+    { speaker: '', text: '(She hands you a name tag. It says "Akash Prem" in Comic Sans.)', thought: true },
+    { speaker: '', text: '', goto: 'receptionist_wife' }
+  ],
+  receptionist_wife: [
+    { speaker: 'Steve', text: "I'm looking for my wife. She was here a few weeks ago?" },
+    { speaker: 'Receptionist', text: "We honor the privacy of all souls who pass through The Sanctuary. I can't share details about another person's journey." },
+    { speaker: 'Steve', text: "She's my WIFE." },
+    { speaker: 'Receptionist', text: "She's the universe's wife, Steve. We all belong to each other. And also to ourselves. Especially to ourselves." },
+    { speaker: 'Receptionist', text: "I'd invite you to settle in first. Attend a session. Let the land hold you. The answers you seek will come when you stop seeking them." },
+    { speaker: '', text: '(She touches her heart with both hands and bows. Steve is dismissed.)', thought: true },
+    { speaker: '', text: '(Maybe someone else here knows something. You should look around.)', thought: true, callback: () => { G.flags.talked_receptionist = true; G.insight += 1; updateHUD(); } }
+  ],
+
+  oil_warrior: [
+    { speaker: '???', text: "Hey! Hey, wait! Can I just — have you heard of doTERRA?" },
+    { speaker: 'Steve', text: "No." },
+    { speaker: 'Essential Oil Warrior', text: "It's not what you think. It's not a pyramid scheme. It's a WELLNESS ECOSYSTEM with a tiered distribution model." },
+    { speaker: 'Steve', text: "That is exactly what a pyramid scheme is." },
+    { speaker: 'Essential Oil Warrior', text: "A pyramid has a POINT at the TOP. This has a DIAMOND shape. Completely different geometry. Here — smell this." },
+    { speaker: '', text: '(She thrusts a tiny bottle toward your face. The smell hits you like a forest fire in a health food store.)', thought: true },
+    { speaker: '', text: '', choices: [
+      { text: '"Get that away from me."', next: 'oil_fight' },
+      { text: '"How much do you actually make from this?"', next: 'oil_fight' },
+      { text: '(Try to walk away)', next: 'oil_fight' }
+    ]}
+  ],
+  oil_fight: [
+    { speaker: 'Essential Oil Warrior', text: "RECEIVE THIS BLESSING!" },
+    { speaker: '', text: '(She throws peppermint oil at you. It burns. Combat is unavoidable.)', thought: true, callback: () => { startBattle(); } }
+  ],
+
+  frank: [
+    { speaker: '', text: '(A man in overalls is fixing a fence with actual tools. He is the first person you\'ve seen doing real physical work without calling it "sacred.")', thought: true },
+    { speaker: 'Frank', text: "You're new. Guest or volunteer?" },
+    { speaker: 'Steve', text: "Guest, I think. I paid money." },
+    { speaker: 'Frank', text: "You paid? Then you're a guest. The ones who didn't pay work harder. Funny system. Been trying to work it out for twelve years. Think it's called feudalism but with candles." },
+    { speaker: '', text: '', choices: [
+      { text: '"I\'m looking for my wife."', next: 'frank_wife' },
+      { text: '"How long have you worked here?"', next: 'frank_long' },
+      { text: '"This place seems... unusual."', next: 'frank_unusual' }
+    ]}
+  ],
+  frank_wife: [
+    { speaker: 'Frank', text: "Your wife. What's she look like?" },
+    { speaker: '', text: '(Steve describes her.)', thought: true },
+    { speaker: 'Frank', text: "Yeah. I remember her. Helped me carry wood one afternoon. Only guest who ever did that. Then she stopped coming outside. Got pulled into the inner circle." },
+    { speaker: 'Frank', text: 'The inner circle means The Founder took an interest. Real name\'s Derek. Don\'t tell anyone I told you that.' },
+    { speaker: 'Steve', text: "Where is she now?" },
+    { speaker: 'Frank', text: "Gone. They always go. Derek sends them to the next place down the pipeline. Your wife's trail will be in his files. Back office or his cabin." },
+    { speaker: '', text: '', goto: 'frank_end' }
+  ],
+  frank_long: [
+    { speaker: 'Frank', text: "Twelve years. Was here when it was a golf course. Better business model. At least golfers know they're wasting money." },
+    { speaker: '', text: '', goto: 'frank_end' }
+  ],
+  frank_unusual: [
+    { speaker: 'Frank', text: "You know what I've learned in twelve years? These people talk about being present, but none of them can change a tire." },
+    { speaker: 'Frank', text: "They talk about connection but never asked my last name. They talk about non-attachment but try moving one of their crystals." },
+    { speaker: 'Frank', text: "Not bad people. Mostly. Just people who got lost looking for something and found a building instead." },
+    { speaker: '', text: '', goto: 'frank_end' }
+  ],
+  frank_end: [
+    { speaker: 'Frank', text: "Tell you what, Steve. You seem alright. If you need anything practical — and I mean PRACTICAL, not energetic — come find me." },
+    { speaker: '', text: '(Frank nods and returns to his fence. It\'s the most straightforward interaction you\'ve had since arriving.)', thought: true, callback: () => { G.flags.talked_frank = true; G.insight += 1; updateHUD(); } }
+  ]
+};
+
+// ═══════════════════════════════════════════
+// ENEMY DATA
+// ═══════════════════════════════════════════
+const enemies = {
+  oil_warrior: {
+    name: 'ESSENTIAL OIL WARRIOR',
+    emoji: '🧴',
+    hp: 45, maxHp: 45,
+    atk: 12,
+    weakness: 'bureaucratic',
+    resistance: 'spiritual',
+    attacks: [
+      {
+        name: 'Anoint',
+        dmg: 14,
+        msg: '"RECEIVE THIS BLESSING!" She hurls peppermint oil at Steve.',
+        effect: 'smudge',
+        effectMsg: 'Steve is Smudged! (Accuracy -20% for 3 turns)'
+      },
+      {
+        name: 'MLM Pitch',
+        dmg: 10,
+        msg: '"What if I told you that for a ONE-TIME investment of $150..." The sales pitch intensifies.',
+        effect: 'enroll',
+        effectMsg: 'Steve is being Enrolled! (Losing cacao each turn)'
+      },
+      {
+        name: '"It\'s Not a Pyramid"',
+        dmg: 0,
+        msg: '"A PYRAMID has a POINT. This is a DIAMOND. Completely different geometry."',
+        effect: 'defend',
+        effectMsg: 'Essential Oil Warrior\'s defense increased!'
+      }
+    ],
+    analyzeText: [
+      '<span class="log-info">═══ ANALYSIS ═══</span>',
+      '<span class="log-info">Type: MLM Zealot</span>',
+      '<span class="log-info">Weakness: Bureaucratic (financial truth)</span>',
+      '<span class="log-info">Resistance: Spiritual (thinks she knows energy)</span>',
+      '<span class="log-info">Inventory invested: $6,000</span>',
+      '<span class="log-info">Total sales: $340 (to her mother)</span>',
+      '<span class="log-info">Net position: -$5,660</span>',
+      '<span class="log-status">NOTE: Spreadsheet Analysis may be instantly fatal.</span>'
+    ],
+    defeatText: '"My mother bought out of pity, didn\'t she." (She walks away slowly. Somehow this feels worse than winning.)',
+    drops: [
+      { id: 'oil_bottle', name: 'Tiny Bottle of Overpriced Oil', desc: '"Thieves Blend. Named either after the historical plague remedy or the business model." Consumable: 10 damage to one enemy.', type: 'consumable', qty: 1 },
+    ],
+    xp: 3,
+    cacao: 25
+  }
+};
+
+// ═══════════════════════════════════════════
+// CORE FUNCTIONS
+// ═══════════════════════════════════════════
+function $(id) { return document.getElementById(id); }
+
+function updateHUD() {
+  $('hud-hp').style.width = (G.hp / G.maxHp * 100) + '%';
+  $('hud-hp-val').textContent = G.hp;
+  $('hud-ep').style.width = (G.ep / G.maxEp * 100) + '%';
+  $('hud-ep-val').textContent = G.ep;
+  $('hud-norm').style.width = G.normality + '%';
+  $('hud-insight').textContent = 'INSIGHT: ' + G.insight;
+  $('hud-cacao').textContent = '🫘 ' + G.cacao;
+}
+
+function typeText(element, text, speed = 25) {
+  return new Promise(resolve => {
+    element.innerHTML = '';
+    let i = 0;
+    const chars = text.split('');
+    function tick() {
+      if (i < chars.length) {
+        element.innerHTML += chars[i];
+        i++;
+        setTimeout(tick, speed);
+      } else {
+        resolve();
+      }
+    }
+    tick();
+  });
+}
+
+// ═══════════════════════════════════════════
+// TITLE SCREEN
+// ═══════════════════════════════════════════
+function handleTitleClick() {
+  if (G.phase !== 'title') return;
+  G.phase = 'intro';
+  $('title-screen').style.display = 'none';
+  $('intro-screen').style.display = 'flex';
+  showIntroPage();
+}
+
+// ═══════════════════════════════════════════
+// INTRO SEQUENCE
+// ═══════════════════════════════════════════
+async function showIntroPage() {
+  $('intro-prompt').style.display = 'none';
+  await typeText($('intro-text'), introPages[G.introStep], 30);
+  $('intro-prompt').style.display = 'block';
+}
+
+function handleIntroClick() {
+  if (G.phase !== 'intro') return;
+  G.introStep++;
+  if (G.introStep >= introPages.length) {
+    G.phase = 'explore';
+    $('intro-screen').style.display = 'none';
+    $('explore-screen').style.display = 'block';
+    $('hud').style.display = 'flex';
+    updateHUD();
+    enterRoom(0);
+  } else {
+    showIntroPage();
+  }
+}
+
+// ═══════════════════════════════════════════
+// EXPLORATION
+// ═══════════════════════════════════════════
+function enterRoom(idx) {
+  G.currentRoom = idx;
+  const room = rooms[idx];
+
+  // background
+  $('scene-art').className = '';
+  $('scene-art').classList.add(room.bg);
+
+  // location
+  $('location-label').textContent = room.name;
+
+  // nav arrows
+  $('nav-left').style.display = room.nav.left !== undefined ? 'block' : 'none';
+  $('nav-right').style.display = room.nav.right !== undefined ? 'block' : 'none';
+  $('nav-left').onclick = () => enterRoom(room.nav.left);
+  $('nav-right').onclick = () => enterRoom(room.nav.right);
+
+  // characters
+  const charDiv = $('scene-characters');
+  charDiv.innerHTML = '<div id="steve-sprite" class="char-sprite"></div>';
+
+  room.npcs.forEach(npc => {
+    if (npc.id === 'oil_warrior' && G.flags.oil_defeated) return;
+    const el = document.createElement('div');
+    el.className = 'npc-sprite';
+    el.innerHTML = `<div style="font-size:56px;text-align:center;margin-top:20px">${npc.emoji}</div><div class="npc-label">${npc.label}</div>`;
+    el.onclick = () => talkTo(npc.id);
+    charDiv.appendChild(el);
+  });
+
+  // enter text
+  showDialogueLine({ speaker: '', text: room.enterText, thought: true });
+}
+
+function talkTo(npcId) {
+  if (G.phase !== 'explore') return;
+  const key = npcId;
+  if (dialogues[key]) {
+    if (npcId === 'receptionist' && G.flags.talked_receptionist) {
+      showDialogueLine({ speaker: 'Receptionist', text: "Welcome back, Akash Prem! How are you LANDING today?" });
+      return;
+    }
+    if (npcId === 'frank' && G.flags.talked_frank) {
+      showDialogueLine({ speaker: 'Frank', text: "Still here? Good luck, accountant." });
+      return;
+    }
+    if (npcId === 'oil_warrior' && G.flags.oil_defeated) return;
+    runDialogue(dialogues[key]);
+  }
+}
+
+function runDialogue(lines, idx = 0) {
+  if (idx >= lines.length) return;
+  const line = lines[idx];
+
+  // goto another dialogue
+  if (line.goto) {
+    runDialogue(dialogues[line.goto], 0);
+    return;
+  }
+
+  // choices
+  if (line.choices) {
+    $('speaker-name').textContent = '';
+    $('dialogue-text').innerHTML = '';
+    $('continue-prompt').style.display = 'none';
+    const choiceDiv = $('choices');
+    choiceDiv.innerHTML = '';
+    line.choices.forEach(c => {
+      const btn = document.createElement('button');
+      btn.className = 'choice-btn';
+      btn.textContent = c.text;
+      btn.onclick = () => {
+        choiceDiv.innerHTML = '';
+        if (c.next && dialogues[c.next]) {
+          runDialogue(dialogues[c.next], 0);
+        }
+      };
+      choiceDiv.appendChild(btn);
+    });
+    return;
+  }
+
+  showDialogueLine(line, () => {
+    if (line.callback) line.callback();
+    runDialogue(lines, idx + 1);
+  });
+}
+
+let dialogueClickHandler = null;
+
+function showDialogueLine(line, onNext) {
+  $('choices').innerHTML = '';
+  $('continue-prompt').style.display = 'none';
+
+  if (line.speaker) {
+    $('speaker-name').textContent = line.speaker;
+  } else {
+    $('speaker-name').textContent = '';
+  }
+
+  const textEl = $('dialogue-text');
+  if (line.thought) {
+    textEl.innerHTML = `<span class="steve-thought">${line.text}</span>`;
+  } else {
+    textEl.innerHTML = line.text;
+  }
+
+  if (onNext) {
+    $('continue-prompt').style.display = 'block';
+    // remove old handler
+    if (dialogueClickHandler) {
+      $('dialogue-box').removeEventListener('click', dialogueClickHandler);
+    }
+    dialogueClickHandler = () => {
+      $('dialogue-box').removeEventListener('click', dialogueClickHandler);
+      dialogueClickHandler = null;
+      onNext();
+    };
+    $('dialogue-box').addEventListener('click', dialogueClickHandler);
+  }
+}
+
+// ═══════════════════════════════════════════
+// BATTLE SYSTEM
+// ═══════════════════════════════════════════
+let currentEnemy = null;
+let enemyDef = 0;
+
+function startBattle() {
+  G.phase = 'battle';
+  $('explore-screen').style.display = 'none';
+  $('battle-screen').style.display = 'flex';
+
+  currentEnemy = JSON.parse(JSON.stringify(enemies.oil_warrior));
+  enemyDef = 0;
+  G.battleTurn = 0;
+  G.enemyAnalyzed = false;
+  G.playerTurn = true;
+  G.battleOver = false;
+  G.enrolled = false;
+  G.enrolledTimer = 0;
+  G.smudged = 0;
+  G.gaslit = 0;
+  G.steveEndure = false;
+
+  $('enemy-name').textContent = currentEnemy.name;
+  $('enemy-battle-sprite').textContent = currentEnemy.emoji;
+  updateBattleHP();
+  $('battle-log').innerHTML = '';
+  $('battle-submenu').style.display = 'none';
+  $('battle-menu').style.display = 'flex';
+  $('steve-status').textContent = '';
+  $('enemy-status').textContent = '';
+
+  battleLog('"Have you tried peppermint oil for your energy? You look like your chi is STAGNANT."', 'log-talk');
+  battleLog('Battle Start!', 'log-info');
+
+  enableBattleMenu(true);
+}
+
+function updateBattleHP() {
+  $('steve-hp-bar').style.width = (G.hp / G.maxHp * 100) + '%';
+  $('steve-hp-text').textContent = G.hp + '/' + G.maxHp;
+  $('enemy-hp-bar').style.width = (currentEnemy.hp / currentEnemy.maxHp * 100) + '%';
+  $('enemy-hp-text').textContent = currentEnemy.hp + '/' + currentEnemy.maxHp;
+  updateHUD();
+}
+
+function battleLog(msg, cls = '') {
+  const log = $('battle-log');
+  const p = document.createElement('div');
+  p.innerHTML = cls ? `<span class="${cls}">${msg}</span>` : msg;
+  log.appendChild(p);
+  log.scrollTop = log.scrollHeight;
+}
+
+function enableBattleMenu(on) {
+  document.querySelectorAll('.battle-menu-btn').forEach(b => b.disabled = !on);
+}
+
+function showSubmenu(type) {
+  if (!G.playerTurn || G.battleOver) return;
+  $('battle-menu').style.display = 'none';
+  const sub = $('battle-submenu');
+  sub.style.display = 'flex';
+  sub.innerHTML = '';
+
+  const backBtn = document.createElement('button');
+  backBtn.className = 'submenu-btn submenu-back';
+  backBtn.textContent = '← Back';
+  backBtn.onclick = () => {
+    sub.style.display = 'none';
+    $('battle-menu').style.display = 'flex';
+  };
+  sub.appendChild(backBtn);
+
+  if (type === 'skills') {
+    addSubmenuBtn(sub, 'Spreadsheet Analysis', '5 EP', () => battleAction('spreadsheet'), G.ep >= 5);
+    addSubmenuBtn(sub, 'Schedule Optimization', '4 EP', () => battleAction('schedule_opt'), G.ep >= 4);
+    addSubmenuBtn(sub, 'Risk Assessment', '3 EP', () => battleAction('risk_assess'), G.ep >= 3);
+    if (G.insight >= 2) {
+      addSubmenuBtn(sub, 'Audit', '8 EP', () => battleAction('audit'), G.ep >= 8);
+      addSubmenuBtn(sub, 'Tax Write-Off', '4 EP', () => battleAction('tax_writeoff'), G.ep >= 4);
+    }
+  } else if (type === 'talk') {
+    addSubmenuBtn(sub, 'Set Boundary', '', () => battleAction('talk_boundary'));
+    addSubmenuBtn(sub, 'Question', '', () => battleAction('talk_question'));
+    addSubmenuBtn(sub, 'Bore', '', () => battleAction('talk_bore'));
+    addSubmenuBtn(sub, 'Validate', '', () => battleAction('talk_validate'));
+  } else if (type === 'items') {
+    const consumables = G.inventory.filter(i => i.type === 'consumable' && (i.qty === undefined || i.qty > 0));
+    if (consumables.length === 0) {
+      addSubmenuBtn(sub, '(no items)', '', null, false);
+    }
+    consumables.forEach(item => {
+      addSubmenuBtn(sub, `${item.name}${item.qty ? ' x' + item.qty : ''}`, '', () => battleAction('use_item', item));
+    });
+  }
+}
+
+function addSubmenuBtn(parent, label, cost, action, enabled = true) {
+  const btn = document.createElement('button');
+  btn.className = 'submenu-btn';
+  btn.innerHTML = label + (cost ? ` <span class="ep-cost">[${cost}]</span>` : '');
+  if (!enabled || !action) btn.disabled = true;
+  else btn.onclick = () => {
+    $('battle-submenu').style.display = 'none';
+    $('battle-menu').style.display = 'flex';
+    action();
+  };
+  parent.appendChild(btn);
+}
+
+function battleAction(action, itemData) {
+  if (!G.playerTurn || G.battleOver) return;
+  G.playerTurn = false;
+  G.steveEndure = false;
+  enableBattleMenu(false);
+
+  let hit = true;
+  if (G.smudged > 0 && Math.random() < 0.2) {
+    hit = false;
+  }
+
+  switch (action) {
+    case 'attack': {
+      const baseDmg = 5 + Math.floor(Math.random() * 4);
+      if (!hit) {
+        battleLog('Steve swings the Orientation Pamphlet... and misses! (Smudged)', 'log-info');
+      } else {
+        const dmg = Math.max(1, baseDmg - enemyDef);
+        dealEnemyDmg(dmg);
+        battleLog(`Steve attacks with the Orientation Pamphlet! ${dmg} damage!`, 'log-damage');
+        if (dmg < 5) battleLog('(Paper cuts are less effective against oily defenses.)', 'log-info');
+      }
+      break;
+    }
+    case 'spreadsheet': {
+      G.ep -= 5;
+      battleLog('Steve pulls out a spreadsheet.', 'log-info');
+      battleLog('"You\'ve invested $6,000 in inventory. Total sales: $340. Net position: negative $5,660."', 'log-talk');
+
+      if (currentEnemy.weakness === 'bureaucratic') {
+        const dmg = currentEnemy.hp; // instant kill
+        dealEnemyDmg(dmg);
+        battleLog(`CRITICAL HIT! Bureaucratic damage obliterates financial delusion! ${dmg} damage!`, 'log-crit');
+        battleLog('"Your hourly rate is approximately negative $4.20."', 'log-talk');
+      } else {
+        const dmg = 20;
+        dealEnemyDmg(dmg);
+        battleLog(`Spreadsheet Analysis deals ${dmg} bureaucratic damage!`, 'log-damage');
+      }
+      break;
+    }
+    case 'schedule_opt': {
+      G.ep -= 4;
+      battleLog('"I\'ve blocked out 15 minutes for this conflict." Steve gains an extra action!', 'log-info');
+      G.playerTurn = true;
+      enableBattleMenu(true);
+      updateBattleHP();
+      return;
+    }
+    case 'risk_assess': {
+      G.ep -= 3;
+      battleLog('Steve evaluates the risk profile of this encounter...', 'log-info');
+      battleLog('Risk Assessment: 60% chance of oil stains on polo shirt. 30% chance of being enrolled in a pyramid scheme. 10% chance of genuine personal growth (unacceptable).', 'log-info');
+      enemyDef = Math.max(0, enemyDef - 2);
+      battleLog("Enemy's defense reduced! Vulnerabilities identified.", 'log-status');
+      break;
+    }
+    case 'audit': {
+      G.ep -= 8;
+      battleLog('Steve initiates a FULL AUDIT.', 'log-info');
+      const dmg = 25;
+      dealEnemyDmg(dmg);
+      enemyDef = 0;
+      battleLog(`The audit deals ${dmg} bureaucratic damage and strips all defenses!`, 'log-crit');
+      battleLog('"Your LLC was filed incorrectly. You\'ve been operating as a sole proprietorship this entire time."', 'log-talk');
+      break;
+    }
+    case 'tax_writeoff': {
+      G.ep -= 4;
+      G.steveEndure = true;
+      battleLog('"This confrontation is a deductible business expense." Steve braces. Next attack reduced 50%.', 'log-info');
+      break;
+    }
+    case 'talk_boundary': {
+      battleLog('Steve: "I\'m not interested. Thank you."', 'log-talk');
+      if (currentEnemy.weakness === 'bureaucratic') {
+        battleLog('The Essential Oil Warrior is briefly stunned by clear communication.', 'log-status');
+        battleLog('She loses her next turn!', 'log-status');
+        // skip enemy turn
+        setTimeout(() => {
+          battleLog('Essential Oil Warrior sputters: "But — but you didn\'t even SMELL it properly—"', 'log-talk');
+          endEnemyTurn();
+        }, 800);
+        updateBattleHP();
+        return;
+      }
+      break;
+    }
+    case 'talk_question': {
+      battleLog('Steve: "How much do you actually make from this?"', 'log-talk');
+      const dmg = 8;
+      dealEnemyDmg(dmg);
+      battleLog(`The question deals ${dmg} psychic damage! (self-inflicted cognitive dissonance)`, 'log-damage');
+      battleLog('"Well it\'s not about the MONEY, it\'s about — I mean there IS money — last month after expenses I made... well..."', 'log-talk');
+      break;
+    }
+    case 'talk_bore': {
+      battleLog('Steve begins explaining the difference between FIFO and LIFO inventory methods.', 'log-talk');
+      const dmg = 6;
+      dealEnemyDmg(dmg);
+      battleLog(`The Essential Oil Warrior\'s eyes glaze over. ${dmg} damage from sheer boredom.`, 'log-damage');
+      battleLog('"...and when you account for the carrying costs, the weighted average method becomes—" Her will to sell weakens.', 'log-talk');
+      break;
+    }
+    case 'talk_validate': {
+      battleLog('Steve: "It sounds like you really believe in what you\'re doing."', 'log-talk');
+      battleLog('The Essential Oil Warrior tears up. Her attack power drops.', 'log-status');
+      currentEnemy.atk = Math.max(5, currentEnemy.atk - 3);
+      battleLog('"Nobody ever says that. Everyone just calls it a scam. Thank you."', 'log-talk');
+      battleLog('(Steve feels guilty. She IS in a scam.)', 'log-info');
+      break;
+    }
+    case 'endure': {
+      G.steveEndure = true;
+      battleLog('Steve grits his teeth and waits it out. Damage reduced this turn.', 'log-info');
+      battleLog('(He thinks about his desk. His ergonomic chair. The gentle hum of fluorescent lighting.)', 'log-info');
+      break;
+    }
+    case 'analyze': {
+      if (G.enemyAnalyzed) {
+        battleLog('Already analyzed. You know everything about her finances. It\'s depressing.', 'log-info');
+      } else {
+        G.enemyAnalyzed = true;
+        currentEnemy.analyzeText.forEach(line => battleLog(line));
+      }
+      break;
+    }
+    case 'use_item': {
+      if (itemData.heal) {
+        const heal = Math.min(itemData.heal, G.maxHp - G.hp);
+        G.hp += heal;
+        battleLog(`Steve uses ${itemData.name}. Restored ${heal} HP!`, 'log-heal');
+        if (itemData.id === 'energy_bar') {
+          battleLog('(It\'s slightly melted but it tastes like civilization.)', 'log-info');
+        }
+        flashEl('steve-battle-sprite', 'flash-heal');
+      }
+      if (itemData.qty !== undefined) {
+        itemData.qty--;
+        if (itemData.qty <= 0) {
+          G.inventory = G.inventory.filter(i => i.id !== itemData.id);
+        }
+      }
+      break;
+    }
+  }
+
+  updateBattleHP();
+
+  if (currentEnemy.hp <= 0) {
+    endBattle(true);
+    return;
+  }
+
+  setTimeout(enemyTurn, 800);
+}
+
+function dealEnemyDmg(dmg) {
+  currentEnemy.hp = Math.max(0, currentEnemy.hp - dmg);
+  flashEl('enemy-battle-sprite', 'flash-damage');
+  $('battle-enemy').classList.add('shake');
+  setTimeout(() => $('battle-enemy').classList.remove('shake'), 400);
+}
+
+function enemyTurn() {
+  if (G.battleOver) return;
+
+  // status effects tick
+  if (G.smudged > 0) {
+    G.smudged--;
+    if (G.smudged === 0) {
+      battleLog('The smudge smoke clears. Steve can see again.', 'log-info');
+      $('steve-status').textContent = updateSteveStatus();
+    }
+  }
+  if (G.enrolled) {
+    G.enrolledTimer++;
+    const loss = 5;
+    G.cacao = Math.max(0, G.cacao - loss);
+    battleLog(`Enrolled! Steve loses ${loss} cacao coins to the subscription.`, 'log-status');
+    if (G.enrolledTimer >= 5) {
+      battleLog('The starter kit ships automatically. Steve loses 150 cacao.', 'log-crit');
+      G.cacao = Math.max(0, G.cacao - 150);
+      G.enrolled = false;
+    }
+  }
+
+  // pick attack
+  const atkIdx = Math.floor(Math.random() * currentEnemy.attacks.length);
+  const atk = currentEnemy.attacks[atkIdx];
+
+  battleLog(`Essential Oil Warrior uses ${atk.name}!`, 'log-info');
+  battleLog(atk.msg, 'log-talk');
+
+  if (atk.dmg > 0) {
+    let dmg = atk.dmg + Math.floor(Math.random() * 5) - 2;
+    if (G.steveEndure) {
+      dmg = Math.floor(dmg * 0.5);
+      battleLog('(Endure reduces damage!)', 'log-info');
+    }
+    dmg = Math.max(1, dmg);
+    G.hp = Math.max(0, G.hp - dmg);
+    battleLog(`Steve takes ${dmg} damage!`, 'log-damage');
+    flashEl('steve-battle-sprite', 'flash-damage');
+    $('battle-steve').classList.add('shake');
+    setTimeout(() => $('battle-steve').classList.remove('shake'), 400);
+  }
+
+  // effects
+  if (atk.effect === 'smudge' && G.smudged === 0) {
+    G.smudged = 3;
+    battleLog(atk.effectMsg, 'log-status');
+  } else if (atk.effect === 'enroll' && !G.enrolled) {
+    G.enrolled = true;
+    G.enrolledTimer = 0;
+    battleLog(atk.effectMsg, 'log-status');
+  } else if (atk.effect === 'defend') {
+    enemyDef += 3;
+    battleLog(atk.effectMsg, 'log-status');
+  }
+
+  $('steve-status').textContent = updateSteveStatus();
+  updateBattleHP();
+
+  if (G.hp <= 0) {
+    endBattle(false);
+    return;
+  }
+
+  endEnemyTurn();
+}
+
+function endEnemyTurn() {
+  G.battleTurn++;
+  G.playerTurn = true;
+  enableBattleMenu(true);
+  updateBattleHP();
+}
+
+function updateSteveStatus() {
+  const parts = [];
+  if (G.smudged > 0) parts.push(`Smudged (${G.smudged})`);
+  if (G.enrolled) parts.push(`Enrolled (${5 - G.enrolledTimer})`);
+  return parts.join(' | ');
+}
+
+function flashEl(id, cls) {
+  const el = $(id);
+  el.classList.remove(cls);
+  void el.offsetWidth;
+  el.classList.add(cls);
+}
+
+function endBattle(won) {
+  G.battleOver = true;
+  enableBattleMenu(false);
+
+  if (won) {
+    battleLog('───────────────', 'log-info');
+    battleLog(currentEnemy.defeatText, 'log-talk');
+    battleLog('───────────────', 'log-info');
+    battleLog(`+${currentEnemy.xp} Insight!`, 'log-info');
+    battleLog(`+${currentEnemy.cacao} Cacao Coins!`, 'log-info');
+
+    G.insight += currentEnemy.xp;
+    G.cacao += currentEnemy.cacao;
+
+    currentEnemy.drops.forEach(drop => {
+      G.inventory.push({...drop});
+      battleLog(`Obtained: ${drop.name}`, 'log-status');
+    });
+
+    G.flags.oil_defeated = true;
+    updateHUD();
+
+    setTimeout(() => showOverlay('victory'), 1500);
+  } else {
+    battleLog('───────────────', 'log-info');
+    battleLog('Steve collapses. Not from the oils. From the exhaustion of being in a world that makes no sense.', 'log-info');
+    setTimeout(() => showOverlay('defeat'), 1500);
+  }
+}
+
+function showOverlay(type) {
+  const o = $('overlay');
+  o.style.display = 'flex';
+
+  if (type === 'victory') {
+    $('overlay-title').textContent = 'VICTORY';
+    $('overlay-text').textContent = currentEnemy.defeatText;
+    $('overlay-text2').innerHTML = `<br>+${currentEnemy.xp} Insight &nbsp;&nbsp; +${currentEnemy.cacao} Cacao Coins<br><br>Obtained: ${currentEnemy.drops.map(d => d.name).join(', ')}`;
+    G.phase = 'victory';
+  } else {
+    $('overlay-title').textContent = 'DEFEAT';
+    $('overlay-text').textContent = 'Steve sits on the floor and refuses to continue. His Homeostasis Points have reached zero.';
+    $('overlay-text2').textContent = 'The Essential Oil Warrior leaves a business card on his chest. "Call me when you\'re ready to invest in yourself."';
+    G.phase = 'defeat';
+  }
+}
+
+function handleOverlayClick() {
+  $('overlay').style.display = 'none';
+  if (G.phase === 'victory') {
+    G.phase = 'explore';
+    $('battle-screen').style.display = 'none';
+    $('explore-screen').style.display = 'block';
+    enterRoom(G.currentRoom);
+    showDialogueLine({ speaker: '', text: '(The path is clear now. The faint smell of peppermint lingers. Steve\'s polo shirt may never recover.)', thought: true });
+  } else {
+    // restart battle on defeat
+    G.hp = G.maxHp;
+    G.ep = G.maxEp;
+    updateHUD();
+    startBattle();
+  }
+}
+
+// ═══════════════════════════════════════════
+// INVENTORY
+// ═══════════════════════════════════════════
+function toggleInventory() {
+  const inv = $('inventory-popup');
+  if (inv.style.display === 'block') {
+    inv.style.display = 'none';
+    return;
+  }
+  inv.style.display = 'block';
+  const list = $('inv-list');
+  list.innerHTML = '';
+  G.inventory.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'inv-item';
+    const qty = item.qty ? ` x${item.qty}` : '';
+    const eq = item.equipped ? ' [EQUIPPED]' : '';
+    div.innerHTML = `<div class="inv-item-name">${item.name}${qty}${eq}</div><div class="inv-item-desc">${item.desc}</div>`;
+    list.appendChild(div);
+  });
+}
+
+// ═══════════════════════════════════════════
+// GLOBAL INPUT HANDLER
+// ═══════════════════════════════════════════
+document.addEventListener('keydown', e => {
+  if (e.key === ' ' || e.key === 'Enter') {
+    e.preventDefault();
+    handleGlobalClick();
+  }
+  if (e.key === 'i' || e.key === 'I') {
+    if (G.phase === 'explore') toggleInventory();
+  }
+  if (e.key === 'ArrowLeft' && G.phase === 'explore') {
+    const room = rooms[G.currentRoom];
+    if (room.nav.left !== undefined) enterRoom(room.nav.left);
+  }
+  if (e.key === 'ArrowRight' && G.phase === 'explore') {
+    const room = rooms[G.currentRoom];
+    if (room.nav.right !== undefined) enterRoom(room.nav.right);
+  }
+});
+
+$('game').addEventListener('click', e => {
+  // don't handle global click if clicking specific UI elements
+  if (e.target.closest('.choice-btn, .battle-menu-btn, .submenu-btn, .nav-arrow, .npc-sprite, .inv-close, #dialogue-box')) return;
+  handleGlobalClick();
+});
+
+function handleGlobalClick() {
+  switch (G.phase) {
+    case 'title': handleTitleClick(); break;
+    case 'intro': handleIntroClick(); break;
+    case 'victory':
+    case 'defeat': handleOverlayClick(); break;
+  }
+}
+</script>
+</body>
+</html>
