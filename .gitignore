@@ -1,0 +1,39 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Godot (if chosen)
+.godot/
+*.import
+export_presets.cfg
+
+# RPG Maker (if chosen)
+*.rpgproject.bak
+
+# GameMaker (if chosen)
+*.yy.bak
+
+# Build outputs
+build/
+export/
+dist/
+
+# Large binary files (use Git LFS for these)
+# *.png
+# *.wav
+# *.mp3
+# *.ogg
+
+# Dependencies
+node_modules/
+
+# Temp files
+*.tmp
+*.bak
