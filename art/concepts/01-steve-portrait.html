@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Steve Stevens — Character Portrait</title>
+<style>
+  body { margin: 0; background: #0a0805; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+  canvas { display: block; image-rendering: auto; }
+</style>
+</head>
+<body>
+<canvas id="c" width="1200" height="1600"></canvas>
+<script>
+const c = document.getElementById('c');
+const ctx = c.getContext('2d');
+const W = 1200, H = 1600;
+
+// Utility functions
+function lerp(a, b, t) { return a + (b - a) * t; }
+function rgba(r, g, b, a) { return `rgba(${r},${g},${b},${a})`; }
+function hsl(h, s, l, a=1) { return `hsla(${h},${s}%,${l}%,${a})`; }
+
+function softCircle(x, y, r, color, alpha=1) {
+  const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+  g.addColorStop(0, rgba(...hexToRgb(color), alpha));
+  g.addColorStop(1, rgba(...hexToRgb(color), 0));
+  ctx.fillStyle = g;
+  ctx.fillRect(x-r, y-r, r*2, r*2);
+}
+
+function hexToRgb(hex) {
+  hex = hex.replace('#','');
+  return [parseInt(hex.substr(0,2),16), parseInt(hex.substr(2,2),16), parseInt(hex.substr(4,2),16)];
+}
+
+function noise(x, y) {
+  return (Math.sin(x * 12.9898 + y * 78.233) * 43758.5453) % 1;
+}
+
+// ============================
+// BACKGROUND: Swirling spiritual chaos Steve is oblivious to
+// ============================
+
+// Deep dark base
+ctx.fillStyle = '#0c0a08';
+ctx.fillRect(0, 0, W, H);
+
+// Psychedelic spiritual swirls behind Steve
+function drawSpiritualSwirl(cx, cy, radius, hue, layers) {
+  for (let l = 0; l < layers; l++) {
+    const r = radius * (1 - l/layers * 0.3);
+    const alpha = 0.04 + l * 0.01;
+    ctx.beginPath();
+    for (let a = 0; a < Math.PI * 6; a += 0.02) {
+      const spiral = r * (1 - a / (Math.PI * 6)) * 0.8;
+      const wobble = Math.sin(a * 3 + l) * 20;
+      const px = cx + Math.cos(a + l * 0.5) * (spiral + wobble);
+      const py = cy + Math.sin(a + l * 0.5) * (spiral + wobble) * 0.7;
+      if (a === 0) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
+    }
+    ctx.strokeStyle = hsl(hue + l * 15, 70, 50, alpha);
+    ctx.lineWidth = 3 + l;
+    ctx.stroke();
+  }
+}
+
+// Multiple spiritual energy swirls
+drawSpiritualSwirl(600, 500, 500, 280, 8);  // purple
+drawSpiritualSwirl(400, 600, 400, 320, 6);  // magenta
+drawSpiritualSwirl(800, 400, 350, 180, 6);  // teal
+drawSpiritualSwirl(600, 700, 450, 40, 5);   // amber
+
+// Floating sacred geometry (Steve doesn't see any of this)
+function drawSacredGeometry(cx, cy, size, alpha) {
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.globalAlpha = alpha;
+
+  // Flower of life circles
+  const r = size;
+  for (let i = 0; i < 6; i++) {
+    const a = i * Math.PI / 3;
+    ctx.beginPath();
+    ctx.arc(Math.cos(a) * r * 0.5, Math.sin(a) * r * 0.5, r * 0.5, 0, Math.PI * 2);
+    ctx.strokeStyle = '#d4a34a';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+  ctx.beginPath();
+  ctx.arc(0, 0, r * 0.5, 0, Math.PI * 2);
+  ctx.stroke();
+
+  // Outer circle
+  ctx.beginPath();
+  ctx.arc(0, 0, r, 0, Math.PI * 2);
+  ctx.strokeStyle = '#d4a34a';
+  ctx.lineWidth = 0.8;
+  ctx.stroke();
+
+  ctx.globalAlpha = 1;
+  ctx.restore();
+}
+
+drawSacredGeometry(200, 250, 80, 0.08);
+drawSacredGeometry(950, 350, 60, 0.06);
+drawSacredGeometry(150, 900, 50, 0.05);
+drawSacredGeometry(1000, 800, 70, 0.07);
+drawSacredGeometry(600, 200, 100, 0.04);
+
+// Ambient glow behind where Steve will stand
+softCircle(600, 750, 500, '#1a1520', 0.6);
+softCircle(600, 800, 300, '#2a1a30', 0.3);
+
+// Floating particles (spiritual energy, incense, whatever)
+for (let i = 0; i < 200; i++) {
+  const x = Math.random() * W;
+  const y = Math.random() * H;
+  const size = Math.random() * 3 + 0.5;
+  const hue = Math.random() > 0.5 ? 40 + Math.random() * 20 : 270 + Math.random() * 60;
+  const alpha = Math.random() * 0.15 + 0.02;
+  ctx.beginPath();
+  ctx.arc(x, y, size, 0, Math.PI * 2);
+  ctx.fillStyle = hsl(hue, 60, 70, alpha);
+  ctx.fill();
+}
+
+// ============================
+// GROUND: Dusty desert/retreat ground
+// ============================
+const groundY = 1200;
+const groundGrad = ctx.createLinearGradient(0, groundY - 80, 0, H);
+groundGrad.addColorStop(0, 'rgba(15, 12, 8, 0)');
+groundGrad.addColorStop(0.2, 'rgba(30, 25, 18, 0.6)');
+groundGrad.addColorStop(1, 'rgba(20, 16, 10, 0.9)');
+ctx.fillStyle = groundGrad;
+ctx.fillRect(0, groundY - 80, W, H - groundY + 80);
+
+// Dusty ground texture
+for (let i = 0; i < 500; i++) {
+  const x = Math.random() * W;
+  const y = groundY + Math.random() * (H - groundY);
+  ctx.beginPath();
+  ctx.arc(x, y, Math.random() * 2 + 0.3, 0, Math.PI * 2);
+  ctx.fillStyle = rgba(60, 50, 35, Math.random() * 0.3);
+  ctx.fill();
+}
+
+// ============================
+// STEVE: The man himself
+// ============================
+
+// Shadow on ground
+ctx.save();
+ctx.translate(600, groundY + 20);
+ctx.scale(1, 0.15);
+ctx.beginPath();
+ctx.arc(0, 0, 180, 0, Math.PI * 2);
+ctx.fillStyle = 'rgba(0,0,0,0.3)';
+ctx.fill();
+ctx.restore();
+
+// Helper: thick outlined stroke style (anime-inspired)
+function setOutline(width, color='#1a1510') {
+  ctx.strokeStyle = color;
+  ctx.lineWidth = width;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+}
+
+function setFill(color) {
+  ctx.fillStyle = color;
+}
+
+// Steve's body coordinates (center x=600, standing)
+const sx = 600, sy = 580; // head center
+
+// ---- LEGS (behind body) ----
+// Left leg
+ctx.beginPath();
+ctx.moveTo(sx - 40, sy + 340);
+ctx.quadraticCurveTo(sx - 45, sy + 450, sx - 42, sy + 560);
+ctx.lineTo(sx - 20, sy + 560);
+ctx.lineTo(sx - 15, sy + 450);
+ctx.quadraticCurveTo(sx - 18, sy + 350, sx - 10, sy + 340);
+setFill('#8a8068'); // khaki pants
+ctx.fill();
+setOutline(4);
+ctx.stroke();
+
+// Right leg
+ctx.beginPath();
+ctx.moveTo(sx + 10, sy + 340);
+ctx.quadraticCurveTo(sx + 15, sy + 450, sx + 18, sy + 560);
+ctx.lineTo(sx + 42, sy + 560);
+ctx.quadraticCurveTo(sx + 45, sy + 450, sx + 40, sy + 340);
+setFill('#8a8068');
+ctx.fill();
+setOutline(4);
+ctx.stroke();
+
+// Khaki wrinkles
+ctx.beginPath();
+ctx.moveTo(sx - 30, sy + 430); ctx.lineTo(sx - 22, sy + 435);
+ctx.moveTo(sx - 28, sy + 480); ctx.lineTo(sx - 18, sy + 478);
+ctx.moveTo(sx + 22, sy + 425); ctx.lineTo(sx + 32, sy + 430);
+ctx.moveTo(sx + 20, sy + 475); ctx.lineTo(sx + 30, sy + 472);
+ctx.strokeStyle = '#706050';
+ctx.lineWidth = 1.5;
+ctx.stroke();
+
+// ---- SHOES ----
+// Sensible brown shoes
+function drawShoe(x, y, flip) {
+  ctx.beginPath();
+  const dir = flip ? -1 : 1;
+  ctx.moveTo(x - 12 * dir, y);
+  ctx.quadraticCurveTo(x - 14 * dir, y + 20, x - 10 * dir, y + 30);
+  ctx.lineTo(x + 28 * dir, y + 30);
+  ctx.quadraticCurveTo(x + 35 * dir, y + 28, x + 36 * dir, y + 22);
+  ctx.quadraticCurveTo(x + 34 * dir, y + 12, x + 20 * dir, y + 8);
+  ctx.quadraticCurveTo(x + 5 * dir, y + 2, x - 12 * dir, y);
+  ctx.closePath();
+  setFill('#4a3a28');
+  ctx.fill();
+  setOutline(3);
+  ctx.stroke();
+  // Sole line
+  ctx.beginPath();
+  ctx.moveTo(x - 10 * dir, y + 28);
+  ctx.lineTo(x + 32 * dir, y + 28);
+  ctx.strokeStyle = '#2a1a10';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+}
+
+drawShoe(sx - 30, sy + 555, true);
+drawShoe(sx + 28, sy + 555, false);
+
+// ---- BELT ----
+ctx.beginPath();
+ctx.rect(sx - 50, sy + 330, 100, 16);
+setFill('#3a3028');
+ctx.fill();
+setOutline(2);
+ctx.stroke();
+// Belt buckle
+ctx.beginPath();
+ctx.rect(sx - 8, sy + 332, 16, 12);
+setFill('#b8a060');
+ctx.fill();
+ctx.strokeStyle = '#8a7040';
+ctx.lineWidth = 1.5;
+ctx.stroke();
+
+// ---- TORSO (polo shirt) ----
+ctx.beginPath();
+ctx.moveTo(sx - 75, sy + 180);
+ctx.quadraticCurveTo(sx - 80, sy + 260, sx - 55, sy + 340);
+ctx.lineTo(sx + 55, sy + 340);
+ctx.quadraticCurveTo(sx + 80, sy + 260, sx + 75, sy + 180);
+ctx.closePath();
+setFill('#4a6a4a'); // sage green polo
+ctx.fill();
+setOutline(4);
+ctx.stroke();
+
+// Polo texture - subtle knit pattern
+for (let row = 0; row < 12; row++) {
+  const ry = sy + 195 + row * 12;
+  ctx.beginPath();
+  ctx.moveTo(sx - 60 + row * 2, ry);
+  ctx.lineTo(sx + 60 - row * 2, ry);
+  ctx.strokeStyle = rgba(80, 120, 80, 0.1);
+  ctx.lineWidth = 0.5;
+  ctx.stroke();
+}
+
+// Shirt tucked into pants visible
+ctx.beginPath();
+ctx.moveTo(sx - 30, sy + 335);
+ctx.lineTo(sx + 30, sy + 335);
+ctx.strokeStyle = '#3a5a3a';
+ctx.lineWidth = 2;
+ctx.stroke();
+
+// ---- COLLAR ----
+ctx.beginPath();
+ctx.moveTo(sx - 30, sy + 170);
+ctx.quadraticCurveTo(sx - 20, sy + 185, sx, sy + 190);
+ctx.quadraticCurveTo(sx + 20, sy + 185, sx + 30, sy + 170);
+setFill('#3a5a3a');
+ctx.fill();
+setOutline(2.5);
+ctx.stroke();
+
+// Collar flaps
+ctx.beginPath();
+ctx.moveTo(sx - 30, sy + 170);
+ctx.lineTo(sx - 38, sy + 200);
+ctx.lineTo(sx - 18, sy + 195);
+ctx.closePath();
+setFill('#4a6a4a');
+ctx.fill();
+setOutline(2);
+ctx.stroke();
+
+ctx.beginPath();
+ctx.moveTo(sx + 30, sy + 170);
+ctx.lineTo(sx + 38, sy + 200);
+ctx.lineTo(sx + 18, sy + 195);
+ctx.closePath();
+setFill('#4a6a4a');
+ctx.fill();
+setOutline(2);
+ctx.stroke();
+
+// ---- LEFT ARM (at side, slightly tense) ----
+// Upper arm
+ctx.beginPath();
+ctx.moveTo(sx + 75, sy + 185);
+ctx.quadraticCurveTo(sx + 95, sy + 250, sx + 88, sy + 310);
+setFill('#4a6a4a');
+ctx.lineWidth = 28;
+ctx.strokeStyle = '#4a6a4a';
+ctx.stroke();
+// Outline
+ctx.beginPath();
+ctx.moveTo(sx + 62, sy + 185);
+ctx.quadraticCurveTo(sx + 80, sy + 250, sx + 74, sy + 320);
+ctx.quadraticCurveTo(sx + 110, sy + 250, sx + 88, sy + 185);
+setOutline(3);
+ctx.stroke();
+// Short sleeve end
+ctx.beginPath();
+ctx.moveTo(sx + 65, sy + 250);
+ctx.quadraticCurveTo(sx + 80, sy + 255, sx + 95, sy + 250);
+ctx.strokeStyle = '#3a5a3a';
+ctx.lineWidth = 2;
+ctx.stroke();
+// Forearm (skin)
+ctx.beginPath();
+ctx.moveTo(sx + 76, sy + 260);
+ctx.quadraticCurveTo(sx + 82, sy + 340, sx + 78, sy + 380);
+ctx.strokeStyle = '#c8a882';
+ctx.lineWidth = 22;
+ctx.lineCap = 'round';
+ctx.stroke();
+setOutline(3);
+ctx.beginPath();
+ctx.moveTo(sx + 65, sy + 260);
+ctx.quadraticCurveTo(sx + 70, sy + 340, sx + 66, sy + 385);
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(sx + 90, sy + 260);
+ctx.quadraticCurveTo(sx + 94, sy + 340, sx + 90, sy + 385);
+ctx.stroke();
+
+// Left hand (relaxed fist, slightly tense)
+ctx.beginPath();
+ctx.arc(sx + 78, sy + 390, 14, 0, Math.PI * 2);
+setFill('#c8a882');
+ctx.fill();
+setOutline(3);
+ctx.stroke();
+// Finger lines
+ctx.beginPath();
+ctx.moveTo(sx + 70, sy + 386); ctx.lineTo(sx + 70, sy + 396);
+ctx.moveTo(sx + 76, sy + 388); ctx.lineTo(sx + 76, sy + 400);
+ctx.moveTo(sx + 82, sy + 388); ctx.lineTo(sx + 82, sy + 400);
+ctx.strokeStyle = '#a08060';
+ctx.lineWidth = 1;
+ctx.stroke();
+
+// ---- RIGHT ARM + BRIEFCASE ----
+// Upper arm
+ctx.beginPath();
+ctx.moveTo(sx - 62, sy + 185);
+ctx.quadraticCurveTo(sx - 90, sy + 230, sx - 100, sy + 280);
+ctx.strokeStyle = '#4a6a4a';
+ctx.lineWidth = 28;
+ctx.lineCap = 'round';
+ctx.stroke();
+setOutline(3);
+ctx.beginPath();
+ctx.moveTo(sx - 50, sy + 180);
+ctx.quadraticCurveTo(sx - 75, sy + 230, sx - 86, sy + 285);
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(sx - 76, sy + 185);
+ctx.quadraticCurveTo(sx - 105, sy + 230, sx - 114, sy + 285);
+ctx.stroke();
+// Short sleeve
+ctx.beginPath();
+ctx.moveTo(sx - 60, sy + 245);
+ctx.quadraticCurveTo(sx - 78, sy + 250, sx - 96, sy + 248);
+ctx.strokeStyle = '#3a5a3a';
+ctx.lineWidth = 2;
+ctx.stroke();
+// Forearm
+ctx.beginPath();
+ctx.moveTo(sx - 90, sy + 260);
+ctx.quadraticCurveTo(sx - 96, sy + 320, sx - 92, sy + 380);
+ctx.strokeStyle = '#c8a882';
+ctx.lineWidth = 22;
+ctx.lineCap = 'round';
+ctx.stroke();
+setOutline(3);
+ctx.beginPath();
+ctx.moveTo(sx - 80, sy + 255);
+ctx.quadraticCurveTo(sx - 84, sy + 320, sx - 80, sy + 385);
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(sx - 104, sy + 258);
+ctx.quadraticCurveTo(sx - 108, sy + 320, sx - 104, sy + 385);
+ctx.stroke();
+
+// BRIEFCASE (the signature prop)
+ctx.save();
+ctx.translate(sx - 92, sy + 395);
+
+// Handle
+ctx.beginPath();
+ctx.moveTo(-15, -8);
+ctx.quadraticCurveTo(0, -22, 15, -8);
+ctx.strokeStyle = '#3a2a18';
+ctx.lineWidth = 5;
+ctx.lineCap = 'round';
+ctx.stroke();
+
+// Briefcase body
+ctx.beginPath();
+ctx.roundRect(-45, 0, 90, 65, 4);
+setFill('#5a4020');
+ctx.fill();
+setOutline(3.5);
+ctx.stroke();
+
+// Briefcase details
+ctx.beginPath();
+ctx.moveTo(-40, 28);
+ctx.lineTo(40, 28);
+ctx.strokeStyle = '#4a3018';
+ctx.lineWidth = 1.5;
+ctx.stroke();
+
+// Clasps
+ctx.beginPath();
+ctx.roundRect(-15, 24, 10, 10, 2);
+ctx.roundRect(5, 24, 10, 10, 2);
+setFill('#b8a060');
+ctx.fill();
+ctx.strokeStyle = '#8a7040';
+ctx.lineWidth = 1.5;
+ctx.stroke();
+
+// Leather texture highlights
+ctx.beginPath();
+ctx.moveTo(-38, 8); ctx.lineTo(-20, 8);
+ctx.moveTo(-38, 16); ctx.lineTo(-10, 16);
+ctx.strokeStyle = 'rgba(100, 80, 50, 0.2)';
+ctx.lineWidth = 1;
+ctx.stroke();
+
+ctx.restore();
+
+// Hand gripping briefcase handle
+ctx.beginPath();
+ctx.ellipse(sx - 92, sy + 388, 14, 10, 0, 0, Math.PI * 2);
+setFill('#c8a882');
+ctx.fill();
+setOutline(2.5);
+ctx.stroke();
+
+// ---- NECK ----
+ctx.beginPath();
+ctx.moveTo(sx - 15, sy + 140);
+ctx.lineTo(sx - 18, sy + 175);
+ctx.lineTo(sx + 18, sy + 175);
+ctx.lineTo(sx + 15, sy + 140);
+ctx.closePath();
+setFill('#c8a882');
+ctx.fill();
+setOutline(3);
+ctx.stroke();
+// Adam's apple
+ctx.beginPath();
+ctx.moveTo(sx, sy + 148);
+ctx.quadraticCurveTo(sx + 3, sy + 155, sx, sy + 162);
+ctx.strokeStyle = '#a08060';
+ctx.lineWidth = 1;
+ctx.stroke();
+
+// ---- HEAD ----
+// Base head shape: slightly elongated, defined jaw
+ctx.beginPath();
+ctx.moveTo(sx - 52, sy - 20);
+ctx.quadraticCurveTo(sx - 58, sy - 80, sx - 40, sy - 115);
+ctx.quadraticCurveTo(sx - 20, sy - 140, sx, sy - 142);
+ctx.quadraticCurveTo(sx + 20, sy - 140, sx + 40, sy - 115);
+ctx.quadraticCurveTo(sx + 58, sy - 80, sx + 52, sy - 20);
+// Jaw
+ctx.quadraticCurveTo(sx + 48, sy + 20, sx + 35, sy + 60);
+ctx.quadraticCurveTo(sx + 20, sy + 90, sx, sy + 100);
+ctx.quadraticCurveTo(sx - 20, sy + 90, sx - 35, sy + 60);
+ctx.quadraticCurveTo(sx - 48, sy + 20, sx - 52, sy - 20);
+ctx.closePath();
+
+// Skin color
+setFill('#d4b492');
+ctx.fill();
+
+// Face shadow (slight side lighting from spiritual glow)
+const faceShadow = ctx.createLinearGradient(sx - 60, sy, sx + 60, sy);
+faceShadow.addColorStop(0, 'rgba(180, 140, 100, 0.3)');
+faceShadow.addColorStop(0.4, 'rgba(0,0,0,0)');
+faceShadow.addColorStop(1, 'rgba(100, 60, 40, 0.15)');
+ctx.fillStyle = faceShadow;
+ctx.fill();
+
+setOutline(4);
+ctx.stroke();
+
+// ---- HAIR (receding hairline, very normal) ----
+ctx.beginPath();
+ctx.moveTo(sx - 45, sy - 30);
+ctx.quadraticCurveTo(sx - 52, sy - 80, sx - 38, sy - 112);
+ctx.quadraticCurveTo(sx - 20, sy - 135, sx, sy - 136);
+ctx.quadraticCurveTo(sx + 20, sy - 135, sx + 38, sy - 112);
+ctx.quadraticCurveTo(sx + 52, sy - 80, sx + 45, sy - 30);
+// Receding hairline — goes back up before covering forehead
+ctx.quadraticCurveTo(sx + 40, sy - 50, sx + 25, sy - 70);
+ctx.quadraticCurveTo(sx + 15, sy - 78, sx, sy - 80);
+ctx.quadraticCurveTo(sx - 15, sy - 78, sx - 25, sy - 70);
+ctx.quadraticCurveTo(sx - 40, sy - 50, sx - 45, sy - 30);
+ctx.closePath();
+setFill('#5a4830');
+ctx.fill();
+setOutline(3);
+ctx.stroke();
+
+// Hair texture
+for (let i = 0; i < 30; i++) {
+  const angle = -Math.PI * 0.7 + i * 0.08;
+  const r = 50 + Math.random() * 10;
+  ctx.beginPath();
+  ctx.moveTo(sx + Math.cos(angle) * r * 0.7, sy - 70 + Math.sin(angle) * r * 0.3);
+  ctx.quadraticCurveTo(
+    sx + Math.cos(angle) * r * 0.85, sy - 80 + Math.sin(angle) * r * 0.5,
+    sx + Math.cos(angle) * r, sy - 70 + Math.sin(angle) * r * 0.4
+  );
+  ctx.strokeStyle = rgba(80, 60, 40, 0.3);
+  ctx.lineWidth = 1;
+  ctx.stroke();
+}
+
+// ---- EARS ----
+// Left ear
+ctx.beginPath();
+ctx.ellipse(sx - 54, sy, 10, 18, -0.1, 0, Math.PI * 2);
+setFill('#d4b492');
+ctx.fill();
+setOutline(3);
+ctx.stroke();
+ctx.beginPath();
+ctx.ellipse(sx - 52, sy + 2, 5, 10, -0.1, 0, Math.PI * 2);
+ctx.strokeStyle = '#b08868';
+ctx.lineWidth = 1.5;
+ctx.stroke();
+
+// Right ear
+ctx.beginPath();
+ctx.ellipse(sx + 54, sy, 10, 18, 0.1, 0, Math.PI * 2);
+setFill('#d4b492');
+ctx.fill();
+setOutline(3);
+ctx.stroke();
+ctx.beginPath();
+ctx.ellipse(sx + 52, sy + 2, 5, 10, 0.1, 0, Math.PI * 2);
+ctx.strokeStyle = '#b08868';
+ctx.lineWidth = 1.5;
+ctx.stroke();
+
+// ---- EYES (the most expressive part) ----
+// Glasses first
+ctx.beginPath();
+ctx.roundRect(sx - 44, sy - 18, 38, 30, 5);
+ctx.roundRect(sx + 6, sy - 18, 38, 30, 5);
+// Bridge
+ctx.moveTo(sx - 6, sy - 4);
+ctx.quadraticCurveTo(sx, sy - 8, sx + 6, sy - 4);
+// Temple arms
+ctx.moveTo(sx - 44, sy - 10);
+ctx.lineTo(sx - 56, sy - 8);
+ctx.moveTo(sx + 44, sy - 10);
+ctx.lineTo(sx + 56, sy - 8);
+ctx.strokeStyle = '#4a4a4a';
+ctx.lineWidth = 3;
+ctx.stroke();
+
+// Lens tint (slight reflection of spiritual chaos he doesn't see)
+const lensGrad = ctx.createLinearGradient(sx - 44, sy - 18, sx + 44, sy + 12);
+lensGrad.addColorStop(0, 'rgba(100, 80, 120, 0.06)');
+lensGrad.addColorStop(0.5, 'rgba(80, 100, 120, 0.04)');
+lensGrad.addColorStop(1, 'rgba(120, 100, 80, 0.06)');
+ctx.fillStyle = lensGrad;
+ctx.beginPath();
+ctx.roundRect(sx - 44, sy - 18, 38, 30, 5);
+ctx.fill();
+ctx.beginPath();
+ctx.roundRect(sx + 6, sy - 18, 38, 30, 5);
+ctx.fill();
+
+// Eyes themselves — slightly wide, bewildered, very normal
+// Left eye
+ctx.beginPath();
+ctx.ellipse(sx - 25, sy, 11, 9, 0, 0, Math.PI * 2);
+ctx.fillStyle = '#ffffff';
+ctx.fill();
+ctx.strokeStyle = '#2a2018';
+ctx.lineWidth = 2;
+ctx.stroke();
+// Iris
+ctx.beginPath();
+ctx.ellipse(sx - 25, sy + 1, 7, 7, 0, 0, Math.PI * 2);
+ctx.fillStyle = '#5a7a5a'; // matching his sage green
+ctx.fill();
+ctx.strokeStyle = '#3a5a3a';
+ctx.lineWidth = 1.5;
+ctx.stroke();
+// Pupil
+ctx.beginPath();
+ctx.arc(sx - 25, sy + 1, 3.5, 0, Math.PI * 2);
+ctx.fillStyle = '#1a1a1a';
+ctx.fill();
+// Eye highlight
+ctx.beginPath();
+ctx.arc(sx - 22, sy - 2, 2, 0, Math.PI * 2);
+ctx.fillStyle = '#ffffff';
+ctx.fill();
+
+// Right eye
+ctx.beginPath();
+ctx.ellipse(sx + 25, sy, 11, 9, 0, 0, Math.PI * 2);
+ctx.fillStyle = '#ffffff';
+ctx.fill();
+ctx.strokeStyle = '#2a2018';
+ctx.lineWidth = 2;
+ctx.stroke();
+ctx.beginPath();
+ctx.ellipse(sx + 25, sy + 1, 7, 7, 0, 0, Math.PI * 2);
+ctx.fillStyle = '#5a7a5a';
+ctx.fill();
+ctx.strokeStyle = '#3a5a3a';
+ctx.lineWidth = 1.5;
+ctx.stroke();
+ctx.beginPath();
+ctx.arc(sx + 25, sy + 1, 3.5, 0, Math.PI * 2);
+ctx.fillStyle = '#1a1a1a';
+ctx.fill();
+ctx.beginPath();
+ctx.arc(sx + 28, sy - 2, 2, 0, Math.PI * 2);
+ctx.fillStyle = '#ffffff';
+ctx.fill();
+
+// Upper eyelids (slight furrow — mild concern)
+ctx.beginPath();
+ctx.moveTo(sx - 38, sy - 8);
+ctx.quadraticCurveTo(sx - 25, sy - 14, sx - 12, sy - 8);
+ctx.strokeStyle = '#2a2018';
+ctx.lineWidth = 3;
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(sx + 12, sy - 8);
+ctx.quadraticCurveTo(sx + 25, sy - 14, sx + 38, sy - 8);
+ctx.stroke();
+
+// Eyebrows — slightly raised, perpetually confused
+ctx.beginPath();
+ctx.moveTo(sx - 40, sy - 30);
+ctx.quadraticCurveTo(sx - 25, sy - 38, sx - 10, sy - 28);
+ctx.strokeStyle = '#4a3820';
+ctx.lineWidth = 5;
+ctx.lineCap = 'round';
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(sx + 10, sy - 28);
+ctx.quadraticCurveTo(sx + 25, sy - 38, sx + 40, sy - 30);
+ctx.stroke();
+
+// ---- NOSE ----
+ctx.beginPath();
+ctx.moveTo(sx - 2, sy + 5);
+ctx.quadraticCurveTo(sx - 4, sy + 25, sx - 8, sy + 38);
+ctx.quadraticCurveTo(sx - 2, sy + 44, sx, sy + 42);
+ctx.quadraticCurveTo(sx + 2, sy + 44, sx + 8, sy + 38);
+ctx.strokeStyle = '#b08868';
+ctx.lineWidth = 2.5;
+ctx.stroke();
+// Nostril hints
+ctx.beginPath();
+ctx.arc(sx - 5, sy + 40, 3, 0, Math.PI, false);
+ctx.arc(sx + 5, sy + 40, 3, 0, Math.PI, false);
+ctx.strokeStyle = '#a07858';
+ctx.lineWidth = 1.5;
+ctx.stroke();
+
+// ---- MOUTH (flat, uncertain, "I shouldn't be here") ----
+ctx.beginPath();
+ctx.moveTo(sx - 18, sy + 62);
+ctx.quadraticCurveTo(sx - 8, sy + 66, sx, sy + 64);
+ctx.quadraticCurveTo(sx + 8, sy + 66, sx + 18, sy + 60);
+ctx.strokeStyle = '#8a5a4a';
+ctx.lineWidth = 3;
+ctx.lineCap = 'round';
+ctx.stroke();
+// Lower lip hint
+ctx.beginPath();
+ctx.moveTo(sx - 12, sy + 68);
+ctx.quadraticCurveTo(sx, sy + 74, sx + 12, sy + 66);
+ctx.strokeStyle = '#c0907a';
+ctx.lineWidth = 1.5;
+ctx.stroke();
+
+// Chin dimple
+ctx.beginPath();
+ctx.arc(sx, sy + 85, 3, 0, Math.PI * 2);
+ctx.strokeStyle = '#b08868';
+ctx.lineWidth = 1;
+ctx.stroke();
+
+// ---- FINISHING TOUCHES ----
+
+// Subtle rim light from spiritual energy behind him (he doesn't know)
+ctx.save();
+ctx.globalCompositeOperation = 'screen';
+// Left rim
+ctx.beginPath();
+ctx.moveTo(sx - 56, sy - 30);
+ctx.quadraticCurveTo(sx - 60, sy + 50, sx - 55, sy + 100);
+ctx.quadraticCurveTo(sx - 80, sy + 250, sx - 85, sy + 380);
+ctx.strokeStyle = 'rgba(140, 80, 160, 0.15)';
+ctx.lineWidth = 6;
+ctx.stroke();
+// Right rim
+ctx.beginPath();
+ctx.moveTo(sx + 56, sy - 30);
+ctx.quadraticCurveTo(sx + 60, sy + 50, sx + 55, sy + 100);
+ctx.quadraticCurveTo(sx + 90, sy + 250, sx + 95, sy + 380);
+ctx.strokeStyle = 'rgba(100, 140, 180, 0.12)';
+ctx.lineWidth = 6;
+ctx.stroke();
+ctx.restore();
+
+// Faint spiritual aura he's completely unaware of
+ctx.save();
+ctx.globalCompositeOperation = 'screen';
+softCircle(sx, sy + 200, 350, '#2a1040', 0.2);
+softCircle(sx, sy + 100, 200, '#1a2040', 0.1);
+ctx.restore();
+
+// ============================
+// TITLE TEXT
+// ============================
+ctx.save();
+ctx.font = 'bold 42px Georgia, serif';
+ctx.fillStyle = '#d4a34a';
+ctx.textAlign = 'center';
+ctx.letterSpacing = '8px';
+ctx.fillText('S T E V E   S T E V E N S', W/2, H - 120);
+
+ctx.font = 'italic 20px Georgia, serif';
+ctx.fillStyle = '#877a5a';
+ctx.fillText('"I just want to find my wife and go home."', W/2, H - 80);
+
+ctx.font = '14px Georgia, serif';
+ctx.fillStyle = '#4a4030';
+ctx.fillText('TRUST THE PROCESS — Character Concept', W/2, H - 45);
+ctx.restore();
+
+</script>
+</body>
+</html>

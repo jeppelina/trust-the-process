@@ -1,6 +1,9 @@
 extends Node
 ## Global game state singleton. Tracks all player stats, inventory, flags, and progression.
 
+# ── Battle Configuration ──
+var current_battle_enemy: String = "oil_warrior"  # Set before transitioning to battle scene
+
 # ── Signals ──
 signal hp_changed(new_hp: int)
 signal ep_changed(new_ep: int)
@@ -114,6 +117,21 @@ func remove_item(item_id: String) -> void:
 			inventory_changed.emit()
 			return
 
+func has_item(item_id: String) -> bool:
+	for item in inventory:
+		if item["id"] == item_id:
+			if item.has("qty"):
+				return item["qty"] > 0
+			return true
+	return false
+
+func spend_cacao(amount: int) -> bool:
+	## Try to spend cacao. Returns true if successful.
+	if cacao >= amount:
+		cacao -= amount
+		return true
+	return false
+
 func get_consumables() -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
 	for item in inventory:
@@ -121,12 +139,34 @@ func get_consumables() -> Array[Dictionary]:
 			result.append(item)
 	return result
 
+# ── Death / Ego Death Respawn ──
+var death_count: int = 0
+
+const DEATH_MESSAGES := [
+	"You had what the community calls 'a breakthrough.' You call it 'losing consciousness.'",
+	"Steve lay on the floor. A circle of concerned faces looked down. Someone was already burning sage.",
+	"As Steve's vision faded, he heard someone whisper 'Should we call 911?' followed by 'No, this is sacred. Get the essential oils.'",
+	"Steve respawned. He hated that he thought the word 'respawned.'",
+	"The singing bowl brings you back. You briefly saw the void. It looked like a spreadsheet.",
+]
+
+func ego_death() -> String:
+	## Called when HP hits 0. Respawns Steve in the dorms with penalties.
+	death_count += 1
+	hp = max_hp / 2
+	ep = max_ep / 2
+	normality = maxi(normality - 5, 0)  # Gets more "open" against his will
+	current_room_id = "dorms"
+	var msg = DEATH_MESSAGES[death_count % DEATH_MESSAGES.size()]
+	return msg
+
 func reset() -> void:
 	hp = max_hp
 	ep = max_ep
 	normality = 90
 	insight = 0
 	cacao = 0
+	death_count = 0
 	flags = {}
 	current_room_id = "pavilion"
 	_init_inventory()

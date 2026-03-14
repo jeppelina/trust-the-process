@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Burner Bash — Stick Figures v2: More Life</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #1a1a12;
+    color: #c0b899;
+    font-family: Georgia, 'Times New Roman', serif;
+    padding: 40px;
+  }
+  h1 { color: #d4a34a; font-size: 28px; margin-bottom: 6px; }
+  .subtitle { color: #877a5a; font-size: 14px; margin-bottom: 48px; line-height: 1.5; max-width: 700px; }
+  .section { margin-bottom: 56px; border-bottom: 1px solid #2a2a1e; padding-bottom: 48px; }
+  .section:last-child { border-bottom: none; }
+  h2 { color: #d4a34a; font-size: 20px; margin-bottom: 6px; }
+  .desc { color: #877a5a; font-size: 13px; margin-bottom: 24px; max-width: 650px; line-height: 1.5; }
+  .chars { display: flex; gap: 32px; align-items: flex-end; flex-wrap: wrap; }
+  .char-card { text-align: center; }
+  .char-card .label { color: #877a5a; font-size: 11px; margin-top: 6px; }
+  .char-card .label em { color: #c0b899; font-style: normal; }
+</style>
+</head>
+<body>
+
+<h1>Stick Figures v2 — More Life</h1>
+<p class="subtitle">Same simplicity, more personality. The idea: vary the <em style="color:#d4a34a">body shapes</em>, give faces <em style="color:#d4a34a">real expressions</em>, let <em style="color:#d4a34a">posture</em> do the acting. Every character should be recognizable from across the room as a silhouette.</p>
+
+<!-- ============================================ -->
+<!-- STEVE — THE ACCOUNTANT -->
+<!-- ============================================ -->
+<div class="section">
+  <h2>Steve — The Accountant</h2>
+  <p class="desc">Stiff, upright, slightly hunched from desk work. Everything about him is straight lines and right angles. He doesn't belong here and his body knows it. Narrow shoulders, rigid posture, death grip on his briefcase.</p>
+  <div class="chars">
+
+    <!-- Steve: Default/Neutral -->
+    <div class="char-card">
+      <svg width="140" height="220" viewBox="0 0 140 220">
+        <!-- head: slightly oval, tense -->
+        <ellipse cx="70" cy="40" rx="16" ry="18" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- hair: neat, parted, receding slightly -->
+        <path d="M54 32 Q58 22 66 24 L70 22 Q78 20 82 28" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <!-- glasses: rectangular, accountant glasses -->
+        <rect x="58" y="34" width="11" height="9" rx="1.5" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <rect x="71" y="34" width="11" height="9" rx="1.5" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <line x1="69" y1="38" x2="71" y2="38" stroke="#c0b899" stroke-width="1"/>
+        <line x1="82" y1="38" x2="86" y2="36" stroke="#c0b899" stroke-width="1"/>
+        <!-- eyes behind glasses: worried, looking sideways -->
+        <circle cx="64" cy="39" r="1.8" fill="#c0b899"/>
+        <circle cx="77" cy="39" r="1.8" fill="#c0b899"/>
+        <!-- eyebrows: slightly raised, concerned -->
+        <line x1="58" y1="32" x2="68" y2="33" stroke="#c0b899" stroke-width="1.5"/>
+        <line x1="72" y1="33" x2="82" y2="32" stroke="#c0b899" stroke-width="1.5"/>
+        <!-- mouth: tight, uncomfortable -->
+        <path d="M65 48 L70 47 L75 48" fill="none" stroke="#c0b899" stroke-width="1.3"/>
+        <!-- neck: thin, tense -->
+        <line x1="70" y1="58" x2="70" y2="65" stroke="#c0b899" stroke-width="2"/>
+        <!-- shoulders: narrow, slightly raised (tense) -->
+        <path d="M50 72 Q60 65 70 67 Q80 65 90 72" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- torso: slim, straight, buttoned up -->
+        <line x1="70" y1="67" x2="70" y2="130" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- shirt buttons -->
+        <circle cx="70" cy="80" r="1" fill="#877a5a"/>
+        <circle cx="70" cy="92" r="1" fill="#877a5a"/>
+        <circle cx="70" cy="104" r="1" fill="#877a5a"/>
+        <!-- TIE: neat, straight -->
+        <path d="M67 67 L70 72 L73 67" fill="#6a8a6a"/>
+        <line x1="70" y1="72" x2="70" y2="100" stroke="#6a8a6a" stroke-width="2.5"/>
+        <polygon points="67,100 73,100 70,110" fill="#6a8a6a"/>
+        <!-- arms: one rigid at side, one clutching briefcase -->
+        <path d="M50 72 L42 105 L40 108" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- right arm: tense, gripping -->
+        <path d="M90 72 L96 100 L98 108" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- hand gripping briefcase -->
+        <path d="M96 106 L100 108 L98 112" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <!-- BRIEFCASE: held tight -->
+        <rect x="90" y="110" width="24" height="16" rx="2" fill="none" stroke="#d4a34a" stroke-width="2"/>
+        <line x1="98" y1="110" x2="98" y2="106" stroke="#d4a34a" stroke-width="1.5"/>
+        <line x1="106" y1="110" x2="106" y2="106" stroke="#d4a34a" stroke-width="1.5"/>
+        <path d="M98 106 Q102 103 106 106" fill="none" stroke="#d4a34a" stroke-width="1.5"/>
+        <circle cx="102" cy="118" r="2" fill="none" stroke="#d4a34a" stroke-width="1"/>
+        <!-- belt -->
+        <line x1="62" y1="118" x2="78" y2="118" stroke="#877a5a" stroke-width="2"/>
+        <rect x="68" y="116" width="4" height="5" rx="0.5" fill="none" stroke="#877a5a" stroke-width="1"/>
+        <!-- legs: straight, khaki energy -->
+        <line x1="65" y1="130" x2="60" y2="180" stroke="#c0b899" stroke-width="2.8"/>
+        <line x1="75" y1="130" x2="80" y2="180" stroke="#c0b899" stroke-width="2.8"/>
+        <!-- shoes: sensible, flat -->
+        <path d="M55 180 L60 180 L63 183" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M77 180 L80 180 L83 183" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+      <div class="label"><em>Neutral</em> — tense, gripping briefcase</div>
+    </div>
+
+    <!-- Steve: Confused -->
+    <div class="char-card">
+      <svg width="140" height="220" viewBox="0 0 140 220">
+        <!-- head tilted slightly -->
+        <ellipse cx="72" cy="42" rx="16" ry="18" fill="none" stroke="#c0b899" stroke-width="2.5" transform="rotate(8 72 42)"/>
+        <path d="M56 34 Q60 24 68 26 L72 24 Q80 22 84 30" fill="none" stroke="#c0b899" stroke-width="2" transform="rotate(8 72 42)"/>
+        <rect x="60" y="36" width="11" height="9" rx="1.5" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <rect x="73" y="35" width="11" height="9" rx="1.5" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <line x1="71" y1="40" x2="73" y2="39" stroke="#c0b899" stroke-width="1"/>
+        <!-- eyes: one squinting, one wide -->
+        <circle cx="66" cy="41" r="2.2" fill="#c0b899"/>
+        <ellipse cx="79" cy="40" rx="2" ry="1" fill="#c0b899"/>
+        <!-- eyebrows: asymmetric confusion -->
+        <path d="M60 33 L68 31" fill="none" stroke="#c0b899" stroke-width="1.8"/>
+        <path d="M74 34 L82 33" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <!-- mouth: open, bewildered -->
+        <ellipse cx="72" cy="50" rx="4" ry="3" fill="none" stroke="#c0b899" stroke-width="1.3"/>
+        <!-- ? floating -->
+        <text x="98" y="28" font-family="Georgia, serif" font-size="18" fill="#d4a34a" opacity="0.7">?</text>
+        <!-- neck -->
+        <line x1="72" y1="60" x2="70" y2="67" stroke="#c0b899" stroke-width="2"/>
+        <!-- same body but one arm scratching head -->
+        <path d="M50 72 Q60 65 70 67 Q80 65 90 72" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <line x1="70" y1="67" x2="70" y2="130" stroke="#c0b899" stroke-width="2.5"/>
+        <circle cx="70" cy="80" r="1" fill="#877a5a"/>
+        <circle cx="70" cy="92" r="1" fill="#877a5a"/>
+        <path d="M67 67 L70 72 L73 67" fill="#6a8a6a"/>
+        <line x1="70" y1="72" x2="70" y2="100" stroke="#6a8a6a" stroke-width="2.5"/>
+        <polygon points="67,100 73,100 70,110" fill="#6a8a6a"/>
+        <!-- left arm: up scratching head -->
+        <path d="M50 72 L44 60 Q48 42 62 36" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- right arm: dangling, briefcase weighing down -->
+        <path d="M90 72 L96 108 L96 120" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <rect x="86" y="120" width="22" height="14" rx="2" fill="none" stroke="#d4a34a" stroke-width="2"/>
+        <line x1="62" y1="118" x2="78" y2="118" stroke="#877a5a" stroke-width="2"/>
+        <line x1="65" y1="130" x2="60" y2="180" stroke="#c0b899" stroke-width="2.8"/>
+        <line x1="75" y1="130" x2="80" y2="180" stroke="#c0b899" stroke-width="2.8"/>
+        <path d="M55 180 L60 180 L63 183" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M77 180 L80 180 L83 183" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+      <div class="label"><em>Confused</em> — head tilt, scratching</div>
+    </div>
+
+    <!-- Steve: Angry/Frustrated -->
+    <div class="char-card">
+      <svg width="140" height="220" viewBox="0 0 140 220">
+        <ellipse cx="70" cy="40" rx="16" ry="17" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <path d="M54 32 Q58 22 66 24 L70 22 Q78 20 82 28" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <rect x="58" y="34" width="11" height="9" rx="1.5" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <rect x="71" y="34" width="11" height="9" rx="1.5" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <line x1="69" y1="38" x2="71" y2="38" stroke="#c0b899" stroke-width="1"/>
+        <!-- eyes: angry, small -->
+        <circle cx="64" cy="39" r="1.5" fill="#c0b899"/>
+        <circle cx="77" cy="39" r="1.5" fill="#c0b899"/>
+        <!-- eyebrows: ANGRY V shape -->
+        <line x1="57" y1="35" x2="67" y2="32" stroke="#c0b899" stroke-width="2.2"/>
+        <line x1="73" y1="32" x2="83" y2="35" stroke="#c0b899" stroke-width="2.2"/>
+        <!-- mouth: gritted teeth -->
+        <line x1="63" y1="48" x2="77" y2="48" stroke="#c0b899" stroke-width="1.5"/>
+        <line x1="66" y1="46" x2="66" y2="50" stroke="#c0b899" stroke-width="0.8"/>
+        <line x1="70" y1="46" x2="70" y2="50" stroke="#c0b899" stroke-width="0.8"/>
+        <line x1="74" y1="46" x2="74" y2="50" stroke="#c0b899" stroke-width="0.8"/>
+        <!-- anger vein -->
+        <path d="M88 26 L92 22 L90 28 L94 24" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <!-- neck tense -->
+        <line x1="70" y1="57" x2="70" y2="65" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- shoulders: raised, tense -->
+        <path d="M48 68 Q60 62 70 65 Q80 62 92 68" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <line x1="70" y1="65" x2="70" y2="130" stroke="#c0b899" stroke-width="2.5"/>
+        <path d="M67 65 L70 70 L73 65" fill="#6a8a6a"/>
+        <line x1="70" y1="70" x2="70" y2="100" stroke="#6a8a6a" stroke-width="2.5"/>
+        <polygon points="67,100 73,100 70,110" fill="#6a8a6a"/>
+        <!-- arms: both fists clenched at sides -->
+        <path d="M48 68 L38 100 L36 105" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="35" cy="107" r="4" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <path d="M92 68 L102 100 L104 105" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="105" cy="107" r="4" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <!-- briefcase on ground, dropped -->
+        <rect x="95" y="150" width="24" height="16" rx="2" fill="none" stroke="#d4a34a" stroke-width="2" transform="rotate(12 107 158)"/>
+        <line x1="62" y1="118" x2="78" y2="118" stroke="#877a5a" stroke-width="2"/>
+        <line x1="65" y1="130" x2="62" y2="178" stroke="#c0b899" stroke-width="2.8"/>
+        <line x1="75" y1="130" x2="78" y2="178" stroke="#c0b899" stroke-width="2.8"/>
+        <path d="M57 178 L62 178 L65 181" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M75 178 L78 178 L81 181" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+      <div class="label"><em>Frustrated</em> — fists, dropped briefcase</div>
+    </div>
+
+    <!-- Steve: Scared -->
+    <div class="char-card">
+      <svg width="140" height="220" viewBox="0 0 140 220">
+        <!-- head pulled back, chin down -->
+        <ellipse cx="70" cy="44" rx="16" ry="18" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <path d="M54 36 Q58 26 66 28 L70 26 Q78 24 82 32" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <rect x="58" y="36" width="11" height="9" rx="1.5" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <rect x="71" y="36" width="11" height="9" rx="1.5" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <line x1="69" y1="41" x2="71" y2="41" stroke="#c0b899" stroke-width="1"/>
+        <!-- eyes: wide, whites showing -->
+        <circle cx="64" cy="41" r="3" fill="none" stroke="#c0b899" stroke-width="1.2"/>
+        <circle cx="64" cy="42" r="1.5" fill="#c0b899"/>
+        <circle cx="77" cy="41" r="3" fill="none" stroke="#c0b899" stroke-width="1.2"/>
+        <circle cx="77" cy="42" r="1.5" fill="#c0b899"/>
+        <!-- eyebrows: high, scared -->
+        <path d="M57 33 Q63 29 69 33" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <path d="M71 33 Q77 29 83 33" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <!-- mouth: tight grimace, teeth showing -->
+        <path d="M63 52 Q70 56 77 52" fill="none" stroke="#c0b899" stroke-width="1.3"/>
+        <path d="M63 52 L77 52" fill="none" stroke="#c0b899" stroke-width="1"/>
+        <!-- sweat drops -->
+        <ellipse cx="52" cy="38" rx="2" ry="3" fill="#6a9ad4" opacity="0.5"/>
+        <ellipse cx="48" cy="46" rx="1.5" ry="2.5" fill="#6a9ad4" opacity="0.3"/>
+        <!-- neck: hunched -->
+        <path d="M70 62 Q68 66 70 72" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <!-- shoulders: pulled UP high, defensive -->
+        <path d="M46 72 Q58 66 70 72 Q82 66 94 72" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <line x1="70" y1="72" x2="70" y2="130" stroke="#c0b899" stroke-width="2.5"/>
+        <path d="M67 72 L70 77 L73 72" fill="#6a8a6a"/>
+        <line x1="70" y1="77" x2="70" y2="100" stroke="#6a8a6a" stroke-width="2.5"/>
+        <polygon points="67,100 73,100 70,110" fill="#6a8a6a"/>
+        <!-- arms: holding briefcase in front like a shield -->
+        <path d="M46 72 L44 88 L52 100" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M94 72 L96 88 L88 100" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- briefcase as SHIELD in front -->
+        <rect x="50" y="95" width="40" height="26" rx="3" fill="none" stroke="#d4a34a" stroke-width="2.5"/>
+        <line x1="64" y1="95" x2="64" y2="91" stroke="#d4a34a" stroke-width="1.5"/>
+        <line x1="76" y1="95" x2="76" y2="91" stroke="#d4a34a" stroke-width="1.5"/>
+        <path d="M64 91 Q70 88 76 91" fill="none" stroke="#d4a34a" stroke-width="1.5"/>
+        <!-- legs: slightly knock-kneed, backing away -->
+        <line x1="65" y1="130" x2="62" y2="175" stroke="#c0b899" stroke-width="2.8"/>
+        <line x1="75" y1="130" x2="78" y2="175" stroke="#c0b899" stroke-width="2.8"/>
+        <!-- feet pointing inward -->
+        <path d="M58 175 L62 176 L63 179" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M82 175 L78 176 L77 179" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- motion lines: recoiling -->
+        <line x1="30" y1="90" x2="22" y2="88" stroke="#877a5a" stroke-width="1" opacity="0.5"/>
+        <line x1="30" y1="100" x2="20" y2="100" stroke="#877a5a" stroke-width="1" opacity="0.4"/>
+        <line x1="30" y1="110" x2="22" y2="112" stroke="#877a5a" stroke-width="1" opacity="0.3"/>
+      </svg>
+      <div class="label"><em>Scared</em> — briefcase shield, backing up</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- ESSENTIAL OIL WARRIOR -->
+<!-- ============================================ -->
+<div class="section">
+  <h2>Essential Oil Warrior</h2>
+  <p class="desc">Everything about her is curved and flowing where Steve is rigid. She floats rather than walks. Arms always doing something expressive — holding a bottle up, gesturing grandly, blessing you. Wide hips, flowing skirt, head slightly tilted back (perpetually looking down her nose at you). Serene smile that never breaks.</p>
+  <div class="chars">
+
+    <div class="char-card">
+      <svg width="150" height="220" viewBox="0 0 150 220">
+        <!-- head: rounder, tilted back slightly -->
+        <circle cx="75" cy="38" r="17" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- long flowing hair -->
+        <path d="M58 34 Q52 28 50 40 Q48 58 52 72" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <path d="M92 34 Q98 28 100 40 Q102 58 98 72" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <!-- headband with little gem -->
+        <path d="M58 30 Q75 24 92 30" fill="none" stroke="#d46a8a" stroke-width="3"/>
+        <circle cx="75" cy="27" r="3" fill="#d46a8a"/>
+        <!-- eyes: half-closed, serene, slightly condescending -->
+        <path d="M66 36 Q69 33 72 36" fill="none" stroke="#c0b899" stroke-width="1.8"/>
+        <circle cx="69" cy="37" r="1" fill="#c0b899"/>
+        <path d="M78 36 Q81 33 84 36" fill="none" stroke="#c0b899" stroke-width="1.8"/>
+        <circle cx="81" cy="37" r="1" fill="#c0b899"/>
+        <!-- eyebrows: arched knowingly -->
+        <path d="M64 32 Q69 29 73 32" fill="none" stroke="#c0b899" stroke-width="1.2"/>
+        <path d="M77 32 Q81 29 86 32" fill="none" stroke="#c0b899" stroke-width="1.2"/>
+        <!-- smile: slight, knowing -->
+        <path d="M69 45 Q75 49 81 45" fill="none" stroke="#c0b899" stroke-width="1.3"/>
+        <!-- neck: graceful, longer -->
+        <path d="M75 55 Q74 62 75 68" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <!-- shoulders: sloped, relaxed -->
+        <path d="M48 78 Q62 70 75 72 Q88 70 102 78" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- torso: curvy, organic line -->
+        <path d="M75 72 Q73 90 75 105" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- necklace: crystal pendant -->
+        <path d="M66 72 Q75 78 84 72" fill="none" stroke="#8a6ad4" stroke-width="1.5"/>
+        <polygon points="73,78 77,78 75,85" fill="#8a6ad4" opacity="0.7"/>
+        <!-- flowing skirt/dress from waist -->
+        <path d="M60 105 Q55 140 48 185 Q75 195 102 185 Q95 140 90 105" fill="none" stroke="#d46a8a" stroke-width="2" opacity="0.6"/>
+        <path d="M65 105 Q72 150 68 185" fill="none" stroke="#d46a8a" stroke-width="1" opacity="0.3"/>
+        <path d="M85 105 Q78 150 82 185" fill="none" stroke="#d46a8a" stroke-width="1" opacity="0.3"/>
+        <!-- left arm: raised, holding oil bottle high -->
+        <path d="M48 78 Q38 68 32 55 Q30 48 34 42" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- hand/fingers holding bottle -->
+        <path d="M34 42 L30 40 M34 42 L32 38 M34 42 L36 38" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <!-- OIL BOTTLE: fancy, with label -->
+        <rect x="24" y="24" width="14" height="20" rx="4" fill="none" stroke="#8a6ad4" stroke-width="2"/>
+        <rect x="28" y="18" width="6" height="8" rx="2" fill="none" stroke="#8a6ad4" stroke-width="1.5"/>
+        <!-- sparkles/aura around bottle -->
+        <line x1="18" y1="28" x2="14" y2="26" stroke="#d4a34a" stroke-width="1.2"/>
+        <line x1="42" y1="26" x2="46" y2="24" stroke="#d4a34a" stroke-width="1.2"/>
+        <line x1="20" y1="38" x2="15" y2="40" stroke="#d4a34a" stroke-width="1"/>
+        <circle cx="16" cy="32" r="1.5" fill="#d4a34a" opacity="0.6"/>
+        <circle cx="44" cy="32" r="1" fill="#d4a34a" opacity="0.4"/>
+        <!-- right arm: gracefully extended, blessing gesture -->
+        <path d="M102 78 Q110 90 115 100 Q118 106 116 108" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- fingers extended in "blessing" -->
+        <path d="M116 108 L120 104 M116 108 L122 107 M116 108 L120 112" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <!-- feet: barely visible, she floats -->
+        <path d="M58 185 Q55 190 52 188" fill="none" stroke="#c0b899" stroke-width="2" stroke-linecap="round"/>
+        <path d="M92 185 Q95 190 98 188" fill="none" stroke="#c0b899" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <div class="label"><em>Default</em> — serene, blessing pose</div>
+    </div>
+
+    <!-- Oil Warrior: Combat/Attack stance -->
+    <div class="char-card">
+      <svg width="150" height="220" viewBox="0 0 150 220">
+        <circle cx="75" cy="38" r="17" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <path d="M58 34 Q52 28 50 40 Q48 58 52 72" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <path d="M92 34 Q98 28 100 40 Q102 58 98 72" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <path d="M58 30 Q75 24 92 30" fill="none" stroke="#d46a8a" stroke-width="3"/>
+        <circle cx="75" cy="27" r="3" fill="#d46a8a"/>
+        <!-- eyes: OPEN, intense, still smiling -->
+        <circle cx="69" cy="36" r="2.5" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <circle cx="69" cy="36" r="1.2" fill="#c0b899"/>
+        <circle cx="81" cy="36" r="2.5" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <circle cx="81" cy="36" r="1.2" fill="#c0b899"/>
+        <!-- smile: wider, unhinged -->
+        <path d="M67 45 Q75 52 83 45" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <path d="M67 45 L83 45" fill="none" stroke="#c0b899" stroke-width="0.8"/>
+        <!-- neck -->
+        <path d="M75 55 Q76 62 75 68" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <!-- body leaning forward aggressively -->
+        <path d="M46 76 Q62 68 75 70 Q88 68 104 76" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <path d="M75 70 Q77 90 78 105" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <path d="M66 72 Q75 78 84 72" fill="none" stroke="#8a6ad4" stroke-width="1.5"/>
+        <polygon points="73,78 77,78 75,85" fill="#8a6ad4" opacity="0.7"/>
+        <path d="M62 105 Q55 140 48 185 Q75 195 102 185 Q95 140 88 105" fill="none" stroke="#d46a8a" stroke-width="2" opacity="0.6"/>
+        <!-- arm: HURLING oil bottle -->
+        <path d="M46 76 L28 60 L22 50" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- bottle MID-AIR with motion lines -->
+        <rect x="6" y="28" width="12" height="18" rx="4" fill="none" stroke="#8a6ad4" stroke-width="2"/>
+        <rect x="9" y="22" width="6" height="8" rx="2" fill="none" stroke="#8a6ad4" stroke-width="1.5"/>
+        <!-- motion arc -->
+        <path d="M22 50 Q14 42 10 36" fill="none" stroke="#877a5a" stroke-width="1" opacity="0.5" stroke-dasharray="3,3"/>
+        <!-- splash effect at target -->
+        <circle cx="8" cy="20" r="2" fill="#8a6ad4" opacity="0.4"/>
+        <circle cx="14" cy="18" r="1.5" fill="#8a6ad4" opacity="0.3"/>
+        <circle cx="4" cy="24" r="1" fill="#8a6ad4" opacity="0.3"/>
+        <!-- other arm: already reaching for another bottle from belt -->
+        <path d="M104 76 L108 95 Q106 102 100 105" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- belt of tiny bottles -->
+        <rect x="88" y="102" width="8" height="10" rx="2" fill="none" stroke="#8a6ad4" stroke-width="1.2"/>
+        <rect x="98" y="102" width="8" height="10" rx="2" fill="none" stroke="#8a6ad4" stroke-width="1.2"/>
+        <rect x="108" y="104" width="8" height="10" rx="2" fill="none" stroke="#8a6ad4" stroke-width="1.2" opacity="0.5"/>
+        <path d="M58 185 Q55 190 52 188" fill="none" stroke="#c0b899" stroke-width="2" stroke-linecap="round"/>
+        <path d="M92 185 Q95 190 98 188" fill="none" stroke="#c0b899" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <div class="label"><em>Attack</em> — hurling oils, still smiling</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- BREATHWORK MONK -->
+<!-- ============================================ -->
+<div class="section">
+  <h2>Breathwork Monk</h2>
+  <p class="desc">Wide, immovable, rooted. Where Steve is all verticals, the Monk is a triangle — broad base, narrow top. No mouth (communicates through breath and silence). Big staring eyes. Body is a solid mass wrapped in robes. The opposite of the Oil Warrior's curves: he's geometric, mountain-like.</p>
+  <div class="chars">
+
+    <div class="char-card">
+      <svg width="160" height="220" viewBox="0 0 160 220">
+        <!-- head: round, bald, solid -->
+        <circle cx="80" cy="42" r="20" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- topknot -->
+        <path d="M74 22 Q80 10 86 22" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <circle cx="80" cy="14" r="3" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <!-- eyes: LARGE, unblinking, intense -->
+        <circle cx="72" cy="40" r="5" fill="none" stroke="#c0b899" stroke-width="1.8"/>
+        <circle cx="72" cy="40" r="2.5" fill="#c0b899"/>
+        <circle cx="88" cy="40" r="5" fill="none" stroke="#c0b899" stroke-width="1.8"/>
+        <circle cx="88" cy="40" r="2.5" fill="#c0b899"/>
+        <!-- NO mouth — just a faint line where it should be -->
+        <line x1="76" y1="52" x2="84" y2="52" stroke="#c0b899" stroke-width="0.5" opacity="0.3"/>
+        <!-- neck: thick, short -->
+        <line x1="80" y1="62" x2="80" y2="68" stroke="#c0b899" stroke-width="3"/>
+        <!-- body: WIDE, triangular robe shape -->
+        <path d="M48 72 L80 68 L112 72 L120 180 Q80 190 40 180 Z" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- robe detail lines -->
+        <path d="M80 68 L80 180" fill="none" stroke="#6a9ad4" stroke-width="1.5" opacity="0.4"/>
+        <path d="M64 72 Q68 130 60 180" fill="none" stroke="#6a9ad4" stroke-width="1" opacity="0.3"/>
+        <path d="M96 72 Q92 130 100 180" fill="none" stroke="#6a9ad4" stroke-width="1" opacity="0.3"/>
+        <!-- robe collar/wrap -->
+        <path d="M56 74 Q80 85 104 74" fill="none" stroke="#6a9ad4" stroke-width="2" opacity="0.6"/>
+        <!-- hands: hidden in robe, just finger tips showing -->
+        <path d="M48 120 L38 118 L36 120 L38 122 L48 120" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <path d="M112 120 L122 118 L124 120 L122 122 L112 120" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <!-- breath: visible, rhythmic waves -->
+        <path d="M76 52 Q70 58 64 56" fill="none" stroke="#6a9ad4" stroke-width="1.5" opacity="0.6"/>
+        <path d="M76 52 Q68 62 58 60" fill="none" stroke="#6a9ad4" stroke-width="1.2" opacity="0.4"/>
+        <path d="M76 52 Q66 66 52 64" fill="none" stroke="#6a9ad4" stroke-width="1" opacity="0.25"/>
+        <!-- sandals: just visible -->
+        <path d="M56 182 L52 188 M64 184 L60 190" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <path d="M96 182 L100 188 M104 184 L108 190" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+      </svg>
+      <div class="label"><em>Default</em> — immovable, breathing</div>
+    </div>
+
+    <!-- Monk: Aggressive breath attack -->
+    <div class="char-card">
+      <svg width="160" height="220" viewBox="0 0 160 220">
+        <circle cx="80" cy="42" r="20" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <path d="M74 22 Q80 10 86 22" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <circle cx="80" cy="14" r="3" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <!-- eyes: EVEN BIGGER, veins? -->
+        <circle cx="72" cy="40" r="6" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <circle cx="72" cy="40" r="3" fill="#c0b899"/>
+        <circle cx="88" cy="40" r="6" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <circle cx="88" cy="40" r="3" fill="#c0b899"/>
+        <!-- eyebrow furrow -->
+        <line x1="66" y1="30" x2="76" y2="33" stroke="#c0b899" stroke-width="2"/>
+        <line x1="84" y1="33" x2="94" y2="30" stroke="#c0b899" stroke-width="2"/>
+        <!-- mouth: OPEN, force breathing out -->
+        <ellipse cx="80" cy="54" rx="6" ry="4" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <!-- body -->
+        <line x1="80" y1="62" x2="80" y2="68" stroke="#c0b899" stroke-width="3"/>
+        <path d="M48 72 L80 68 L112 72 L120 180 Q80 190 40 180 Z" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <path d="M80 68 L80 180" fill="none" stroke="#6a9ad4" stroke-width="1.5" opacity="0.4"/>
+        <path d="M56 74 Q80 85 104 74" fill="none" stroke="#6a9ad4" stroke-width="2" opacity="0.6"/>
+        <!-- MASSIVE breath blast -->
+        <path d="M74 54 Q50 50 30 46" fill="none" stroke="#6a9ad4" stroke-width="3" opacity="0.7"/>
+        <path d="M74 54 Q48 56 24 54" fill="none" stroke="#6a9ad4" stroke-width="2.5" opacity="0.5"/>
+        <path d="M74 54 Q50 62 28 62" fill="none" stroke="#6a9ad4" stroke-width="2" opacity="0.35"/>
+        <path d="M74 54 Q52 68 32 70" fill="none" stroke="#6a9ad4" stroke-width="1.5" opacity="0.2"/>
+        <!-- wind effect particles -->
+        <text x="18" y="44" font-size="10" fill="#6a9ad4" opacity="0.6">~</text>
+        <text x="10" y="56" font-size="12" fill="#6a9ad4" opacity="0.4">~</text>
+        <text x="16" y="68" font-size="8" fill="#6a9ad4" opacity="0.3">~</text>
+        <!-- hands emerged from robe, pushing air -->
+        <path d="M48 110 L30 100 L26 96" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M26 96 L22 94 M26 96 L22 98 M26 96 L24 92" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <path d="M56 182 L52 188 M64 184 L60 190" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <path d="M96 182 L100 188 M104 184 L108 190" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+      </svg>
+      <div class="label"><em>Attack</em> — force exhale blast</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- CACAO DEALER -->
+<!-- ============================================ -->
+<div class="section">
+  <h2>Cacao Dealer</h2>
+  <p class="desc">Hunched, leaning in conspiratorially. Everything about him suggests "guy you don't want to buy from but you will." Long coat hiding his wares. Eyes are never fully visible — hat brim or angle always obscures them. Thin, wiry build. Hands always doing something shady.</p>
+  <div class="chars">
+
+    <div class="char-card">
+      <svg width="150" height="220" viewBox="0 0 150 220">
+        <!-- head: thin, angular -->
+        <ellipse cx="80" cy="38" rx="14" ry="16" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- hat/beanie: pulled low -->
+        <path d="M66 32 Q66 16 80 12 Q94 16 94 32" fill="none" stroke="#8ad46a" stroke-width="2.5"/>
+        <line x1="64" y1="32" x2="96" y2="32" stroke="#8ad46a" stroke-width="2.5"/>
+        <!-- eyes: hidden by hat shadow, just glints -->
+        <line x1="72" y1="37" x2="76" y2="37" stroke="#c0b899" stroke-width="2"/>
+        <line x1="84" y1="37" x2="88" y2="37" stroke="#c0b899" stroke-width="2"/>
+        <!-- shadow under hat brim -->
+        <line x1="66" y1="33" x2="94" y2="33" stroke="#1a1a12" stroke-width="3" opacity="0.5"/>
+        <!-- smirk: one-sided -->
+        <path d="M76 46 Q84 48 90 44" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <!-- stubble dots -->
+        <circle cx="76" cy="50" r="0.5" fill="#877a5a"/>
+        <circle cx="80" cy="51" r="0.5" fill="#877a5a"/>
+        <circle cx="84" cy="50" r="0.5" fill="#877a5a"/>
+        <circle cx="78" cy="48" r="0.5" fill="#877a5a"/>
+        <!-- thin neck -->
+        <line x1="80" y1="54" x2="78" y2="64" stroke="#c0b899" stroke-width="2"/>
+        <!-- shoulders: uneven, hunched forward -->
+        <path d="M50 74 Q65 66 78 68 Q88 66 105 70" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- TRENCH COAT: the signature -->
+        <path d="M48 74 L40 190 L55 192 L75 188 L95 192 L110 190 L105 70" fill="none" stroke="#877a5a" stroke-width="2"/>
+        <!-- coat lapels -->
+        <path d="M60 68 L68 90 L78 68" fill="none" stroke="#877a5a" stroke-width="1.8"/>
+        <path d="M80 68 L90 88 L98 68" fill="none" stroke="#877a5a" stroke-width="1.8"/>
+        <!-- coat opening: dark inside, beans visible -->
+        <path d="M68 90 L72 185 L86 185 L90 88" fill="#1e1e14" stroke="none"/>
+        <!-- cacao beans inside coat -->
+        <ellipse cx="76" cy="110" rx="5" ry="3.5" fill="#6b3a1f" stroke="#d4a34a" stroke-width="1" transform="rotate(-15 76 110)"/>
+        <ellipse cx="82" cy="125" rx="5" ry="3.5" fill="#6b3a1f" stroke="#d4a34a" stroke-width="1" transform="rotate(10 82 125)"/>
+        <ellipse cx="74" cy="140" rx="5" ry="3.5" fill="#6b3a1f" stroke="#d4a34a" stroke-width="1" transform="rotate(-5 74 140)"/>
+        <ellipse cx="80" cy="155" rx="4" ry="3" fill="#6b3a1f" stroke="#d4a34a" stroke-width="0.8" opacity="0.7" transform="rotate(20 80 155)"/>
+        <!-- left arm: holding coat open -->
+        <path d="M50 74 L44 100 L48 120 L54 130" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- right arm: offering/beckoning -->
+        <path d="M105 70 L115 90 L120 100" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- beckoning fingers -->
+        <path d="M120 100 L124 96 M120 100 L126 100 M120 100 L124 104" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <!-- legs: just boots visible under coat -->
+        <path d="M58 190 L56 200 L50 202" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M90 190 L92 200 L98 202" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- whisper text -->
+        <text x="122" y="90" font-family="Georgia, serif" font-size="9" fill="#877a5a" font-style="italic" opacity="0.6">psst</text>
+      </svg>
+      <div class="label"><em>Default</em> — coat open, beckoning</div>
+    </div>
+
+    <!-- Dealer: After sale, satisfied -->
+    <div class="char-card">
+      <svg width="150" height="220" viewBox="0 0 150 220">
+        <ellipse cx="80" cy="38" rx="14" ry="16" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <path d="M66 32 Q66 16 80 12 Q94 16 94 32" fill="none" stroke="#8ad46a" stroke-width="2.5"/>
+        <line x1="64" y1="32" x2="96" y2="32" stroke="#8ad46a" stroke-width="2.5"/>
+        <line x1="66" y1="33" x2="94" y2="33" stroke="#1a1a12" stroke-width="3" opacity="0.5"/>
+        <!-- eyes: satisfied slits -->
+        <path d="M72 36 Q74 34 76 36" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <path d="M84 36 Q86 34 88 36" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <!-- grin: wide, toothy -->
+        <path d="M72 45 Q80 52 90 45" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <line x1="76" y1="46" x2="76" y2="48" stroke="#c0b899" stroke-width="0.8"/>
+        <line x1="80" y1="47" x2="80" y2="49" stroke="#c0b899" stroke-width="0.8"/>
+        <line x1="84" y1="46" x2="84" y2="48" stroke="#c0b899" stroke-width="0.8"/>
+        <!-- stubble -->
+        <circle cx="76" cy="50" r="0.5" fill="#877a5a"/>
+        <circle cx="80" cy="51" r="0.5" fill="#877a5a"/>
+        <circle cx="84" cy="50" r="0.5" fill="#877a5a"/>
+        <line x1="80" y1="54" x2="78" y2="64" stroke="#c0b899" stroke-width="2"/>
+        <path d="M50 74 Q65 66 78 68 Q88 66 105 70" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- coat: CLOSED now, hands rubbing together -->
+        <path d="M48 74 L40 190 Q75 195 110 190 L105 70" fill="none" stroke="#877a5a" stroke-width="2"/>
+        <line x1="78" y1="68" x2="78" y2="185" stroke="#877a5a" stroke-width="1.5"/>
+        <!-- arms: rubbing hands together in front -->
+        <path d="M50 74 L58 95 L70 105" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M105 70 L95 92 L82 105" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- hands: pressed together, rubbing -->
+        <ellipse cx="76" cy="108" rx="8" ry="5" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <!-- money/cacao floating above like thought -->
+        <text x="42" y="22" font-size="14" opacity="0.5">🫘</text>
+        <text x="100" y="18" font-size="10" opacity="0.4">💰</text>
+        <!-- boots -->
+        <path d="M58 190 L56 200 L50 202" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M90 190 L92 200 L98 202" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+      <div class="label"><em>After sale</em> — coat closed, hands rubbing</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- DESIGN SYSTEM NOTES -->
+<!-- ============================================ -->
+<div class="section" style="border-bottom: none;">
+  <h2>What Makes This Scalable</h2>
+  <p class="desc" style="max-width: 800px; color: #c0b899;">
+    The key insight: each character has a distinct <strong style="color:#d4a34a">body shape language</strong>.
+  </p>
+  <p class="desc" style="max-width: 800px;">
+    <strong style="color:#c0b899">Steve</strong> = vertical lines, right angles, narrow. He's a spreadsheet.<br>
+    <strong style="color:#c0b899">Oil Warrior</strong> = curves, flowing lines, wide skirt. She's a pour of essential oil.<br>
+    <strong style="color:#c0b899">Breathwork Monk</strong> = triangle, solid mass, wide base. He's a mountain.<br>
+    <strong style="color:#c0b899">Cacao Dealer</strong> = diagonal lines, hunched angles. He's an open trench coat.<br><br>
+    To add a new character, you just ask: "what shape IS this person?" A yoga instructor is a pretzel. A crystal healer is a cluster of angles. A drum circle leader is a big round belly with tiny limbs. The shape does 80% of the character work, then you add one signature prop and one face expression.<br><br>
+    <strong style="color:#d4a34a">Expression system:</strong> Each character needs only 4–5 face states (neutral, happy, angry, scared, special). The body can do a few poses (idle, attack, hit, talk). Mix and match = dozens of visual states from a small set of parts.<br><br>
+    <strong style="color:#d4a34a">For Godot:</strong> Each character could be a scene with swappable face/arm/prop nodes. Animate with Tweens. No sprite sheets needed — just SVG or simple vector art that Godot renders natively.
+  </p>
+</div>
+
+</body>
+</html>

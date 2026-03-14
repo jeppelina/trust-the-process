@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Sanctuary — Environment Concept</title>
+<style>
+  body { margin: 0; background: #0a0805; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+  canvas { display: block; }
+</style>
+</head>
+<body>
+<canvas id="c" width="1600" height="900"></canvas>
+<script>
+const c = document.getElementById('c');
+const ctx = c.getContext('2d');
+const W = 1600, H = 900;
+
+function hsl(h,s,l,a=1) { return `hsla(${h},${s}%,${l}%,${a})`; }
+function hexToRgb(hex) { hex=hex.replace('#',''); return [parseInt(hex.substr(0,2),16),parseInt(hex.substr(2,2),16),parseInt(hex.substr(4,2),16)]; }
+function rgba(r,g,b,a) { return `rgba(${r},${g},${b},${a})`; }
+function softCircle(x,y,r,color,alpha=1) {
+  const g=ctx.createRadialGradient(x,y,0,x,y,r);
+  g.addColorStop(0,rgba(...hexToRgb(color),alpha));
+  g.addColorStop(1,rgba(...hexToRgb(color),0));
+  ctx.fillStyle=g;
+  ctx.fillRect(x-r,y-r,r*2,r*2);
+}
+
+// ============================
+// SKY: Golden hour, warm and deceptive
+// ============================
+const skyGrad = ctx.createLinearGradient(0, 0, 0, 500);
+skyGrad.addColorStop(0, '#1a1830');
+skyGrad.addColorStop(0.2, '#2a2040');
+skyGrad.addColorStop(0.4, '#4a2838');
+skyGrad.addColorStop(0.6, '#8a4830');
+skyGrad.addColorStop(0.8, '#c87830');
+skyGrad.addColorStop(1, '#e8a840');
+ctx.fillStyle = skyGrad;
+ctx.fillRect(0, 0, W, 500);
+
+// Stars in upper sky
+for (let i = 0; i < 80; i++) {
+  const x = Math.random() * W;
+  const y = Math.random() * 200;
+  const size = Math.random() * 2;
+  const alpha = Math.random() * 0.5 + 0.1;
+  ctx.beginPath();
+  ctx.arc(x, y, size, 0, Math.PI * 2);
+  ctx.fillStyle = hsl(220, 20, 90, alpha);
+  ctx.fill();
+}
+
+// Sun glow near horizon
+softCircle(1100, 440, 300, '#e8a840', 0.4);
+softCircle(1100, 440, 150, '#f0c060', 0.3);
+softCircle(1100, 440, 80, '#f8d880', 0.25);
+
+// Wispy clouds
+function drawCloud(x, y, w, h, alpha) {
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  for (let i = 0; i < 5; i++) {
+    const cx = x + (i - 2) * w * 0.2 + Math.random() * w * 0.1;
+    const cy = y + Math.random() * h * 0.3;
+    const r = w * 0.15 + Math.random() * w * 0.1;
+    const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+    g.addColorStop(0, 'rgba(230, 180, 120, 0.3)');
+    g.addColorStop(1, 'rgba(200, 140, 80, 0)');
+    ctx.fillStyle = g;
+    ctx.fillRect(cx - r, cy - r, r * 2, r * 2);
+  }
+  ctx.restore();
+}
+
+drawCloud(200, 120, 200, 40, 0.4);
+drawCloud(600, 80, 300, 50, 0.3);
+drawCloud(1000, 150, 250, 35, 0.35);
+drawCloud(400, 200, 180, 30, 0.25);
+drawCloud(1300, 100, 220, 45, 0.3);
+
+// ============================
+// MOUNTAINS: Distant, mystical
+// ============================
+
+// Far mountains (purple/dark)
+ctx.beginPath();
+ctx.moveTo(0, 420);
+ctx.quadraticCurveTo(100, 320, 200, 380);
+ctx.quadraticCurveTo(300, 280, 400, 350);
+ctx.quadraticCurveTo(500, 250, 650, 320);
+ctx.quadraticCurveTo(750, 260, 850, 310);
+ctx.quadraticCurveTo(950, 240, 1100, 330);
+ctx.quadraticCurveTo(1200, 280, 1350, 340);
+ctx.quadraticCurveTo(1450, 290, 1600, 360);
+ctx.lineTo(1600, 500);
+ctx.lineTo(0, 500);
+ctx.closePath();
+
+const mtGrad = ctx.createLinearGradient(0, 240, 0, 500);
+mtGrad.addColorStop(0, '#2a1830');
+mtGrad.addColorStop(0.5, '#3a2038');
+mtGrad.addColorStop(1, '#4a2830');
+ctx.fillStyle = mtGrad;
+ctx.fill();
+
+// Near mountains
+ctx.beginPath();
+ctx.moveTo(0, 460);
+ctx.quadraticCurveTo(150, 380, 300, 420);
+ctx.quadraticCurveTo(450, 360, 600, 400);
+ctx.quadraticCurveTo(700, 370, 800, 390);
+ctx.quadraticCurveTo(950, 350, 1100, 410);
+ctx.quadraticCurveTo(1250, 370, 1400, 400);
+ctx.quadraticCurveTo(1500, 380, 1600, 420);
+ctx.lineTo(1600, 500);
+ctx.lineTo(0, 500);
+ctx.closePath();
+
+const mt2Grad = ctx.createLinearGradient(0, 350, 0, 500);
+mt2Grad.addColorStop(0, '#3a2820');
+mt2Grad.addColorStop(1, '#4a3028');
+ctx.fillStyle = mt2Grad;
+ctx.fill();
+
+// ============================
+// TREELINE: Pine silhouettes
+// ============================
+function drawTree(x, y, h, w) {
+  ctx.beginPath();
+  ctx.moveTo(x, y);
+  for (let i = 0; i < 5; i++) {
+    const ty = y - h * (i + 1) / 5;
+    const tw = w * (1 - i / 6);
+    ctx.lineTo(x - tw, ty + h * 0.05);
+    ctx.lineTo(x, ty);
+    ctx.lineTo(x + tw, ty + h * 0.05);
+  }
+  ctx.lineTo(x, y - h);
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(20, 28, 18, 0.85)';
+  ctx.fill();
+}
+
+for (let i = 0; i < 60; i++) {
+  const x = i * 28 + Math.random() * 15;
+  const h = 40 + Math.random() * 60;
+  drawTree(x, 480, h, 8 + Math.random() * 6);
+}
+
+// ============================
+// GROUND: Desert/meadow valley
+// ============================
+const groundGrad = ctx.createLinearGradient(0, 470, 0, H);
+groundGrad.addColorStop(0, '#3a4028');
+groundGrad.addColorStop(0.1, '#2a3020');
+groundGrad.addColorStop(0.3, '#252818');
+groundGrad.addColorStop(1, '#1a1c10');
+ctx.fillStyle = groundGrad;
+ctx.fillRect(0, 470, W, H - 470);
+
+// Grass texture
+for (let i = 0; i < 600; i++) {
+  const x = Math.random() * W;
+  const y = 490 + Math.random() * (H - 530);
+  const h = 4 + Math.random() * 10;
+  ctx.beginPath();
+  ctx.moveTo(x, y);
+  ctx.quadraticCurveTo(x + Math.random() * 4 - 2, y - h * 0.6, x + Math.random() * 3 - 1.5, y - h);
+  ctx.strokeStyle = hsl(80 + Math.random() * 30, 30, 20 + Math.random() * 10, 0.3);
+  ctx.lineWidth = 1;
+  ctx.stroke();
+}
+
+// ============================
+// PATH: Winding dirt path leading to the sanctuary
+// ============================
+ctx.beginPath();
+ctx.moveTo(750, H);
+ctx.quadraticCurveTo(720, H - 80, 700, H - 150);
+ctx.quadraticCurveTo(680, H - 220, 660, H - 280);
+ctx.quadraticCurveTo(640, H - 340, 630, H - 380);
+ctx.quadraticCurveTo(620, H - 400, 610, H - 410);
+// Path narrows with perspective
+ctx.lineTo(620, H - 410);
+ctx.quadraticCurveTo(630, H - 400, 650, H - 380);
+ctx.quadraticCurveTo(700, H - 340, 720, H - 280);
+ctx.quadraticCurveTo(740, H - 220, 760, H - 150);
+ctx.quadraticCurveTo(780, H - 80, 810, H);
+ctx.closePath();
+ctx.fillStyle = '#2a2218';
+ctx.fill();
+
+// Path dust/gravel
+for (let i = 0; i < 200; i++) {
+  const t = Math.random();
+  const px = 680 + t * 70 + Math.random() * 40 - 20;
+  const py = H - t * 400 + Math.random() * 20;
+  ctx.beginPath();
+  ctx.arc(px, py, Math.random() * 2, 0, Math.PI * 2);
+  ctx.fillStyle = hsl(30, 20, 25 + Math.random() * 15, 0.3);
+  ctx.fill();
+}
+
+// ============================
+// THE SANCTUARY BUILDINGS
+// ============================
+
+// Main building: The Welcome Pavilion (center, largest)
+function drawBuilding(x, y, w, h, roofH) {
+  // Main structure
+  ctx.beginPath();
+  ctx.rect(x - w/2, y - h, w, h);
+  const wallGrad = ctx.createLinearGradient(x - w/2, y - h, x + w/2, y);
+  wallGrad.addColorStop(0, '#4a3a28');
+  wallGrad.addColorStop(1, '#3a2a1a');
+  ctx.fillStyle = wallGrad;
+  ctx.fill();
+  ctx.strokeStyle = '#2a1a10';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Roof
+  ctx.beginPath();
+  ctx.moveTo(x - w/2 - 15, y - h);
+  ctx.lineTo(x, y - h - roofH);
+  ctx.lineTo(x + w/2 + 15, y - h);
+  ctx.closePath();
+  const roofGrad = ctx.createLinearGradient(x, y - h - roofH, x, y - h);
+  roofGrad.addColorStop(0, '#5a3020');
+  roofGrad.addColorStop(1, '#4a2818');
+  ctx.fillStyle = roofGrad;
+  ctx.fill();
+  ctx.strokeStyle = '#2a1a10';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Window glow
+  const ww = w * 0.15;
+  const wh = h * 0.25;
+  for (let i = 0; i < 3; i++) {
+    const wx = x - w * 0.3 + i * w * 0.3;
+    const wy = y - h * 0.65;
+    ctx.beginPath();
+    ctx.rect(wx - ww/2, wy, ww, wh);
+    ctx.fillStyle = '#d4a34a';
+    ctx.globalAlpha = 0.4;
+    ctx.fill();
+    ctx.globalAlpha = 1;
+    ctx.strokeStyle = '#3a2818';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    // Window glow
+    softCircle(wx, wy + wh/2, ww * 2, '#d4a34a', 0.1);
+  }
+
+  // Door
+  ctx.beginPath();
+  const dw = w * 0.18;
+  ctx.moveTo(x - dw, y);
+  ctx.lineTo(x - dw, y - h * 0.45);
+  ctx.quadraticCurveTo(x, y - h * 0.55, x + dw, y - h * 0.45);
+  ctx.lineTo(x + dw, y);
+  ctx.fillStyle = '#d4a34a';
+  ctx.globalAlpha = 0.5;
+  ctx.fill();
+  ctx.globalAlpha = 1;
+  ctx.strokeStyle = '#3a2818';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+}
+
+// Buildings arranged in a compound
+drawBuilding(620, 540, 160, 80, 40);  // Main pavilion
+drawBuilding(440, 555, 100, 55, 28);  // Left cabin
+drawBuilding(800, 555, 100, 55, 28);  // Right cabin
+drawBuilding(320, 565, 70, 40, 22);   // Small cabin
+drawBuilding(920, 565, 70, 40, 22);   // Small cabin
+
+// Meditation yurt (circular)
+ctx.beginPath();
+ctx.ellipse(200, 568, 40, 20, 0, 0, Math.PI * 2);
+ctx.fillStyle = '#c8bca0';
+ctx.globalAlpha = 0.5;
+ctx.fill();
+ctx.globalAlpha = 1;
+ctx.strokeStyle = '#5a4a30';
+ctx.lineWidth = 2;
+ctx.stroke();
+// Yurt top
+ctx.beginPath();
+ctx.moveTo(160, 548);
+ctx.quadraticCurveTo(200, 520, 240, 548);
+ctx.fillStyle = '#4a3a28';
+ctx.fill();
+ctx.strokeStyle = '#2a1a10';
+ctx.lineWidth = 2;
+ctx.stroke();
+
+// ============================
+// PRAYER FLAGS: String between buildings
+// ============================
+function drawPrayerFlags(x1, y1, x2, y2, sag, count) {
+  // String
+  ctx.beginPath();
+  const midX = (x1 + x2) / 2;
+  const midY = (y1 + y2) / 2 + sag;
+  ctx.moveTo(x1, y1);
+  ctx.quadraticCurveTo(midX, midY, x2, y2);
+  ctx.strokeStyle = 'rgba(100, 90, 70, 0.4)';
+  ctx.lineWidth = 1;
+  ctx.stroke();
+
+  // Flags
+  const colors = ['#d46a8a', '#6a9ad4', '#d4a34a', '#8ad46a', '#8a6ad4'];
+  for (let i = 0; i < count; i++) {
+    const t = (i + 0.5) / count;
+    const fx = x1 + (x2 - x1) * t;
+    const fy = y1 + (y2 - y1) * t + Math.sin(t * Math.PI) * sag;
+    const flagW = 12;
+    const flagH = 16;
+
+    ctx.beginPath();
+    ctx.moveTo(fx - flagW/2, fy);
+    ctx.lineTo(fx + flagW/2, fy);
+    ctx.lineTo(fx + flagW/2 + 2, fy + flagH);
+    ctx.lineTo(fx - flagW/2 + 2, fy + flagH);
+    ctx.closePath();
+    ctx.fillStyle = colors[i % colors.length];
+    ctx.globalAlpha = 0.35;
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+}
+
+drawPrayerFlags(380, 490, 510, 495, 15, 8);
+drawPrayerFlags(490, 458, 750, 458, 18, 14);
+drawPrayerFlags(730, 496, 870, 500, 12, 8);
+drawPrayerFlags(150, 530, 350, 520, 20, 12);
+drawPrayerFlags(880, 530, 1050, 540, 15, 10);
+
+// ============================
+// WOODEN SIGN: "The Sanctuary — Welcome Home"
+// ============================
+// Post
+ctx.fillStyle = '#3a2818';
+ctx.fillRect(1150, 560, 8, 80);
+ctx.fillRect(1210, 560, 8, 80);
+ctx.strokeStyle = '#2a1810';
+ctx.lineWidth = 1.5;
+ctx.strokeRect(1150, 560, 8, 80);
+ctx.strokeRect(1210, 560, 8, 80);
+
+// Sign board
+ctx.beginPath();
+ctx.roundRect(1138, 555, 92, 40, 4);
+ctx.fillStyle = '#4a3820';
+ctx.fill();
+ctx.strokeStyle = '#2a1810';
+ctx.lineWidth = 2;
+ctx.stroke();
+
+ctx.font = 'italic 11px Georgia, serif';
+ctx.fillStyle = '#d4a34a';
+ctx.textAlign = 'center';
+ctx.fillText('THE SANCTUARY', 1184, 574);
+ctx.font = '9px Georgia, serif';
+ctx.fillStyle = '#877a5a';
+ctx.fillText('Welcome Home', 1184, 588);
+
+// ============================
+// BONFIRE / FIRE CIRCLE (foreground left)
+// ============================
+const fireX = 200, fireY = 720;
+// Fire pit stones
+for (let i = 0; i < 12; i++) {
+  const angle = i * Math.PI * 2 / 12;
+  const sr = 25;
+  ctx.beginPath();
+  ctx.arc(fireX + Math.cos(angle) * sr, fireY + Math.sin(angle) * sr * 0.5, 6, 0, Math.PI * 2);
+  ctx.fillStyle = '#3a3830';
+  ctx.fill();
+  ctx.strokeStyle = '#2a2820';
+  ctx.lineWidth = 1;
+  ctx.stroke();
+}
+// Fire glow
+softCircle(fireX, fireY - 20, 80, '#d4a34a', 0.2);
+softCircle(fireX, fireY - 20, 40, '#e8a840', 0.15);
+// Flames
+for (let i = 0; i < 8; i++) {
+  const fx = fireX - 15 + Math.random() * 30;
+  const fh = 20 + Math.random() * 35;
+  ctx.beginPath();
+  ctx.moveTo(fx - 4, fireY);
+  ctx.quadraticCurveTo(fx - 6, fireY - fh * 0.6, fx + Math.random() * 6 - 3, fireY - fh);
+  ctx.quadraticCurveTo(fx + 6, fireY - fh * 0.6, fx + 4, fireY);
+  ctx.closePath();
+  const flameGrad = ctx.createLinearGradient(fx, fireY, fx, fireY - fh);
+  flameGrad.addColorStop(0, hsl(35, 90, 60, 0.6));
+  flameGrad.addColorStop(0.4, hsl(25, 90, 55, 0.5));
+  flameGrad.addColorStop(1, hsl(15, 80, 50, 0));
+  ctx.fillStyle = flameGrad;
+  ctx.fill();
+}
+// Embers floating up
+for (let i = 0; i < 15; i++) {
+  const ex = fireX - 30 + Math.random() * 60;
+  const ey = fireY - 40 - Math.random() * 120;
+  ctx.beginPath();
+  ctx.arc(ex, ey, Math.random() * 2, 0, Math.PI * 2);
+  ctx.fillStyle = hsl(30, 90, 60, 0.2 + Math.random() * 0.3);
+  ctx.fill();
+}
+
+// ============================
+// SILHOUETTE FIGURES around fire
+// ============================
+function drawSittingFigure(x, y, size, facing) {
+  const f = facing;
+  ctx.beginPath();
+  // Head
+  ctx.arc(x + f * 2, y - size * 0.85, size * 0.12, 0, Math.PI * 2);
+  ctx.fill();
+  // Body sitting
+  ctx.beginPath();
+  ctx.moveTo(x + f * 2, y - size * 0.73);
+  ctx.quadraticCurveTo(x + f * 5, y - size * 0.4, x, y - size * 0.15);
+  // Crossed legs
+  ctx.quadraticCurveTo(x - size * 0.2, y, x - size * 0.25, y);
+  ctx.quadraticCurveTo(x + size * 0.15, y, x + size * 0.2, y - size * 0.05);
+  ctx.fillStyle = 'rgba(15, 12, 8, 0.85)';
+  ctx.fill();
+}
+
+drawSittingFigure(130, 730, 50, 1);
+drawSittingFigure(160, 735, 45, 1);
+drawSittingFigure(240, 732, 48, -1);
+drawSittingFigure(270, 735, 44, -1);
+
+// ============================
+// STEVE: Small figure on path, approaching
+// ============================
+const stX = 730, stY = 670;
+const stScale = 0.6;
+
+// Steve silhouette with just enough detail
+ctx.save();
+ctx.translate(stX, stY);
+ctx.scale(stScale, stScale);
+
+// Shadow
+ctx.beginPath();
+ctx.ellipse(0, 60, 20, 5, 0, 0, Math.PI * 2);
+ctx.fillStyle = 'rgba(0,0,0,0.2)';
+ctx.fill();
+
+// Legs
+ctx.fillStyle = '#5a5040';
+ctx.fillRect(-10, 20, 8, 38);
+ctx.fillRect(2, 20, 8, 38);
+// Shoes
+ctx.fillStyle = '#3a2a1a';
+ctx.fillRect(-12, 56, 12, 6);
+ctx.fillRect(0, 56, 12, 6);
+
+// Torso (polo)
+ctx.beginPath();
+ctx.moveTo(-16, -20);
+ctx.lineTo(-14, 22);
+ctx.lineTo(14, 22);
+ctx.lineTo(16, -20);
+ctx.closePath();
+ctx.fillStyle = '#4a6a4a';
+ctx.fill();
+ctx.strokeStyle = '#2a3a2a';
+ctx.lineWidth = 2;
+ctx.stroke();
+
+// Head
+ctx.beginPath();
+ctx.ellipse(0, -34, 12, 14, 0, 0, Math.PI * 2);
+ctx.fillStyle = '#d4b492';
+ctx.fill();
+ctx.strokeStyle = '#1a1510';
+ctx.lineWidth = 2;
+ctx.stroke();
+
+// Hair
+ctx.beginPath();
+ctx.ellipse(0, -42, 12, 8, 0, Math.PI, Math.PI * 2);
+ctx.fillStyle = '#5a4830';
+ctx.fill();
+
+// Glasses glint
+ctx.beginPath();
+ctx.rect(-9, -36, 7, 5);
+ctx.rect(2, -36, 7, 5);
+ctx.strokeStyle = '#8a8a8a';
+ctx.lineWidth = 1;
+ctx.stroke();
+
+// Briefcase
+ctx.beginPath();
+ctx.roundRect(18, 5, 18, 14, 2);
+ctx.fillStyle = '#5a4020';
+ctx.fill();
+ctx.strokeStyle = '#3a2810';
+ctx.lineWidth = 1.5;
+ctx.stroke();
+// Handle
+ctx.beginPath();
+ctx.moveTo(22, 5);
+ctx.quadraticCurveTo(27, -2, 32, 5);
+ctx.strokeStyle = '#3a2810';
+ctx.lineWidth = 2;
+ctx.stroke();
+
+// Arm to briefcase
+ctx.beginPath();
+ctx.moveTo(14, -12);
+ctx.lineTo(22, 10);
+ctx.strokeStyle = '#c8a882';
+ctx.lineWidth = 4;
+ctx.lineCap = 'round';
+ctx.stroke();
+
+ctx.restore();
+
+// Steve's long shadow from sunset
+ctx.save();
+ctx.translate(stX, stY + 35);
+ctx.scale(2.5, 0.15);
+ctx.beginPath();
+ctx.ellipse(0, 0, 40, 80, 0, 0, Math.PI * 2);
+ctx.fillStyle = 'rgba(0,0,0,0.15)';
+ctx.fill();
+ctx.restore();
+
+// ============================
+// ATMOSPHERIC EFFECTS
+// ============================
+
+// Golden hour haze
+ctx.save();
+ctx.globalCompositeOperation = 'screen';
+const hazeGrad = ctx.createLinearGradient(0, 400, 0, 700);
+hazeGrad.addColorStop(0, 'rgba(200, 140, 60, 0.06)');
+hazeGrad.addColorStop(0.5, 'rgba(200, 140, 60, 0.03)');
+hazeGrad.addColorStop(1, 'rgba(200, 140, 60, 0)');
+ctx.fillStyle = hazeGrad;
+ctx.fillRect(0, 400, W, 300);
+ctx.restore();
+
+// Fireflies / dust motes in golden light
+for (let i = 0; i < 40; i++) {
+  const x = Math.random() * W;
+  const y = 450 + Math.random() * 350;
+  const size = Math.random() * 2.5 + 0.5;
+  ctx.beginPath();
+  ctx.arc(x, y, size, 0, Math.PI * 2);
+  ctx.fillStyle = hsl(40, 70, 70, Math.random() * 0.3 + 0.05);
+  ctx.fill();
+}
+
+// Vignette
+const vignette = ctx.createRadialGradient(W/2, H/2, 200, W/2, H/2, 900);
+vignette.addColorStop(0, 'rgba(0,0,0,0)');
+vignette.addColorStop(0.7, 'rgba(0,0,0,0)');
+vignette.addColorStop(1, 'rgba(0,0,0,0.5)');
+ctx.fillStyle = vignette;
+ctx.fillRect(0, 0, W, H);
+
+// ============================
+// FOREGROUND: Wild grass silhouettes
+// ============================
+for (let i = 0; i < 80; i++) {
+  const x = Math.random() * W;
+  const h = 20 + Math.random() * 50;
+  ctx.beginPath();
+  ctx.moveTo(x, H);
+  ctx.quadraticCurveTo(x + Math.random() * 20 - 10, H - h * 0.6, x + Math.random() * 15 - 7, H - h);
+  ctx.strokeStyle = hsl(80, 20, 12 + Math.random() * 8, 0.5 + Math.random() * 0.3);
+  ctx.lineWidth = 1.5 + Math.random() * 2;
+  ctx.stroke();
+}
+
+// ============================
+// TEXT
+// ============================
+ctx.save();
+ctx.font = 'bold 36px Georgia, serif';
+ctx.fillStyle = '#d4a34a';
+ctx.textAlign = 'center';
+ctx.letterSpacing = '6px';
+ctx.fillText('T H E   S A N C T U A R Y', W/2, H - 60);
+
+ctx.font = 'italic 16px Georgia, serif';
+ctx.fillStyle = '#877a5a';
+ctx.fillText('Zone 1 — "Where the healing begins. Whether you want it to or not."', W/2, H - 30);
+ctx.restore();
+
+</script>
+</body>
+</html>

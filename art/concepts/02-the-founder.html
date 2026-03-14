@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Founder — Zone 1 Boss Portrait</title>
+<style>
+  body { margin: 0; background: #0a0805; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+  canvas { display: block; }
+</style>
+</head>
+<body>
+<canvas id="c" width="1200" height="1600"></canvas>
+<script>
+const c = document.getElementById('c');
+const ctx = c.getContext('2d');
+const W = 1200, H = 1600;
+
+function hexToRgb(hex) {
+  hex = hex.replace('#','');
+  return [parseInt(hex.substr(0,2),16), parseInt(hex.substr(2,2),16), parseInt(hex.substr(4,2),16)];
+}
+function rgba(r,g,b,a) { return `rgba(${r},${g},${b},${a})`; }
+function hsl(h,s,l,a=1) { return `hsla(${h},${s}%,${l}%,${a})`; }
+function softCircle(x,y,r,color,alpha=1) {
+  const g = ctx.createRadialGradient(x,y,0,x,y,r);
+  g.addColorStop(0, rgba(...hexToRgb(color), alpha));
+  g.addColorStop(1, rgba(...hexToRgb(color), 0));
+  ctx.fillStyle = g;
+  ctx.fillRect(x-r, y-r, r*2, r*2);
+}
+
+// ============================
+// BACKGROUND: Golden divine light, propaganda poster energy
+// ============================
+ctx.fillStyle = '#0a0806';
+ctx.fillRect(0, 0, W, H);
+
+// Divine rays emanating from behind his head
+const rayCenter = { x: 600, y: 420 };
+for (let i = 0; i < 60; i++) {
+  const angle = (i / 60) * Math.PI * 2;
+  const width = 0.04 + Math.random() * 0.03;
+  const length = 800 + Math.random() * 600;
+
+  ctx.beginPath();
+  ctx.moveTo(rayCenter.x, rayCenter.y);
+  ctx.lineTo(
+    rayCenter.x + Math.cos(angle - width) * length,
+    rayCenter.y + Math.sin(angle - width) * length
+  );
+  ctx.lineTo(
+    rayCenter.x + Math.cos(angle + width) * length,
+    rayCenter.y + Math.sin(angle + width) * length
+  );
+  ctx.closePath();
+
+  const rayGrad = ctx.createRadialGradient(rayCenter.x, rayCenter.y, 50, rayCenter.x, rayCenter.y, length);
+  rayGrad.addColorStop(0, hsl(38, 80, 55, 0.08));
+  rayGrad.addColorStop(0.3, hsl(38, 70, 45, 0.04));
+  rayGrad.addColorStop(1, hsl(38, 60, 30, 0));
+  ctx.fillStyle = rayGrad;
+  ctx.fill();
+}
+
+// Central divine glow
+softCircle(600, 420, 400, '#d4a34a', 0.12);
+softCircle(600, 420, 250, '#e8c060', 0.08);
+softCircle(600, 400, 150, '#f0d880', 0.06);
+
+// Incense smoke wisps
+for (let s = 0; s < 8; s++) {
+  ctx.beginPath();
+  const sx = 200 + s * 100 + Math.random() * 50;
+  let sy = H;
+  for (let j = 0; j < 40; j++) {
+    sy -= 40;
+    const drift = Math.sin(j * 0.3 + s) * 40 + Math.sin(j * 0.7 + s * 2) * 20;
+    if (j === 0) ctx.moveTo(sx + drift, sy);
+    else ctx.lineTo(sx + drift, sy);
+  }
+  ctx.strokeStyle = hsl(35, 30, 60, 0.03);
+  ctx.lineWidth = 20 + s * 5;
+  ctx.lineCap = 'round';
+  ctx.stroke();
+}
+
+// ============================
+// FOLLOWER SILHOUETTES at bottom
+// ============================
+function drawFollowerSilhouette(x, y, height, armRaise) {
+  ctx.beginPath();
+  // Head
+  ctx.arc(x, y - height, height * 0.12, 0, Math.PI * 2);
+  // Body
+  ctx.moveTo(x, y - height + height * 0.12);
+  ctx.lineTo(x, y - height * 0.3);
+  // Arms raised in worship
+  ctx.moveTo(x, y - height * 0.7);
+  ctx.lineTo(x - height * 0.25, y - height * (0.7 + armRaise * 0.4));
+  ctx.moveTo(x, y - height * 0.7);
+  ctx.lineTo(x + height * 0.25, y - height * (0.7 + armRaise * 0.4));
+  // Legs
+  ctx.moveTo(x, y - height * 0.3);
+  ctx.lineTo(x - height * 0.12, y);
+  ctx.moveTo(x, y - height * 0.3);
+  ctx.lineTo(x + height * 0.12, y);
+
+  ctx.strokeStyle = rgba(20, 15, 10, 0.8);
+  ctx.lineWidth = height * 0.08;
+  ctx.lineCap = 'round';
+  ctx.stroke();
+}
+
+const followerY = H - 80;
+const followers = [
+  { x: 80, h: 120, a: 0.8 },
+  { x: 180, h: 140, a: 0.9 },
+  { x: 300, h: 155, a: 1.0 },
+  { x: 420, h: 165, a: 0.7 },
+  { x: 520, h: 170, a: 0.95 },
+  { x: 600, h: 160, a: 0.85 },
+  { x: 700, h: 170, a: 1.0 },
+  { x: 790, h: 165, a: 0.75 },
+  { x: 900, h: 155, a: 0.9 },
+  { x: 1020, h: 140, a: 0.85 },
+  { x: 1120, h: 120, a: 0.8 },
+];
+followers.forEach(f => drawFollowerSilhouette(f.x, followerY, f.h, f.a));
+
+// Fog over followers
+const fogGrad = ctx.createLinearGradient(0, H - 300, 0, H);
+fogGrad.addColorStop(0, 'rgba(10, 8, 5, 0)');
+fogGrad.addColorStop(0.3, 'rgba(10, 8, 5, 0.3)');
+fogGrad.addColorStop(1, 'rgba(10, 8, 5, 0.7)');
+ctx.fillStyle = fogGrad;
+ctx.fillRect(0, H - 300, W, 300);
+
+// ============================
+// THE FOUNDER
+// ============================
+const fx = 600, fy = 450; // head center
+
+function setOutline(w, color='#1a1208') {
+  ctx.strokeStyle = color;
+  ctx.lineWidth = w;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+}
+
+// ---- LINEN TUNIC (flowing, expensive-looking "simple") ----
+ctx.beginPath();
+ctx.moveTo(fx - 140, fy + 130);
+// Wide flowing tunic
+ctx.quadraticCurveTo(fx - 160, fy + 300, fx - 170, fy + 500);
+ctx.quadraticCurveTo(fx - 140, fy + 550, fx, fy + 560);
+ctx.quadraticCurveTo(fx + 140, fy + 550, fx + 170, fy + 500);
+ctx.quadraticCurveTo(fx + 160, fy + 300, fx + 140, fy + 130);
+ctx.closePath();
+
+// Linen gradient
+const tunicGrad = ctx.createLinearGradient(fx - 170, fy + 130, fx + 170, fy + 560);
+tunicGrad.addColorStop(0, '#c8bca0');
+tunicGrad.addColorStop(0.3, '#b8a888');
+tunicGrad.addColorStop(0.7, '#a89878');
+tunicGrad.addColorStop(1, '#988868');
+ctx.fillStyle = tunicGrad;
+ctx.fill();
+setOutline(4);
+ctx.stroke();
+
+// Tunic folds
+const foldPaths = [
+  [[fx-60, fy+160], [fx-70, fy+320], [fx-65, fy+480]],
+  [[fx-20, fy+170], [fx-30, fy+340], [fx-25, fy+520]],
+  [[fx+25, fy+165], [fx+20, fy+330], [fx+30, fy+510]],
+  [[fx+65, fy+155], [fx+70, fy+310], [fx+60, fy+490]],
+];
+foldPaths.forEach(path => {
+  ctx.beginPath();
+  ctx.moveTo(path[0][0], path[0][1]);
+  ctx.quadraticCurveTo(path[1][0], path[1][1], path[2][0], path[2][1]);
+  ctx.strokeStyle = 'rgba(120, 100, 70, 0.3)';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+});
+
+// V-neck opening
+ctx.beginPath();
+ctx.moveTo(fx - 45, fy + 120);
+ctx.lineTo(fx, fy + 200);
+ctx.lineTo(fx + 45, fy + 120);
+ctx.strokeStyle = 'rgba(100, 80, 50, 0.4)';
+ctx.lineWidth = 2;
+ctx.stroke();
+
+// Chest visible in V-neck
+ctx.beginPath();
+ctx.moveTo(fx - 40, fy + 125);
+ctx.quadraticCurveTo(fx, fy + 190, fx + 40, fy + 125);
+ctx.fillStyle = '#c8a882';
+ctx.fill();
+
+// ---- ARMS: Wide open, welcoming, messiah pose ----
+// Left arm
+ctx.beginPath();
+ctx.moveTo(fx - 140, fy + 130);
+ctx.quadraticCurveTo(fx - 220, fy + 80, fx - 320, fy + 30);
+ctx.quadraticCurveTo(fx - 380, fy, fx - 420, fy - 20);
+ctx.strokeStyle = '#b8a888';
+ctx.lineWidth = 55;
+ctx.lineCap = 'round';
+ctx.stroke();
+// Sleeve drape
+ctx.beginPath();
+ctx.moveTo(fx - 180, fy + 100);
+ctx.quadraticCurveTo(fx - 200, fy + 160, fx - 190, fy + 200);
+ctx.quadraticCurveTo(fx - 240, fy + 140, fx - 260, fy + 100);
+ctx.fillStyle = '#c8bca0';
+ctx.fill();
+ctx.strokeStyle = 'rgba(120, 100, 70, 0.4)';
+ctx.lineWidth = 2;
+ctx.stroke();
+// Forearm + hand
+ctx.beginPath();
+ctx.moveTo(fx - 340, fy + 20);
+ctx.quadraticCurveTo(fx - 390, fy - 10, fx - 430, fy - 30);
+ctx.strokeStyle = '#c8a882';
+ctx.lineWidth = 28;
+ctx.lineCap = 'round';
+ctx.stroke();
+setOutline(3);
+ctx.beginPath();
+ctx.moveTo(fx - 310, fy + 30);
+ctx.quadraticCurveTo(fx - 370, fy, fx - 430, fy - 30);
+ctx.stroke();
+// Left hand: open, palm up
+ctx.beginPath();
+ctx.ellipse(fx - 440, fy - 35, 22, 18, -0.3, 0, Math.PI * 2);
+ctx.fillStyle = '#c8a882';
+ctx.fill();
+setOutline(3);
+ctx.stroke();
+// Fingers spread
+for (let i = 0; i < 5; i++) {
+  const angle = -0.8 + i * 0.35;
+  ctx.beginPath();
+  ctx.moveTo(fx - 440 + Math.cos(angle) * 18, fy - 35 + Math.sin(angle) * 14);
+  ctx.lineTo(fx - 440 + Math.cos(angle) * 32, fy - 35 + Math.sin(angle) * 22);
+  ctx.strokeStyle = '#c8a882';
+  ctx.lineWidth = 6;
+  ctx.lineCap = 'round';
+  ctx.stroke();
+  setOutline(2);
+  ctx.stroke();
+}
+
+// Right arm (mirror)
+ctx.beginPath();
+ctx.moveTo(fx + 140, fy + 130);
+ctx.quadraticCurveTo(fx + 220, fy + 80, fx + 320, fy + 30);
+ctx.quadraticCurveTo(fx + 380, fy, fx + 420, fy - 20);
+ctx.strokeStyle = '#b8a888';
+ctx.lineWidth = 55;
+ctx.lineCap = 'round';
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(fx + 180, fy + 100);
+ctx.quadraticCurveTo(fx + 200, fy + 160, fx + 190, fy + 200);
+ctx.quadraticCurveTo(fx + 240, fy + 140, fx + 260, fy + 100);
+ctx.fillStyle = '#c8bca0';
+ctx.fill();
+ctx.strokeStyle = 'rgba(120, 100, 70, 0.4)';
+ctx.lineWidth = 2;
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(fx + 340, fy + 20);
+ctx.quadraticCurveTo(fx + 390, fy - 10, fx + 430, fy - 30);
+ctx.strokeStyle = '#c8a882';
+ctx.lineWidth = 28;
+ctx.lineCap = 'round';
+ctx.stroke();
+setOutline(3);
+ctx.beginPath();
+ctx.moveTo(fx + 310, fy + 30);
+ctx.quadraticCurveTo(fx + 370, fy, fx + 430, fy - 30);
+ctx.stroke();
+ctx.beginPath();
+ctx.ellipse(fx + 440, fy - 35, 22, 18, 0.3, 0, Math.PI * 2);
+ctx.fillStyle = '#c8a882';
+ctx.fill();
+setOutline(3);
+ctx.stroke();
+for (let i = 0; i < 5; i++) {
+  const angle = Math.PI - (-0.8 + i * 0.35);
+  ctx.beginPath();
+  ctx.moveTo(fx + 440 + Math.cos(angle) * 18, fy - 35 + Math.sin(angle) * 14);
+  ctx.lineTo(fx + 440 + Math.cos(angle) * 32, fy - 35 + Math.sin(angle) * 22);
+  ctx.strokeStyle = '#c8a882';
+  ctx.lineWidth = 6;
+  ctx.lineCap = 'round';
+  ctx.stroke();
+  setOutline(2);
+  ctx.stroke();
+}
+
+// ---- MALA BEADS ----
+ctx.beginPath();
+ctx.moveTo(fx - 50, fy + 110);
+ctx.quadraticCurveTo(fx, fy + 140, fx + 50, fy + 110);
+ctx.strokeStyle = '#d4a34a';
+ctx.lineWidth = 4;
+ctx.stroke();
+
+for (let i = 0; i < 15; i++) {
+  const t = i / 14;
+  const bx = fx - 50 + t * 100;
+  const by = fy + 110 + Math.sin(t * Math.PI) * 30;
+  ctx.beginPath();
+  ctx.arc(bx, by, 5, 0, Math.PI * 2);
+  ctx.fillStyle = '#d4a34a';
+  ctx.globalAlpha = 0.7;
+  ctx.fill();
+  ctx.globalAlpha = 1;
+  ctx.strokeStyle = '#a07828';
+  ctx.lineWidth = 1;
+  ctx.stroke();
+}
+
+// Central pendant
+ctx.beginPath();
+ctx.arc(fx, fy + 145, 10, 0, Math.PI * 2);
+ctx.fillStyle = '#d4a34a';
+ctx.fill();
+ctx.strokeStyle = '#a07828';
+ctx.lineWidth = 2;
+ctx.stroke();
+// Om symbol simplified
+ctx.beginPath();
+ctx.arc(fx, fy + 145, 5, 0.5, Math.PI * 1.8);
+ctx.strokeStyle = '#80601a';
+ctx.lineWidth = 2;
+ctx.stroke();
+
+// ---- NECK ----
+ctx.beginPath();
+ctx.moveTo(fx - 25, fy + 80);
+ctx.lineTo(fx - 28, fy + 120);
+ctx.lineTo(fx + 28, fy + 120);
+ctx.lineTo(fx + 25, fy + 80);
+ctx.closePath();
+ctx.fillStyle = '#c8a882';
+ctx.fill();
+setOutline(3);
+ctx.stroke();
+
+// ---- HEAD ----
+ctx.beginPath();
+// Broader, more angular — powerful jaw
+ctx.moveTo(fx - 58, fy - 30);
+ctx.quadraticCurveTo(fx - 64, fy - 90, fx - 48, fy - 130);
+ctx.quadraticCurveTo(fx - 25, fy - 158, fx, fy - 160);
+ctx.quadraticCurveTo(fx + 25, fy - 158, fx + 48, fy - 130);
+ctx.quadraticCurveTo(fx + 64, fy - 90, fx + 58, fy - 30);
+ctx.quadraticCurveTo(fx + 55, fy + 10, fx + 42, fy + 40);
+ctx.quadraticCurveTo(fx + 25, fy + 70, fx, fy + 78);
+ctx.quadraticCurveTo(fx - 25, fy + 70, fx - 42, fy + 40);
+ctx.quadraticCurveTo(fx - 55, fy + 10, fx - 58, fy - 30);
+ctx.closePath();
+
+const skinGrad = ctx.createRadialGradient(fx, fy - 20, 20, fx, fy, 120);
+skinGrad.addColorStop(0, '#d8b898');
+skinGrad.addColorStop(1, '#c0986a');
+ctx.fillStyle = skinGrad;
+ctx.fill();
+setOutline(4);
+ctx.stroke();
+
+// ---- BEARD (neat, groomed, deliberately rugged) ----
+ctx.beginPath();
+ctx.moveTo(fx - 42, fy + 5);
+ctx.quadraticCurveTo(fx - 50, fy + 30, fx - 42, fy + 50);
+ctx.quadraticCurveTo(fx - 30, fy + 70, fx, fy + 82);
+ctx.quadraticCurveTo(fx + 30, fy + 70, fx + 42, fy + 50);
+ctx.quadraticCurveTo(fx + 50, fy + 30, fx + 42, fy + 5);
+ctx.fillStyle = '#3a2818';
+ctx.fill();
+setOutline(2, '#2a1810');
+ctx.stroke();
+
+// Beard texture
+for (let i = 0; i < 80; i++) {
+  const angle = -0.6 + Math.random() * 1.2;
+  const startR = 20 + Math.random() * 25;
+  const len = 8 + Math.random() * 12;
+  const bx = fx + Math.cos(angle) * startR * 0.3;
+  const by = fy + 40 + Math.sin(angle + 1.2) * startR * 0.6;
+  ctx.beginPath();
+  ctx.moveTo(bx, by);
+  ctx.lineTo(bx + Math.cos(angle + 1.3) * len, by + Math.abs(Math.sin(angle + 1)) * len);
+  ctx.strokeStyle = rgba(50, 35, 20, 0.4);
+  ctx.lineWidth = 1;
+  ctx.stroke();
+}
+
+// ---- HAIR: Flowing, pulled back, man-bun ----
+ctx.beginPath();
+ctx.moveTo(fx - 52, fy - 35);
+ctx.quadraticCurveTo(fx - 60, fy - 90, fx - 46, fy - 130);
+ctx.quadraticCurveTo(fx - 25, fy - 155, fx, fy - 158);
+ctx.quadraticCurveTo(fx + 25, fy - 155, fx + 46, fy - 130);
+ctx.quadraticCurveTo(fx + 60, fy - 90, fx + 52, fy - 35);
+// hairline
+ctx.quadraticCurveTo(fx + 35, fy - 70, fx, fy - 78);
+ctx.quadraticCurveTo(fx - 35, fy - 70, fx - 52, fy - 35);
+ctx.closePath();
+
+const hairGrad = ctx.createLinearGradient(fx - 60, fy - 160, fx + 60, fy - 30);
+hairGrad.addColorStop(0, '#3a2818');
+hairGrad.addColorStop(0.5, '#4a3420');
+hairGrad.addColorStop(1, '#3a2818');
+ctx.fillStyle = hairGrad;
+ctx.fill();
+setOutline(3);
+ctx.stroke();
+
+// Hair strands
+for (let i = 0; i < 25; i++) {
+  const startAngle = -Math.PI * 0.8 + i * 0.1;
+  ctx.beginPath();
+  const sx = fx + Math.cos(startAngle) * 48;
+  const sy2 = fy - 60 + Math.sin(startAngle) * 30;
+  ctx.moveTo(sx, sy2);
+  ctx.quadraticCurveTo(
+    sx + Math.cos(startAngle) * 15,
+    sy2 + Math.sin(startAngle) * 15 - 15,
+    sx + Math.cos(startAngle) * 5,
+    sy2 - 25
+  );
+  ctx.strokeStyle = rgba(70, 50, 30, 0.4);
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+}
+
+// Man bun
+ctx.beginPath();
+ctx.ellipse(fx, fy - 168, 25, 20, 0, 0, Math.PI * 2);
+ctx.fillStyle = '#3a2818';
+ctx.fill();
+setOutline(3);
+ctx.stroke();
+// Bun wrap
+ctx.beginPath();
+ctx.ellipse(fx, fy - 168, 25, 20, 0, -0.3, 0.3);
+ctx.strokeStyle = '#c8bca0';
+ctx.lineWidth = 3;
+ctx.stroke();
+// Bun texture
+ctx.beginPath();
+ctx.arc(fx - 8, fy - 172, 8, 0, Math.PI * 2);
+ctx.arc(fx + 6, fy - 170, 7, 0, Math.PI * 2);
+ctx.arc(fx - 2, fy - 162, 6, 0, Math.PI * 2);
+ctx.strokeStyle = rgba(50, 35, 20, 0.3);
+ctx.lineWidth = 1;
+ctx.stroke();
+
+// ---- EARS ----
+ctx.beginPath();
+ctx.ellipse(fx - 60, fy - 15, 12, 20, -0.1, 0, Math.PI * 2);
+ctx.fillStyle = '#c8a882';
+ctx.fill();
+setOutline(3);
+ctx.stroke();
+ctx.beginPath();
+ctx.ellipse(fx + 60, fy - 15, 12, 20, 0.1, 0, Math.PI * 2);
+ctx.fillStyle = '#c8a882';
+ctx.fill();
+setOutline(3);
+ctx.stroke();
+
+// ---- EYES: warm, crinkled, but calculating underneath ----
+// Left eye
+ctx.beginPath();
+ctx.ellipse(fx - 22, fy - 20, 14, 10, 0, 0, Math.PI * 2);
+ctx.fillStyle = '#f0e8d8';
+ctx.fill();
+ctx.strokeStyle = '#2a1810';
+ctx.lineWidth = 2.5;
+ctx.stroke();
+// Iris - deep amber
+ctx.beginPath();
+ctx.arc(fx - 22, fy - 19, 7.5, 0, Math.PI * 2);
+const irisGrad = ctx.createRadialGradient(fx - 22, fy - 19, 1, fx - 22, fy - 19, 7.5);
+irisGrad.addColorStop(0, '#d4a34a');
+irisGrad.addColorStop(0.6, '#8a6a2a');
+irisGrad.addColorStop(1, '#5a4018');
+ctx.fillStyle = irisGrad;
+ctx.fill();
+ctx.strokeStyle = '#3a2810';
+ctx.lineWidth = 1.5;
+ctx.stroke();
+ctx.beginPath();
+ctx.arc(fx - 22, fy - 19, 3.5, 0, Math.PI * 2);
+ctx.fillStyle = '#1a1008';
+ctx.fill();
+ctx.beginPath();
+ctx.arc(fx - 19, fy - 22, 2, 0, Math.PI * 2);
+ctx.fillStyle = '#ffffffcc';
+ctx.fill();
+
+// Right eye
+ctx.beginPath();
+ctx.ellipse(fx + 22, fy - 20, 14, 10, 0, 0, Math.PI * 2);
+ctx.fillStyle = '#f0e8d8';
+ctx.fill();
+ctx.strokeStyle = '#2a1810';
+ctx.lineWidth = 2.5;
+ctx.stroke();
+ctx.beginPath();
+ctx.arc(fx + 22, fy - 19, 7.5, 0, Math.PI * 2);
+const irisGrad2 = ctx.createRadialGradient(fx + 22, fy - 19, 1, fx + 22, fy - 19, 7.5);
+irisGrad2.addColorStop(0, '#d4a34a');
+irisGrad2.addColorStop(0.6, '#8a6a2a');
+irisGrad2.addColorStop(1, '#5a4018');
+ctx.fillStyle = irisGrad2;
+ctx.fill();
+ctx.strokeStyle = '#3a2810';
+ctx.lineWidth = 1.5;
+ctx.stroke();
+ctx.beginPath();
+ctx.arc(fx + 22, fy - 19, 3.5, 0, Math.PI * 2);
+ctx.fillStyle = '#1a1008';
+ctx.fill();
+ctx.beginPath();
+ctx.arc(fx + 25, fy - 22, 2, 0, Math.PI * 2);
+ctx.fillStyle = '#ffffffcc';
+ctx.fill();
+
+// Crow's feet (he smiles a LOT)
+for (let i = 0; i < 3; i++) {
+  const angle = -0.3 + i * 0.25;
+  ctx.beginPath();
+  ctx.moveTo(fx - 38, fy - 18 + i * 3);
+  ctx.lineTo(fx - 44 - i * 2, fy - 20 + i * 4);
+  ctx.strokeStyle = rgba(140, 100, 60, 0.5);
+  ctx.lineWidth = 1;
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(fx + 38, fy - 18 + i * 3);
+  ctx.lineTo(fx + 44 + i * 2, fy - 20 + i * 4);
+  ctx.stroke();
+}
+
+// Upper eyelids — heavy, knowing
+ctx.beginPath();
+ctx.moveTo(fx - 38, fy - 22);
+ctx.quadraticCurveTo(fx - 22, fy - 30, fx - 8, fy - 22);
+ctx.strokeStyle = '#2a1810';
+ctx.lineWidth = 3;
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(fx + 8, fy - 22);
+ctx.quadraticCurveTo(fx + 22, fy - 30, fx + 38, fy - 22);
+ctx.stroke();
+
+// Eyebrows: strong, expressive, slightly arched
+ctx.beginPath();
+ctx.moveTo(fx - 42, fy - 42);
+ctx.quadraticCurveTo(fx - 22, fy - 52, fx - 6, fy - 38);
+ctx.strokeStyle = '#3a2818';
+ctx.lineWidth = 6;
+ctx.lineCap = 'round';
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(fx + 6, fy - 38);
+ctx.quadraticCurveTo(fx + 22, fy - 52, fx + 42, fy - 42);
+ctx.stroke();
+
+// ---- NOSE ----
+ctx.beginPath();
+ctx.moveTo(fx - 2, fy - 15);
+ctx.quadraticCurveTo(fx - 6, fy + 5, fx - 12, fy + 15);
+ctx.quadraticCurveTo(fx - 4, fy + 22, fx, fy + 20);
+ctx.quadraticCurveTo(fx + 4, fy + 22, fx + 12, fy + 15);
+ctx.strokeStyle = '#a07848';
+ctx.lineWidth = 2.5;
+ctx.stroke();
+
+// ---- MOUTH: warm smile, but look closely and it doesn't quite reach the eyes ----
+ctx.beginPath();
+ctx.moveTo(fx - 25, fy + 35);
+ctx.quadraticCurveTo(fx - 12, fy + 28, fx, fy + 30);
+ctx.quadraticCurveTo(fx + 12, fy + 28, fx + 25, fy + 35);
+ctx.strokeStyle = '#7a4a3a';
+ctx.lineWidth = 3;
+ctx.stroke();
+// Upper lip
+ctx.beginPath();
+ctx.moveTo(fx - 22, fy + 34);
+ctx.quadraticCurveTo(fx, fy + 42, fx + 22, fy + 34);
+ctx.strokeStyle = '#8a5a4a';
+ctx.lineWidth = 2;
+ctx.stroke();
+// Slight teeth showing — confident grin
+ctx.beginPath();
+ctx.moveTo(fx - 16, fy + 35);
+ctx.quadraticCurveTo(fx, fy + 40, fx + 16, fy + 35);
+ctx.fillStyle = 'rgba(240, 230, 220, 0.4)';
+ctx.fill();
+
+// ---- GOLDEN AURA / HALO (divine pretension) ----
+ctx.save();
+ctx.globalCompositeOperation = 'screen';
+// Subtle halo behind head
+ctx.beginPath();
+ctx.arc(fx, fy - 40, 100, 0, Math.PI * 2);
+ctx.strokeStyle = hsl(40, 80, 60, 0.08);
+ctx.lineWidth = 20;
+ctx.stroke();
+ctx.beginPath();
+ctx.arc(fx, fy - 40, 85, 0, Math.PI * 2);
+ctx.strokeStyle = hsl(40, 80, 60, 0.05);
+ctx.lineWidth = 8;
+ctx.stroke();
+
+// Golden energy from hands
+softCircle(fx - 440, fy - 35, 60, '#d4a34a', 0.15);
+softCircle(fx + 440, fy - 35, 60, '#d4a34a', 0.15);
+
+ctx.restore();
+
+// ---- LENS FLARE on pendant ----
+ctx.save();
+ctx.globalCompositeOperation = 'screen';
+softCircle(fx, fy + 145, 30, '#d4a34a', 0.3);
+softCircle(fx, fy + 145, 15, '#f0d880', 0.2);
+ctx.restore();
+
+// ============================
+// TEXT
+// ============================
+ctx.save();
+ctx.font = 'bold 42px Georgia, serif';
+ctx.fillStyle = '#d4a34a';
+ctx.textAlign = 'center';
+ctx.fillText('T H E   F O U N D E R', W/2, H - 120);
+
+ctx.font = 'italic 20px Georgia, serif';
+ctx.fillStyle = '#877a5a';
+ctx.fillText('"She chose her path. Who are you to define her journey?"', W/2, H - 80);
+
+ctx.font = '14px Georgia, serif';
+ctx.fillStyle = '#4a4030';
+ctx.fillText('TRUST THE PROCESS — Zone 1 Boss', W/2, H - 45);
+ctx.restore();
+
+</script>
+</body>
+</html>

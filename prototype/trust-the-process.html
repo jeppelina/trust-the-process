@@ -1,1551 +1,1795 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Trust the Process — Prototype</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trust the Process - The Sanctuary</title>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+        }
+        body {
+            font-family: 'Courier Prime', monospace;
+            background: #1a1408;
+            color: #3a3a3a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 10px;
+        }
+        #game-container {
+            width: 960px;
+            max-width: 100%;
+            aspect-ratio: 960 / 640;
+            background: #E0D8C8;
+            border: 3px solid #5a5555;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+        }
+        #screen {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+            position: relative;
+        }
+        .screen-panel {
+            display: none;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+        }
+        .screen-panel.active {
+            display: flex;
+        }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* ─ TITLE SCREEN ─ */
+        #title-screen {
+            justify-content: center;
+            align-items: center;
+            background: #E0D8C8;
+        }
+        .title-text {
+            font-size: 48px;
+            font-weight: bold;
+            color: #3a3a3a;
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+        .title-prompt {
+            font-size: 20px;
+            color: #5a5555;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink { 0%,49% {opacity:1} 50%,100% {opacity:0.3} }
 
-  body {
-    background: #0a0a0a;
-    color: #e0d8c8;
-    font-family: 'VT323', monospace;
-    font-size: 20px;
-    overflow: hidden;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+        /* ─ INTRO SCREEN ─ */
+        #intro-screen {
+            background: #E0D8C8;
+            padding: 40px;
+            flex-direction: column;
+        }
+        .intro-page { display: none; }
+        .intro-page.active { display: block; }
+        .intro-text {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #3a3a3a;
+            margin-bottom: 20px;
+        }
+        .intro-nav {
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+        }
 
-  #game {
-    width: 900px;
-    height: 620px;
-    position: relative;
-    border: 3px solid #3a3020;
-    background: #1a1408;
-    overflow: hidden;
-  }
+        /* ─ EXPLORATION SCREEN ─ */
+        #exploration-screen {
+            flex-direction: column;
+            background: #E0D8C8;
+        }
+        .hud-bar {
+            background: #3a3a3a;
+            color: #E0D8C8;
+            padding: 6px 10px;
+            display: flex;
+            gap: 15px;
+            font-size: 11px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #5a5555;
+        }
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .stat-bar {
+            width: 60px;
+            height: 6px;
+            background: #2a2a2a;
+            border: 1px solid #E0D8C8;
+            overflow: hidden;
+        }
+        .stat-fill {
+            height: 100%;
+            background: #7ade3d;
+            transition: width 0.2s;
+        }
+        .room-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .room-title {
+            background: #5a5555;
+            color: #E0D8C8;
+            padding: 8px;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+            border-bottom: 1px solid #3a3a3a;
+        }
+        .room-bg {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+        }
+        .npc-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+        .npc-slot {
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.15s;
+        }
+        .npc-slot:hover {
+            transform: scale(1.15);
+        }
+        .npc-emoji {
+            font-size: 48px;
+            line-height: 1;
+            filter: drop-shadow(1px 2px 2px rgba(0,0,0,0.15));
+        }
+        .npc-label {
+            font-size: 11px;
+            font-weight: bold;
+            color: #3a3a3a;
+            margin-top: 2px;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 8px;
+        }
+        .nav-buttons button {
+            padding: 5px 10px;
+            background: #E0D8C8;
+            color: #3a3a3a;
+            border: 1px solid #5a5555;
+            cursor: pointer;
+            font-family: 'Courier Prime', monospace;
+            font-size: 10px;
+            transition: background 0.2s;
+        }
+        .nav-buttons button:hover {
+            background: #d0c8b8;
+        }
+        .dialogue-panel {
+            background: #FFFFFF;
+            border-top: 1px solid #5a5555;
+            padding: 10px;
+            height: 160px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .speaker-name {
+            font-weight: bold;
+            font-size: 12px;
+            margin-bottom: 4px;
+            min-height: 14px;
+        }
+        .dialogue-text {
+            flex: 1;
+            overflow-y: auto;
+            font-size: 11px;
+            line-height: 1.3;
+            color: #3a3a3a;
+            word-wrap: break-word;
+            margin-bottom: 4px;
+        }
+        .continue-prompt {
+            font-size: 10px;
+            color: #999;
+            animation: blink 0.8s infinite;
+            display: none;
+        }
+        .choices-container {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .choice-btn {
+            padding: 5px 8px;
+            background: #f5f5f5;
+            border: 1px solid #999;
+            text-align: left;
+            cursor: pointer;
+            font-family: 'Courier Prime', monospace;
+            font-size: 10px;
+            color: #333;
+            transition: background 0.2s;
+        }
+        .choice-btn:hover {
+            background: #e8e8e8;
+        }
 
-  /* ── Title Screen ── */
-  #title-screen {
-    position: absolute; inset: 0;
-    display: flex; flex-direction: column;
-    justify-content: center; align-items: center;
-    background: linear-gradient(180deg, #0a0a0a 0%, #1a1408 50%, #2a1a0a 100%);
-    z-index: 100;
-  }
-  #title-screen h1 {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 28px;
-    color: #d4a44a;
-    text-shadow: 0 0 20px rgba(212,164,74,0.4);
-    margin-bottom: 10px;
-    text-align: center;
-    line-height: 1.5;
-  }
-  #title-screen .subtitle {
-    font-size: 18px;
-    color: #887755;
-    margin-bottom: 50px;
-  }
-  #title-screen .prompt {
-    font-size: 22px;
-    color: #d4a44a;
-    animation: blink 1.2s infinite;
-  }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+        /* ─ BATTLE SCREEN ─ */
+        #battle-screen {
+            flex-direction: column;
+            background: #E0D8C8;
+        }
+        .battle-header {
+            background: #5a5555;
+            color: #E0D8C8;
+            padding: 6px 10px;
+            font-size: 11px;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #3a3a3a;
+        }
+        .battle-area {
+            flex: 1;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            padding: 15px;
+            gap: 20px;
+        }
+        .combatant {
+            text-align: center;
+        }
+        .combatant-emoji {
+            font-size: 64px;
+            line-height: 1;
+            filter: drop-shadow(2px 3px 3px rgba(0,0,0,0.2));
+            transition: transform 0.2s;
+        }
+        .combatant-emoji.hit {
+            animation: shake 0.3s ease-in-out;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px) rotate(-5deg); }
+            75% { transform: translateX(8px) rotate(5deg); }
+        }
+        .combatant-name {
+            font-size: 11px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        .battle-log {
+            background: #FFFFFF;
+            border-top: 1px solid #5a5555;
+            padding: 8px;
+            height: 100px;
+            overflow-y: auto;
+            font-size: 10px;
+            line-height: 1.3;
+        }
+        .battle-menu {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            padding: 8px;
+            background: #F5F5F5;
+            border-top: 1px solid #5a5555;
+        }
+        .action-btn {
+            flex: 1;
+            min-width: 80px;
+            padding: 5px 6px;
+            background: #E0D8C8;
+            border: 1px solid #5a5555;
+            cursor: pointer;
+            font-family: 'Courier Prime', monospace;
+            font-size: 9px;
+            color: #3a3a3a;
+            transition: background 0.2s;
+        }
+        .action-btn:hover:not(:disabled) {
+            background: #d0c8b8;
+        }
+        .action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .victory-overlay {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+        }
+        .victory-overlay.active {
+            display: flex;
+        }
+        .victory-box {
+            background: #FFFFFF;
+            padding: 20px;
+            border: 2px solid #5a5555;
+            max-width: 300px;
+            text-align: center;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+        .victory-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #3a3a3a;
+        }
+        .victory-text {
+            font-size: 10px;
+            line-height: 1.4;
+            color: #3a3a3a;
+        }
 
-  /* ── Intro Sequence ── */
-  #intro-screen {
-    position: absolute; inset: 0;
-    display: none; flex-direction: column;
-    justify-content: center; align-items: center;
-    background: #0a0a0a;
-    z-index: 90;
-    padding: 60px 80px;
-  }
-  #intro-screen .intro-text {
-    font-size: 22px;
-    line-height: 1.8;
-    text-align: center;
-    color: #c0b898;
-    max-width: 700px;
-    min-height: 200px;
-  }
-  #intro-screen .intro-prompt {
-    margin-top: 40px;
-    font-size: 18px;
-    color: #887755;
-    animation: blink 1.2s infinite;
-  }
-
-  /* ── Exploration ── */
-  #explore-screen {
-    position: absolute; inset: 0;
-    display: none;
-    z-index: 80;
-  }
-  #scene-bg {
-    position: absolute; inset: 0;
-    display: flex; flex-direction: column;
-  }
-  #scene-art {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    padding-bottom: 10px;
-    position: relative;
-  }
-  #location-label {
-    position: absolute;
-    top: 12px; left: 16px;
-    font-family: 'Press Start 2P', monospace;
-    font-size: 11px;
-    color: #d4a44a;
-    background: rgba(0,0,0,0.7);
-    padding: 6px 12px;
-    border: 1px solid #3a3020;
-  }
-
-  /* pixel art characters */
-  .char-sprite {
-    display: inline-block;
-    width: 64px; height: 96px;
-    image-rendering: pixelated;
-    position: relative;
-  }
-  #steve-sprite {
-    background: #607080;
-    border: 2px solid #405060;
-    margin: 0 30px;
-    position: relative;
-  }
-  #steve-sprite::before {
-    content: '';
-    position: absolute; top: 4px; left: 12px;
-    width: 36px; height: 30px;
-    background: #d4b896;
-    border-radius: 50%;
-  }
-  #steve-sprite::after {
-    content: '';
-    position: absolute; top: 36px; left: 8px;
-    width: 44px; height: 50px;
-    background: #4a7a8a;
-    border: 2px solid #3a6070;
-  }
-  .npc-sprite {
-    width: 64px; height: 96px;
-    margin: 0 20px;
-    position: relative;
-    cursor: pointer;
-    transition: transform 0.2s;
-  }
-  .npc-sprite:hover { transform: scale(1.1); }
-  .npc-sprite .npc-label {
-    position: absolute;
-    bottom: -22px; left: 50%;
-    transform: translateX(-50%);
-    font-size: 14px;
-    color: #d4a44a;
-    white-space: nowrap;
-    font-family: 'Press Start 2P', monospace;
-    font-size: 9px;
-  }
-
-  /* dialogue box */
-  #dialogue-box {
-    height: 180px;
-    background: rgba(10,8,4,0.95);
-    border-top: 3px solid #3a3020;
-    padding: 16px 24px;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-  }
-  #speaker-name {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 12px;
-    color: #d4a44a;
-    margin-bottom: 8px;
-  }
-  #dialogue-text {
-    flex: 1;
-    font-size: 20px;
-    line-height: 1.6;
-    color: #c0b898;
-    overflow-y: auto;
-  }
-  #dialogue-text .steve-thought {
-    color: #7a8a7a;
-    font-style: italic;
-  }
-  #choices {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    margin-top: 8px;
-  }
-  .choice-btn {
-    background: rgba(60,50,30,0.6);
-    border: 1px solid #5a4a2a;
-    color: #d4a44a;
-    font-family: 'VT323', monospace;
-    font-size: 18px;
-    padding: 6px 16px;
-    cursor: pointer;
-    text-align: left;
-    transition: all 0.15s;
-  }
-  .choice-btn:hover {
-    background: rgba(100,80,40,0.6);
-    border-color: #d4a44a;
-  }
-  #continue-prompt {
-    position: absolute;
-    bottom: 10px; right: 20px;
-    font-size: 16px;
-    color: #887755;
-    animation: blink 1.2s infinite;
-  }
-
-  /* nav arrows */
-  .nav-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-80%);
-    font-size: 36px;
-    color: #d4a44a;
-    cursor: pointer;
-    background: rgba(0,0,0,0.5);
-    padding: 10px 8px;
-    border: 1px solid #3a3020;
-    z-index: 5;
-    transition: all 0.15s;
-    user-select: none;
-  }
-  .nav-arrow:hover { background: rgba(100,80,40,0.5); }
-  #nav-left { left: 8px; }
-  #nav-right { right: 8px; }
-
-  /* ── HUD ── */
-  #hud {
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 44px;
-    background: rgba(10,8,4,0.9);
-    border-bottom: 2px solid #3a3020;
-    display: flex;
-    align-items: center;
-    padding: 0 16px;
-    gap: 24px;
-    z-index: 10;
-    font-size: 14px;
-  }
-  .hud-stat {
-    display: flex; align-items: center; gap: 6px;
-  }
-  .hud-label {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 8px;
-    color: #887755;
-  }
-  .hud-bar {
-    width: 80px; height: 12px;
-    background: #1a1408;
-    border: 1px solid #3a3020;
-    position: relative;
-    overflow: hidden;
-  }
-  .hud-bar-fill {
-    position: absolute; top: 0; left: 0; bottom: 0;
-    transition: width 0.5s;
-  }
-  .hp-fill { background: #6a8a4a; }
-  .ep-fill { background: #4a6a9a; }
-  .norm-fill { background: #8a7a5a; }
-  .hud-val {
-    font-size: 16px;
-    color: #c0b898;
-    min-width: 30px;
-  }
-  #hud-insight {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 9px;
-    color: #d4a44a;
-    margin-left: auto;
-  }
-  #hud-cacao {
-    font-size: 16px;
-    color: #c09040;
-  }
-
-  /* ── Battle Screen ── */
-  #battle-screen {
-    position: absolute; inset: 0;
-    display: none;
-    z-index: 85;
-    flex-direction: column;
-  }
-  #battle-scene {
-    flex: 1;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 50px 60px 10px;
-    position: relative;
-  }
-  .battle-char {
-    text-align: center;
-    position: relative;
-  }
-  .battle-char-name {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 10px;
-    margin-bottom: 8px;
-  }
-  .battle-hp-bar {
-    width: 120px; height: 14px;
-    background: #1a1408;
-    border: 1px solid #3a3020;
-    margin: 8px auto 4px;
-    position: relative;
-    overflow: hidden;
-  }
-  .battle-hp-fill {
-    position: absolute; top:0;left:0;bottom:0;
-    background: #6a8a4a;
-    transition: width 0.4s;
-  }
-  .battle-hp-text {
-    font-size: 14px;
-    color: #887755;
-  }
-  .battle-sprite {
-    width: 80px; height: 120px;
-    display: flex; justify-content: center; align-items: center;
-    margin: 0 auto;
-    font-size: 64px;
-    position: relative;
-  }
-  .battle-status {
-    font-size: 13px;
-    color: #aa7744;
-    margin-top: 4px;
-    min-height: 18px;
-  }
-
-  /* battle menu */
-  #battle-ui {
-    height: 200px;
-    background: rgba(10,8,4,0.95);
-    border-top: 3px solid #3a3020;
-    display: flex;
-  }
-  #battle-menu {
-    width: 200px;
-    border-right: 2px solid #3a3020;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  .battle-menu-btn {
-    background: rgba(60,50,30,0.6);
-    border: 1px solid #5a4a2a;
-    color: #d4a44a;
-    font-family: 'VT323', monospace;
-    font-size: 20px;
-    padding: 6px 12px;
-    cursor: pointer;
-    text-align: left;
-    transition: all 0.15s;
-  }
-  .battle-menu-btn:hover:not(:disabled) {
-    background: rgba(100,80,40,0.6);
-    border-color: #d4a44a;
-  }
-  .battle-menu-btn:disabled {
-    color: #554433;
-    cursor: default;
-  }
-  #battle-log {
-    flex: 1;
-    padding: 10px 16px;
-    overflow-y: auto;
-    font-size: 18px;
-    line-height: 1.5;
-  }
-  #battle-log .log-damage { color: #cc6644; }
-  #battle-log .log-heal { color: #6a8a4a; }
-  #battle-log .log-info { color: #887755; }
-  #battle-log .log-status { color: #aa7744; }
-  #battle-log .log-talk { color: #8ab4d4; }
-  #battle-log .log-crit { color: #dd4444; font-weight: bold; }
-
-  /* sub-menus in battle */
-  #battle-submenu {
-    display: none;
-    width: 200px;
-    border-right: 2px solid #3a3020;
-    padding: 10px;
-    flex-direction: column;
-    gap: 4px;
-    overflow-y: auto;
-  }
-  .submenu-btn {
-    background: rgba(40,50,60,0.6);
-    border: 1px solid #4a5a6a;
-    color: #8ab4d4;
-    font-family: 'VT323', monospace;
-    font-size: 18px;
-    padding: 5px 10px;
-    cursor: pointer;
-    text-align: left;
-    transition: all 0.15s;
-  }
-  .submenu-btn:hover {
-    background: rgba(60,80,100,0.6);
-    border-color: #8ab4d4;
-  }
-  .submenu-btn .ep-cost {
-    color: #4a6a9a;
-    font-size: 14px;
-  }
-  .submenu-back {
-    color: #887755;
-    border-color: #5a4a2a;
-    background: rgba(60,50,30,0.4);
-    margin-bottom: 4px;
-  }
-  .submenu-back:hover {
-    background: rgba(80,60,30,0.6);
-  }
-
-  /* damage flash */
-  @keyframes flash-red { 0%{filter:brightness(1)} 50%{filter:brightness(2) sepia(1) hue-rotate(-30deg)} 100%{filter:brightness(1)} }
-  @keyframes flash-heal { 0%{filter:brightness(1)} 50%{filter:brightness(1.5) sepia(0.5) hue-rotate(60deg)} 100%{filter:brightness(1)} }
-  .flash-damage { animation: flash-red 0.3s; }
-  .flash-heal { animation: flash-heal 0.3s; }
-  @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
-  .shake { animation: shake 0.2s 2; }
-
-  /* ── Inventory popup ── */
-  #inventory-popup {
-    display: none;
-    position: absolute;
-    top: 50px; left: 50%; transform: translateX(-50%);
-    width: 400px;
-    max-height: 400px;
-    background: rgba(15,12,6,0.97);
-    border: 2px solid #d4a44a;
-    z-index: 50;
-    padding: 16px;
-    overflow-y: auto;
-  }
-  #inventory-popup h3 {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 12px;
-    color: #d4a44a;
-    margin-bottom: 12px;
-  }
-  .inv-item {
-    padding: 6px 0;
-    border-bottom: 1px solid #2a2010;
-    font-size: 17px;
-  }
-  .inv-item-name { color: #c0b898; }
-  .inv-item-desc { color: #7a7060; font-size: 15px; font-style: italic; margin-top: 2px; }
-  .inv-close {
-    position: absolute; top: 8px; right: 12px;
-    color: #887755; cursor: pointer; font-size: 24px;
-  }
-
-  /* victory / defeat overlay */
-  #overlay {
-    display: none;
-    position: absolute; inset: 0;
-    background: rgba(0,0,0,0.85);
-    z-index: 95;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  #overlay h2 {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 24px;
-    color: #d4a44a;
-    margin-bottom: 20px;
-  }
-  #overlay p {
-    font-size: 20px;
-    color: #c0b898;
-    text-align: center;
-    max-width: 600px;
-    line-height: 1.6;
-    margin-bottom: 10px;
-  }
-  #overlay .prompt {
-    margin-top: 30px;
-    font-size: 18px;
-    color: #887755;
-    animation: blink 1.2s infinite;
-  }
-
-  /* scene backgrounds */
-  .bg-pavilion {
-    background: linear-gradient(180deg, #2a3a2a 0%, #1a2a18 40%, #2a2018 100%);
-  }
-  .bg-kitchen {
-    background: linear-gradient(180deg, #2a2420 0%, #3a2a1a 40%, #2a1a10 100%);
-  }
-  .bg-firepit {
-    background: linear-gradient(180deg, #0a0a1a 0%, #1a1008 40%, #3a2010 100%);
-  }
-  .bg-garden {
-    background: linear-gradient(180deg, #1a2a1a 0%, #2a3a20 40%, #1a2a18 100%);
-  }
-  .bg-path {
-    background: linear-gradient(180deg, #2a3a3a 0%, #1a2a28 40%, #2a2a18 100%);
-  }
-  .bg-battle {
-    background: linear-gradient(180deg, #2a2420 0%, #3a2a1a 30%, #1a1408 100%);
-  }
-</style>
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #E0D8C8; }
+        ::-webkit-scrollbar-thumb { background: #5a5555; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3a3a3a; }
+    </style>
 </head>
 <body>
+    <div id="game-container">
+        <div id="screen">
+            <div id="title-screen" class="screen-panel active">
+                <div class="title-text">TRUST THE PROCESS</div>
+                <div class="title-text" style="font-size: 24px; margin-bottom: 60px;">THE SANCTUARY</div>
+                <div class="title-prompt">Press SPACE or click to begin...</div>
+            </div>
 
-<div id="game">
-  <!-- HUD -->
-  <div id="hud" style="display:none">
-    <div class="hud-stat">
-      <span class="hud-label">HP</span>
-      <div class="hud-bar"><div class="hud-bar-fill hp-fill" id="hud-hp" style="width:100%"></div></div>
-      <span class="hud-val" id="hud-hp-val">100</span>
+            <div id="intro-screen" class="screen-panel">
+                <div id="intro-pages"></div>
+                <div class="intro-nav">Click or press SPACE to advance | <span id="intro-page-num">1</span>/6</div>
+            </div>
+
+            <div id="exploration-screen" class="screen-panel">
+                <div class="hud-bar">
+                    <div class="stat-item">HP: <span id="hp-val">100</span>/<span id="hp-max">100</span> <div class="stat-bar"><div class="stat-fill" id="hp-bar" style="width: 100%;"></div></div></div>
+                    <div class="stat-item">EP: <span id="ep-val">50</span>/<span id="ep-max">50</span> <div class="stat-bar"><div class="stat-fill" id="ep-bar" style="width: 100%; background: #3d7fd4;"></div></div></div>
+                    <div class="stat-item">NORM: <span id="norm-val">90</span></div>
+                    <div class="stat-item">INSIGHT: <span id="insight-val">0</span></div>
+                    <div class="stat-item">🫘<span id="cacao-val">0</span></div>
+                </div>
+                <div class="room-area">
+                    <div class="room-title" id="room-title">THE WELCOME PAVILION</div>
+                    <div class="room-bg" id="room-bg">
+                        <div class="npc-container" id="npc-container"></div>
+                        <div class="nav-buttons" id="nav-buttons"></div>
+                    </div>
+                </div>
+                <div class="dialogue-panel">
+                    <div class="speaker-name" id="speaker-name"></div>
+                    <div class="dialogue-text" id="dialogue-text"></div>
+                    <div class="continue-prompt" id="continue-prompt">Click or SPACE to continue...</div>
+                    <div class="choices-container" id="choices-container"></div>
+                </div>
+            </div>
+
+            <div id="battle-screen" class="screen-panel">
+                <div class="battle-header">
+                    <div><span id="steve-hp-label">STEVE</span> <span id="steve-hp">100</span>/<span id="steve-hp-max">100</span> HP</div>
+                    <div id="battle-turn-info" style="font-weight: bold;">Your Turn</div>
+                    <div><span id="enemy-name-label">ENEMY</span> <span id="enemy-hp">50</span>/<span id="enemy-hp-max">50</span> HP</div>
+                </div>
+                <div class="battle-area">
+                    <div class="combatant">
+                        <div class="combatant-emoji" id="steve-emoji">👔📊</div>
+                        <div class="combatant-name">STEVE</div>
+                    </div>
+                    <div style="font-size: 28px; font-weight: bold; color: #999; align-self: center;">VS</div>
+                    <div class="combatant">
+                        <div class="combatant-emoji" id="enemy-emoji">❓</div>
+                        <div class="combatant-name" id="enemy-display-name">ENEMY</div>
+                    </div>
+                </div>
+                <div class="battle-log" id="battle-log"></div>
+                <div class="battle-menu" id="battle-menu">
+                    <button class="action-btn" id="attack-btn">Attack</button>
+                    <button class="action-btn" id="skills-btn">Skills</button>
+                    <button class="action-btn" id="talk-btn">Talk</button>
+                    <button class="action-btn" id="analyze-btn">Analyze</button>
+                    <button class="action-btn" id="items-btn">Items</button>
+                    <button class="action-btn" id="endure-btn">Endure</button>
+                </div>
+                <div class="victory-overlay" id="victory-overlay">
+                    <div class="victory-box">
+                        <div class="victory-title" id="victory-title">VICTORY</div>
+                        <div class="victory-text" id="victory-text"></div>
+                        <div style="font-size: 10px; color: #999; margin-top: 10px;">Click to continue...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="hud-stat">
-      <span class="hud-label">EP</span>
-      <div class="hud-bar"><div class="hud-bar-fill ep-fill" id="hud-ep" style="width:100%"></div></div>
-      <span class="hud-val" id="hud-ep-val">50</span>
-    </div>
-    <div class="hud-stat">
-      <span class="hud-label">NORM</span>
-      <div class="hud-bar"><div class="hud-bar-fill norm-fill" id="hud-norm" style="width:90%"></div></div>
-    </div>
-    <span id="hud-insight">INSIGHT: 0</span>
-    <span id="hud-cacao">🫘 0</span>
-  </div>
 
-  <!-- Title Screen -->
-  <div id="title-screen">
-    <h1>TRUST THE<br>PROCESS</h1>
-    <div class="subtitle"></div>
-    <div class="prompt">[ Press SPACE or Click to Begin ]</div>
-  </div>
+    <script>
+        // ═══════════════════════════════════════════════════════════════════
+        // GAME STATE
+        // ═══════════════════════════════════════════════════════════════════
+        const gameState = {
+            screen: 'title',
+            currentRoom: 'pavilion',
+            hp: 100, maxHp: 100,
+            ep: 50, maxEp: 50,
+            normality: 90,
+            insight: 0,
+            cacao: 0,
+            flags: {},
+            inventory: [
+                { id: 'pamphlet', name: 'Orientation Pamphlet', type: 'weapon', dmg: 5 },
+                { id: 'polo', name: 'Steve\'s Polo Shirt', type: 'armor', def: 2 },
+                { id: 'energy_bar', name: 'Energy Bar', type: 'consumable', heal: 20, qty: 3 }
+            ],
+            currentBattleEnemy: null,
+            deathCount: 0,
+            introPage: 0
+        };
 
-  <!-- Intro -->
-  <div id="intro-screen">
-    <div class="intro-text" id="intro-text"></div>
-    <div class="intro-prompt" id="intro-prompt" style="display:none">[ SPACE / Click ]</div>
-  </div>
+        // ═══════════════════════════════════════════════════════════════════
+        // DIALOGUE DATA
+        // ═══════════════════════════════════════════════════════════════════
+        const dialogueData = {
+            'receptionist': [
+                { speaker: 'Receptionist', text: 'Namaste, beautiful soul! Welcome to The Sanctuary of Infinite Becoming. I can feel your energy from here. It\'s very... dense.' },
+                { speaker: 'Steve', text: 'I have a reservation. Steve Stevens. The weekend package.' },
+                { speaker: 'Receptionist', text: 'We don\'t use the word "reservation" here. You\'ve set an INTENTION to arrive, and the universe has honored it.' },
+                { speaker: '', text: '(She opens a completely normal Excel spreadsheet.)', thought: true },
+                { speaker: 'Receptionist', text: 'Before we begin, I\'ll need your phone, any watches, and anything with a screen. We\'re creating a sacred container free from digital interference.' },
+                { speaker: '', text: 'Choose:', choices: [
+                    { text: '"My phone? Absolutely not."', next: 'receptionist_phone_no' },
+                    { text: '"Fine. Take it."', next: 'receptionist_phone_yes' },
+                    { text: '"Is there Wi-Fi here?"', next: 'receptionist_wifi' }
+                ]}
+            ],
+            'receptionist_phone_no': [
+                { speaker: 'Receptionist', text: 'I hear your resistance. Beautiful. The attachment you feel is exactly what we\'re here to release. Also it\'s mandatory — it says so in the waiver you signed online. On your phone.' },
+                { speaker: '', text: '(Steve reluctantly hands over his phone.)', thought: true },
+                { speaker: '', text: '', goto: 'receptionist_name' }
+            ],
+            'receptionist_phone_yes': [
+                { speaker: 'Receptionist', text: 'Beautiful surrender. You\'re already doing the work.' },
+                { speaker: '', text: '(Steve hands over his phone.)', thought: true },
+                { speaker: '', text: '', goto: 'receptionist_name' }
+            ],
+            'receptionist_wifi': [
+                { speaker: 'Receptionist', text: 'We find that disconnecting from the digital realm allows us to connect more deeply with... (her voice drops to a whisper) ...there\'s none. There\'s no Wi-Fi. I haven\'t checked my email in nine weeks.' },
+                { speaker: 'Receptionist', text: 'I mean — isn\'t that LIBERATING?' },
+                { speaker: '', text: '(Steve hands over his phone.)', thought: true },
+                { speaker: '', text: '', goto: 'receptionist_name' }
+            ],
+            'receptionist_name': [
+                { speaker: 'Receptionist', text: 'Now! Every guest receives a Sanskrit name to honor their soul\'s essence. Looking into your eyes... Akash Prem. Sky Love.' },
+                { speaker: 'Steve', text: 'My name is Steve.' },
+                { speaker: 'Receptionist', text: 'Steve is the name your PARENTS gave you. Akash Prem is the name your SOUL chose before incarnation.' },
+                { speaker: '', text: '', goto: 'receptionist_wife' }
+            ],
+            'receptionist_wife': [
+                { speaker: 'Steve', text: 'I\'m looking for my wife. She was here a few weeks ago?' },
+                { speaker: 'Receptionist', text: 'We honor the privacy of all souls who pass through The Sanctuary. I can\'t share details.' },
+                { speaker: 'Steve', text: 'She\'s my WIFE.' },
+                { speaker: 'Receptionist', text: 'She\'s the universe\'s wife, Steve. We all belong to each other. Especially to ourselves.' },
+                { speaker: 'Receptionist', text: 'Settle in first. Attend a session. Let the land hold you. The answers you seek will come when you stop seeking them.' },
+                { speaker: '', text: '(She hands you a map. Your assigned space is the dorms. Kitchen at five.)', thought: true, callback: 'map_obtained' }
+            ],
+            'frank': [
+                { speaker: '', text: '(A man in overalls is fixing a fence with actual tools. He is the first person doing real work without calling it "sacred.")', thought: true },
+                { speaker: 'Frank', text: 'You\'re new. Guest or volunteer?' },
+                { speaker: 'Steve', text: 'Guest. I think. I paid money.' },
+                { speaker: 'Frank', text: 'You paid? Then you\'re a guest. The ones who didn\'t pay work harder. Been trying to figure out the system for twelve years. Think it\'s called feudalism with candles.' },
+                { speaker: '', text: '', choices: [
+                    { text: '"I\'m looking for my wife."', next: 'frank_wife' },
+                    { text: '"How long have you worked here?"', next: 'frank_long' },
+                    { text: '"This place seems unusual."', next: 'frank_unusual' }
+                ]}
+            ],
+            'frank_wife': [
+                { speaker: 'Frank', text: 'Your wife. Yeah, I remember her. Helped me carry wood one afternoon. Only guest who ever did that. Then she got pulled into the inner circle.' },
+                { speaker: 'Frank', text: 'The Founder — real name\'s Derek — took an interest. He sends people down a pipeline to other places. Your wife got a recommendation letter.' },
+                { speaker: '', text: '', goto: 'frank_end' }
+            ],
+            'frank_long': [
+                { speaker: 'Frank', text: 'Twelve years. Was here when it was a golf course. Better business model. Golfers at least know they\'re wasting money.' },
+                { speaker: '', text: '', goto: 'frank_end' }
+            ],
+            'frank_unusual': [
+                { speaker: 'Frank', text: 'Here\'s what I\'ve learned: These people talk about being present but can\'t change a tire. They talk about connection but never asked my last name. They talk about non-attachment but try moving one of their crystals.' },
+                { speaker: '', text: '', goto: 'frank_end' }
+            ],
+            'frank_end': [
+                { speaker: 'Frank', text: 'You seem alright, Steve. If you need anything practical — not energetic — find me.' },
+                { speaker: '', text: '(Frank nods and returns to his fence.)', thought: true, callback: 'talked_frank' }
+            ],
+            'oil_warrior': [
+                { speaker: '???', text: 'Hey! Have you heard of doTERRA? It\'s not a pyramid scheme. It\'s a WELLNESS ECOSYSTEM with a tiered distribution model.' },
+                { speaker: 'Steve', text: 'That is exactly what a pyramid scheme is.' },
+                { speaker: 'Essential Oil Warrior', text: 'A pyramid has a POINT. This is a DIAMOND. Completely different geometry. Here — smell this.' },
+                { speaker: '', text: '(She thrusts a tiny bottle at your face. The smell is overwhelming.)', thought: true },
+                { speaker: '', text: '', choices: [
+                    { text: '"Get that away from me."', next: 'oil_fight' },
+                    { text: '"How much do you actually make?"', next: 'oil_fight' },
+                    { text: '(Try to walk away)', next: 'oil_fight' }
+                ]}
+            ],
+            'oil_fight': [
+                { speaker: 'Essential Oil Warrior', text: 'RECEIVE THIS BLESSING!' },
+                { speaker: '', text: '(She throws peppermint oil at you. Combat is unavoidable.)', thought: true, callback: 'start_oil_battle' }
+            ],
+            'maya_kitchen': [
+                { speaker: '', text: '(A woman with tired eyes is washing dishes. She looks up sharply when you enter.)', thought: true },
+                { speaker: 'Maya', text: 'We\'re not serving until five. Kitchen\'s closed.' },
+                { speaker: 'Steve', text: 'I\'m looking for my wife. She was here maybe three months ago?' },
+                { speaker: '', text: '(Maya\'s hands go still. She doesn\'t turn around.)', thought: true },
+                { speaker: 'Maya', text: 'I don\'t know anything.' },
+                { speaker: 'Steve', text: 'You\'re lying. You froze when I mentioned it.' },
+                { speaker: 'Maya', text: '(quietly) Too many ears in here. Meet me at the fire pit after the evening program. When the meditation circle is over. Don\'t tell anyone.' },
+                { speaker: '', text: '', callback: 'talked_maya' }
+            ],
+            'maya_firepit': [
+                { speaker: '', text: '(The fire pit is ringed with benches. Maya sits alone, silhouetted by orange light.)', thought: true },
+                { speaker: 'Maya', text: 'Your wife arrived three months ago. She helped in the kitchen with me. She was smart. She asked uncomfortable questions about why volunteers did all the work.' },
+                { speaker: 'Maya', text: 'The Founder noticed her. He always notices the smart ones. Invited her to private sessions, then inner circle.' },
+                { speaker: 'Maya', text: 'After two weeks, she was gone. Derek gave her a recommendation letter to Pranayama Peak — the next place on the pipeline. Each retreat feeds the next.' },
+                { speaker: 'Maya', text: 'He has her passport. He has mine too. That\'s why I\'m still here.' },
+                { speaker: 'Maya', text: 'The documents are in the back office. The Gatekeeper guards it but falls asleep after 10pm meditation. There\'s a back passage through the ceremony space.' },
+                { speaker: '', text: '(The fire crackles. Someone in the distance hums a didgeridoo.)', thought: true, callback: 'firepit_done' }
+            ],
+            'maya_post_boss': [
+                { speaker: '', text: '(Maya stands at the sanctuary gates, holding her passport.)', thought: true },
+                { speaker: 'Maya', text: 'Thank you. I\'ve been here seven months. Your wife isn\'t the same person you married. Derek\'s pipeline transforms people.' },
+                { speaker: 'Steve', text: 'Neither am I. I just restructured a wellness center. That\'s not in my job description.' }
+            ],
+            'brandon_arrive': [
+                { speaker: '', text: '(A young man with a backward baseball cap bounces on the bunk above yours.)', thought: true },
+                { speaker: 'Brandon', text: 'Dude! Welcome! You are going to LOVE it here. This place is incredible!' },
+                { speaker: 'Steve', text: 'I\'ve been here for four hours.' },
+                { speaker: 'Brandon', text: 'Exactly! Isn\'t it amazing? I just got here yesterday. The energy is everywhere!' },
+                { speaker: 'Brandon', text: 'I\'m Brandon. Spiritually I\'m Surya. You should come to yoga. It\'s going to change your life.' },
+                { speaker: 'Steve', text: 'Where\'s your watch?' },
+                { speaker: 'Brandon', text: 'Oh man, I donated it! Why am I enslaved to timekeeping, right?' },
+                { speaker: '', text: '(He looks genuinely happy about this poor decision.)', thought: true, callback: 'talked_brandon' }
+            ],
+            'brandon_night': [
+                { speaker: '', text: '(Brandon stands in the garden at 2 AM, staring at the moon. He doesn\'t blink.)', thought: true },
+                { speaker: 'Brandon', text: 'Akash... the universe is singing... can you hear it...' },
+                { speaker: 'Steve', text: 'Brandon, we need to get you out of here.' },
+                { speaker: 'Brandon', text: '(dreamily) I am the universe... I am the song... I am the dissolution...' }
+            ],
+            'brandon_post_boss': [
+                { speaker: '', text: '(Brandon is sitting on the front steps, shaking. He looks at his hands like meeting them for the first time.)', thought: true },
+                { speaker: 'Brandon', text: 'I... I can think again. What day is it?' },
+                { speaker: 'Steve', text: 'Tuesday. Or Wednesday. Time\'s weird here.' },
+                { speaker: 'Brandon', text: 'My dad gave me that watch. I told him I\'d carry it forever. I gave it to Derek.' },
+                { speaker: '', text: '(Brandon stares at his empty wrist. Tears form.)', thought: true }
+            ],
+            'meditator_challenge': [
+                { speaker: '', text: '(A man sits cross-legged in the movement studio, eyes closed. His jaw is clenched.)', thought: true },
+                { speaker: 'Meditator', text: '(not opening his eyes) I sensed a disturbance. Your energy is nascent. Unrefined.' },
+                { speaker: 'Steve', text: 'I\'m not here for energy criticism.' },
+                { speaker: 'Meditator', text: 'Yet here you are. In my space. This is a test. Prove your practice. Fight me.' },
+                { speaker: '', text: '', callback: 'start_meditator_battle' }
+            ],
+            'meditator_post': [
+                { speaker: '', text: '(The meditator is on his knees, breathing hard.)', thought: true },
+                { speaker: 'Meditator', text: 'Your unconventional approach... has merit. The real work is in the Ceremony Space. The Gatekeeper guards it. But there\'s a back passage through the Back Office.' },
+                { speaker: '', text: '', callback: 'meditator_intel' }
+            ],
+            'cacao_dealer_shop': [
+                { speaker: '', text: '(A figure in a dark hoodie appears. He\'s carrying a small canvas bag.)', thought: true },
+                { speaker: 'Cacao Dealer', text: 'Pssst. You didn\'t get this from me. They took your phone. Told you it was liberating.' },
+                { speaker: 'Cacao Dealer', text: 'I have things that are... discouraged here.' },
+                { speaker: '', text: '', choices: [
+                    { text: '"What are you selling?"', next: 'cacao_dealer_inventory' },
+                    { text: '(Walk away)', next: '' }
+                ]}
+            ],
+            'cacao_dealer_inventory': [
+                { speaker: 'Cacao Dealer', text: 'Actual Coffee. 80 cacao. Cacao Drink. 50 cacao. Kombucha. 20 cacao.' },
+                { speaker: '', text: '', choices: [
+                    { text: '"Actual Coffee." (80 cacao)', next: '', callback: 'add_coffee' },
+                    { text: '"Cacao Drink." (50 cacao)', next: '', callback: 'add_cacao_drink' },
+                    { text: '"Kombucha." (20 cacao)', next: '', callback: 'add_kombucha' },
+                    { text: '"Never mind."', next: '' }
+                ]}
+            ],
+            'sharing_circle': [
+                { speaker: '', text: '(The main hall has been arranged in a circle. About 30 people sit on cushions. A didgeridoo plays.)', thought: true },
+                { speaker: 'Facilitator', text: 'Welcome, beautiful souls, to our sharing circle. This is a sacred space.' },
+                { speaker: 'The Oversharer', text: '(sobbing) I used to work in corporate marketing. I was dead inside. But this journey... it\'s given me...' },
+                { speaker: '', text: '', choices: [
+                    { text: '"That\'s beautiful. Thank you for sharing."', next: 'sharing_circle_r2' },
+                    { text: '"Have you calculated your ROI?"', next: 'sharing_circle_r2' },
+                    { text: '(Say nothing.)', next: 'sharing_circle_r2' }
+                ]}
+            ],
+            'sharing_circle_r2': [
+                { speaker: 'Facilitator', text: 'Akash Prem. We haven\'t heard from you yet. What brought you here?' },
+                { speaker: '', text: '', choices: [
+                    { text: '"My wife disappeared here. I need to find her."', next: 'sharing_circle_r3' },
+                    { text: '"Professional development and synergistic alignment."', next: 'sharing_circle_r3' },
+                    { text: '"I\'m still processing."', next: 'sharing_circle_r3' }
+                ]}
+            ],
+            'sharing_circle_r3': [
+                { speaker: 'Facilitator', text: 'Now we move into our final exercise. A vibrational alignment. We make sounds from our root chakra.' },
+                { speaker: '', text: '(Everyone is looking at you expectantly.)', thought: true },
+                { speaker: '', text: '', choices: [
+                    { text: '"Let\'s do it."', next: 'sharing_circle_end' },
+                    { text: '(Sit quietly)', next: 'sharing_circle_end' },
+                    { text: '"I need air."', next: 'sharing_circle_end' }
+                ]}
+            ],
+            'sharing_circle_end': [
+                { speaker: 'Facilitator', text: 'Remember: what happens in circle stays in circle. Unless it needs processing in another circle.' },
+                { speaker: '', text: '(The sharing circle disbands. The fire pit should be accessible now. Maya will be waiting.)', thought: true, callback: 'circle_done' }
+            ],
+            'gatekeeper_confront': [
+                { speaker: '', text: '(A man with a shaved head sits in front of the Ceremony Space yurt, radiating impossible authority.)', thought: true },
+                { speaker: 'Gatekeeper', text: 'You are not ready. The Ceremony Space exists in a frequency beyond comprehension.' },
+                { speaker: 'Steve', text: 'It\'s a tent.' },
+                { speaker: 'Gatekeeper', text: 'Yes. A sacred tent. Your energy is not aligned.' },
+                { speaker: '', text: '', choices: [
+                    { text: '"Let me through." (Challenge)', next: 'gatekeeper_challenge' },
+                    { text: '"What do I need to do?"', next: 'gatekeeper_reason' },
+                    { text: '"You were a Verizon manager."', next: 'gatekeeper_exposed' }
+                ]}
+            ],
+            'gatekeeper_reason': [
+                { speaker: 'Gatekeeper', text: 'You must pass through seventeen levels of inner work. Each level takes a month.' },
+                { speaker: 'Steve', text: 'I don\'t have seventeen months.' },
+                { speaker: 'Gatekeeper', text: 'Then you\'re not ready. Such is the path of enlightenment.' }
+            ],
+            'gatekeeper_challenge': [
+                { speaker: 'Gatekeeper', text: 'You wish to challenge the Gatekeeper? Then we fight.' },
+                { speaker: '', text: '', callback: 'start_gatekeeper_battle' }
+            ],
+            'gatekeeper_exposed': [
+                { speaker: 'Steve', text: 'You worked for Verizon. In 2024. You were a district manager. Dave Carver. Seventeen LinkedIn recommendations.' },
+                { speaker: '', text: '(The Gatekeeper\'s eyes go wide. His accent drops.)', thought: true },
+                { speaker: 'Gatekeeper', text: 'How did you... no. That was a different life. A life of corporate enslavement.' },
+                { speaker: 'Steve', text: 'You\'re still enslaved. You\'re just doing it for free.' },
+                { speaker: '', text: '(The Gatekeeper stands. His entire façade cracks.)', thought: true },
+                { speaker: 'Gatekeeper', text: 'I... I needed to believe I was something more. The back office. Behind the ceremony space. The door\'s not locked.' },
+                { speaker: '', text: '', callback: 'gatekeeper_cleared' }
+            ],
+            'back_office_discover': [
+                { speaker: '', text: '(The back office is jarring. Fluorescent lights. A file cabinet. A desk with a modern laptop. Spreadsheets.)', thought: true },
+                { speaker: '', text: '(Steve opens the filing cabinet. Passports. Recommendation letters. Bank statements. $1.2M revenue. $180K to The Founder\'s personal LLC.)', thought: true },
+                { speaker: '', text: '(Steve finds his wife\'s recommendation letter. "Pranayama Peak. Advanced work.")', thought: true },
+                { speaker: '', text: '(The lights turn on. The Founder is standing in the doorway.)', thought: true },
+                { speaker: 'The Founder', text: 'I thought you might end up here. The practical ones always do.' },
+                { speaker: '', text: '', choices: [
+                    { text: '"I\'m leaving with these documents."', next: 'founder_battle_start' },
+                    { text: '"What if I\'m interested in a deal?"', next: 'founder_prefight' }
+                ]}
+            ],
+            'founder_prefight': [
+                { speaker: 'The Founder', text: 'I was hoping you might be practical. Take the recommendation letter. Go find your wife. Forget the other documents.' },
+                { speaker: 'The Founder', text: 'I\'m not a bad man. I\'m running a business. Everyone here wants to be here. Until they don\'t.' },
+                { speaker: 'Steve', text: 'You\'re holding their passports.' },
+                { speaker: 'The Founder', text: 'For safekeeping. A small incentive to keep people engaged.' },
+                { speaker: '', text: '', choices: [
+                    { text: '"I\'ll take your deal."', next: 'founder_end_walk' },
+                    { text: '"I\'m not leaving without the passports."', next: 'founder_battle_start' }
+                ]}
+            ],
+            'founder_battle_start': [
+                { speaker: 'The Founder', text: 'I really hoped you wouldn\'t do that.' },
+                { speaker: '', text: '(Derek closes the yurt door. Brandon enters from a side passage, ready to fight.)', thought: true, callback: 'start_founder_battle' }
+            ],
+            'founder_end_walk': [
+                { speaker: 'The Founder', text: 'Smart man. Your wife would be proud. Actually — she\'d be disappointed. She was more idealistic than you.' },
+                { speaker: 'Steve', text: 'Good thing I don\'t care what she thinks anymore.' },
+                { speaker: 'The Founder', text: '(nodding) That\'s the spirit. Here. Take the letter.' },
+                { speaker: '', text: '(Steve walks out with the recommendation letter. He knows where his wife is, but not who she\'s become. It feels like winning.)', thought: true, callback: 'end_walk' }
+            ],
+            'founder_end_restructure': [
+                { speaker: 'Steve', text: 'You\'re not running this place efficiently. Wrong LLC structure. Volunteers need to be either contractors or employees. You\'re exposed to litigation.' },
+                { speaker: 'The Founder', text: 'I... what?' },
+                { speaker: 'Steve', text: 'I\'m going to fix it. New org chart. Payroll system. Quarterly reports. You\'ll make more money and have legal compliance.' },
+                { speaker: '', text: '(Two weeks later: The Sanctuary runs like an actual business. Derek is now Community Coordinator. His title is smaller but his liability is gone.)', thought: true },
+                { speaker: '', text: '(Steve has accidentally done to the Sanctuary what he was supposed to do for his marriage: made it more efficient.)', thought: true, callback: 'end_walk' }
+            ],
+            'founder_end_destroy': [
+                { speaker: 'Steve', text: 'I\'m sending this to the state. All of it. Financial documents, volunteer agreements, passport holder records.' },
+                { speaker: 'The Founder', text: 'You\'ll ruin it.' },
+                { speaker: 'Steve', text: 'Yes.' },
+                { speaker: '', text: '(Three weeks later: The Sanctuary is shut down. The volunteers are scattered. Derek is under investigation. Eight people are homeless because they donated all their money and quit their jobs.)', thought: true },
+                { speaker: '', text: '(Steve saved the people he could. But there are costs.)', thought: true, callback: 'end_walk' }
+            ],
+            'departure': [
+                { speaker: '', text: '(Steve drives out of The Sanctuary. At the gate, they return his phone. 847 emails. A text from an unknown number.)', thought: true },
+                { speaker: '', text: '"Your wife is at Pranayama Peak. She\'s expecting someone. Don\'t let her down."', thought: true },
+                { speaker: '', text: '(Steve puts the phone down. Paranayama Peak awaits. But The Sanctuary has taught him something: the person he finds might not be the person he lost.)', thought: true },
+                { speaker: '', text: 'THE SANCTUARY COMPLETE — NEXT ZONE: PRANAYAMA PEAK', thought: true }
+            ]
+        };
 
-  <!-- Exploration -->
-  <div id="explore-screen">
-    <div id="scene-bg">
-      <div id="scene-art">
-        <div id="location-label"></div>
-        <div id="nav-left" class="nav-arrow" style="display:none">◀</div>
-        <div id="nav-right" class="nav-arrow" style="display:none">▶</div>
-        <div id="scene-characters"></div>
-      </div>
-      <div id="dialogue-box">
-        <div id="speaker-name"></div>
-        <div id="dialogue-text"></div>
-        <div id="choices"></div>
-        <div id="continue-prompt" style="display:none">▼</div>
-      </div>
-    </div>
-  </div>
+        // ═══════════════════════════════════════════════════════════════════
+        // ROOMS
+        // ═══════════════════════════════════════════════════════════════════
+        const rooms = {
+            'pavilion': {
+                name: 'THE WELCOME PAVILION',
+                color: 'rgb(225, 216, 204)',
+                npcs: ['receptionist'],
+                exits: [{ label: 'Path', room: 'path' }]
+            },
+            'path': {
+                name: 'THE GARDEN PATH',
+                color: 'rgb(209, 224, 199)',
+                npcs: ['oil_warrior'],
+                exits: [
+                    { label: 'Pavilion', room: 'pavilion' },
+                    { label: 'Garden', room: 'garden' },
+                    { label: 'Kitchen', room: 'kitchen', require: 'map_obtained' }
+                ]
+            },
+            'garden': {
+                name: 'THE SACRED GARDEN',
+                color: 'rgb(199, 217, 191)',
+                npcs: ['frank'],
+                exits: [
+                    { label: 'Path', room: 'path' },
+                    { label: 'Movement Studio', room: 'studio', require: 'map_obtained' },
+                    { label: 'Dorms', room: 'dorms', require: 'map_obtained' },
+                    { label: 'Fire Pit', room: 'firepit', require: 'night_mode' }
+                ]
+            },
+            'kitchen': {
+                name: 'THE KITCHEN',
+                color: 'rgb(230, 219, 184)',
+                npcs: ['maya', 'cacao_dealer'],
+                exits: [
+                    { label: 'Path', room: 'path' },
+                    { label: 'Main Hall', room: 'main_hall', require: 'map_obtained' }
+                ]
+            },
+            'dorms': {
+                name: 'THE DORMS',
+                color: 'rgb(217, 209, 224)',
+                npcs: ['brandon'],
+                exits: [{ label: 'Garden', room: 'garden' }]
+            },
+            'studio': {
+                name: 'THE MOVEMENT STUDIO',
+                color: 'rgb(225, 216, 204)',
+                npcs: ['meditator'],
+                exits: [{ label: 'Garden', room: 'garden' }]
+            },
+            'main_hall': {
+                name: 'THE MAIN HALL',
+                color: 'rgb(219, 209, 179)',
+                npcs: [],
+                exits: [
+                    { label: 'Kitchen', room: 'kitchen' },
+                    { label: 'Ceremony Space', room: 'ceremony', require: 'circle_done' }
+                ]
+            },
+            'firepit': {
+                name: 'THE FIRE PIT',
+                color: 'rgb(89, 56, 38)',
+                npcs: ['maya'],
+                exits: [{ label: 'Garden', room: 'garden' }]
+            },
+            'ceremony': {
+                name: 'THE CEREMONY SPACE',
+                color: 'rgb(76, 71, 82)',
+                npcs: ['gatekeeper'],
+                exits: [
+                    { label: 'Main Hall', room: 'main_hall' },
+                    { label: 'Back Office', room: 'back_office', require: 'gatekeeper_cleared' }
+                ]
+            },
+            'back_office': {
+                name: 'THE BACK OFFICE',
+                color: 'rgb(235, 235, 230)',
+                npcs: ['founder'],
+                exits: [{ label: 'Ceremony Space', room: 'ceremony' }]
+            }
+        };
 
-  <!-- Battle -->
-  <div id="battle-screen">
-    <div id="battle-scene" class="bg-battle">
-      <div class="battle-char" id="battle-steve">
-        <div class="battle-char-name" style="color:#4a7a8a">STEVE</div>
-        <div class="battle-sprite" id="steve-battle-sprite">🧑‍💼</div>
-        <div class="battle-hp-bar"><div class="battle-hp-fill" id="steve-hp-bar"></div></div>
-        <div class="battle-hp-text" id="steve-hp-text"></div>
-        <div class="battle-status" id="steve-status"></div>
-      </div>
-      <div class="battle-char" id="battle-enemy">
-        <div class="battle-char-name" style="color:#aa6644" id="enemy-name"></div>
-        <div class="battle-sprite" id="enemy-battle-sprite"></div>
-        <div class="battle-hp-bar"><div class="battle-hp-fill" id="enemy-hp-bar"></div></div>
-        <div class="battle-hp-text" id="enemy-hp-text"></div>
-        <div class="battle-status" id="enemy-status"></div>
-      </div>
-    </div>
-    <div id="battle-ui">
-      <div id="battle-menu">
-        <button class="battle-menu-btn" onclick="battleAction('attack')">⚔ Attack</button>
-        <button class="battle-menu-btn" onclick="showSubmenu('skills')">★ Skills</button>
-        <button class="battle-menu-btn" onclick="showSubmenu('talk')">💬 Talk</button>
-        <button class="battle-menu-btn" onclick="battleAction('analyze')">🔍 Analyze</button>
-        <button class="battle-menu-btn" onclick="showSubmenu('items')">🎒 Item</button>
-        <button class="battle-menu-btn" onclick="battleAction('endure')">🛡 Endure</button>
-      </div>
-      <div id="battle-submenu"></div>
-      <div id="battle-log"></div>
-    </div>
-  </div>
+        // ═══════════════════════════════════════════════════════════════════
+        // NPCs
+        // ═══════════════════════════════════════════════════════════════════
+        const npcs = {
+            'receptionist': { name: 'Receptionist', color: '#CC7700', emoji: '💁‍♀️✨', dialogue: 'receptionist' },
+            'frank': { name: 'Groundskeeper', color: '#666666', emoji: '🧔🔧', dialogue: 'frank' },
+            'oil_warrior': { name: '???', color: '#D12064', emoji: '🧴💥', dialogue: 'oil_warrior' },
+            'maya': { name: 'Maya', color: '#B85726', emoji: '👩‍🍳🥣', dialogue: 'maya_kitchen' },
+            'brandon': { name: 'Brandon', color: '#1B8D8D', emoji: '🧑‍🦲🙏', dialogue: 'brandon_arrive' },
+            'meditator': { name: '???', color: '#8034A0', emoji: '🧘‍♂️💢', dialogue: 'meditator_challenge' },
+            'cacao_dealer': { name: 'Cacao Dealer', color: '#2E8E18', emoji: '🍫😏', dialogue: 'cacao_dealer_shop' },
+            'gatekeeper': { name: 'Gatekeeper', color: '#A62424', emoji: '🚫🧙‍♂️', dialogue: 'gatekeeper_confront' },
+            'founder': { name: 'The Founder', color: '#C78C00', emoji: '👁️🕴️', dialogue: 'founder_prefight' }
+        };
 
-  <!-- Inventory -->
-  <div id="inventory-popup">
-    <span class="inv-close" onclick="toggleInventory()">✕</span>
-    <h3>INVENTORY</h3>
-    <div id="inv-list"></div>
-  </div>
+        // ═══════════════════════════════════════════════════════════════════
+        // ENEMIES
+        // ═══════════════════════════════════════════════════════════════════
+        const enemyDB = {
+            'oil_warrior': {
+                name: 'ESSENTIAL OIL WARRIOR',
+                emoji: '🧴💥',
+                hp: 45, maxHp: 45,
+                atk: 12, def: 0,
+                weakness: 'bureaucratic',
+                intro: '"Your aura is STAGNANT. Receive this blessing!"',
+                attacks: [
+                    { name: 'Anoint', dmg: 14, msg: '"RECEIVE THIS BLESSING!" She hurls peppermint oil at Steve.' },
+                    { name: 'MLM Pitch', dmg: 10, msg: '"What if I told you that for a ONE-TIME investment of $150..."' }
+                ],
+                defeat: '"My mother bought out of pity, didn\'t she." (She walks away slowly.)',
+                xp: 3, cacao: 25
+            },
+            'meditator': {
+                name: 'COMPETITIVE MEDITATOR',
+                emoji: '🧘‍♂️💢',
+                hp: 60, maxHp: 60,
+                atk: 14, def: 2,
+                weakness: 'psychic',
+                intro: '"Your breathing technique is AMATEUR."',
+                attacks: [
+                    { name: 'Judgmental Silence', dmg: 12, msg: 'He stares at Steve with the intensity of a man who meditates competitively.' },
+                    { name: 'Aggressive Namaste', dmg: 16, msg: '"NAMASTE!" (He bows so aggressively it\'s basically a headbutt.)' }
+                ],
+                defeat: '"I... I wasn\'t even the best meditator here?" (His knees crack loudly.)',
+                xp: 4, cacao: 35
+            },
+            'gatekeeper': {
+                name: 'THE GATEKEEPER',
+                emoji: '🚫🧙‍♂️',
+                hp: 80, maxHp: 80,
+                atk: 16, def: 4,
+                weakness: 'bureaucratic',
+                intro: '"Your energy signature is INSUFFICIENT."',
+                attacks: [
+                    { name: 'Gatekeep', dmg: 18, msg: '"YOU ARE NOT READY." He blocks the entrance with his entire being.' },
+                    { name: 'Spiritual Authority', dmg: 14, msg: '"I have studied with masters in seven countries."' }
+                ],
+                defeat: '"My name is Dave. Dave Carver." (He sits on the floor.)',
+                xp: 5, cacao: 50
+            },
+            'founder': {
+                name: 'BRANDON (BRAINWASHED)',
+                emoji: '🧑‍🦲😵‍💫',
+                phase2Emoji: '👁️🕴️',
+                phase3Emoji: '😱🕴️💀',
+                hp: 50, maxHp: 50,
+                atk: 18, def: 3,
+                weakness: 'bureaucratic',
+                intro: '"I really hoped you wouldn\'t do this, Akash Prem." Brandon enters, eyes glazed. BOSS BATTLE — Phase 1: Break Brandon\'s conditioning!',
+                isBoss: true,
+                analyzeText: 'BOSS: 3 phases. Break Brandon first. Derek\'s weakness is bureaucratic (financial records). Real name: Derek Fontaine. Previous career: used car sales.',
+                phase1Attacks: [
+                    { name: 'Eager Defense', dmg: 10, msg: '"I WON\'T LET YOU HURT HIM!" Brandon throws himself in the way.' },
+                    { name: 'Gratitude Shield', dmg: 0, msg: 'Brandon\'s blind devotion creates a barrier.', effect: 'defend' },
+                    { name: 'Love Bomb', dmg: 8, msg: '"You just don\'t UNDERSTAND! The Founder LOVES us!"' }
+                ],
+                attacks: [
+                    { name: 'Charismatic Redirect', dmg: 16, msg: '"What you\'re feeling is RESISTANCE. That means we\'re close to a breakthrough."' },
+                    { name: 'Gaslighting', dmg: 12, msg: '"I never said that. You\'re projecting. This is your trauma speaking."', effect: 'smudge' },
+                    { name: 'Financial Restructure', dmg: 0, msg: 'Derek adjusts his pricing model mid-battle.', effect: 'boss_buff' },
+                    { name: 'Inner Circle Invitation', dmg: 20, msg: '"Join me, Steve. You have a gift for systems."' }
+                ],
+                phase3Attacks: [
+                    { name: 'Desperate Plea', dmg: 8, msg: '"Please. I built this from NOTHING."' },
+                    { name: 'Full Meltdown', dmg: 25, msg: 'Derek throws the desk. "I AM THE FOUNDER! I AM THE VISION!"' },
+                    { name: 'Vulnerable Honesty', dmg: 0, msg: '"I was a used car salesman in Tucson. I read one book about chakras. ONE BOOK."' }
+                ],
+                defeat: 'Derek sits in his ergonomic office chair.\n"It started as a joke. Then they came back. And they brought friends. And they brought money."\nHe looks at his hands. "I\'m not enlightened. I\'m just good at PowerPoint."',
+                xp: 10, cacao: 100
+            }
+        };
 
-  <!-- Overlay (victory/defeat) -->
-  <div id="overlay">
-    <h2 id="overlay-title"></h2>
-    <p id="overlay-text"></p>
-    <p id="overlay-text2"></p>
-    <div class="prompt" id="overlay-prompt">[ SPACE / Click ]</div>
-  </div>
-</div>
+        // ═══════════════════════════════════════════════════════════════════
+        // INTRO PAGES
+        // ═══════════════════════════════════════════════════════════════════
+        const introPages = [
+            'Steve Stevens was a perfectly ordinary accountant with a perfectly ordinary life. He had a sensible car, a sensible apartment, and a wife with increasingly non-sensible ideas about "self-care."',
+            'Last month, she went to a place called "The Sanctuary of Infinite Becoming" for a weekend yoga retreat. That was three months ago. She said she needed to "find her authentic self."',
+            'Steve had no idea what she was looking for. Her authentic self appeared to him to be a person who liked spreadsheets and discount groceries.',
+            'But she was gone. She had stopped answering texts. The retreat center said they "honor the privacy of all souls." Steve decided to go retrieve her, because that\'s what you do when your wife disappears.',
+            'Also, he had paid $2,400 for this retreat on a credit card, and it was marked "non-refundable." This would later prove to be his only leverage.',
+            'Steve got in his Camry and drove north. He had no idea he was about to learn more about accounting, consent, and human delusion than any accountant should ever have to know.'
+        ];
 
-<script>
-// ═══════════════════════════════════════════
-// GAME STATE
-// ═══════════════════════════════════════════
-const G = {
-  phase: 'title', // title, intro, explore, battle, victory, defeat
-  hp: 100, maxHp: 100,
-  ep: 50, maxEp: 50,
-  normality: 90,
-  insight: 0,
-  cacao: 0,
-  inventory: [
-    { id: 'pamphlet', name: 'Orientation Pamphlet', desc: '"Welcome to The Sanctuary of Infinite Becoming! Please note the non-refundable deposit policy on page 3 (in very small print)."', type: 'weapon', equipped: true, dmg: 5 },
-    { id: 'polo', name: "Steve's Polo Shirt", desc: '"100% polyester. Machine washable. Spiritually impenetrable."', type: 'armor', equipped: true, def: 2 },
-    { id: 'energy_bar', name: 'Energy Bar', desc: '"From the glove compartment. Slightly melted. The most normal food within a 50-mile radius."', type: 'consumable', heal: 20, qty: 3 },
-    { id: 'receipt', name: "Wife's Credit Card Receipt", desc: '"$2,400 for a Transformational Immersion (non-refundable). Steve has thoughts about the non-refundable part."', type: 'quest' }
-  ],
-  flags: {},
-  currentRoom: 0,
-  introStep: 0,
-  dialogueQueue: [],
-  dialogueCallback: null,
-  battleTurn: 0,
-  enemy: null,
-  enemyAnalyzed: false,
-  playerTurn: true,
-  battleOver: false,
-  enrolled: false,
-  enrolledTimer: 0,
-  smudged: 0,
-  gaslit: 0,
-  steveEndure: false
-};
+        // ═══════════════════════════════════════════════════════════════════
+        // DRAWING FUNCTION
+        // ═══════════════════════════════════════════════════════════════════
+        function drawStickFigure(canvas, emotion = 'neutral') {
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
 
-// ═══════════════════════════════════════════
-// INTRO SEQUENCE
-// ═══════════════════════════════════════════
-const introPages = [
-  "You are Steve Stevens.\n\nYou are 38 years old. You work in accounting.\nYou are adequate at your job.\nYou are adequate at most things.",
+            ctx.clearRect(0, 0, w, h);
+            ctx.strokeStyle = '#3a3a3a';
+            ctx.fillStyle = '#3a3a3a';
+            ctx.lineWidth = 1.5;
 
-  "Three weeks ago, your wife went to an\nAyahuasca retreat in the mountains.\n\nShe said it would be \"just a weekend.\"\nShe said she'd be back by Monday.",
+            const centerX = w / 2;
+            const centerY = h * 0.2;
 
-  "She did not come back by Monday.\n\nShe texted: \"I need more time.\nSomething is opening inside me.\"\n\nSteve did not know what was opening.\nSteve did not want to know.",
+            // Head
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 9, 0, Math.PI * 2);
+            ctx.fill();
 
-  "Then the texts stopped.\n\nThe credit card did not stop.\n$2,400 — \"Transformational Immersion.\"\n$800 — \"Sacred Sound Healing Intensive.\"\n$340 — \"Artisanal Cacao Ceremony Kit.\"\n\nSteve does not know what artisanal cacao is.\nSteve knows what $3,540 is.",
+            // Eyes
+            if (emotion === 'happy') {
+                ctx.fillRect(centerX - 6, centerY - 2, 2, 2);
+                ctx.fillRect(centerX + 4, centerY - 2, 2, 2);
+            } else if (emotion === 'scared') {
+                ctx.beginPath();
+                ctx.arc(centerX - 4, centerY - 2, 1.5, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(centerX + 4, centerY - 2, 1.5, 0, Math.PI * 2);
+                ctx.fill();
+            }
 
-  "You have tracked the charges to a place called\n\"The Sanctuary of Infinite Becoming.\"\n\nIt used to be a golf course.\n\nYou have packed sensible shoes, a change of\nclothes, and the quiet certainty of a man\nwho has filed fourteen years of tax returns\nwithout a single error.",
+            // Body
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY + 9);
+            ctx.lineTo(centerX, centerY + 30);
+            ctx.stroke();
 
-  "You are going to find your wife.\n\nYou are going to bring her home.\n\nYou are not going to \"open\" anything."
-];
+            // Arms
+            ctx.beginPath();
+            ctx.moveTo(centerX - 12, centerY + 15);
+            ctx.lineTo(centerX + 12, centerY + 15);
+            ctx.stroke();
 
-// ═══════════════════════════════════════════
-// ROOMS (Exploration)
-// ═══════════════════════════════════════════
-const rooms = [
-  {
-    id: 'pavilion',
-    name: 'THE WELCOME PAVILION',
-    bg: 'bg-pavilion',
-    npcs: [
-      { id: 'receptionist', emoji: '🧘‍♀️', label: 'Receptionist', x: 50 }
-    ],
-    nav: { right: 1 },
-    enterText: 'The air smells like nag champa and broken expectations. A woman sits behind a desk decorated with crystals and a very normal Dell laptop.'
-  },
-  {
-    id: 'path',
-    name: 'THE GARDEN PATH',
-    bg: 'bg-path',
-    npcs: [
-      { id: 'oil_warrior', emoji: '🧴', label: '???', x: 65 }
-    ],
-    nav: { left: 0, right: 2 },
-    enterText: 'A gravel path winds between prayer flags and hand-painted signs that say things like "You Are Enough" and "Please Compost."'
-  },
-  {
-    id: 'garden',
-    name: 'THE SACRED GARDEN',
-    bg: 'bg-garden',
-    npcs: [
-      { id: 'frank', emoji: '👷', label: 'Groundskeeper', x: 50 }
-    ],
-    nav: { left: 1 },
-    enterText: 'A quiet garden with meditation cushions, crystal grids, and a man in overalls fixing a fence. He is the first normal thing you\'ve seen.'
-  }
-];
-
-// ═══════════════════════════════════════════
-// DIALOGUE TREES
-// ═══════════════════════════════════════════
-const dialogues = {
-  receptionist: [
-    { speaker: 'Receptionist', text: "Namaste, beautiful soul! Welcome to The Sanctuary of Infinite Becoming. I can feel your energy from here. It's very... dense." },
-    { speaker: 'Steve', text: "I have a reservation. Steve Stevens. The weekend package." },
-    { speaker: 'Receptionist', text: 'We don\'t use the word "reservation" here. You\'ve set an INTENTION to arrive, and the universe has honored it.' },
-    { speaker: '', text: '(She opens a completely normal Excel spreadsheet.)' , thought: true },
-    { speaker: 'Receptionist', text: "Before we begin, I'll need your phone, any watches, and anything with a screen. We're creating a sacred container free from digital interference." },
-    { speaker: '', text: '', choices: [
-      { text: '"My phone? Absolutely not."', next: 'receptionist_phone_no' },
-      { text: '"Fine. Take it."', next: 'receptionist_phone_yes' },
-      { text: '"Is there Wi-Fi here?"', next: 'receptionist_wifi' }
-    ]},
-  ],
-  receptionist_phone_no: [
-    { speaker: 'Receptionist', text: "I hear your resistance. That's beautiful. The attachment you feel is exactly what we're here to release. Also it's mandatory — it says so in the waiver you signed online. On your phone." },
-    { speaker: '', text: '(Steve reluctantly hands over his phone. He feels a phantom vibration in his pocket immediately.)', thought: true },
-    { speaker: '', text: '', goto: 'receptionist_name' }
-  ],
-  receptionist_phone_yes: [
-    { speaker: 'Receptionist', text: "Beautiful surrender. You're already doing the work." },
-    { speaker: '', text: '(Steve hands over his phone. He feels a phantom vibration in his pocket immediately.)', thought: true },
-    { speaker: '', text: '', goto: 'receptionist_name' }
-  ],
-  receptionist_wifi: [
-    { speaker: 'Receptionist', text: 'We find that disconnecting from the digital realm allows us to connect more deeply with...' },
-    { speaker: 'Receptionist', text: "(her voice drops to a whisper) ...there's none. There's no Wi-Fi. I haven't checked my email in nine weeks. I don't know what's happening out there. Is everything okay out there?" },
-    { speaker: '', text: '(The smile returns.)', thought: true },
-    { speaker: 'Receptionist', text: "I mean — isn't that LIBERATING?" },
-    { speaker: '', text: '(Steve hands over his phone.)', thought: true },
-    { speaker: '', text: '', goto: 'receptionist_name' }
-  ],
-  receptionist_name: [
-    { speaker: 'Receptionist', text: "Now! Every guest receives a Sanskrit name to honor their soul's essence. I'm going to look into your eyes and channel the name that's been waiting for you across lifetimes." },
-    { speaker: '', text: '(She stares at Steve for an uncomfortable amount of time.)', thought: true },
-    { speaker: 'Receptionist', text: '...Akash Prem. Sky Love.' },
-    { speaker: 'Steve', text: 'My name is Steve.' },
-    { speaker: 'Receptionist', text: 'Steve is the name your PARENTS gave you. Akash Prem is the name your SOUL chose before incarnation.' },
-    { speaker: '', text: '(She hands you a name tag. It says "Akash Prem" in Comic Sans.)', thought: true },
-    { speaker: '', text: '', goto: 'receptionist_wife' }
-  ],
-  receptionist_wife: [
-    { speaker: 'Steve', text: "I'm looking for my wife. She was here a few weeks ago?" },
-    { speaker: 'Receptionist', text: "We honor the privacy of all souls who pass through The Sanctuary. I can't share details about another person's journey." },
-    { speaker: 'Steve', text: "She's my WIFE." },
-    { speaker: 'Receptionist', text: "She's the universe's wife, Steve. We all belong to each other. And also to ourselves. Especially to ourselves." },
-    { speaker: 'Receptionist', text: "I'd invite you to settle in first. Attend a session. Let the land hold you. The answers you seek will come when you stop seeking them." },
-    { speaker: '', text: '(She touches her heart with both hands and bows. Steve is dismissed.)', thought: true },
-    { speaker: '', text: '(Maybe someone else here knows something. You should look around.)', thought: true, callback: () => { G.flags.talked_receptionist = true; G.insight += 1; updateHUD(); } }
-  ],
-
-  oil_warrior: [
-    { speaker: '???', text: "Hey! Hey, wait! Can I just — have you heard of doTERRA?" },
-    { speaker: 'Steve', text: "No." },
-    { speaker: 'Essential Oil Warrior', text: "It's not what you think. It's not a pyramid scheme. It's a WELLNESS ECOSYSTEM with a tiered distribution model." },
-    { speaker: 'Steve', text: "That is exactly what a pyramid scheme is." },
-    { speaker: 'Essential Oil Warrior', text: "A pyramid has a POINT at the TOP. This has a DIAMOND shape. Completely different geometry. Here — smell this." },
-    { speaker: '', text: '(She thrusts a tiny bottle toward your face. The smell hits you like a forest fire in a health food store.)', thought: true },
-    { speaker: '', text: '', choices: [
-      { text: '"Get that away from me."', next: 'oil_fight' },
-      { text: '"How much do you actually make from this?"', next: 'oil_fight' },
-      { text: '(Try to walk away)', next: 'oil_fight' }
-    ]}
-  ],
-  oil_fight: [
-    { speaker: 'Essential Oil Warrior', text: "RECEIVE THIS BLESSING!" },
-    { speaker: '', text: '(She throws peppermint oil at you. It burns. Combat is unavoidable.)', thought: true, callback: () => { startBattle(); } }
-  ],
-
-  frank: [
-    { speaker: '', text: '(A man in overalls is fixing a fence with actual tools. He is the first person you\'ve seen doing real physical work without calling it "sacred.")', thought: true },
-    { speaker: 'Frank', text: "You're new. Guest or volunteer?" },
-    { speaker: 'Steve', text: "Guest, I think. I paid money." },
-    { speaker: 'Frank', text: "You paid? Then you're a guest. The ones who didn't pay work harder. Funny system. Been trying to work it out for twelve years. Think it's called feudalism but with candles." },
-    { speaker: '', text: '', choices: [
-      { text: '"I\'m looking for my wife."', next: 'frank_wife' },
-      { text: '"How long have you worked here?"', next: 'frank_long' },
-      { text: '"This place seems... unusual."', next: 'frank_unusual' }
-    ]}
-  ],
-  frank_wife: [
-    { speaker: 'Frank', text: "Your wife. What's she look like?" },
-    { speaker: '', text: '(Steve describes her.)', thought: true },
-    { speaker: 'Frank', text: "Yeah. I remember her. Helped me carry wood one afternoon. Only guest who ever did that. Then she stopped coming outside. Got pulled into the inner circle." },
-    { speaker: 'Frank', text: 'The inner circle means The Founder took an interest. Real name\'s Derek. Don\'t tell anyone I told you that.' },
-    { speaker: 'Steve', text: "Where is she now?" },
-    { speaker: 'Frank', text: "Gone. They always go. Derek sends them to the next place down the pipeline. Your wife's trail will be in his files. Back office or his cabin." },
-    { speaker: '', text: '', goto: 'frank_end' }
-  ],
-  frank_long: [
-    { speaker: 'Frank', text: "Twelve years. Was here when it was a golf course. Better business model. At least golfers know they're wasting money." },
-    { speaker: '', text: '', goto: 'frank_end' }
-  ],
-  frank_unusual: [
-    { speaker: 'Frank', text: "You know what I've learned in twelve years? These people talk about being present, but none of them can change a tire." },
-    { speaker: 'Frank', text: "They talk about connection but never asked my last name. They talk about non-attachment but try moving one of their crystals." },
-    { speaker: 'Frank', text: "Not bad people. Mostly. Just people who got lost looking for something and found a building instead." },
-    { speaker: '', text: '', goto: 'frank_end' }
-  ],
-  frank_end: [
-    { speaker: 'Frank', text: "Tell you what, Steve. You seem alright. If you need anything practical — and I mean PRACTICAL, not energetic — come find me." },
-    { speaker: '', text: '(Frank nods and returns to his fence. It\'s the most straightforward interaction you\'ve had since arriving.)', thought: true, callback: () => { G.flags.talked_frank = true; G.insight += 1; updateHUD(); } }
-  ]
-};
-
-// ═══════════════════════════════════════════
-// ENEMY DATA
-// ═══════════════════════════════════════════
-const enemies = {
-  oil_warrior: {
-    name: 'ESSENTIAL OIL WARRIOR',
-    emoji: '🧴',
-    hp: 45, maxHp: 45,
-    atk: 12,
-    weakness: 'bureaucratic',
-    resistance: 'spiritual',
-    attacks: [
-      {
-        name: 'Anoint',
-        dmg: 14,
-        msg: '"RECEIVE THIS BLESSING!" She hurls peppermint oil at Steve.',
-        effect: 'smudge',
-        effectMsg: 'Steve is Smudged! (Accuracy -20% for 3 turns)'
-      },
-      {
-        name: 'MLM Pitch',
-        dmg: 10,
-        msg: '"What if I told you that for a ONE-TIME investment of $150..." The sales pitch intensifies.',
-        effect: 'enroll',
-        effectMsg: 'Steve is being Enrolled! (Losing cacao each turn)'
-      },
-      {
-        name: '"It\'s Not a Pyramid"',
-        dmg: 0,
-        msg: '"A PYRAMID has a POINT. This is a DIAMOND. Completely different geometry."',
-        effect: 'defend',
-        effectMsg: 'Essential Oil Warrior\'s defense increased!'
-      }
-    ],
-    analyzeText: [
-      '<span class="log-info">═══ ANALYSIS ═══</span>',
-      '<span class="log-info">Type: MLM Zealot</span>',
-      '<span class="log-info">Weakness: Bureaucratic (financial truth)</span>',
-      '<span class="log-info">Resistance: Spiritual (thinks she knows energy)</span>',
-      '<span class="log-info">Inventory invested: $6,000</span>',
-      '<span class="log-info">Total sales: $340 (to her mother)</span>',
-      '<span class="log-info">Net position: -$5,660</span>',
-      '<span class="log-status">NOTE: Spreadsheet Analysis may be instantly fatal.</span>'
-    ],
-    defeatText: '"My mother bought out of pity, didn\'t she." (She walks away slowly. Somehow this feels worse than winning.)',
-    drops: [
-      { id: 'oil_bottle', name: 'Tiny Bottle of Overpriced Oil', desc: '"Thieves Blend. Named either after the historical plague remedy or the business model." Consumable: 10 damage to one enemy.', type: 'consumable', qty: 1 },
-    ],
-    xp: 3,
-    cacao: 25
-  }
-};
-
-// ═══════════════════════════════════════════
-// CORE FUNCTIONS
-// ═══════════════════════════════════════════
-function $(id) { return document.getElementById(id); }
-
-function updateHUD() {
-  $('hud-hp').style.width = (G.hp / G.maxHp * 100) + '%';
-  $('hud-hp-val').textContent = G.hp;
-  $('hud-ep').style.width = (G.ep / G.maxEp * 100) + '%';
-  $('hud-ep-val').textContent = G.ep;
-  $('hud-norm').style.width = G.normality + '%';
-  $('hud-insight').textContent = 'INSIGHT: ' + G.insight;
-  $('hud-cacao').textContent = '🫘 ' + G.cacao;
-}
-
-function typeText(element, text, speed = 25) {
-  return new Promise(resolve => {
-    element.innerHTML = '';
-    let i = 0;
-    const chars = text.split('');
-    function tick() {
-      if (i < chars.length) {
-        element.innerHTML += chars[i];
-        i++;
-        setTimeout(tick, speed);
-      } else {
-        resolve();
-      }
-    }
-    tick();
-  });
-}
-
-// ═══════════════════════════════════════════
-// TITLE SCREEN
-// ═══════════════════════════════════════════
-function handleTitleClick() {
-  if (G.phase !== 'title') return;
-  G.phase = 'intro';
-  $('title-screen').style.display = 'none';
-  $('intro-screen').style.display = 'flex';
-  showIntroPage();
-}
-
-// ═══════════════════════════════════════════
-// INTRO SEQUENCE
-// ═══════════════════════════════════════════
-async function showIntroPage() {
-  $('intro-prompt').style.display = 'none';
-  await typeText($('intro-text'), introPages[G.introStep], 30);
-  $('intro-prompt').style.display = 'block';
-}
-
-function handleIntroClick() {
-  if (G.phase !== 'intro') return;
-  G.introStep++;
-  if (G.introStep >= introPages.length) {
-    G.phase = 'explore';
-    $('intro-screen').style.display = 'none';
-    $('explore-screen').style.display = 'block';
-    $('hud').style.display = 'flex';
-    updateHUD();
-    enterRoom(0);
-  } else {
-    showIntroPage();
-  }
-}
-
-// ═══════════════════════════════════════════
-// EXPLORATION
-// ═══════════════════════════════════════════
-function enterRoom(idx) {
-  G.currentRoom = idx;
-  const room = rooms[idx];
-
-  // background
-  $('scene-art').className = '';
-  $('scene-art').classList.add(room.bg);
-
-  // location
-  $('location-label').textContent = room.name;
-
-  // nav arrows
-  $('nav-left').style.display = room.nav.left !== undefined ? 'block' : 'none';
-  $('nav-right').style.display = room.nav.right !== undefined ? 'block' : 'none';
-  $('nav-left').onclick = () => enterRoom(room.nav.left);
-  $('nav-right').onclick = () => enterRoom(room.nav.right);
-
-  // characters
-  const charDiv = $('scene-characters');
-  charDiv.innerHTML = '<div id="steve-sprite" class="char-sprite"></div>';
-
-  room.npcs.forEach(npc => {
-    if (npc.id === 'oil_warrior' && G.flags.oil_defeated) return;
-    const el = document.createElement('div');
-    el.className = 'npc-sprite';
-    el.innerHTML = `<div style="font-size:56px;text-align:center;margin-top:20px">${npc.emoji}</div><div class="npc-label">${npc.label}</div>`;
-    el.onclick = () => talkTo(npc.id);
-    charDiv.appendChild(el);
-  });
-
-  // enter text
-  showDialogueLine({ speaker: '', text: room.enterText, thought: true });
-}
-
-function talkTo(npcId) {
-  if (G.phase !== 'explore') return;
-  const key = npcId;
-  if (dialogues[key]) {
-    if (npcId === 'receptionist' && G.flags.talked_receptionist) {
-      showDialogueLine({ speaker: 'Receptionist', text: "Welcome back, Akash Prem! How are you LANDING today?" });
-      return;
-    }
-    if (npcId === 'frank' && G.flags.talked_frank) {
-      showDialogueLine({ speaker: 'Frank', text: "Still here? Good luck, accountant." });
-      return;
-    }
-    if (npcId === 'oil_warrior' && G.flags.oil_defeated) return;
-    runDialogue(dialogues[key]);
-  }
-}
-
-function runDialogue(lines, idx = 0) {
-  if (idx >= lines.length) return;
-  const line = lines[idx];
-
-  // goto another dialogue
-  if (line.goto) {
-    runDialogue(dialogues[line.goto], 0);
-    return;
-  }
-
-  // choices
-  if (line.choices) {
-    $('speaker-name').textContent = '';
-    $('dialogue-text').innerHTML = '';
-    $('continue-prompt').style.display = 'none';
-    const choiceDiv = $('choices');
-    choiceDiv.innerHTML = '';
-    line.choices.forEach(c => {
-      const btn = document.createElement('button');
-      btn.className = 'choice-btn';
-      btn.textContent = c.text;
-      btn.onclick = () => {
-        choiceDiv.innerHTML = '';
-        if (c.next && dialogues[c.next]) {
-          runDialogue(dialogues[c.next], 0);
+            // Legs
+            ctx.beginPath();
+            ctx.moveTo(centerX - 6, centerY + 30);
+            ctx.lineTo(centerX - 6, centerY + 55);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(centerX + 6, centerY + 30);
+            ctx.lineTo(centerX + 6, centerY + 55);
+            ctx.stroke();
         }
-      };
-      choiceDiv.appendChild(btn);
-    });
-    return;
-  }
 
-  showDialogueLine(line, () => {
-    if (line.callback) line.callback();
-    runDialogue(lines, idx + 1);
-  });
-}
-
-let dialogueClickHandler = null;
-
-function showDialogueLine(line, onNext) {
-  $('choices').innerHTML = '';
-  $('continue-prompt').style.display = 'none';
-
-  if (line.speaker) {
-    $('speaker-name').textContent = line.speaker;
-  } else {
-    $('speaker-name').textContent = '';
-  }
-
-  const textEl = $('dialogue-text');
-  if (line.thought) {
-    textEl.innerHTML = `<span class="steve-thought">${line.text}</span>`;
-  } else {
-    textEl.innerHTML = line.text;
-  }
-
-  if (onNext) {
-    $('continue-prompt').style.display = 'block';
-    // remove old handler
-    if (dialogueClickHandler) {
-      $('dialogue-box').removeEventListener('click', dialogueClickHandler);
-    }
-    dialogueClickHandler = () => {
-      $('dialogue-box').removeEventListener('click', dialogueClickHandler);
-      dialogueClickHandler = null;
-      onNext();
-    };
-    $('dialogue-box').addEventListener('click', dialogueClickHandler);
-  }
-}
-
-// ═══════════════════════════════════════════
-// BATTLE SYSTEM
-// ═══════════════════════════════════════════
-let currentEnemy = null;
-let enemyDef = 0;
-
-function startBattle() {
-  G.phase = 'battle';
-  $('explore-screen').style.display = 'none';
-  $('battle-screen').style.display = 'flex';
-
-  currentEnemy = JSON.parse(JSON.stringify(enemies.oil_warrior));
-  enemyDef = 0;
-  G.battleTurn = 0;
-  G.enemyAnalyzed = false;
-  G.playerTurn = true;
-  G.battleOver = false;
-  G.enrolled = false;
-  G.enrolledTimer = 0;
-  G.smudged = 0;
-  G.gaslit = 0;
-  G.steveEndure = false;
-
-  $('enemy-name').textContent = currentEnemy.name;
-  $('enemy-battle-sprite').textContent = currentEnemy.emoji;
-  updateBattleHP();
-  $('battle-log').innerHTML = '';
-  $('battle-submenu').style.display = 'none';
-  $('battle-menu').style.display = 'flex';
-  $('steve-status').textContent = '';
-  $('enemy-status').textContent = '';
-
-  battleLog('"Have you tried peppermint oil for your energy? You look like your chi is STAGNANT."', 'log-talk');
-  battleLog('Battle Start!', 'log-info');
-
-  enableBattleMenu(true);
-}
-
-function updateBattleHP() {
-  $('steve-hp-bar').style.width = (G.hp / G.maxHp * 100) + '%';
-  $('steve-hp-text').textContent = G.hp + '/' + G.maxHp;
-  $('enemy-hp-bar').style.width = (currentEnemy.hp / currentEnemy.maxHp * 100) + '%';
-  $('enemy-hp-text').textContent = currentEnemy.hp + '/' + currentEnemy.maxHp;
-  updateHUD();
-}
-
-function battleLog(msg, cls = '') {
-  const log = $('battle-log');
-  const p = document.createElement('div');
-  p.innerHTML = cls ? `<span class="${cls}">${msg}</span>` : msg;
-  log.appendChild(p);
-  log.scrollTop = log.scrollHeight;
-}
-
-function enableBattleMenu(on) {
-  document.querySelectorAll('.battle-menu-btn').forEach(b => b.disabled = !on);
-}
-
-function showSubmenu(type) {
-  if (!G.playerTurn || G.battleOver) return;
-  $('battle-menu').style.display = 'none';
-  const sub = $('battle-submenu');
-  sub.style.display = 'flex';
-  sub.innerHTML = '';
-
-  const backBtn = document.createElement('button');
-  backBtn.className = 'submenu-btn submenu-back';
-  backBtn.textContent = '← Back';
-  backBtn.onclick = () => {
-    sub.style.display = 'none';
-    $('battle-menu').style.display = 'flex';
-  };
-  sub.appendChild(backBtn);
-
-  if (type === 'skills') {
-    addSubmenuBtn(sub, 'Spreadsheet Analysis', '5 EP', () => battleAction('spreadsheet'), G.ep >= 5);
-    addSubmenuBtn(sub, 'Schedule Optimization', '4 EP', () => battleAction('schedule_opt'), G.ep >= 4);
-    addSubmenuBtn(sub, 'Risk Assessment', '3 EP', () => battleAction('risk_assess'), G.ep >= 3);
-    if (G.insight >= 2) {
-      addSubmenuBtn(sub, 'Audit', '8 EP', () => battleAction('audit'), G.ep >= 8);
-      addSubmenuBtn(sub, 'Tax Write-Off', '4 EP', () => battleAction('tax_writeoff'), G.ep >= 4);
-    }
-  } else if (type === 'talk') {
-    addSubmenuBtn(sub, 'Set Boundary', '', () => battleAction('talk_boundary'));
-    addSubmenuBtn(sub, 'Question', '', () => battleAction('talk_question'));
-    addSubmenuBtn(sub, 'Bore', '', () => battleAction('talk_bore'));
-    addSubmenuBtn(sub, 'Validate', '', () => battleAction('talk_validate'));
-  } else if (type === 'items') {
-    const consumables = G.inventory.filter(i => i.type === 'consumable' && (i.qty === undefined || i.qty > 0));
-    if (consumables.length === 0) {
-      addSubmenuBtn(sub, '(no items)', '', null, false);
-    }
-    consumables.forEach(item => {
-      addSubmenuBtn(sub, `${item.name}${item.qty ? ' x' + item.qty : ''}`, '', () => battleAction('use_item', item));
-    });
-  }
-}
-
-function addSubmenuBtn(parent, label, cost, action, enabled = true) {
-  const btn = document.createElement('button');
-  btn.className = 'submenu-btn';
-  btn.innerHTML = label + (cost ? ` <span class="ep-cost">[${cost}]</span>` : '');
-  if (!enabled || !action) btn.disabled = true;
-  else btn.onclick = () => {
-    $('battle-submenu').style.display = 'none';
-    $('battle-menu').style.display = 'flex';
-    action();
-  };
-  parent.appendChild(btn);
-}
-
-function battleAction(action, itemData) {
-  if (!G.playerTurn || G.battleOver) return;
-  G.playerTurn = false;
-  G.steveEndure = false;
-  enableBattleMenu(false);
-
-  let hit = true;
-  if (G.smudged > 0 && Math.random() < 0.2) {
-    hit = false;
-  }
-
-  switch (action) {
-    case 'attack': {
-      const baseDmg = 5 + Math.floor(Math.random() * 4);
-      if (!hit) {
-        battleLog('Steve swings the Orientation Pamphlet... and misses! (Smudged)', 'log-info');
-      } else {
-        const dmg = Math.max(1, baseDmg - enemyDef);
-        dealEnemyDmg(dmg);
-        battleLog(`Steve attacks with the Orientation Pamphlet! ${dmg} damage!`, 'log-damage');
-        if (dmg < 5) battleLog('(Paper cuts are less effective against oily defenses.)', 'log-info');
-      }
-      break;
-    }
-    case 'spreadsheet': {
-      G.ep -= 5;
-      battleLog('Steve pulls out a spreadsheet.', 'log-info');
-      battleLog('"You\'ve invested $6,000 in inventory. Total sales: $340. Net position: negative $5,660."', 'log-talk');
-
-      if (currentEnemy.weakness === 'bureaucratic') {
-        const dmg = currentEnemy.hp; // instant kill
-        dealEnemyDmg(dmg);
-        battleLog(`CRITICAL HIT! Bureaucratic damage obliterates financial delusion! ${dmg} damage!`, 'log-crit');
-        battleLog('"Your hourly rate is approximately negative $4.20."', 'log-talk');
-      } else {
-        const dmg = 20;
-        dealEnemyDmg(dmg);
-        battleLog(`Spreadsheet Analysis deals ${dmg} bureaucratic damage!`, 'log-damage');
-      }
-      break;
-    }
-    case 'schedule_opt': {
-      G.ep -= 4;
-      battleLog('"I\'ve blocked out 15 minutes for this conflict." Steve gains an extra action!', 'log-info');
-      G.playerTurn = true;
-      enableBattleMenu(true);
-      updateBattleHP();
-      return;
-    }
-    case 'risk_assess': {
-      G.ep -= 3;
-      battleLog('Steve evaluates the risk profile of this encounter...', 'log-info');
-      battleLog('Risk Assessment: 60% chance of oil stains on polo shirt. 30% chance of being enrolled in a pyramid scheme. 10% chance of genuine personal growth (unacceptable).', 'log-info');
-      enemyDef = Math.max(0, enemyDef - 2);
-      battleLog("Enemy's defense reduced! Vulnerabilities identified.", 'log-status');
-      break;
-    }
-    case 'audit': {
-      G.ep -= 8;
-      battleLog('Steve initiates a FULL AUDIT.', 'log-info');
-      const dmg = 25;
-      dealEnemyDmg(dmg);
-      enemyDef = 0;
-      battleLog(`The audit deals ${dmg} bureaucratic damage and strips all defenses!`, 'log-crit');
-      battleLog('"Your LLC was filed incorrectly. You\'ve been operating as a sole proprietorship this entire time."', 'log-talk');
-      break;
-    }
-    case 'tax_writeoff': {
-      G.ep -= 4;
-      G.steveEndure = true;
-      battleLog('"This confrontation is a deductible business expense." Steve braces. Next attack reduced 50%.', 'log-info');
-      break;
-    }
-    case 'talk_boundary': {
-      battleLog('Steve: "I\'m not interested. Thank you."', 'log-talk');
-      if (currentEnemy.weakness === 'bureaucratic') {
-        battleLog('The Essential Oil Warrior is briefly stunned by clear communication.', 'log-status');
-        battleLog('She loses her next turn!', 'log-status');
-        // skip enemy turn
-        setTimeout(() => {
-          battleLog('Essential Oil Warrior sputters: "But — but you didn\'t even SMELL it properly—"', 'log-talk');
-          endEnemyTurn();
-        }, 800);
-        updateBattleHP();
-        return;
-      }
-      break;
-    }
-    case 'talk_question': {
-      battleLog('Steve: "How much do you actually make from this?"', 'log-talk');
-      const dmg = 8;
-      dealEnemyDmg(dmg);
-      battleLog(`The question deals ${dmg} psychic damage! (self-inflicted cognitive dissonance)`, 'log-damage');
-      battleLog('"Well it\'s not about the MONEY, it\'s about — I mean there IS money — last month after expenses I made... well..."', 'log-talk');
-      break;
-    }
-    case 'talk_bore': {
-      battleLog('Steve begins explaining the difference between FIFO and LIFO inventory methods.', 'log-talk');
-      const dmg = 6;
-      dealEnemyDmg(dmg);
-      battleLog(`The Essential Oil Warrior\'s eyes glaze over. ${dmg} damage from sheer boredom.`, 'log-damage');
-      battleLog('"...and when you account for the carrying costs, the weighted average method becomes—" Her will to sell weakens.', 'log-talk');
-      break;
-    }
-    case 'talk_validate': {
-      battleLog('Steve: "It sounds like you really believe in what you\'re doing."', 'log-talk');
-      battleLog('The Essential Oil Warrior tears up. Her attack power drops.', 'log-status');
-      currentEnemy.atk = Math.max(5, currentEnemy.atk - 3);
-      battleLog('"Nobody ever says that. Everyone just calls it a scam. Thank you."', 'log-talk');
-      battleLog('(Steve feels guilty. She IS in a scam.)', 'log-info');
-      break;
-    }
-    case 'endure': {
-      G.steveEndure = true;
-      battleLog('Steve grits his teeth and waits it out. Damage reduced this turn.', 'log-info');
-      battleLog('(He thinks about his desk. His ergonomic chair. The gentle hum of fluorescent lighting.)', 'log-info');
-      break;
-    }
-    case 'analyze': {
-      if (G.enemyAnalyzed) {
-        battleLog('Already analyzed. You know everything about her finances. It\'s depressing.', 'log-info');
-      } else {
-        G.enemyAnalyzed = true;
-        currentEnemy.analyzeText.forEach(line => battleLog(line));
-      }
-      break;
-    }
-    case 'use_item': {
-      if (itemData.heal) {
-        const heal = Math.min(itemData.heal, G.maxHp - G.hp);
-        G.hp += heal;
-        battleLog(`Steve uses ${itemData.name}. Restored ${heal} HP!`, 'log-heal');
-        if (itemData.id === 'energy_bar') {
-          battleLog('(It\'s slightly melted but it tastes like civilization.)', 'log-info');
+        // ═══════════════════════════════════════════════════════════════════
+        // SCREEN MANAGEMENT
+        // ═══════════════════════════════════════════════════════════════════
+        function showScreen(name) {
+            document.querySelectorAll('.screen-panel').forEach(p => p.classList.remove('active'));
+            document.getElementById(name + '-screen').classList.add('active');
+            gameState.screen = name;
         }
-        flashEl('steve-battle-sprite', 'flash-heal');
-      }
-      if (itemData.qty !== undefined) {
-        itemData.qty--;
-        if (itemData.qty <= 0) {
-          G.inventory = G.inventory.filter(i => i.id !== itemData.id);
+
+        // ═══════════════════════════════════════════════════════════════════
+        // INTRO
+        // ═══════════════════════════════════════════════════════════════════
+        function startIntro() {
+            showScreen('intro');
+            const container = document.getElementById('intro-pages');
+            container.innerHTML = introPages.map((text, i) =>
+                `<div class="intro-page ${i === 0 ? 'active' : ''} intro-text">${text}</div>`
+            ).join('');
+            gameState.introPage = 0;
+            updateIntroPageNum();
         }
-      }
-      break;
-    }
-  }
 
-  updateBattleHP();
+        function updateIntroPageNum() {
+            document.getElementById('intro-page-num').textContent = gameState.introPage + 1;
+        }
 
-  if (currentEnemy.hp <= 0) {
-    endBattle(true);
-    return;
-  }
+        function advanceIntro() {
+            if (gameState.introPage < introPages.length - 1) {
+                document.querySelector('.intro-page.active').classList.remove('active');
+                gameState.introPage++;
+                document.querySelectorAll('.intro-page')[gameState.introPage].classList.add('active');
+                updateIntroPageNum();
+            } else {
+                showScreen('exploration');
+                enterRoom('pavilion');
+            }
+        }
 
-  setTimeout(enemyTurn, 800);
-}
+        // ═══════════════════════════════════════════════════════════════════
+        // EXPLORATION
+        // ═══════════════════════════════════════════════════════════════════
+        function enterRoom(roomId) {
+            gameState.currentRoom = roomId;
+            const room = rooms[roomId];
+            document.getElementById('room-title').textContent = room.name;
+            document.getElementById('room-bg').style.background = room.color;
 
-function dealEnemyDmg(dmg) {
-  currentEnemy.hp = Math.max(0, currentEnemy.hp - dmg);
-  flashEl('enemy-battle-sprite', 'flash-damage');
-  $('battle-enemy').classList.add('shake');
-  setTimeout(() => $('battle-enemy').classList.remove('shake'), 400);
-}
+            // NPCs
+            const npcContainer = document.getElementById('npc-container');
+            npcContainer.innerHTML = '';
+            room.npcs.forEach(npcId => {
+                if (npcs[npcId]) {
+                    const npc = npcs[npcId];
+                    const slot = document.createElement('div');
+                    slot.className = 'npc-slot';
+                    slot.innerHTML = `<div class="npc-emoji">${npc.emoji}</div><div class="npc-label">${npc.name}</div>`;
+                    slot.onclick = () => startDialogue(npc.dialogue);
+                    npcContainer.appendChild(slot);
+                }
+            });
 
-function enemyTurn() {
-  if (G.battleOver) return;
+            // Exits
+            const navButtons = document.getElementById('nav-buttons');
+            navButtons.innerHTML = '';
+            room.exits.forEach(exit => {
+                if (!exit.require || gameState.flags[exit.require]) {
+                    const btn = document.createElement('button');
+                    btn.textContent = exit.label;
+                    btn.onclick = () => enterRoom(exit.room);
+                    navButtons.appendChild(btn);
+                }
+            });
 
-  // status effects tick
-  if (G.smudged > 0) {
-    G.smudged--;
-    if (G.smudged === 0) {
-      battleLog('The smudge smoke clears. Steve can see again.', 'log-info');
-      $('steve-status').textContent = updateSteveStatus();
-    }
-  }
-  if (G.enrolled) {
-    G.enrolledTimer++;
-    const loss = 5;
-    G.cacao = Math.max(0, G.cacao - loss);
-    battleLog(`Enrolled! Steve loses ${loss} cacao coins to the subscription.`, 'log-status');
-    if (G.enrolledTimer >= 5) {
-      battleLog('The starter kit ships automatically. Steve loses 150 cacao.', 'log-crit');
-      G.cacao = Math.max(0, G.cacao - 150);
-      G.enrolled = false;
-    }
-  }
+            // Clear dialogue
+            clearDialogue();
+        }
 
-  // pick attack
-  const atkIdx = Math.floor(Math.random() * currentEnemy.attacks.length);
-  const atk = currentEnemy.attacks[atkIdx];
+        function clearDialogue() {
+            document.getElementById('speaker-name').textContent = '';
+            document.getElementById('dialogue-text').textContent = '';
+            document.getElementById('choices-container').innerHTML = '';
+            document.getElementById('continue-prompt').style.display = 'none';
+        }
 
-  battleLog(`Essential Oil Warrior uses ${atk.name}!`, 'log-info');
-  battleLog(atk.msg, 'log-talk');
+        // ═══════════════════════════════════════════════════════════════════
+        // DIALOGUE
+        // ═══════════════════════════════════════════════════════════════════
+        let currentDialogue = null;
+        let dialogueIndex = 0;
 
-  if (atk.dmg > 0) {
-    let dmg = atk.dmg + Math.floor(Math.random() * 5) - 2;
-    if (G.steveEndure) {
-      dmg = Math.floor(dmg * 0.5);
-      battleLog('(Endure reduces damage!)', 'log-info');
-    }
-    dmg = Math.max(1, dmg);
-    G.hp = Math.max(0, G.hp - dmg);
-    battleLog(`Steve takes ${dmg} damage!`, 'log-damage');
-    flashEl('steve-battle-sprite', 'flash-damage');
-    $('battle-steve').classList.add('shake');
-    setTimeout(() => $('battle-steve').classList.remove('shake'), 400);
-  }
+        function startDialogue(treeId) {
+            currentDialogue = dialogueData[treeId];
+            if (!currentDialogue) return;
+            dialogueIndex = 0;
+            showDialogueLine();
+        }
 
-  // effects
-  if (atk.effect === 'smudge' && G.smudged === 0) {
-    G.smudged = 3;
-    battleLog(atk.effectMsg, 'log-status');
-  } else if (atk.effect === 'enroll' && !G.enrolled) {
-    G.enrolled = true;
-    G.enrolledTimer = 0;
-    battleLog(atk.effectMsg, 'log-status');
-  } else if (atk.effect === 'defend') {
-    enemyDef += 3;
-    battleLog(atk.effectMsg, 'log-status');
-  }
+        function showDialogueLine() {
+            if (!currentDialogue || dialogueIndex >= currentDialogue.length) {
+                currentDialogue = null;
+                clearDialogue();
+                return;
+            }
 
-  $('steve-status').textContent = updateSteveStatus();
-  updateBattleHP();
+            const line = currentDialogue[dialogueIndex];
 
-  if (G.hp <= 0) {
-    endBattle(false);
-    return;
-  }
+            // Handle goto
+            if (line.goto) {
+                startDialogue(line.goto);
+                return;
+            }
 
-  endEnemyTurn();
-}
+            // Handle callback
+            if (line.callback) {
+                executeCallback(line.callback);
+            }
 
-function endEnemyTurn() {
-  G.battleTurn++;
-  G.playerTurn = true;
-  enableBattleMenu(true);
-  updateBattleHP();
-}
+            // Handle choices
+            if (line.choices) {
+                document.getElementById('speaker-name').textContent = '';
+                document.getElementById('dialogue-text').textContent = '';
+                document.getElementById('continue-prompt').style.display = 'none';
+                const container = document.getElementById('choices-container');
+                container.innerHTML = '';
+                line.choices.forEach((choice, i) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'choice-btn';
+                    btn.textContent = choice.text;
+                    btn.onclick = () => selectChoice(i, choice);
+                    container.appendChild(btn);
+                });
+                return;
+            }
 
-function updateSteveStatus() {
-  const parts = [];
-  if (G.smudged > 0) parts.push(`Smudged (${G.smudged})`);
-  if (G.enrolled) parts.push(`Enrolled (${5 - G.enrolledTimer})`);
-  return parts.join(' | ');
-}
+            // Display line
+            const text = line.text || '';
+            const speaker = line.speaker || '';
+            const npcData = Object.values(npcs).find(n => n.name === speaker);
+            const color = npcData ? npcData.color : '#3a3a3a';
 
-function flashEl(id, cls) {
-  const el = $(id);
-  el.classList.remove(cls);
-  void el.offsetWidth;
-  el.classList.add(cls);
-}
+            document.getElementById('speaker-name').textContent = speaker;
+            document.getElementById('speaker-name').style.color = color;
+            document.getElementById('dialogue-text').textContent = text;
+            document.getElementById('dialogue-text').style.color = line.thought ? '#999' : color;
 
-function endBattle(won) {
-  G.battleOver = true;
-  enableBattleMenu(false);
+            if (text.trim()) {
+                document.getElementById('continue-prompt').style.display = 'block';
+            } else {
+                dialogueIndex++;
+                showDialogueLine();
+            }
+        }
 
-  if (won) {
-    battleLog('───────────────', 'log-info');
-    battleLog(currentEnemy.defeatText, 'log-talk');
-    battleLog('───────────────', 'log-info');
-    battleLog(`+${currentEnemy.xp} Insight!`, 'log-info');
-    battleLog(`+${currentEnemy.cacao} Cacao Coins!`, 'log-info');
+        function selectChoice(index, choice) {
+            if (choice.callback) executeCallback(choice.callback);
+            if (choice.next) {
+                startDialogue(choice.next);
+            } else {
+                clearDialogue();
+            }
+        }
 
-    G.insight += currentEnemy.xp;
-    G.cacao += currentEnemy.cacao;
+        function advanceDialogue() {
+            if (!currentDialogue) return;
+            dialogueIndex++;
+            showDialogueLine();
+        }
 
-    currentEnemy.drops.forEach(drop => {
-      G.inventory.push({...drop});
-      battleLog(`Obtained: ${drop.name}`, 'log-status');
-    });
+        // ═══════════════════════════════════════════════════════════════════
+        // CALLBACKS
+        // ═══════════════════════════════════════════════════════════════════
+        function executeCallback(name) {
+            switch(name) {
+                case 'map_obtained':
+                    gameState.flags['map_obtained'] = true;
+                    break;
+                case 'talked_frank':
+                    gameState.flags['talked_frank'] = true;
+                    gameState.insight++;
+                    break;
+                case 'talked_maya':
+                    gameState.flags['talked_maya'] = true;
+                    break;
+                case 'talked_brandon':
+                    gameState.flags['talked_brandon'] = true;
+                    break;
+                case 'firepit_done':
+                    gameState.flags['firepit_done'] = true;
+                    gameState.flags['night_mode'] = true;
+                    gameState.insight += 2;
+                    break;
+                case 'circle_done':
+                    gameState.flags['circle_done'] = true;
+                    gameState.flags['night_mode'] = true;
+                    break;
+                case 'meditator_intel':
+                    gameState.flags['meditator_intel'] = true;
+                    gameState.insight++;
+                    break;
+                case 'gatekeeper_cleared':
+                    gameState.flags['gatekeeper_cleared'] = true;
+                    break;
+                case 'start_oil_battle':
+                    gameState.currentBattleEnemy = 'oil_warrior';
+                    startBattle();
+                    return;
+                case 'start_meditator_battle':
+                    gameState.currentBattleEnemy = 'meditator';
+                    startBattle();
+                    return;
+                case 'start_gatekeeper_battle':
+                    gameState.currentBattleEnemy = 'gatekeeper';
+                    startBattle();
+                    return;
+                case 'start_founder_battle':
+                    gameState.currentBattleEnemy = 'founder';
+                    startBattle();
+                    return;
+                case 'add_coffee':
+                    if (gameState.cacao >= 80) {
+                        gameState.cacao -= 80;
+                        gameState.inventory.push({ id: 'coffee', name: 'Actual Coffee', heal: 30, qty: 1 });
+                    }
+                    break;
+                case 'add_cacao_drink':
+                    if (gameState.cacao >= 50) {
+                        gameState.cacao -= 50;
+                        gameState.inventory.push({ id: 'cacao_drink', name: 'Cacao Drink', heal: 20, qty: 1 });
+                    }
+                    break;
+                case 'add_kombucha':
+                    if (gameState.cacao >= 20) {
+                        gameState.cacao -= 20;
+                        gameState.inventory.push({ id: 'kombucha', name: 'Kombucha', heal: 10, qty: 1 });
+                    }
+                    break;
+                case 'end_walk':
+                    startDialogue('departure');
+                    return;
+            }
+            updateHUD();
+        }
 
-    G.flags.oil_defeated = true;
-    updateHUD();
+        function updateHUD() {
+            document.getElementById('hp-val').textContent = gameState.hp;
+            document.getElementById('ep-val').textContent = gameState.ep;
+            document.getElementById('norm-val').textContent = gameState.normality;
+            document.getElementById('insight-val').textContent = gameState.insight;
+            document.getElementById('cacao-val').textContent = gameState.cacao;
 
-    setTimeout(() => showOverlay('victory'), 1500);
-  } else {
-    battleLog('───────────────', 'log-info');
-    battleLog('Steve collapses. Not from the oils. From the exhaustion of being in a world that makes no sense.', 'log-info');
-    setTimeout(() => showOverlay('defeat'), 1500);
-  }
-}
+            const hpPct = (gameState.hp / gameState.maxHp) * 100;
+            const epPct = (gameState.ep / gameState.maxEp) * 100;
+            document.getElementById('hp-bar').style.width = hpPct + '%';
+            document.getElementById('ep-bar').style.width = epPct + '%';
+        }
 
-function showOverlay(type) {
-  const o = $('overlay');
-  o.style.display = 'flex';
+        // ═══════════════════════════════════════════════════════════════════
+        // BATTLE
+        // ═══════════════════════════════════════════════════════════════════
+        let battleState = {
+            enemy: null,
+            playerTurn: true,
+            isOver: false,
+            phase: 1,
+            phase1HP: 0
+        };
 
-  if (type === 'victory') {
-    $('overlay-title').textContent = 'VICTORY';
-    $('overlay-text').textContent = currentEnemy.defeatText;
-    $('overlay-text2').innerHTML = `<br>+${currentEnemy.xp} Insight &nbsp;&nbsp; +${currentEnemy.cacao} Cacao Coins<br><br>Obtained: ${currentEnemy.drops.map(d => d.name).join(', ')}`;
-    G.phase = 'victory';
-  } else {
-    $('overlay-title').textContent = 'DEFEAT';
-    $('overlay-text').textContent = 'Steve sits on the floor and refuses to continue. His Homeostasis Points have reached zero.';
-    $('overlay-text2').textContent = 'The Essential Oil Warrior leaves a business card on his chest. "Call me when you\'re ready to invest in yourself."';
-    G.phase = 'defeat';
-  }
-}
+        function startBattle() {
+            showScreen('battle');
+            const enemyId = gameState.currentBattleEnemy;
+            battleState.enemy = JSON.parse(JSON.stringify(enemyDB[enemyId]));
+            battleState.phase = 1;
+            battleState.playerTurn = true;
+            battleState.isOver = false;
 
-function handleOverlayClick() {
-  $('overlay').style.display = 'none';
-  if (G.phase === 'victory') {
-    G.phase = 'explore';
-    $('battle-screen').style.display = 'none';
-    $('explore-screen').style.display = 'block';
-    enterRoom(G.currentRoom);
-    showDialogueLine({ speaker: '', text: '(The path is clear now. The faint smell of peppermint lingers. Steve\'s polo shirt may never recover.)', thought: true });
-  } else {
-    // restart battle on defeat
-    G.hp = G.maxHp;
-    G.ep = G.maxEp;
-    updateHUD();
-    startBattle();
-  }
-}
+            if (battleState.enemy.isBoss) {
+                battleState.phase1HP = 30;
+            }
 
-// ═══════════════════════════════════════════
-// INVENTORY
-// ═══════════════════════════════════════════
-function toggleInventory() {
-  const inv = $('inventory-popup');
-  if (inv.style.display === 'block') {
-    inv.style.display = 'none';
-    return;
-  }
-  inv.style.display = 'block';
-  const list = $('inv-list');
-  list.innerHTML = '';
-  G.inventory.forEach(item => {
-    const div = document.createElement('div');
-    div.className = 'inv-item';
-    const qty = item.qty ? ` x${item.qty}` : '';
-    const eq = item.equipped ? ' [EQUIPPED]' : '';
-    div.innerHTML = `<div class="inv-item-name">${item.name}${qty}${eq}</div><div class="inv-item-desc">${item.desc}</div>`;
-    list.appendChild(div);
-  });
-}
+            updateBattleDisplay();
+            logBattle(battleState.enemy.intro);
+            document.getElementById('victory-overlay').classList.remove('active');
+        }
 
-// ═══════════════════════════════════════════
-// GLOBAL INPUT HANDLER
-// ═══════════════════════════════════════════
-document.addEventListener('keydown', e => {
-  if (e.key === ' ' || e.key === 'Enter') {
-    e.preventDefault();
-    handleGlobalClick();
-  }
-  if (e.key === 'i' || e.key === 'I') {
-    if (G.phase === 'explore') toggleInventory();
-  }
-  if (e.key === 'ArrowLeft' && G.phase === 'explore') {
-    const room = rooms[G.currentRoom];
-    if (room.nav.left !== undefined) enterRoom(room.nav.left);
-  }
-  if (e.key === 'ArrowRight' && G.phase === 'explore') {
-    const room = rooms[G.currentRoom];
-    if (room.nav.right !== undefined) enterRoom(room.nav.right);
-  }
-});
+        function updateBattleDisplay() {
+            document.getElementById('steve-hp').textContent = gameState.hp;
+            document.getElementById('steve-hp-max').textContent = gameState.maxHp;
+            if (battleState.enemy.isBoss && battleState.phase === 1) {
+                document.getElementById('enemy-hp').textContent = battleState.phase1HP;
+                document.getElementById('enemy-hp-max').textContent = 30;
+            } else {
+                document.getElementById('enemy-hp').textContent = battleState.enemy.hp;
+                document.getElementById('enemy-hp-max').textContent = battleState.enemy.maxHp;
+            }
+            document.getElementById('enemy-name-label').textContent = battleState.enemy.name;
+            document.getElementById('enemy-display-name').textContent = battleState.enemy.name;
 
-$('game').addEventListener('click', e => {
-  // don't handle global click if clicking specific UI elements
-  if (e.target.closest('.choice-btn, .battle-menu-btn, .submenu-btn, .nav-arrow, .npc-sprite, .inv-close, #dialogue-box')) return;
-  handleGlobalClick();
-});
+            // Steve's emoji reacts to health
+            const steveEmoji = document.getElementById('steve-emoji');
+            if (gameState.hp < 20) steveEmoji.textContent = '😵📊';
+            else if (gameState.hp < 40) steveEmoji.textContent = '😰📊';
+            else steveEmoji.textContent = '👔📊';
 
-function handleGlobalClick() {
-  switch (G.phase) {
-    case 'title': handleTitleClick(); break;
-    case 'intro': handleIntroClick(); break;
-    case 'victory':
-    case 'defeat': handleOverlayClick(); break;
-  }
-}
-</script>
+            // Enemy emoji — boss phases change appearance
+            const enemyEmoji = document.getElementById('enemy-emoji');
+            if (battleState.enemy.isBoss) {
+                if (battleState.phase === 1) enemyEmoji.textContent = battleState.enemy.emoji;
+                else if (battleState.phase === 2) enemyEmoji.textContent = battleState.enemy.phase2Emoji || battleState.enemy.emoji;
+                else enemyEmoji.textContent = battleState.enemy.phase3Emoji || battleState.enemy.emoji;
+            } else {
+                if (battleState.enemy.hp < battleState.enemy.maxHp * 0.3) {
+                    enemyEmoji.textContent = battleState.enemy.emoji.replace(/💥|💢/, '😫');
+                } else {
+                    enemyEmoji.textContent = battleState.enemy.emoji;
+                }
+            }
+        }
+
+        function logBattle(msg) {
+            const log = document.getElementById('battle-log');
+            log.innerHTML += msg + '<br>';
+            log.scrollTop = log.scrollHeight;
+        }
+
+        function shakeEmoji(id) {
+            const el = document.getElementById(id);
+            el.classList.remove('hit');
+            void el.offsetWidth; // reflow to restart animation
+            el.classList.add('hit');
+        }
+
+        function dealEnemyDmg(dmg) {
+            shakeEmoji('enemy-emoji');
+            if (battleState.enemy.isBoss && battleState.phase === 1) {
+                battleState.phase1HP = Math.max(0, battleState.phase1HP - dmg);
+            } else {
+                battleState.enemy.hp = Math.max(0, battleState.enemy.hp - dmg);
+            }
+        }
+
+        function isEnemyDefeated() {
+            if (battleState.enemy.isBoss && battleState.phase === 1) {
+                return battleState.phase1HP <= 0;
+            }
+            return battleState.enemy.hp <= 0;
+        }
+
+        function advanceBossPhase() {
+            if (battleState.phase === 1) {
+                battleState.phase = 2;
+                logBattle('───────────────');
+                logBattle('Brandon collapses. "I haven\'t eaten in three days..."');
+                logBattle('Phase 2: Derek steps forward!');
+                battleState.enemy.name = 'THE FOUNDER';
+                updateBattleDisplay();
+                battleState.playerTurn = true;
+                document.getElementById('battle-turn-info').textContent = 'Your Turn';
+                return true;
+            }
+            return false;
+        }
+
+        function executeAction(action) {
+            if (!battleState.playerTurn || battleState.isOver) return;
+            battleState.playerTurn = false;
+            document.getElementById('battle-turn-info').textContent = 'Enemy Turn';
+            battleState.enduring = false;
+
+            switch(action) {
+                case 'attack': {
+                    const dmg = 5 + Math.floor(Math.random() * 3);
+                    dealEnemyDmg(dmg);
+                    logBattle(`Steve attacks with the Orientation Pamphlet! ${dmg} damage!`);
+                    break;
+                }
+                case 'spreadsheet': {
+                    if (gameState.ep >= 5) {
+                        gameState.ep -= 5;
+                        if (battleState.enemy.isBoss && battleState.phase === 1) {
+                            dealEnemyDmg(15);
+                            logBattle('"Brandon, you donated $2,400 to a gratitude fund with no receipts." 15 damage!');
+                        } else if (battleState.enemy.weakness === 'bureaucratic') {
+                            const d = battleState.enemy.hp;
+                            dealEnemyDmg(d);
+                            logBattle(`CRITICAL! Bureaucratic damage obliterates financial delusion! ${d} damage!`);
+                        } else {
+                            dealEnemyDmg(20);
+                            logBattle('Spreadsheet Analysis deals 20 bureaucratic damage!');
+                        }
+                    } else {
+                        logBattle('Not enough EP!');
+                        battleState.playerTurn = true;
+                        return;
+                    }
+                    break;
+                }
+                case 'schedule': {
+                    if (gameState.ep >= 4) {
+                        gameState.ep -= 4;
+                        logBattle('"I\'ve blocked out 15 minutes for this conflict." Extra action!');
+                        battleState.playerTurn = true;
+                        updateBattleDisplay();
+                        document.getElementById('battle-turn-info').textContent = 'Your Turn';
+                        return;
+                    }
+                    break;
+                }
+                case 'risk': {
+                    if (gameState.ep >= 3) {
+                        gameState.ep -= 3;
+                        battleState.enemy.def = Math.max(0, (battleState.enemy.def || 0) - 2);
+                        logBattle('Risk Assessment: Enemy defense reduced!');
+                    }
+                    break;
+                }
+                case 'audit': {
+                    if (gameState.ep >= 8) {
+                        gameState.ep -= 8;
+                        dealEnemyDmg(25);
+                        battleState.enemy.def = 0;
+                        logBattle('FULL AUDIT! 25 damage and all defenses stripped!');
+                    }
+                    break;
+                }
+                case 'analyze':
+                    logBattle('═══ ANALYSIS ═══');
+                    logBattle(`Type: ${battleState.enemy.name}`);
+                    logBattle(`Weakness: ${battleState.enemy.weakness}`);
+                    logBattle(`HP: ${battleState.enemy.isBoss && battleState.phase === 1 ? battleState.phase1HP + '/30' : battleState.enemy.hp + '/' + battleState.enemy.maxHp}`);
+                    if (battleState.enemy.analyzeText) logBattle(battleState.enemy.analyzeText);
+                    battleState.playerTurn = true;
+                    document.getElementById('battle-turn-info').textContent = 'Your Turn';
+                    updateBattleDisplay();
+                    return;
+                case 'endure':
+                    battleState.enduring = true;
+                    logBattle('Steve grits his teeth. Damage reduced this turn.');
+                    logBattle('(He thinks about his desk. His ergonomic chair. The hum of fluorescent lighting.)');
+                    break;
+                case 'talk_boundary':
+                    if (battleState.enemy.isBoss && battleState.phase === 1) {
+                        dealEnemyDmg(12);
+                        logBattle('"Brandon, when was the last time you ate?" Brandon blinks. 12 damage!');
+                    } else {
+                        logBattle('"I\'m not interested. Thank you." Enemy stunned!');
+                        updateBattleDisplay();
+                        setTimeout(() => { battleState.playerTurn = true; document.getElementById('battle-turn-info').textContent = 'Your Turn'; }, 600);
+                        return;
+                    }
+                    break;
+                case 'talk_question':
+                    if (battleState.enemy.isBoss && battleState.phase === 1) {
+                        dealEnemyDmg(15);
+                        logBattle('"Brandon, where\'s your watch? The one your dad gave you?" 15 damage!');
+                    } else {
+                        dealEnemyDmg(8);
+                        logBattle('Steve asks a deeply uncomfortable question. 8 psychic damage!');
+                    }
+                    break;
+                case 'talk_bore':
+                    dealEnemyDmg(6);
+                    logBattle('Steve explains FIFO vs LIFO inventory methods. 6 boredom damage.');
+                    break;
+                case 'talk_validate':
+                    if (battleState.enemy.isBoss && battleState.phase === 1) {
+                        dealEnemyDmg(10);
+                        logBattle('"Brandon, you\'re a good person. That\'s why he chose you." 10 damage!');
+                    } else {
+                        battleState.enemy.atk = Math.max(5, (battleState.enemy.atk || 12) - 3);
+                        logBattle('"It sounds like you really believe in what you\'re doing." Attack power drops.');
+                    }
+                    break;
+                case 'items': {
+                    const consumable = gameState.inventory.find(i => i.heal && (i.qty || 0) > 0);
+                    if (consumable) {
+                        const heal = Math.min(consumable.heal, gameState.maxHp - gameState.hp);
+                        gameState.hp += heal;
+                        consumable.qty--;
+                        if (consumable.qty <= 0) {
+                            gameState.inventory = gameState.inventory.filter(i => i.id !== consumable.id);
+                        }
+                        logBattle(`Steve uses ${consumable.name}. Restored ${heal} HP!`);
+                    } else {
+                        logBattle('No items!');
+                        battleState.playerTurn = true;
+                        return;
+                    }
+                    break;
+                }
+            }
+
+            updateBattleDisplay();
+            updateHUD();
+
+            // Check phase transition or defeat
+            if (isEnemyDefeated()) {
+                if (battleState.enemy.isBoss && battleState.phase === 1) {
+                    advanceBossPhase();
+                    return;
+                }
+                endBattle(true);
+                return;
+            }
+
+            setTimeout(enemyTurn, 600);
+        }
+
+        function enemyTurn() {
+            if (battleState.isOver) return;
+
+            // Pick attacks based on boss phase
+            let attacks;
+            if (battleState.enemy.isBoss && battleState.phase === 1) {
+                attacks = battleState.enemy.phase1Attacks || battleState.enemy.attacks;
+            } else if (battleState.enemy.isBoss && battleState.phase >= 2 && battleState.enemy.hp <= 15) {
+                if (battleState.phase === 2) {
+                    battleState.phase = 3;
+                    logBattle('Derek is desperate! Phase 3!');
+                }
+                attacks = battleState.enemy.phase3Attacks || battleState.enemy.attacks;
+            } else {
+                attacks = battleState.enemy.attacks || [];
+            }
+
+            const attack = attacks[Math.floor(Math.random() * attacks.length)] || { name: 'Flail', dmg: 5, msg: 'The enemy flails.' };
+
+            logBattle(`${battleState.enemy.name} uses ${attack.name}!`);
+            logBattle(attack.msg);
+
+            if (attack.dmg) {
+                let dmg = attack.dmg + Math.floor(Math.random() * 4 - 2);
+                if (battleState.enduring) {
+                    dmg = Math.floor(dmg / 2);
+                    logBattle('(Endure reduces damage!)');
+                }
+                dmg = Math.max(1, dmg);
+                gameState.hp = Math.max(0, gameState.hp - dmg);
+                shakeEmoji('steve-emoji');
+                logBattle(`Steve takes ${dmg} damage!`);
+            }
+
+            // Apply effects
+            if (attack.effect === 'defend') {
+                battleState.enemy.def = (battleState.enemy.def || 0) + 3;
+                logBattle('Enemy defense increased!');
+            } else if (attack.effect === 'smudge') {
+                logBattle('Steve is Smudged! (Accuracy -20% for 3 turns)');
+            } else if (attack.effect === 'boss_buff') {
+                battleState.enemy.atk = (battleState.enemy.atk || 18) + 2;
+                battleState.enemy.def = (battleState.enemy.def || 0) + 2;
+                logBattle('Derek restructures mid-fight! ATK and DEF increase!');
+            }
+
+            updateBattleDisplay();
+            updateHUD();
+
+            if (gameState.hp <= 0) {
+                endBattle(false);
+            } else {
+                battleState.playerTurn = true;
+                document.getElementById('battle-turn-info').textContent = 'Your Turn';
+            }
+        }
+
+        function endBattle(won) {
+            battleState.isOver = true;
+            const overlay = document.getElementById('victory-overlay');
+            const title = document.getElementById('victory-title');
+            const text = document.getElementById('victory-text');
+
+            if (won) {
+                title.textContent = 'VICTORY';
+                gameState.insight += battleState.enemy.xp;
+                gameState.cacao += battleState.enemy.cacao;
+
+                // Set the correct defeat flag
+                const defeatFlagMap = {
+                    'oil_warrior': 'oil_defeated',
+                    'meditator': 'meditator_defeated',
+                    'gatekeeper': 'gatekeeper_cleared',
+                    'founder': 'founder_defeated',
+                };
+                const flagKey = defeatFlagMap[gameState.currentBattleEnemy] || '';
+                if (flagKey) gameState.flags[flagKey] = true;
+
+                // Handle post-boss choices
+                if (gameState.currentBattleEnemy === 'founder') {
+                    text.innerHTML = `${battleState.enemy.defeat}<br><br>+${battleState.enemy.xp} Insight  +${battleState.enemy.cacao} Cacao<br><br>What do you do with the documents?`;
+                    // Add ending choice buttons to overlay
+                    const btnContainer = document.createElement('div');
+                    btnContainer.style.cssText = 'display:flex; flex-direction:column; gap:8px; margin-top:12px;';
+                    const choices = [
+                        { text: 'Walk away with your wife\'s letter', next: 'founder_end_walk' },
+                        { text: 'Restructure the Sanctuary (Steve can\'t help himself)', next: 'founder_end_restructure' },
+                        { text: 'Send everything to the authorities', next: 'founder_end_destroy' },
+                    ];
+                    choices.forEach(c => {
+                        const btn = document.createElement('button');
+                        btn.textContent = c.text;
+                        btn.style.cssText = 'padding:8px 16px; font-family:inherit; font-size:16px; cursor:pointer; background:#f0ece4; border:1px solid #999; border-radius:4px;';
+                        btn.onclick = () => {
+                            overlay.classList.remove('active');
+                            showScreen('exploration');
+                            enterRoom(gameState.currentRoom);
+                            setTimeout(() => startDialogue(c.next), 300);
+                        };
+                        btnContainer.appendChild(btn);
+                    });
+                    text.appendChild(btnContainer);
+                } else {
+                    text.innerHTML = `${battleState.enemy.defeat}<br><br>+${battleState.enemy.xp} Insight  +${battleState.enemy.cacao} Cacao`;
+                }
+            } else {
+                // EGO DEATH
+                const deathMessages = [
+                    "You had what the community calls 'a breakthrough.' You call it 'losing consciousness.'",
+                    "Steve lay on the floor. Someone was already burning sage.",
+                    "As Steve's vision faded, he heard: 'Should we call 911?' 'No, get the essential oils.'",
+                    "Steve respawned. He hated that he thought the word 'respawned.'",
+                    "The singing bowl brings you back. You briefly saw the void. It looked like a spreadsheet.",
+                ];
+                gameState.deathCount = (gameState.deathCount || 0) + 1;
+                const msg = deathMessages[gameState.deathCount % deathMessages.length];
+                title.textContent = 'EGO DEATH';
+                text.innerHTML = `${msg}<br><br>Steve wakes up in the dorms.<br>HP restored to ${Math.floor(gameState.maxHp / 2)}. Normality -5.`;
+                gameState.hp = Math.floor(gameState.maxHp / 2);
+                gameState.ep = Math.floor(gameState.maxEp / 2);
+                gameState.normality = Math.max(0, gameState.normality - 5);
+                gameState.currentRoom = 'dorms';
+            }
+
+            updateHUD();
+            overlay.classList.add('active');
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // EVENT LISTENERS
+        // ═══════════════════════════════════════════════════════════════════
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                if (gameState.screen === 'title') {
+                    startIntro();
+                } else if (gameState.screen === 'intro') {
+                    advanceIntro();
+                } else if (gameState.screen === 'exploration') {
+                    if (document.getElementById('continue-prompt').style.display !== 'none') {
+                        advanceDialogue();
+                    }
+                } else if (gameState.screen === 'battle' && battleState.isOver) {
+                    showScreen('exploration');
+                    enterRoom(gameState.currentRoom);
+                }
+            }
+        });
+
+        document.addEventListener('click', () => {
+            if (gameState.screen === 'title') {
+                startIntro();
+            } else if (gameState.screen === 'intro') {
+                advanceIntro();
+            } else if (gameState.screen === 'exploration') {
+                if (document.getElementById('continue-prompt').style.display !== 'none') {
+                    advanceDialogue();
+                }
+            } else if (gameState.screen === 'battle' && battleState.isOver) {
+                showScreen('exploration');
+                enterRoom(gameState.currentRoom);
+            }
+        });
+
+        document.getElementById('attack-btn').onclick = () => executeAction('attack');
+        document.getElementById('analyze-btn').onclick = () => executeAction('analyze');
+        document.getElementById('endure-btn').onclick = () => executeAction('endure');
+
+        // Skills submenu
+        document.getElementById('skills-btn').onclick = () => {
+            const menu = document.getElementById('battle-menu');
+            menu.innerHTML = '';
+            const skills = [
+                { label: `Spreadsheet [5 EP]`, action: 'spreadsheet', ok: gameState.ep >= 5 },
+                { label: `Schedule Opt [4 EP]`, action: 'schedule', ok: gameState.ep >= 4 },
+                { label: `Risk Assess [3 EP]`, action: 'risk', ok: gameState.ep >= 3 },
+            ];
+            if (gameState.insight >= 2) {
+                skills.push({ label: `Audit [8 EP]`, action: 'audit', ok: gameState.ep >= 8 });
+            }
+            skills.forEach(s => {
+                const btn = document.createElement('button');
+                btn.className = 'action-btn';
+                btn.textContent = s.label;
+                btn.disabled = !s.ok;
+                btn.onclick = () => { restoreMainMenu(); executeAction(s.action); };
+                menu.appendChild(btn);
+            });
+            const back = document.createElement('button');
+            back.className = 'action-btn';
+            back.textContent = '← Back';
+            back.onclick = restoreMainMenu;
+            menu.appendChild(back);
+        };
+
+        // Talk submenu
+        document.getElementById('talk-btn').onclick = () => {
+            const menu = document.getElementById('battle-menu');
+            menu.innerHTML = '';
+            const talks = [
+                { label: 'Set Boundary', action: 'talk_boundary' },
+                { label: 'Question', action: 'talk_question' },
+                { label: 'Bore', action: 'talk_bore' },
+                { label: 'Validate', action: 'talk_validate' },
+            ];
+            talks.forEach(t => {
+                const btn = document.createElement('button');
+                btn.className = 'action-btn';
+                btn.textContent = t.label;
+                btn.onclick = () => { restoreMainMenu(); executeAction(t.action); };
+                menu.appendChild(btn);
+            });
+            const back = document.createElement('button');
+            back.className = 'action-btn';
+            back.textContent = '← Back';
+            back.onclick = restoreMainMenu;
+            menu.appendChild(back);
+        };
+
+        // Items button
+        document.getElementById('items-btn').onclick = () => executeAction('items');
+
+        function restoreMainMenu() {
+            const menu = document.getElementById('battle-menu');
+            menu.innerHTML = `
+                <button class="action-btn" id="attack-btn">Attack</button>
+                <button class="action-btn" id="skills-btn">Skills</button>
+                <button class="action-btn" id="talk-btn">Talk</button>
+                <button class="action-btn" id="analyze-btn">Analyze</button>
+                <button class="action-btn" id="items-btn">Items</button>
+                <button class="action-btn" id="endure-btn">Endure</button>
+            `;
+            // Re-bind all handlers
+            document.getElementById('attack-btn').onclick = () => executeAction('attack');
+            document.getElementById('skills-btn').onclick = document.getElementById('skills-btn').onclick;
+            document.getElementById('talk-btn').onclick = document.getElementById('talk-btn').onclick;
+            document.getElementById('analyze-btn').onclick = () => executeAction('analyze');
+            document.getElementById('items-btn').onclick = () => executeAction('items');
+            document.getElementById('endure-btn').onclick = () => executeAction('endure');
+            // Need to rebind skills and talk submenus
+            bindMenuButtons();
+        }
+
+        function bindMenuButtons() {
+            document.getElementById('attack-btn').onclick = () => executeAction('attack');
+            document.getElementById('analyze-btn').onclick = () => executeAction('analyze');
+            document.getElementById('endure-btn').onclick = () => executeAction('endure');
+            document.getElementById('items-btn').onclick = () => executeAction('items');
+            document.getElementById('skills-btn').onclick = () => {
+                const menu = document.getElementById('battle-menu');
+                menu.innerHTML = '';
+                const skills = [
+                    { label: `Spreadsheet [5 EP]`, action: 'spreadsheet', ok: gameState.ep >= 5 },
+                    { label: `Schedule Opt [4 EP]`, action: 'schedule', ok: gameState.ep >= 4 },
+                    { label: `Risk Assess [3 EP]`, action: 'risk', ok: gameState.ep >= 3 },
+                ];
+                if (gameState.insight >= 2) {
+                    skills.push({ label: `Audit [8 EP]`, action: 'audit', ok: gameState.ep >= 8 });
+                }
+                skills.forEach(s => {
+                    const btn = document.createElement('button');
+                    btn.className = 'action-btn';
+                    btn.textContent = s.label;
+                    btn.disabled = !s.ok;
+                    btn.onclick = () => { restoreMainMenu(); executeAction(s.action); };
+                    menu.appendChild(btn);
+                });
+                const back = document.createElement('button');
+                back.className = 'action-btn';
+                back.textContent = '← Back';
+                back.onclick = restoreMainMenu;
+                menu.appendChild(back);
+            };
+            document.getElementById('talk-btn').onclick = () => {
+                const menu = document.getElementById('battle-menu');
+                menu.innerHTML = '';
+                const talks = [
+                    { label: 'Set Boundary', action: 'talk_boundary' },
+                    { label: 'Question', action: 'talk_question' },
+                    { label: 'Bore', action: 'talk_bore' },
+                    { label: 'Validate', action: 'talk_validate' },
+                ];
+                talks.forEach(t => {
+                    const btn = document.createElement('button');
+                    btn.className = 'action-btn';
+                    btn.textContent = t.label;
+                    btn.onclick = () => { restoreMainMenu(); executeAction(t.action); };
+                    menu.appendChild(btn);
+                });
+                const back = document.createElement('button');
+                back.className = 'action-btn';
+                back.textContent = '← Back';
+                back.onclick = restoreMainMenu;
+                menu.appendChild(back);
+            };
+        }
+        bindMenuButtons();
+
+        // Initialize
+        updateHUD();
+    </script>
 </body>
 </html>

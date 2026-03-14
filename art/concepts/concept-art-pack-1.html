@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Burner Bash — Concept Art Pack 1</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #1a1a12;
+    color: #c0b899;
+    font-family: Georgia, 'Times New Roman', serif;
+    padding: 40px;
+  }
+  h1 { color: #d4a34a; font-size: 28px; margin-bottom: 6px; }
+  .subtitle { color: #877a5a; font-size: 14px; margin-bottom: 48px; line-height: 1.5; max-width: 700px; }
+  .section { margin-bottom: 56px; border-bottom: 1px solid #2a2a1e; padding-bottom: 48px; }
+  .section:last-child { border-bottom: none; }
+  h2 { color: #d4a34a; font-size: 20px; margin-bottom: 6px; }
+  h3 { color: #d4a34a; font-size: 16px; margin-bottom: 6px; margin-top: 32px; }
+  .desc { color: #877a5a; font-size: 13px; margin-bottom: 24px; max-width: 650px; line-height: 1.5; }
+  .chars { display: flex; gap: 32px; align-items: flex-end; flex-wrap: wrap; }
+  .char-card { text-align: center; }
+  .char-card .label { color: #877a5a; font-size: 11px; margin-top: 6px; }
+  .char-card .label em { color: #c0b899; font-style: normal; }
+  .scene-container { background: #0a0805; border-radius: 4px; padding: 8px; display: inline-block; }
+  .note { color: #877a5a; font-size: 11px; font-style: italic; margin-top: 12px; max-width: 600px; line-height: 1.5; }
+</style>
+</head>
+<body>
+
+<h1>Concept Art Pack 1</h1>
+<p class="subtitle">New characters, a scene composition, and a combat UI mockup. All SVG, all using the established visual language. Coordinates map directly to Godot <code style="color:#d4a34a">_draw()</code> calls.</p>
+
+<!-- ============================================ -->
+<!-- THE FOUNDER — ZONE 1 BOSS -->
+<!-- ============================================ -->
+<div class="section">
+  <h2>The Founder — Zone 1 Boss</h2>
+  <p class="desc">Triangle shape, wide base — a mountain you're supposed to climb. Barefoot, linen everything, man-bun. Arms often open in a perpetual "welcome" gesture. Eyes are warm but calculating. He's bigger than every other character — he looms. The triangle silhouette says: immovable, important, rooted. His accent color is deep warm amber — the gold of a sunset retreat brochure.</p>
+  <div class="chars">
+
+    <!-- The Founder: Default/Welcoming -->
+    <div class="char-card">
+      <svg width="180" height="260" viewBox="0 0 180 260">
+        <!-- head: strong jaw, handsome, slightly larger than others -->
+        <ellipse cx="90" cy="42" rx="18" ry="20" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- man bun -->
+        <circle cx="90" cy="18" r="8" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <path d="M82 24 Q86 20 90 18 Q94 20 98 24" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <!-- hair sides: flowing but controlled -->
+        <path d="M72 36 Q68 28 72 22" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <path d="M108 36 Q112 28 108 22" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <!-- eyes: warm, crinkled, but WATCHFUL -->
+        <path d="M80 38 Q84 35 88 38" fill="none" stroke="#c0b899" stroke-width="1.8"/>
+        <circle cx="84" cy="39" r="1.5" fill="#c0b899"/>
+        <path d="M92 38 Q96 35 100 38" fill="none" stroke="#c0b899" stroke-width="1.8"/>
+        <circle cx="96" cy="39" r="1.5" fill="#c0b899"/>
+        <!-- crow's feet: he smiles a LOT -->
+        <path d="M76 38 L74 36 M76 39 L73 39" fill="none" stroke="#c0b899" stroke-width="0.8" opacity="0.5"/>
+        <path d="M104 38 L106 36 M104 39 L107 39" fill="none" stroke="#c0b899" stroke-width="0.8" opacity="0.5"/>
+        <!-- eyebrows: relaxed, wise -->
+        <path d="M78 34 Q84 31 88 34" fill="none" stroke="#c0b899" stroke-width="1.3"/>
+        <path d="M92 34 Q96 31 102 34" fill="none" stroke="#c0b899" stroke-width="1.3"/>
+        <!-- nose: defined, prominent -->
+        <path d="M90 38 L88 46 Q90 48 92 46" fill="none" stroke="#c0b899" stroke-width="1.2"/>
+        <!-- mouth: warm smile, practiced -->
+        <path d="M82 52 Q90 58 98 52" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <!-- beard: neat, groomed -->
+        <path d="M78 50 Q78 60 84 64 Q90 66 96 64 Q102 60 102 50" fill="none" stroke="#c0b899" stroke-width="1.2" opacity="0.5"/>
+        <!-- neck: thick, confident -->
+        <line x1="90" y1="62" x2="90" y2="72" stroke="#c0b899" stroke-width="3"/>
+        <!-- NECKLACE: mala beads with pendant -->
+        <path d="M74 68 Q90 78 106 68" fill="none" stroke="#d4a34a" stroke-width="1.5"/>
+        <circle cx="90" cy="78" r="4" fill="none" stroke="#d4a34a" stroke-width="1.5"/>
+        <circle cx="90" cy="78" r="1.5" fill="#d4a34a"/>
+        <!-- small mala bead dots -->
+        <circle cx="78" cy="70" r="1" fill="#d4a34a" opacity="0.6"/>
+        <circle cx="82" cy="73" r="1" fill="#d4a34a" opacity="0.6"/>
+        <circle cx="86" cy="76" r="1" fill="#d4a34a" opacity="0.6"/>
+        <circle cx="94" cy="76" r="1" fill="#d4a34a" opacity="0.6"/>
+        <circle cx="98" cy="73" r="1" fill="#d4a34a" opacity="0.6"/>
+        <circle cx="102" cy="70" r="1" fill="#d4a34a" opacity="0.6"/>
+        <!-- shoulders: WIDE, open, powerful -->
+        <path d="M42 82 Q66 72 90 76 Q114 72 138 82" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- torso: V-shape, linen tunic -->
+        <path d="M90 76 Q88 110 90 150" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- tunic: loose, linen, flowing -->
+        <path d="M52 84 Q50 120 48 160 Q90 170 132 160 Q130 120 128 84" fill="none" stroke="#c0b899" stroke-width="2" opacity="0.6"/>
+        <!-- tunic V-neck -->
+        <path d="M72 76 L84 100 L90 76" fill="none" stroke="#c0b899" stroke-width="1.2" opacity="0.5"/>
+        <path d="M90 76 L96 100 L108 76" fill="none" stroke="#c0b899" stroke-width="1.2" opacity="0.5"/>
+        <!-- tunic fold lines -->
+        <path d="M70 90 Q72 130 68 160" fill="none" stroke="#c0b899" stroke-width="0.8" opacity="0.3"/>
+        <path d="M110 90 Q108 130 112 160" fill="none" stroke="#c0b899" stroke-width="0.8" opacity="0.3"/>
+        <!-- ARMS: wide open, welcoming gesture -->
+        <path d="M42 82 L24 70 L14 58" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- left hand: open, palm up -->
+        <path d="M14 58 L8 54 M14 58 L10 56 M14 58 L8 60 M14 58 L10 62" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <!-- right arm: mirror -->
+        <path d="M138 82 L156 70 L166 58" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M166 58 L172 54 M166 58 L170 56 M166 58 L172 60 M166 58 L170 62" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <!-- subtle glow/aura around hands -->
+        <circle cx="14" cy="58" r="12" fill="none" stroke="#d4a34a" stroke-width="0.8" opacity="0.2"/>
+        <circle cx="166" cy="58" r="12" fill="none" stroke="#d4a34a" stroke-width="0.8" opacity="0.2"/>
+        <!-- legs: wide stance, grounded -->
+        <line x1="78" y1="150" x2="64" y2="220" stroke="#c0b899" stroke-width="2.8"/>
+        <line x1="102" y1="150" x2="116" y2="220" stroke="#c0b899" stroke-width="2.8"/>
+        <!-- BAREFOOT: deliberate, grounded -->
+        <path d="M58 220 L64 220 L68 226 L62 228 L56 224" fill="none" stroke="#c0b899" stroke-width="1.8"/>
+        <path d="M112 220 L116 220 L122 226 L118 228 L110 224" fill="none" stroke="#c0b899" stroke-width="1.8"/>
+        <!-- toe lines -->
+        <line x1="60" y1="226" x2="60" y2="228" stroke="#c0b899" stroke-width="0.8"/>
+        <line x1="63" y1="227" x2="63" y2="229" stroke="#c0b899" stroke-width="0.8"/>
+        <line x1="116" y1="226" x2="116" y2="228" stroke="#c0b899" stroke-width="0.8"/>
+        <line x1="119" y1="227" x2="119" y2="229" stroke="#c0b899" stroke-width="0.8"/>
+      </svg>
+      <div class="label"><em>Default</em> — arms wide, "welcome home"</div>
+    </div>
+
+    <!-- The Founder: Phase 2 — Mask Slipping -->
+    <div class="char-card">
+      <svg width="180" height="260" viewBox="0 0 180 260">
+        <!-- head: same but tension -->
+        <ellipse cx="90" cy="42" rx="18" ry="20" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <circle cx="90" cy="18" r="8" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <path d="M82 24 Q86 20 90 18 Q94 20 98 24" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <path d="M72 36 Q68 28 72 22" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <path d="M108 36 Q112 28 108 22" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <!-- eyes: WIDER now, less warm, more intense -->
+        <circle cx="84" cy="38" r="3" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <circle cx="84" cy="38" r="1.8" fill="#c0b899"/>
+        <circle cx="96" cy="38" r="3" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <circle cx="96" cy="38" r="1.8" fill="#c0b899"/>
+        <!-- eyebrows: angled DOWN, aggressive -->
+        <line x1="76" y1="35" x2="86" y2="33" stroke="#c0b899" stroke-width="2"/>
+        <line x1="94" y1="33" x2="104" y2="35" stroke="#c0b899" stroke-width="2"/>
+        <!-- nose -->
+        <path d="M90 38 L88 46 Q90 48 92 46" fill="none" stroke="#c0b899" stroke-width="1.2"/>
+        <!-- mouth: tight, trying to stay calm, failing -->
+        <path d="M82 52 L88 50 L92 50 L98 52" fill="none" stroke="#c0b899" stroke-width="1.8"/>
+        <!-- vein on temple -->
+        <path d="M72 32 L68 28 L70 32 L66 30" fill="none" stroke="#c0b899" stroke-width="1.2" opacity="0.6"/>
+        <!-- beard -->
+        <path d="M78 50 Q78 60 84 64 Q90 66 96 64 Q102 60 102 50" fill="none" stroke="#c0b899" stroke-width="1.2" opacity="0.5"/>
+        <!-- neck: tense -->
+        <line x1="90" y1="62" x2="90" y2="72" stroke="#c0b899" stroke-width="3.5"/>
+        <!-- necklace: mala broken, beads scattering -->
+        <path d="M74 68 Q82 74 86 76" fill="none" stroke="#d4a34a" stroke-width="1.5"/>
+        <path d="M106 68 Q98 74 94 76" fill="none" stroke="#d4a34a" stroke-width="1.5"/>
+        <!-- scattered beads -->
+        <circle cx="88" cy="82" r="1.5" fill="#d4a34a" opacity="0.7"/>
+        <circle cx="94" cy="86" r="1.5" fill="#d4a34a" opacity="0.5"/>
+        <circle cx="82" cy="90" r="1.5" fill="#d4a34a" opacity="0.4"/>
+        <circle cx="100" cy="94" r="1" fill="#d4a34a" opacity="0.3"/>
+        <circle cx="78" cy="98" r="1" fill="#d4a34a" opacity="0.2"/>
+        <!-- shoulders: raised, defensive -->
+        <path d="M44 78 Q66 70 90 74 Q114 70 136 78" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <path d="M90 74 Q88 110 90 150" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- tunic: disheveled -->
+        <path d="M54 80 Q52 120 50 160 Q90 170 130 160 Q128 120 126 80" fill="none" stroke="#c0b899" stroke-width="2" opacity="0.6"/>
+        <!-- arms: one pointing accusingly, one clenched -->
+        <path d="M44 78 L32 90 L24 95" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="22" cy="97" r="4" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <!-- right arm: POINTING at Steve -->
+        <path d="M136 78 L150 74 L164 68" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M164 68 L174 64" fill="none" stroke="#c0b899" stroke-width="2" stroke-linecap="round"/>
+        <!-- speech energy: "You don't understand" -->
+        <path d="M104 48 L112 44 M106 52 L116 50 M104 56 L112 58" fill="none" stroke="#877a5a" stroke-width="1" opacity="0.4"/>
+        <!-- legs: shifted weight, aggressive lean -->
+        <line x1="80" y1="150" x2="70" y2="218" stroke="#c0b899" stroke-width="2.8"/>
+        <line x1="100" y1="150" x2="120" y2="218" stroke="#c0b899" stroke-width="2.8"/>
+        <!-- bare feet -->
+        <path d="M64 218 L70 218 L74 224 L68 226 L62 222" fill="none" stroke="#c0b899" stroke-width="1.8"/>
+        <path d="M116 218 L120 218 L126 224 L122 226 L114 222" fill="none" stroke="#c0b899" stroke-width="1.8"/>
+      </svg>
+      <div class="label"><em>Phase 2</em> — mask slipping, mala breaking</div>
+    </div>
+
+    <!-- The Founder: Phase 3 — Broken -->
+    <div class="char-card">
+      <svg width="180" height="260" viewBox="0 0 180 260">
+        <!-- head: dropped, defeated -->
+        <ellipse cx="90" cy="52" rx="18" ry="20" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- man bun: loosened -->
+        <path d="M80 30 Q84 24 90 28 Q96 24 100 30" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <!-- hair falling out of bun -->
+        <path d="M74 40 Q68 32 66 28 Q64 24 68 20" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <path d="M106 40 Q112 32 114 28 Q116 24 112 20" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <path d="M76 36 Q70 26 74 18" fill="none" stroke="#c0b899" stroke-width="1"/>
+        <!-- eyes: small, exposed, scared -->
+        <circle cx="84" cy="48" r="2" fill="none" stroke="#c0b899" stroke-width="1.2"/>
+        <circle cx="84" cy="49" r="1" fill="#c0b899"/>
+        <circle cx="96" cy="48" r="2" fill="none" stroke="#c0b899" stroke-width="1.2"/>
+        <circle cx="96" cy="49" r="1" fill="#c0b899"/>
+        <!-- eyebrows: UP, vulnerable -->
+        <path d="M78 42 Q84 39 88 42" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <path d="M92 42 Q96 39 102 42" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <!-- nose -->
+        <path d="M90 48 L88 56 Q90 58 92 56" fill="none" stroke="#c0b899" stroke-width="1.2"/>
+        <!-- mouth: quivering, open -->
+        <path d="M84 62 Q90 66 96 62" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <path d="M86 64 Q90 62 94 64" fill="none" stroke="#c0b899" stroke-width="0.8"/>
+        <!-- beard: same but messier -->
+        <path d="M78 60 Q78 70 84 74 Q90 76 96 74 Q102 70 102 60" fill="none" stroke="#c0b899" stroke-width="1.2" opacity="0.4"/>
+        <!-- neck: slouched -->
+        <path d="M90 72 Q88 78 90 84" fill="none" stroke="#c0b899" stroke-width="3"/>
+        <!-- body: collapsed, smaller now -->
+        <path d="M52 90 Q70 82 90 86 Q110 82 128 90" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <path d="M90 86 Q88 120 90 160" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- tunic: crumpled -->
+        <path d="M58 92 Q56 130 54 168 Q90 175 126 168 Q124 130 122 92" fill="none" stroke="#c0b899" stroke-width="2" opacity="0.5"/>
+        <!-- arms: hugging himself -->
+        <path d="M52 90 L48 110 L60 130 L80 120" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M128 90 L132 110 L120 130 L100 120" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- mala beads scattered on ground -->
+        <circle cx="40" cy="230" r="2" fill="#d4a34a" opacity="0.4"/>
+        <circle cx="50" cy="235" r="1.5" fill="#d4a34a" opacity="0.3"/>
+        <circle cx="130" cy="232" r="1.5" fill="#d4a34a" opacity="0.35"/>
+        <circle cx="140" cy="228" r="2" fill="#d4a34a" opacity="0.25"/>
+        <circle cx="60" cy="238" r="1" fill="#d4a34a" opacity="0.2"/>
+        <!-- legs: knees slightly bent, shrunken -->
+        <path d="M80 160 Q74 190 68 220" fill="none" stroke="#c0b899" stroke-width="2.8"/>
+        <path d="M100 160 Q106 190 112 220" fill="none" stroke="#c0b899" stroke-width="2.8"/>
+        <!-- bare feet: pigeon-toed now -->
+        <path d="M64 220 L68 222 L72 226 L66 228 L60 224" fill="none" stroke="#c0b899" stroke-width="1.8"/>
+        <path d="M108 220 L112 222 L116 226 L112 228 L106 224" fill="none" stroke="#c0b899" stroke-width="1.8"/>
+        <!-- text: the real name leaking out -->
+        <text x="44" y="16" font-family="Georgia, serif" font-size="10" fill="#877a5a" opacity="0.4" font-style="italic">Derek from Scottsdale</text>
+      </svg>
+      <div class="label"><em>Phase 3</em> — just Derek, scared and small</div>
+    </div>
+
+  </div>
+  <p class="note">Shape note: The Founder is 150-180px tall in-game (boss scale). His triangle silhouette collapses across phases — wide-open arms → defensive → hugging himself. The mala beads breaking is his visual thread: whole → snapping → scattered on the ground.</p>
+</div>
+
+<!-- ============================================ -->
+<!-- THE OVERSHARER -->
+<!-- ============================================ -->
+<div class="section">
+  <h2>The Oversharer — Zone 1 Regular Enemy</h2>
+  <p class="desc">Circles and bursting energy. She's an emotional explosion given form — round head, round eyes, round mouth, arms always reaching toward you. Tears are a permanent fixture. Her shape says: no edges, no containment, everything spills out. She's invading your personal space and her silhouette shows it — she LEANS at you.</p>
+  <div class="chars">
+
+    <div class="char-card">
+      <svg width="150" height="220" viewBox="0 0 150 220">
+        <!-- head: round, expressive, slightly too close -->
+        <circle cx="80" cy="40" r="18" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- messy hair: hasn't slept -->
+        <path d="M62 34 Q56 20 60 14 Q66 10 74 16" fill="none" stroke="#c0b899" stroke-width="1.8"/>
+        <path d="M72 24 Q78 12 86 16 Q92 12 96 20" fill="none" stroke="#c0b899" stroke-width="1.8"/>
+        <path d="M92 24 Q100 16 104 24 Q106 30 98 34" fill="none" stroke="#c0b899" stroke-width="1.8"/>
+        <path d="M64 28 Q58 22 64 18" fill="none" stroke="#c0b899" stroke-width="1.2"/>
+        <!-- eyes: WIDE, watery, begging for connection -->
+        <circle cx="74" cy="38" r="4.5" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <circle cx="74" cy="39" r="2.5" fill="#c0b899"/>
+        <!-- tear highlight -->
+        <circle cx="73" cy="37" r="0.8" fill="#1a1a12"/>
+        <circle cx="86" cy="38" r="4.5" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <circle cx="86" cy="39" r="2.5" fill="#c0b899"/>
+        <circle cx="85" cy="37" r="0.8" fill="#1a1a12"/>
+        <!-- eyebrows: arched high, earnest -->
+        <path d="M66 30 Q74 26 78 30" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <path d="M82 30 Q86 26 94 30" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <!-- TEARS: permanent, streaming -->
+        <path d="M68 44 Q66 52 64 60" fill="none" stroke="#6a9ad4" stroke-width="1.5" opacity="0.6"/>
+        <ellipse cx="64" cy="62" rx="2" ry="3" fill="#6a9ad4" opacity="0.3"/>
+        <path d="M92 44 Q94 52 96 58" fill="none" stroke="#6a9ad4" stroke-width="1.5" opacity="0.6"/>
+        <ellipse cx="96" cy="60" rx="2" ry="3" fill="#6a9ad4" opacity="0.3"/>
+        <!-- mouth: open, mid-sentence, never stops -->
+        <ellipse cx="80" cy="50" rx="6" ry="5" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <!-- tongue/talking indicator -->
+        <path d="M76 52 Q80 56 84 52" fill="none" stroke="#c0b899" stroke-width="0.8"/>
+        <!-- neck -->
+        <line x1="80" y1="58" x2="78" y2="68" stroke="#c0b899" stroke-width="2"/>
+        <!-- shoulders: leaning FORWARD, into your space -->
+        <path d="M48 76 Q64 68 78 72 Q90 68 108 72" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- torso: hunched forward -->
+        <path d="M78 72 Q76 100 78 130" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- loose sweater/wrap -->
+        <path d="M50 78 Q48 110 52 140 Q78 148 106 140 Q110 108 108 74" fill="none" stroke="#c0b899" stroke-width="1.5" opacity="0.5"/>
+        <!-- arms: REACHING TOWARD YOU -->
+        <path d="M48 76 L32 68 L18 58" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- grabby hands -->
+        <path d="M18 58 L12 54 M18 58 L10 58 M18 58 L14 62 M18 58 L12 56" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <path d="M108 72 L118 64 L130 56" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M130 56 L136 52 M130 56 L138 56 M130 56 L134 60 M130 56 L136 54" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <!-- JOURNAL: clutched under arm, tear-stained -->
+        <rect x="104" y="80" width="16" height="22" rx="1" fill="none" stroke="#d4a34a" stroke-width="1.5" transform="rotate(15 112 91)"/>
+        <line x1="108" y1="86" x2="118" y2="84" stroke="#877a5a" stroke-width="0.8" transform="rotate(15 112 91)"/>
+        <line x1="108" y1="90" x2="118" y2="88" stroke="#877a5a" stroke-width="0.8" transform="rotate(15 112 91)"/>
+        <!-- tear stains on journal -->
+        <circle cx="112" cy="88" r="2.5" fill="#6a9ad4" opacity="0.15"/>
+        <circle cx="116" cy="94" r="2" fill="#6a9ad4" opacity="0.1"/>
+        <!-- speech/emotion clouds bursting out -->
+        <circle cx="40" cy="40" r="4" fill="none" stroke="#877a5a" stroke-width="0.8" opacity="0.3"/>
+        <circle cx="130" cy="36" r="3" fill="none" stroke="#877a5a" stroke-width="0.8" opacity="0.25"/>
+        <circle cx="46" cy="30" r="2.5" fill="none" stroke="#877a5a" stroke-width="0.8" opacity="0.2"/>
+        <!-- legs -->
+        <line x1="70" y1="130" x2="62" y2="185" stroke="#c0b899" stroke-width="2.8"/>
+        <line x1="86" y1="130" x2="94" y2="185" stroke="#c0b899" stroke-width="2.8"/>
+        <!-- sandals -->
+        <path d="M56 185 L62 186 L66 190" fill="none" stroke="#c0b899" stroke-width="2" stroke-linecap="round"/>
+        <path d="M90 185 L94 186 L98 190" fill="none" stroke="#c0b899" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <div class="label"><em>Default</em> — reaching, crying, talking</div>
+    </div>
+
+    <!-- Oversharer: Attack — Trauma Dump -->
+    <div class="char-card">
+      <svg width="150" height="220" viewBox="0 0 150 220">
+        <circle cx="80" cy="40" r="18" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- same messy hair -->
+        <path d="M62 34 Q56 20 60 14 Q66 10 74 16" fill="none" stroke="#c0b899" stroke-width="1.8"/>
+        <path d="M72 24 Q78 12 86 16 Q92 12 96 20" fill="none" stroke="#c0b899" stroke-width="1.8"/>
+        <path d="M92 24 Q100 16 104 24 Q106 30 98 34" fill="none" stroke="#c0b899" stroke-width="1.8"/>
+        <!-- eyes: SQUINTING from crying hard -->
+        <path d="M68 38 Q74 34 80 38" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <path d="M80 38 Q86 34 92 38" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <!-- MORE tears -->
+        <path d="M68 42 Q64 52 60 64 Q58 70 56 76" fill="none" stroke="#6a9ad4" stroke-width="2" opacity="0.6"/>
+        <path d="M92 42 Q96 52 100 64 Q102 70 104 76" fill="none" stroke="#6a9ad4" stroke-width="2" opacity="0.6"/>
+        <ellipse cx="56" cy="78" rx="3" ry="4" fill="#6a9ad4" opacity="0.3"/>
+        <ellipse cx="104" cy="78" rx="3" ry="4" fill="#6a9ad4" opacity="0.3"/>
+        <!-- mouth: WIDE OPEN, full ugly cry -->
+        <ellipse cx="80" cy="50" rx="8" ry="7" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <!-- teeth showing in cry -->
+        <line x1="74" y1="46" x2="86" y2="46" stroke="#c0b899" stroke-width="1"/>
+        <!-- TRAUMA DUMP: visible words/energy blasting outward -->
+        <path d="M72 44 Q50 30 30 28" fill="none" stroke="#877a5a" stroke-width="1.5" opacity="0.5"/>
+        <path d="M72 48 Q48 40 26 42" fill="none" stroke="#877a5a" stroke-width="1.2" opacity="0.4"/>
+        <path d="M72 52 Q50 56 28 56" fill="none" stroke="#877a5a" stroke-width="1" opacity="0.3"/>
+        <!-- word fragments flying out -->
+        <text x="14" y="26" font-family="Georgia, serif" font-size="7" fill="#877a5a" opacity="0.5" font-style="italic">my father</text>
+        <text x="8" y="42" font-family="Georgia, serif" font-size="6" fill="#877a5a" opacity="0.4" font-style="italic">never felt</text>
+        <text x="10" y="56" font-family="Georgia, serif" font-size="7" fill="#877a5a" opacity="0.35" font-style="italic">so alone</text>
+        <!-- damage indicators on right side (toward Steve) -->
+        <text x="130" y="50" font-family="Georgia, serif" font-size="12" fill="#d4a34a" opacity="0.5">-3</text>
+        <text x="126" y="64" font-family="Georgia, serif" font-size="9" fill="#877a5a" opacity="0.4" font-style="italic">psychic</text>
+        <!-- body same -->
+        <line x1="80" y1="58" x2="78" y2="68" stroke="#c0b899" stroke-width="2"/>
+        <path d="M48 76 Q64 68 78 72 Q90 68 108 72" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <path d="M78 72 Q76 100 78 130" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <path d="M50 78 Q48 110 52 140 Q78 148 106 140 Q110 108 108 74" fill="none" stroke="#c0b899" stroke-width="1.5" opacity="0.5"/>
+        <!-- arms: gesticulating wildly -->
+        <path d="M48 76 L28 56 L16 44" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M108 72 L124 54 L136 48" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- journal OPEN, pages flying -->
+        <rect x="40" y="86" width="18" height="24" rx="1" fill="none" stroke="#d4a34a" stroke-width="1.5" transform="rotate(-20 49 98)"/>
+        <!-- flying pages -->
+        <rect x="24" y="78" width="10" height="14" rx="1" fill="none" stroke="#d4a34a" stroke-width="0.8" opacity="0.4" transform="rotate(-35 29 85)"/>
+        <rect x="16" y="68" width="8" height="12" rx="1" fill="none" stroke="#d4a34a" stroke-width="0.6" opacity="0.25" transform="rotate(-50 20 74)"/>
+        <line x1="70" y1="130" x2="62" y2="185" stroke="#c0b899" stroke-width="2.8"/>
+        <line x1="86" y1="130" x2="94" y2="185" stroke="#c0b899" stroke-width="2.8"/>
+        <path d="M56 185 L62 186 L66 190" fill="none" stroke="#c0b899" stroke-width="2" stroke-linecap="round"/>
+        <path d="M90 185 L94 186 L98 190" fill="none" stroke="#c0b899" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <div class="label"><em>Trauma Dump</em> — words as weapons</div>
+    </div>
+
+  </div>
+  <p class="note">Combat note: The trauma dump attack is visualized as literal words flying out of her mouth. In Godot, these can be small Label nodes that fly toward Steve with physics. Her journal pages scatter on crit hits.</p>
+</div>
+
+<!-- ============================================ -->
+<!-- THE COMPETITIVE MEDITATOR -->
+<!-- ============================================ -->
+<div class="section">
+  <h2>The Competitive Meditator — Zone 1 Regular Enemy</h2>
+  <p class="desc">A perfect circle. She's so centered she's become a sphere. Always in lotus position — even when she shouldn't be. The smuggest silhouette in the game: perfectly balanced, perfectly still, radiating an aura of "I'm better at being calm than you." Her mala beads are bigger than The Founder's. Her cushion is nicer than anyone's.</p>
+  <div class="chars">
+
+    <div class="char-card">
+      <svg width="160" height="200" viewBox="0 0 160 200">
+        <!-- MEDITATION CUSHION: fancy, embroidered -->
+        <ellipse cx="80" cy="170" rx="50" ry="12" fill="none" stroke="#d46a8a" stroke-width="2"/>
+        <path d="M30 170 Q30 180 80 184 Q130 180 130 170" fill="none" stroke="#d46a8a" stroke-width="1.5"/>
+        <!-- embroidery detail -->
+        <path d="M46 172 Q63 176 80 174 Q97 176 114 172" fill="none" stroke="#d46a8a" stroke-width="0.8" opacity="0.4"/>
+        <!-- body: perfect lotus, circular mass -->
+        <ellipse cx="80" cy="138" rx="40" ry="30" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <!-- lotus legs: folded perfectly -->
+        <path d="M44 148 Q60 160 80 158 Q100 160 116 148" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <!-- crossed ankles visible -->
+        <path d="M58 155 Q70 160 82 155" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <path d="M78 155 Q90 160 102 155" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <!-- hands: on knees, perfect mudra -->
+        <circle cx="48" cy="142" r="5" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <!-- thumb-to-index mudra -->
+        <circle cx="48" cy="140" r="2" fill="none" stroke="#c0b899" stroke-width="1"/>
+        <circle cx="112" cy="142" r="5" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <circle cx="112" cy="140" r="2" fill="none" stroke="#c0b899" stroke-width="1"/>
+        <!-- torso: upright, PERFECT posture -->
+        <line x1="80" y1="108" x2="80" y2="136" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- shoulders -->
+        <path d="M56 114 Q68 108 80 110 Q92 108 104 114" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <!-- arms to mudra -->
+        <path d="M56 114 L48 130 L48 140" fill="none" stroke="#c0b899" stroke-width="2" stroke-linecap="round"/>
+        <path d="M104 114 L112 130 L112 140" fill="none" stroke="#c0b899" stroke-width="2" stroke-linecap="round"/>
+        <!-- neck -->
+        <line x1="80" y1="98" x2="80" y2="108" stroke="#c0b899" stroke-width="2"/>
+        <!-- head: perfectly centered -->
+        <circle cx="80" cy="82" r="16" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- hair: neat topknot, deliberate -->
+        <path d="M72 68 Q76 58 80 54 Q84 58 88 68" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <!-- hair wrap -->
+        <ellipse cx="80" cy="56" rx="5" ry="4" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <!-- eyes: closed, smugly -->
+        <path d="M72 80 Q76 78 80 80" fill="none" stroke="#c0b899" stroke-width="1.8"/>
+        <path d="M80 80 Q84 78 88 80" fill="none" stroke="#c0b899" stroke-width="1.8"/>
+        <!-- slight upturn at edges: she's enjoying this -->
+        <line x1="70" y1="80" x2="68" y2="78" stroke="#c0b899" stroke-width="1"/>
+        <line x1="90" y1="80" x2="92" y2="78" stroke="#c0b899" stroke-width="1"/>
+        <!-- mouth: tiny, self-satisfied -->
+        <path d="M77 88 Q80 90 83 88" fill="none" stroke="#c0b899" stroke-width="1.3"/>
+        <!-- MALA BEADS: oversized, prominent -->
+        <path d="M64 98 Q80 106 96 98" fill="none" stroke="#d4a34a" stroke-width="2"/>
+        <circle cx="68" cy="100" r="2" fill="#d4a34a" opacity="0.6"/>
+        <circle cx="74" cy="103" r="2" fill="#d4a34a" opacity="0.6"/>
+        <circle cx="80" cy="104" r="2.5" fill="#d4a34a" opacity="0.7"/>
+        <circle cx="86" cy="103" r="2" fill="#d4a34a" opacity="0.6"/>
+        <circle cx="92" cy="100" r="2" fill="#d4a34a" opacity="0.6"/>
+        <!-- AURA: smug meditation glow -->
+        <circle cx="80" cy="110" r="60" fill="none" stroke="#d4a34a" stroke-width="0.5" opacity="0.15"/>
+        <circle cx="80" cy="110" r="70" fill="none" stroke="#d4a34a" stroke-width="0.5" opacity="0.1"/>
+        <circle cx="80" cy="110" r="80" fill="none" stroke="#d4a34a" stroke-width="0.5" opacity="0.06"/>
+      </svg>
+      <div class="label"><em>Default</em> — perfect lotus, smug aura</div>
+    </div>
+
+    <!-- Competitive Meditator: Performative Stillness (defense) -->
+    <div class="char-card">
+      <svg width="160" height="200" viewBox="0 0 160 200">
+        <!-- cushion -->
+        <ellipse cx="80" cy="170" rx="50" ry="12" fill="none" stroke="#d46a8a" stroke-width="2"/>
+        <path d="M30 170 Q30 180 80 184 Q130 180 130 170" fill="none" stroke="#d46a8a" stroke-width="1.5"/>
+        <!-- same perfect body -->
+        <ellipse cx="80" cy="138" rx="40" ry="30" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <path d="M44 148 Q60 160 80 158 Q100 160 116 148" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <circle cx="48" cy="142" r="5" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <circle cx="48" cy="140" r="2" fill="none" stroke="#c0b899" stroke-width="1"/>
+        <circle cx="112" cy="142" r="5" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <circle cx="112" cy="140" r="2" fill="none" stroke="#c0b899" stroke-width="1"/>
+        <line x1="80" y1="108" x2="80" y2="136" stroke="#c0b899" stroke-width="2.5"/>
+        <path d="M56 114 Q68 108 80 110 Q92 108 104 114" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <path d="M56 114 L48 130 L48 140" fill="none" stroke="#c0b899" stroke-width="2" stroke-linecap="round"/>
+        <path d="M104 114 L112 130 L112 140" fill="none" stroke="#c0b899" stroke-width="2" stroke-linecap="round"/>
+        <line x1="80" y1="98" x2="80" y2="108" stroke="#c0b899" stroke-width="2"/>
+        <circle cx="80" cy="82" r="16" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <path d="M72 68 Q76 58 80 54 Q84 58 88 68" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <ellipse cx="80" cy="56" rx="5" ry="4" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <path d="M64 98 Q80 106 96 98" fill="none" stroke="#d4a34a" stroke-width="2"/>
+        <!-- eyes: still closed but one PEEKING -->
+        <path d="M72 80 Q76 78 80 80" fill="none" stroke="#c0b899" stroke-width="1.8"/>
+        <!-- right eye: slightly open, peeking at Steve -->
+        <path d="M80 80 Q84 78 88 80" fill="none" stroke="#c0b899" stroke-width="1.8"/>
+        <circle cx="85" cy="80" r="1" fill="#c0b899"/>
+        <!-- mouth: smirk -->
+        <path d="M77 88 Q80 91 84 87" fill="none" stroke="#c0b899" stroke-width="1.3"/>
+        <!-- MASSIVE DEFENSE AURA: "you can't hit someone who's meditating" -->
+        <circle cx="80" cy="110" r="55" fill="none" stroke="#d4a34a" stroke-width="1.5" opacity="0.3"/>
+        <circle cx="80" cy="110" r="62" fill="none" stroke="#d4a34a" stroke-width="1" opacity="0.2"/>
+        <circle cx="80" cy="110" r="70" fill="none" stroke="#d4a34a" stroke-width="0.8" opacity="0.15"/>
+        <circle cx="80" cy="110" r="78" fill="none" stroke="#d4a34a" stroke-width="0.5" opacity="0.1"/>
+        <!-- shield text -->
+        <text x="22" y="50" font-family="Georgia, serif" font-size="8" fill="#d4a34a" opacity="0.35" font-style="italic">SHIELD</text>
+        <!-- deflected attack marks -->
+        <path d="M18 80 L12 76 M20 90 L14 88 M16 100 L10 100" fill="none" stroke="#877a5a" stroke-width="1.5" opacity="0.3"/>
+      </svg>
+      <div class="label"><em>Performative Stillness</em> — peeking, untouchable</div>
+    </div>
+
+  </div>
+  <p class="note">Her "one peeking eye" is key — she's always watching to see if people notice how good she is at not caring. The defense aura can pulse in Godot using a simple scale tween on the circle radii.</p>
+</div>
+
+<!-- ============================================ -->
+<!-- GROUNDSKEEPER FRANK -->
+<!-- ============================================ -->
+<div class="section">
+  <h2>Groundskeeper Frank — Zone 1 NPC / Ally</h2>
+  <p class="desc">The only normal person here. Square. Literally — his shape language is the rectangle. Sturdy, no-nonsense, built like a toolbox. Baseball cap, work boots, always carrying something practical. He's the straight man in a world of curves and triangles. His accent color is tool gray — the least spiritual color in the game. He sells Steve actual coffee from a maintenance closet.</p>
+  <div class="chars">
+
+    <div class="char-card">
+      <svg width="140" height="220" viewBox="0 0 140 220">
+        <!-- head: square jaw, practical -->
+        <rect x="54" y="24" width="32" height="34" rx="6" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- BASEBALL CAP: the anti-spirituality crown -->
+        <path d="M50 30 L54 18 Q70 12 86 18 L90 30" fill="none" stroke="#9a9a8a" stroke-width="2.5"/>
+        <line x1="46" y1="30" x2="94" y2="30" stroke="#9a9a8a" stroke-width="3"/>
+        <!-- cap brim: forward-facing, practical -->
+        <path d="M46 30 L38 34 L36 32 L46 28" fill="none" stroke="#9a9a8a" stroke-width="2"/>
+        <!-- eyes: flat, seen-everything, dry -->
+        <line x1="60" y1="40" x2="66" y2="40" stroke="#c0b899" stroke-width="2.5"/>
+        <line x1="74" y1="40" x2="80" y2="40" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- eyebrows: flat, unimpressed -->
+        <line x1="58" y1="36" x2="68" y2="36" stroke="#c0b899" stroke-width="1.5"/>
+        <line x1="72" y1="36" x2="82" y2="36" stroke="#c0b899" stroke-width="1.5"/>
+        <!-- nose: simple, no-frills -->
+        <line x1="70" y1="40" x2="70" y2="48" stroke="#c0b899" stroke-width="1.2"/>
+        <!-- mouth: flat line. this man does not emote. -->
+        <line x1="64" y1="52" x2="76" y2="52" stroke="#c0b899" stroke-width="1.5"/>
+        <!-- 5 o'clock shadow -->
+        <line x1="60" y1="54" x2="80" y2="54" stroke="#877a5a" stroke-width="0.5" opacity="0.3" stroke-dasharray="1,2"/>
+        <!-- neck: thick -->
+        <line x1="70" y1="58" x2="70" y2="66" stroke="#c0b899" stroke-width="3"/>
+        <!-- shoulders: SQUARE, solid -->
+        <line x1="42" y1="72" x2="98" y2="72" stroke="#c0b899" stroke-width="2.5"/>
+        <line x1="42" y1="72" x2="42" y2="76" stroke="#c0b899" stroke-width="2.5"/>
+        <line x1="98" y1="72" x2="98" y2="76" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- torso: solid, rectangular -->
+        <line x1="70" y1="66" x2="70" y2="130" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- work shirt: collar -->
+        <path d="M62 66 L66 72 L70 66 L74 72 L78 66" fill="none" stroke="#c0b899" stroke-width="1.2"/>
+        <!-- pocket: functional, has a pen -->
+        <rect x="60" y="82" width="10" height="12" rx="1" fill="none" stroke="#9a9a8a" stroke-width="1"/>
+        <line x1="64" y1="80" x2="64" y2="82" stroke="#9a9a8a" stroke-width="1"/>
+        <!-- name tag -->
+        <rect x="74" y="82" width="14" height="8" rx="1" fill="none" stroke="#d4a34a" stroke-width="1"/>
+        <text x="76" y="89" font-family="Georgia, serif" font-size="5" fill="#d4a34a">FRANK</text>
+        <!-- belt: heavy duty -->
+        <line x1="52" y1="118" x2="88" y2="118" stroke="#9a9a8a" stroke-width="3"/>
+        <rect x="66" y="116" width="8" height="6" rx="1" fill="none" stroke="#9a9a8a" stroke-width="1.5"/>
+        <!-- KEY RING on belt -->
+        <circle cx="56" cy="122" r="3" fill="none" stroke="#9a9a8a" stroke-width="1"/>
+        <line x1="54" y1="124" x2="52" y2="128" stroke="#9a9a8a" stroke-width="1"/>
+        <line x1="56" y1="125" x2="56" y2="130" stroke="#9a9a8a" stroke-width="1"/>
+        <!-- left arm: holding WRENCH -->
+        <path d="M42 76 L34 100 L32 115" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- WRENCH: the signature prop -->
+        <path d="M30 115 L28 130" fill="none" stroke="#9a9a8a" stroke-width="3"/>
+        <path d="M24 130 L32 130 L32 138 L24 138 Z" fill="none" stroke="#9a9a8a" stroke-width="1.5"/>
+        <rect x="26" y="132" width="4" height="4" fill="none" stroke="#9a9a8a" stroke-width="1"/>
+        <!-- right arm: at side, relaxed -->
+        <path d="M98 76 L106 108 L108 120" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- COFFEE MUG in right hand -->
+        <rect x="104" y="116" width="12" height="14" rx="2" fill="none" stroke="#877a5a" stroke-width="1.5"/>
+        <path d="M116 120 Q122 122 116 126" fill="none" stroke="#877a5a" stroke-width="1.5"/>
+        <!-- steam -->
+        <path d="M108 114 Q106 110 108 106" fill="none" stroke="#877a5a" stroke-width="0.8" opacity="0.4"/>
+        <path d="M112 112 Q110 108 112 104" fill="none" stroke="#877a5a" stroke-width="0.8" opacity="0.3"/>
+        <!-- legs: sturdy, workpants -->
+        <line x1="62" y1="130" x2="58" y2="185" stroke="#c0b899" stroke-width="3"/>
+        <line x1="78" y1="130" x2="82" y2="185" stroke="#c0b899" stroke-width="3"/>
+        <!-- WORK BOOTS: heavy, real -->
+        <path d="M50 185 L58 185 L60 192 L56 196 L46 194 L44 190 Z" fill="none" stroke="#9a9a8a" stroke-width="2"/>
+        <path d="M78 185 L82 185 L88 192 L86 196 L76 194 L74 190 Z" fill="none" stroke="#9a9a8a" stroke-width="2"/>
+        <!-- boot laces -->
+        <line x1="52" y1="188" x2="56" y2="188" stroke="#9a9a8a" stroke-width="0.8"/>
+        <line x1="80" y1="188" x2="84" y2="188" stroke="#9a9a8a" stroke-width="0.8"/>
+      </svg>
+      <div class="label"><em>Default</em> — wrench, coffee, unimpressed</div>
+    </div>
+
+    <!-- Frank: Talking / Giving info -->
+    <div class="char-card">
+      <svg width="140" height="220" viewBox="0 0 140 220">
+        <rect x="54" y="24" width="32" height="34" rx="6" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <path d="M50 30 L54 18 Q70 12 86 18 L90 30" fill="none" stroke="#9a9a8a" stroke-width="2.5"/>
+        <line x1="46" y1="30" x2="94" y2="30" stroke="#9a9a8a" stroke-width="3"/>
+        <path d="M46 30 L38 34 L36 32 L46 28" fill="none" stroke="#9a9a8a" stroke-width="2"/>
+        <!-- eyes: slight side-eye, conspiratorial -->
+        <circle cx="62" cy="40" r="1.5" fill="#c0b899"/>
+        <circle cx="76" cy="40" r="1.5" fill="#c0b899"/>
+        <!-- both looking to one side -->
+        <line x1="58" y1="36" x2="68" y2="37" stroke="#c0b899" stroke-width="1.5"/>
+        <line x1="72" y1="37" x2="82" y2="36" stroke="#c0b899" stroke-width="1.5"/>
+        <line x1="70" y1="40" x2="70" y2="48" stroke="#c0b899" stroke-width="1.2"/>
+        <!-- mouth: slightly open, one corner up — dry delivery -->
+        <path d="M64 52 L72 52 Q76 54 78 52" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <line x1="70" y1="58" x2="70" y2="66" stroke="#c0b899" stroke-width="3"/>
+        <line x1="42" y1="72" x2="98" y2="72" stroke="#c0b899" stroke-width="2.5"/>
+        <line x1="42" y1="72" x2="42" y2="76" stroke="#c0b899" stroke-width="2.5"/>
+        <line x1="98" y1="72" x2="98" y2="76" stroke="#c0b899" stroke-width="2.5"/>
+        <line x1="70" y1="66" x2="70" y2="130" stroke="#c0b899" stroke-width="2.5"/>
+        <path d="M62 66 L66 72 L70 66 L74 72 L78 66" fill="none" stroke="#c0b899" stroke-width="1.2"/>
+        <rect x="60" y="82" width="10" height="12" rx="1" fill="none" stroke="#9a9a8a" stroke-width="1"/>
+        <rect x="74" y="82" width="14" height="8" rx="1" fill="none" stroke="#d4a34a" stroke-width="1"/>
+        <text x="76" y="89" font-family="Georgia, serif" font-size="5" fill="#d4a34a">FRANK</text>
+        <line x1="52" y1="118" x2="88" y2="118" stroke="#9a9a8a" stroke-width="3"/>
+        <rect x="66" y="116" width="8" height="6" rx="1" fill="none" stroke="#9a9a8a" stroke-width="1.5"/>
+        <!-- left arm: leaning on something (broom, counter) -->
+        <path d="M42 76 L36 100 L34 120" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- broom handle -->
+        <line x1="34" y1="80" x2="34" y2="200" stroke="#9a9a8a" stroke-width="2"/>
+        <!-- broom head -->
+        <path d="M26 196 L34 200 L42 196" fill="none" stroke="#9a9a8a" stroke-width="2"/>
+        <line x1="28" y1="196" x2="28" y2="208" stroke="#9a9a8a" stroke-width="1"/>
+        <line x1="31" y1="197" x2="31" y2="210" stroke="#9a9a8a" stroke-width="1"/>
+        <line x1="34" y1="198" x2="34" y2="210" stroke="#9a9a8a" stroke-width="1"/>
+        <line x1="37" y1="197" x2="37" y2="210" stroke="#9a9a8a" stroke-width="1"/>
+        <line x1="40" y1="196" x2="40" y2="208" stroke="#9a9a8a" stroke-width="1"/>
+        <!-- right arm: thumb pointing over shoulder -->
+        <path d="M98 76 L108 88 L110 82" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- thumb -->
+        <path d="M110 82 L114 76" fill="none" stroke="#c0b899" stroke-width="2" stroke-linecap="round"/>
+        <!-- speech: dry, factual -->
+        <text x="104" y="68" font-family="Georgia, serif" font-size="8" fill="#877a5a" opacity="0.5" font-style="italic">"Third door</text>
+        <text x="104" y="78" font-family="Georgia, serif" font-size="8" fill="#877a5a" opacity="0.5" font-style="italic"> on the left."</text>
+        <!-- legs -->
+        <line x1="62" y1="130" x2="58" y2="185" stroke="#c0b899" stroke-width="3"/>
+        <line x1="78" y1="130" x2="82" y2="185" stroke="#c0b899" stroke-width="3"/>
+        <path d="M50 185 L58 185 L60 192 L56 196 L46 194 L44 190 Z" fill="none" stroke="#9a9a8a" stroke-width="2"/>
+        <path d="M78 185 L82 185 L88 192 L86 196 L76 194 L74 190 Z" fill="none" stroke="#9a9a8a" stroke-width="2"/>
+      </svg>
+      <div class="label"><em>Talking</em> — side-eye, giving directions</div>
+    </div>
+
+  </div>
+  <p class="note">Frank's rectangle shape language is deliberate — he's the only character in the game built from straight lines AND right angles. Steve is straight lines but nervous/narrow. Frank is straight lines and SOLID. They share a visual language because they share a worldview.</p>
+</div>
+
+<!-- ============================================ -->
+<!-- SCENE COMPOSITION: THE WELCOME PAVILION -->
+<!-- ============================================ -->
+<div class="section">
+  <h2>Scene: The Welcome Pavilion</h2>
+  <p class="desc">Full scene composition at game viewport scale (960×640). Shows the HUD, scene area with characters on the ground line, and dialogue panel. This is what the player sees when they first arrive at The Sanctuary.</p>
+
+  <div class="scene-container">
+    <svg width="960" height="640" viewBox="0 0 960 640" style="background: #0a0805;">
+
+      <!-- ========== HUD BAR (top 44px) ========== -->
+      <rect x="0" y="0" width="960" height="44" fill="#0a0805" stroke="#2a2a1e" stroke-width="1"/>
+      <!-- HP bar -->
+      <text x="20" y="28" font-family="Georgia, serif" font-size="13" fill="#877a5a">HP</text>
+      <rect x="44" y="16" width="80" height="14" rx="2" fill="#1e1e14" stroke="#2a2a1e" stroke-width="1"/>
+      <rect x="44" y="16" width="80" height="14" rx="2" fill="#6a8a6a" opacity="0.6"/>
+      <text x="130" y="28" font-family="Georgia, serif" font-size="12" fill="#c0b899">100</text>
+      <!-- EP bar -->
+      <text x="170" y="28" font-family="Georgia, serif" font-size="13" fill="#877a5a">EP</text>
+      <rect x="194" y="16" width="80" height="14" rx="2" fill="#1e1e14" stroke="#2a2a1e" stroke-width="1"/>
+      <rect x="194" y="16" width="40" height="14" rx="2" fill="#6a9ad4" opacity="0.5"/>
+      <text x="280" y="28" font-family="Georgia, serif" font-size="12" fill="#c0b899">50</text>
+      <!-- NORM stat -->
+      <text x="330" y="28" font-family="Georgia, serif" font-size="13" fill="#877a5a">NORM</text>
+      <rect x="374" y="16" width="60" height="14" rx="2" fill="#1e1e14" stroke="#2a2a1e" stroke-width="1"/>
+      <rect x="374" y="16" width="55" height="14" rx="2" fill="#d4a34a" opacity="0.4"/>
+      <!-- Cacao coins -->
+      <text x="860" y="28" font-family="Georgia, serif" font-size="13" fill="#d4a34a">0</text>
+      <text x="876" y="28" font-family="Georgia, serif" font-size="14" fill="#877a5a">cacao</text>
+
+      <!-- ========== SCENE AREA ========== -->
+      <!-- Location name -->
+      <text x="30" y="76" font-family="Georgia, serif" font-size="14" fill="#d4a34a" letter-spacing="3" font-variant="small-caps">THE WELCOME PAVILION</text>
+
+      <!-- Background: warm, muted, vaguely outdoor -->
+      <rect x="0" y="44" width="960" height="340" fill="#12140e" opacity="0.5"/>
+
+      <!-- distant mountains/hills -->
+      <path d="M0 200 Q120 140 240 180 Q360 120 480 160 Q600 100 720 150 Q840 110 960 170 L960 384 L0 384 Z" fill="#1a1e14" opacity="0.4"/>
+
+      <!-- prayer flags string -->
+      <line x1="80" y1="100" x2="880" y2="90" stroke="#877a5a" stroke-width="1" opacity="0.3"/>
+      <!-- individual flags -->
+      <polygon points="140,100 140,118 156,112" fill="#d46a8a" opacity="0.15"/>
+      <polygon points="220,98 220,116 236,110" fill="#6a9ad4" opacity="0.15"/>
+      <polygon points="300,96 300,114 316,108" fill="#d4a34a" opacity="0.15"/>
+      <polygon points="380,95 380,113 396,107" fill="#8ad46a" opacity="0.15"/>
+      <polygon points="460,94 460,112 476,106" fill="#8a6ad4" opacity="0.15"/>
+      <polygon points="540,93 540,111 556,105" fill="#d46a8a" opacity="0.15"/>
+      <polygon points="620,92 620,110 636,104" fill="#6a9ad4" opacity="0.15"/>
+      <polygon points="700,92 700,110 716,104" fill="#d4a34a" opacity="0.15"/>
+      <polygon points="780,91 780,109 796,103" fill="#8a6ad4" opacity="0.15"/>
+
+      <!-- ground line -->
+      <line x1="0" y1="350" x2="960" y2="350" stroke="#2a2a1e" stroke-width="1"/>
+
+      <!-- navigation arrows -->
+      <text x="20" y="260" font-family="Georgia, serif" font-size="28" fill="#877a5a" opacity="0.5">&#9664;</text>
+      <text x="920" y="260" font-family="Georgia, serif" font-size="28" fill="#877a5a" opacity="0.5">&#9654;</text>
+
+      <!-- ========== CHARACTERS ON GROUND LINE ========== -->
+
+      <!-- NPC 1: Receptionist (generic, small) -->
+      <g transform="translate(250, 220) scale(0.7)">
+        <!-- head -->
+        <circle cx="0" cy="0" r="14" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- hair: ponytail -->
+        <path d="M-10 -6 Q-14 -14 -4 -18 Q4 -20 10 -14" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <path d="M10 -8 Q16 -4 18 4 Q18 12 14 18" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <!-- eyes: pleasant, vacant -->
+        <path d="M-6 -2 Q-3 -4 0 -2" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <path d="M4 -2 Q7 -4 10 -2" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <!-- smile: rehearsed -->
+        <path d="M-4 6 Q0 10 4 6" fill="none" stroke="#c0b899" stroke-width="1.3"/>
+        <!-- body -->
+        <line x1="0" y1="14" x2="0" y2="70" stroke="#c0b899" stroke-width="2"/>
+        <path d="M-20 24 Q-8 18 0 20 Q8 18 20 24" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <!-- name tag -->
+        <rect x="-8" y="30" width="16" height="8" rx="1" fill="none" stroke="#d4a34a" stroke-width="1"/>
+        <!-- arms: clasped in front -->
+        <path d="M-20 24 L-14 44 L-4 50" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <path d="M20 24 L14 44 L4 50" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <!-- legs -->
+        <line x1="-6" y1="70" x2="-10" y2="110" stroke="#c0b899" stroke-width="2.5"/>
+        <line x1="6" y1="70" x2="10" y2="110" stroke="#c0b899" stroke-width="2.5"/>
+      </g>
+
+      <!-- NPC 2: The Oversharer (crying, reaching) -->
+      <g transform="translate(440, 216) scale(0.65)">
+        <circle cx="0" cy="0" r="18" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- messy hair -->
+        <path d="M-18 -6 Q-24 -20 -18 -26 Q-12 -30 -4 -24" fill="none" stroke="#c0b899" stroke-width="1.8"/>
+        <path d="M-8 -16 Q0 -28 8 -24 Q14 -28 18 -20" fill="none" stroke="#c0b899" stroke-width="1.8"/>
+        <path d="M14 -16 Q22 -24 24 -16 Q26 -10 18 -6" fill="none" stroke="#c0b899" stroke-width="1.8"/>
+        <!-- eyes: huge, teary -->
+        <circle cx="-6" cy="-2" r="4.5" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <circle cx="-6" cy="-1" r="2.5" fill="#c0b899"/>
+        <circle cx="6" cy="-2" r="4.5" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <circle cx="6" cy="-1" r="2.5" fill="#c0b899"/>
+        <!-- tears -->
+        <path d="M-12 4 Q-14 12 -16 20" fill="none" stroke="#6a9ad4" stroke-width="1.5" opacity="0.5"/>
+        <path d="M12 4 Q14 12 16 18" fill="none" stroke="#6a9ad4" stroke-width="1.5" opacity="0.5"/>
+        <!-- mouth: open -->
+        <ellipse cx="0" cy="10" rx="6" ry="5" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <!-- body leaning forward -->
+        <line x1="0" y1="18" x2="-2" y2="72" stroke="#c0b899" stroke-width="2"/>
+        <path d="M-28 34 Q-14 26 -2 28 Q10 26 28 30" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- arms reaching -->
+        <path d="M-28 34 L-42 24 L-52 16" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <path d="M28 30 L38 22 L50 16" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <line x1="-8" y1="72" x2="-14" y2="120" stroke="#c0b899" stroke-width="2.5"/>
+        <line x1="4" y1="72" x2="10" y2="120" stroke="#c0b899" stroke-width="2.5"/>
+      </g>
+
+      <!-- NPC 3: Competitive Meditator (sitting, glowing) -->
+      <g transform="translate(630, 280) scale(0.55)">
+        <!-- cushion -->
+        <ellipse cx="0" cy="50" rx="40" ry="10" fill="none" stroke="#d46a8a" stroke-width="2"/>
+        <!-- lotus body blob -->
+        <ellipse cx="0" cy="20" rx="34" ry="24" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <!-- torso -->
+        <line x1="0" y1="-10" x2="0" y2="16" stroke="#c0b899" stroke-width="2"/>
+        <path d="M-18 -4 Q-8 -12 0 -8 Q8 -12 18 -4" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <!-- head -->
+        <circle cx="0" cy="-24" r="14" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- topknot -->
+        <path d="M-6 -36 Q0 -46 6 -36" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <!-- smug closed eyes -->
+        <path d="M-8 -26 Q-4 -28 0 -26" fill="none" stroke="#c0b899" stroke-width="1.8"/>
+        <path d="M0 -26 Q4 -28 8 -26" fill="none" stroke="#c0b899" stroke-width="1.8"/>
+        <!-- tiny smile -->
+        <path d="M-3 -18 Q0 -16 3 -18" fill="none" stroke="#c0b899" stroke-width="1.2"/>
+        <!-- aura -->
+        <circle cx="0" cy="10" r="50" fill="none" stroke="#d4a34a" stroke-width="0.5" opacity="0.15"/>
+        <circle cx="0" cy="10" r="60" fill="none" stroke="#d4a34a" stroke-width="0.5" opacity="0.08"/>
+      </g>
+
+      <!-- NPC 4: Frank (leaning on broom, background right) -->
+      <g transform="translate(820, 230) scale(0.6)">
+        <!-- head: square -->
+        <rect x="-14" y="-20" width="28" height="30" rx="5" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- cap -->
+        <path d="M-18 -16 L-14 -26 Q0 -32 14 -26 L18 -16" fill="none" stroke="#9a9a8a" stroke-width="2.5"/>
+        <line x1="-20" y1="-16" x2="20" y2="-16" stroke="#9a9a8a" stroke-width="3"/>
+        <!-- flat eyes -->
+        <line x1="-8" y1="-6" x2="-2" y2="-6" stroke="#c0b899" stroke-width="2.5"/>
+        <line x1="2" y1="-6" x2="8" y2="-6" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- mouth: flat -->
+        <line x1="-6" y1="4" x2="6" y2="4" stroke="#c0b899" stroke-width="1.5"/>
+        <!-- body -->
+        <line x1="0" y1="10" x2="0" y2="62" stroke="#c0b899" stroke-width="2.5"/>
+        <line x1="-24" y1="18" x2="24" y2="18" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- broom -->
+        <line x1="-24" y1="-10" x2="-24" y2="130" stroke="#9a9a8a" stroke-width="2"/>
+        <!-- arm on broom -->
+        <path d="M-24 18 L-28 40 L-24 50" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <!-- other arm: coffee -->
+        <path d="M24 18 L30 44 L32 52" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <rect x="28" y="48" width="10" height="12" rx="2" fill="none" stroke="#877a5a" stroke-width="1.5"/>
+        <!-- steam -->
+        <path d="M32 46 Q30 42 32 38" fill="none" stroke="#877a5a" stroke-width="0.8" opacity="0.3"/>
+        <!-- legs -->
+        <line x1="-6" y1="62" x2="-10" y2="110" stroke="#c0b899" stroke-width="2.8"/>
+        <line x1="6" y1="62" x2="10" y2="110" stroke="#c0b899" stroke-width="2.8"/>
+        <!-- boots -->
+        <path d="M-16 110 L-10 110 L-8 116 L-12 118 L-18 116 Z" fill="none" stroke="#9a9a8a" stroke-width="1.5"/>
+        <path d="M6 110 L10 110 L14 116 L12 118 L4 116 Z" fill="none" stroke="#9a9a8a" stroke-width="1.5"/>
+      </g>
+
+      <!-- ========== DIALOGUE PANEL ========== -->
+      <rect x="0" y="384" width="960" height="256" fill="#0a0804"/>
+      <line x1="0" y1="384" x2="960" y2="384" stroke="#2a2a1e" stroke-width="1"/>
+
+      <!-- Speaker name -->
+      <text x="40" y="420" font-family="Georgia, serif" font-size="14" fill="#d4a34a" font-weight="bold">Receptionist</text>
+
+      <!-- Dialogue text with typewriter suggestion -->
+      <text x="40" y="450" font-family="Georgia, serif" font-size="20" fill="#c0b899">Welcome to The Sanctuary. You must be Steve.</text>
+      <text x="40" y="478" font-family="Georgia, serif" font-size="20" fill="#c0b899">We've been expecting someone like you.</text>
+      <text x="40" y="506" font-family="Georgia, serif" font-size="16" fill="#877a5a" font-style="italic">She smiles. It doesn't reach her eyes.</text>
+
+      <!-- Continue indicator -->
+      <text x="890" y="610" font-family="Georgia, serif" font-size="16" fill="#877a5a" opacity="0.6">&#9660; continue</text>
+
+      <!-- Choice buttons (hidden for now, shown in combat/decisions) -->
+
+    </svg>
+  </div>
+  <p class="note">960×640 viewport. Characters scaled at 60-70% in scene view. Ground line at y=350. Prayer flags add color without breaking the muted palette. Frank is always in the background, watching. The Oversharer is already reaching toward where Steve would be standing.</p>
+</div>
+
+<!-- ============================================ -->
+<!-- COMBAT UI MOCKUP -->
+<!-- ============================================ -->
+<div class="section">
+  <h2>Combat UI: Steve vs. The Essential Oil Warrior</h2>
+  <p class="desc">Combat layout concept. Turn-based, with Steve on the left and the enemy on the right. Action menu at the bottom replaces the dialogue panel. Damage numbers float. Status effects shown as small icons near health bars.</p>
+
+  <div class="scene-container">
+    <svg width="960" height="640" viewBox="0 0 960 640" style="background: #0a0805;">
+
+      <!-- ========== COMBAT HUD ========== -->
+      <rect x="0" y="0" width="960" height="44" fill="#0a0805" stroke="#2a2a1e" stroke-width="1"/>
+      <text x="20" y="28" font-family="Georgia, serif" font-size="13" fill="#877a5a">HP</text>
+      <rect x="44" y="16" width="80" height="14" rx="2" fill="#1e1e14" stroke="#2a2a1e" stroke-width="1"/>
+      <rect x="44" y="16" width="60" height="14" rx="2" fill="#6a8a6a" opacity="0.6"/>
+      <text x="130" y="28" font-family="Georgia, serif" font-size="12" fill="#c0b899">76</text>
+      <text x="170" y="28" font-family="Georgia, serif" font-size="13" fill="#877a5a">EP</text>
+      <rect x="194" y="16" width="80" height="14" rx="2" fill="#1e1e14" stroke="#2a2a1e" stroke-width="1"/>
+      <rect x="194" y="16" width="34" height="14" rx="2" fill="#6a9ad4" opacity="0.5"/>
+      <text x="280" y="28" font-family="Georgia, serif" font-size="12" fill="#c0b899">42</text>
+      <!-- status: "smells weird" debuff -->
+      <rect x="460" y="14" width="120" height="18" rx="4" fill="#1e1e14" stroke="#8a6ad4" stroke-width="1" opacity="0.6"/>
+      <text x="472" y="27" font-family="Georgia, serif" font-size="11" fill="#8a6ad4" opacity="0.8">Smells Weird -2</text>
+
+      <!-- ========== BATTLE SCENE ========== -->
+      <rect x="0" y="44" width="960" height="340" fill="#12140e" opacity="0.3"/>
+
+      <!-- Location -->
+      <text x="30" y="76" font-family="Georgia, serif" font-size="14" fill="#d4a34a" letter-spacing="3" font-variant="small-caps">THE HEALING GARDEN</text>
+      <text x="30" y="92" font-family="Georgia, serif" font-size="11" fill="#877a5a" font-style="italic">COMBAT</text>
+
+      <!-- ground line -->
+      <line x1="0" y1="350" x2="960" y2="350" stroke="#2a2a1e" stroke-width="1"/>
+
+      <!-- STEVE (left side, combat stance) -->
+      <g transform="translate(220, 160) scale(0.85)">
+        <!-- head -->
+        <ellipse cx="0" cy="0" rx="16" ry="18" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- hair -->
+        <path d="M-16 -8 Q-12 -18 -4 -16 L0 -18 Q8 -20 12 -12" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <!-- glasses -->
+        <rect x="-12" y="-6" width="11" height="9" rx="1.5" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <rect x="1" y="-6" width="11" height="9" rx="1.5" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <line x1="-1" y1="-2" x2="1" y2="-2" stroke="#c0b899" stroke-width="1"/>
+        <!-- determined eyes -->
+        <circle cx="-6" cy="-1" r="1.8" fill="#c0b899"/>
+        <circle cx="7" cy="-1" r="1.8" fill="#c0b899"/>
+        <!-- eyebrows: focused -->
+        <line x1="-12" y1="-10" x2="-2" y2="-8" stroke="#c0b899" stroke-width="1.8"/>
+        <line x1="2" y1="-8" x2="12" y2="-10" stroke="#c0b899" stroke-width="1.8"/>
+        <!-- mouth: tight, ready -->
+        <line x1="-5" y1="8" x2="5" y2="8" stroke="#c0b899" stroke-width="1.5"/>
+        <!-- neck -->
+        <line x1="0" y1="18" x2="0" y2="25" stroke="#c0b899" stroke-width="2"/>
+        <!-- shoulders -->
+        <path d="M-20 32 Q-10 25 0 27 Q10 25 20 32" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- tie -->
+        <path d="M-3 27 L0 32 L3 27" fill="#6a8a6a"/>
+        <line x1="0" y1="32" x2="0" y2="60" stroke="#6a8a6a" stroke-width="2.5"/>
+        <polygon points="-3,60 3,60 0,70" fill="#6a8a6a"/>
+        <!-- torso -->
+        <line x1="0" y1="27" x2="0" y2="90" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- briefcase wielded like weapon! -->
+        <path d="M-20 32 L-30 56 L-34 64" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- briefcase raised -->
+        <rect x="-50" y="50" width="24" height="16" rx="2" fill="none" stroke="#d4a34a" stroke-width="2" transform="rotate(-30 -38 58)"/>
+        <!-- right arm: calculator in hand -->
+        <path d="M20 32 L28 52 L30 62" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <rect x="26" y="60" width="12" height="18" rx="1" fill="none" stroke="#877a5a" stroke-width="1.5"/>
+        <!-- calculator buttons -->
+        <circle cx="30" cy="66" r="1" fill="#877a5a" opacity="0.5"/>
+        <circle cx="34" cy="66" r="1" fill="#877a5a" opacity="0.5"/>
+        <circle cx="30" cy="70" r="1" fill="#877a5a" opacity="0.5"/>
+        <circle cx="34" cy="70" r="1" fill="#877a5a" opacity="0.5"/>
+        <!-- belt -->
+        <line x1="-8" y1="78" x2="8" y2="78" stroke="#877a5a" stroke-width="2"/>
+        <!-- legs: battle stance, wider -->
+        <line x1="-8" y1="90" x2="-16" y2="140" stroke="#c0b899" stroke-width="2.8"/>
+        <line x1="8" y1="90" x2="16" y2="140" stroke="#c0b899" stroke-width="2.8"/>
+        <path d="M-22 140 L-16 140 L-13 143" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M13 140 L16 140 L19 143" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+      </g>
+
+      <!-- ESSENTIAL OIL WARRIOR (right side, attacking) -->
+      <g transform="translate(700, 155) scale(0.85)">
+        <!-- head -->
+        <circle cx="0" cy="0" r="17" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- flowing hair -->
+        <path d="M-17 -4 Q-23 -10 -25 2 Q-27 20 -23 34" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <path d="M17 -4 Q23 -10 25 2 Q27 20 23 34" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <!-- headband -->
+        <path d="M-17 -8 Q0 -14 17 -8" fill="none" stroke="#d46a8a" stroke-width="3"/>
+        <circle cx="0" cy="-11" r="3" fill="#d46a8a"/>
+        <!-- eyes: intense, mid-attack -->
+        <circle cx="-6" cy="-2" r="2.5" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <circle cx="-6" cy="-2" r="1.2" fill="#c0b899"/>
+        <circle cx="6" cy="-2" r="2.5" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <circle cx="6" cy="-2" r="1.2" fill="#c0b899"/>
+        <!-- smile: still smiling while attacking -->
+        <path d="M-6 7 Q0 12 6 7" fill="none" stroke="#c0b899" stroke-width="1.5"/>
+        <!-- crystal necklace -->
+        <path d="M-9 16 Q0 20 9 16" fill="none" stroke="#8a6ad4" stroke-width="1.5"/>
+        <polygon points="-2,20 2,20 0,27" fill="#8a6ad4" opacity="0.7"/>
+        <!-- neck -->
+        <path d="M0 17 Q-1 24 0 30" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <!-- shoulders -->
+        <path d="M-27 38 Q-13 30 0 32 Q13 30 27 38" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- torso -->
+        <path d="M0 32 Q-2 50 0 65" fill="none" stroke="#c0b899" stroke-width="2.5"/>
+        <!-- flowing skirt -->
+        <path d="M-15 65 Q-20 100 -27 145 Q0 155 27 145 Q20 100 15 65" fill="none" stroke="#d46a8a" stroke-width="2" opacity="0.6"/>
+        <!-- arm: HURLING oil bottle toward Steve -->
+        <path d="M-27 38 L-44 28 L-56 20" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+
+        <!-- FLYING OIL BOTTLE with trail -->
+        <rect x="-90" y="4" width="12" height="18" rx="4" fill="none" stroke="#8a6ad4" stroke-width="2"/>
+        <rect x="-87" y="-2" width="6" height="8" rx="2" fill="none" stroke="#8a6ad4" stroke-width="1.5"/>
+        <!-- motion trail -->
+        <path d="M-56 20 Q-72 14 -78 8" fill="none" stroke="#8a6ad4" stroke-width="1" opacity="0.4" stroke-dasharray="4,4"/>
+        <!-- splash droplets ahead of bottle -->
+        <circle cx="-104" cy="8" r="2" fill="#8a6ad4" opacity="0.3"/>
+        <circle cx="-108" cy="14" r="1.5" fill="#8a6ad4" opacity="0.25"/>
+        <circle cx="-100" cy="16" r="1" fill="#8a6ad4" opacity="0.2"/>
+
+        <!-- other arm: grabbing another bottle from belt -->
+        <path d="M27 38 L32 54 L26 64" fill="none" stroke="#c0b899" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- belt of bottles -->
+        <rect x="14" y="62" width="8" height="10" rx="2" fill="none" stroke="#8a6ad4" stroke-width="1.2"/>
+        <rect x="24" y="62" width="8" height="10" rx="2" fill="none" stroke="#8a6ad4" stroke-width="1.2"/>
+        <!-- feet -->
+        <path d="M-17 145 Q-14 150 -11 148" fill="none" stroke="#c0b899" stroke-width="2"/>
+        <path d="M17 145 Q20 150 23 148" fill="none" stroke="#c0b899" stroke-width="2"/>
+      </g>
+
+      <!-- ENEMY HEALTH BAR (above enemy) -->
+      <text x="640" y="100" font-family="Georgia, serif" font-size="13" fill="#d46a8a">Essential Oil Warrior</text>
+      <rect x="640" y="106" width="160" height="12" rx="2" fill="#1e1e14" stroke="#2a2a1e" stroke-width="1"/>
+      <rect x="640" y="106" width="120" height="12" rx="2" fill="#d46a8a" opacity="0.5"/>
+      <text x="806" y="116" font-family="Georgia, serif" font-size="11" fill="#c0b899">75%</text>
+
+      <!-- FLOATING DAMAGE NUMBER -->
+      <text x="380" y="180" font-family="Georgia, serif" font-size="24" fill="#d46a8a" opacity="0.8" font-weight="bold">-8</text>
+      <text x="370" y="198" font-family="Georgia, serif" font-size="11" fill="#877a5a" font-style="italic">Anoint!</text>
+
+      <!-- ========== COMBAT ACTION PANEL ========== -->
+      <rect x="0" y="384" width="960" height="256" fill="#0a0804"/>
+      <line x1="0" y1="384" x2="960" y2="384" stroke="#2a2a1e" stroke-width="1"/>
+
+      <!-- Combat narrative -->
+      <text x="40" y="418" font-family="Georgia, serif" font-size="16" fill="#877a5a" font-style="italic">The Oil Warrior hurls a bottle of lavender at your face. It smells like a candle store on fire.</text>
+
+      <!-- Action buttons -->
+      <!-- Attack -->
+      <rect x="40" y="440" width="200" height="50" rx="4" fill="#1e1e14" stroke="#d4a34a" stroke-width="1.5"/>
+      <text x="90" y="460" font-family="Georgia, serif" font-size="16" fill="#d4a34a">ATTACK</text>
+      <text x="62" y="480" font-family="Georgia, serif" font-size="11" fill="#877a5a">Briefcase Swing</text>
+
+      <!-- Skills -->
+      <rect x="260" y="440" width="200" height="50" rx="4" fill="#1e1e14" stroke="#6a9ad4" stroke-width="1.5"/>
+      <text x="318" y="460" font-family="Georgia, serif" font-size="16" fill="#6a9ad4">SKILLS</text>
+      <text x="290" y="480" font-family="Georgia, serif" font-size="11" fill="#877a5a">Audit, Spreadsheet...</text>
+
+      <!-- Items -->
+      <rect x="480" y="440" width="200" height="50" rx="4" fill="#1e1e14" stroke="#8ad46a" stroke-width="1.5"/>
+      <text x="544" y="460" font-family="Georgia, serif" font-size="16" fill="#8ad46a">ITEMS</text>
+      <text x="520" y="480" font-family="Georgia, serif" font-size="11" fill="#877a5a">Stapler, Coffee...</text>
+
+      <!-- Flee -->
+      <rect x="700" y="440" width="200" height="50" rx="4" fill="#1e1e14" stroke="#877a5a" stroke-width="1.5"/>
+      <text x="770" y="460" font-family="Georgia, serif" font-size="16" fill="#877a5a">FLEE</text>
+      <text x="724" y="480" font-family="Georgia, serif" font-size="11" fill="#877a5a">"I Have A Meeting"</text>
+
+      <!-- Skills submenu hint -->
+      <text x="40" y="530" font-family="Georgia, serif" font-size="12" fill="#877a5a" opacity="0.5">TIP: Use Spreadsheet Analysis to reveal her actual income (-$2,400/year).</text>
+
+    </svg>
+  </div>
+  <p class="note">Combat actions map to the four button layout: Attack (physical/briefcase), Skills (accounting abilities), Items (office supplies and loot), Flee (social excuses). The flee button text changes per enemy — against the Oversharer it'd be "I Have A Meeting," against the Yoga Snob it'd be "My Hamstrings Say No."</p>
+</div>
+
+</body>
+</html>

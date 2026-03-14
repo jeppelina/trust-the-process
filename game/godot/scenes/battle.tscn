@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://battle001"]
+[gd_scene load_steps=3 format=3 uid="uid://battle001"]
 
 [ext_resource type="Script" path="res://scripts/battle.gd" id="1"]
+[ext_resource type="Theme" path="res://themes/dialogue_theme.tres" id="2"]
 
 [node name="Battle" type="Control"]
 layout_mode = 3
@@ -9,178 +10,253 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource("1")
 
-[node name="BattleBG" type="ColorRect" parent="."]
+[node name="MainLayout" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.1, 0.09, 0.05, 1)
+theme_override_constants/separation = 0
 
-[node name="BattleScene" type="HBoxContainer" parent="."]
+[node name="BattleBG" type="ColorRect" parent="MainLayout"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.5
+color = Color(0.88, 0.84, 0.76, 1)
+
+[node name="BattleArea" type="HBoxContainer" parent="MainLayout/BattleBG"]
 layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
-anchor_bottom = 0.6
-offset_left = 60.0
-offset_top = 30.0
-offset_right = -60.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = 10.0
+offset_right = -40.0
+offset_bottom = -10.0
 alignment = 1
-theme_override_constants/separation = 200
+theme_override_constants/separation = 80
 
-[node name="SteveBox" type="VBoxContainer" parent="BattleScene"]
+[node name="SteveBox" type="VBoxContainer" parent="MainLayout/BattleBG/BattleArea"]
 layout_mode = 2
+size_flags_horizontal = 3
 alignment = 1
 
-[node name="SteveName" type="Label" parent="BattleScene/SteveBox"]
+[node name="SteveName" type="Label" parent="MainLayout/BattleBG/BattleArea/SteveBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 14
-theme_override_colors/font_color = Color(0.29, 0.48, 0.54, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.13, 0.55, 0.13, 1)
 text = "STEVE"
 horizontal_alignment = 1
 
-[node name="SteveSprite" type="Label" parent="BattleScene/SteveBox"]
+[node name="SteveContainer" type="Control" parent="MainLayout/BattleBG/BattleArea/SteveBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 64
-text = "🧑‍💼"
-horizontal_alignment = 1
+custom_minimum_size = Vector2(200, 180)
+size_flags_vertical = 3
 
-[node name="SteveHPBar" type="ProgressBar" parent="BattleScene/SteveBox"]
+[node name="SteveHPBar" type="ProgressBar" parent="MainLayout/BattleBG/BattleArea/SteveBox"]
 unique_name_in_owner = true
 layout_mode = 2
-custom_minimum_size = Vector2(120, 14)
+custom_minimum_size = Vector2(140, 16)
 value = 100.0
 show_percentage = false
 
-[node name="SteveHPLabel" type="Label" parent="BattleScene/SteveBox"]
+[node name="SteveHPLabel" type="Label" parent="MainLayout/BattleBG/BattleArea/SteveBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 14
-theme_override_colors/font_color = Color(0.53, 0.47, 0.33, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.30, 0.28, 0.22, 1)
 text = "100/100"
 horizontal_alignment = 1
 
-[node name="SteveStatusLabel" type="Label" parent="BattleScene/SteveBox"]
+[node name="SteveStatusLabel" type="Label" parent="MainLayout/BattleBG/BattleArea/SteveBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 13
-theme_override_colors/font_color = Color(0.67, 0.47, 0.27, 1)
+custom_minimum_size = Vector2(0, 20)
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.70, 0.45, 0.15, 1)
 horizontal_alignment = 1
 
-[node name="EnemyBox" type="VBoxContainer" parent="BattleScene"]
+[node name="VSLabel" type="Label" parent="MainLayout/BattleBG/BattleArea"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 28
+theme_override_colors/font_color = Color(0.50, 0.45, 0.35, 0.6)
+text = "VS"
+vertical_alignment = 1
+
+[node name="EnemyBox" type="VBoxContainer" parent="MainLayout/BattleBG/BattleArea"]
+layout_mode = 2
+size_flags_horizontal = 3
 alignment = 1
 
-[node name="EnemyNameLabel" type="Label" parent="BattleScene/EnemyBox"]
+[node name="EnemyNameLabel" type="Label" parent="MainLayout/BattleBG/BattleArea/EnemyBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 14
-theme_override_colors/font_color = Color(0.67, 0.4, 0.27, 1)
-text = "ESSENTIAL OIL WARRIOR"
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.75, 0.20, 0.20, 1)
+text = "ENEMY"
 horizontal_alignment = 1
 
-[node name="EnemySprite" type="Label" parent="BattleScene/EnemyBox"]
+[node name="EnemyContainer" type="Control" parent="MainLayout/BattleBG/BattleArea/EnemyBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 64
-text = "🧴"
-horizontal_alignment = 1
+custom_minimum_size = Vector2(200, 180)
+size_flags_vertical = 3
 
-[node name="EnemyHPBar" type="ProgressBar" parent="BattleScene/EnemyBox"]
+[node name="EnemyHPBar" type="ProgressBar" parent="MainLayout/BattleBG/BattleArea/EnemyBox"]
 unique_name_in_owner = true
 layout_mode = 2
-custom_minimum_size = Vector2(120, 14)
+custom_minimum_size = Vector2(140, 16)
 value = 100.0
 show_percentage = false
 
-[node name="EnemyHPLabel" type="Label" parent="BattleScene/EnemyBox"]
+[node name="EnemyHPLabel" type="Label" parent="MainLayout/BattleBG/BattleArea/EnemyBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 14
-theme_override_colors/font_color = Color(0.53, 0.47, 0.33, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.30, 0.28, 0.22, 1)
 text = "45/45"
 horizontal_alignment = 1
 
-[node name="EnemyStatusLabel" type="Label" parent="BattleScene/EnemyBox"]
+[node name="EnemyStatusLabel" type="Label" parent="MainLayout/BattleBG/BattleArea/EnemyBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 13
-theme_override_colors/font_color = Color(0.67, 0.47, 0.27, 1)
+custom_minimum_size = Vector2(0, 20)
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.70, 0.45, 0.15, 1)
 horizontal_alignment = 1
 
-[node name="BattleUI" type="HSplitContainer" parent="."]
-layout_mode = 1
-anchor_top = 0.6
-anchor_right = 1.0
-anchor_bottom = 1.0
-
-[node name="UIBg" type="ColorRect" parent="BattleUI"]
-show_behind_parent = true
+[node name="BattleUI" type="PanelContainer" parent="MainLayout"]
 layout_mode = 2
-size_flags_horizontal = 3
-color = Color(0.04, 0.03, 0.02, 0.95)
+size_flags_vertical = 3
+custom_minimum_size = Vector2(0, 220)
+theme = ExtResource("2")
 
-[node name="MainMenu" type="VBoxContainer" parent="BattleUI"]
+[node name="UIBg" type="ColorRect" parent="MainLayout/BattleUI"]
+layout_mode = 2
+color = Color(1.0, 1.0, 1.0, 1.0)
+
+[node name="TopBorder" type="ColorRect" parent="MainLayout/BattleUI"]
+layout_mode = 1
+anchor_right = 1.0
+offset_bottom = 2.0
+color = Color(0.82, 0.82, 0.82, 1)
+
+[node name="UILayout" type="HBoxContainer" parent="MainLayout/BattleUI"]
+layout_mode = 2
+offset_top = 4.0
+theme_override_constants/separation = 0
+
+[node name="MenuPanel" type="PanelContainer" parent="MainLayout/BattleUI/UILayout"]
+layout_mode = 2
+custom_minimum_size = Vector2(200, 0)
+
+[node name="MenuBg" type="ColorRect" parent="MainLayout/BattleUI/UILayout/MenuPanel"]
+layout_mode = 2
+color = Color(0.97, 0.96, 0.94, 1)
+
+[node name="MenuMargin" type="MarginContainer" parent="MainLayout/BattleUI/UILayout/MenuPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="MainMenu" type="VBoxContainer" parent="MainLayout/BattleUI/UILayout/MenuPanel/MenuMargin"]
 unique_name_in_owner = true
 layout_mode = 2
-custom_minimum_size = Vector2(180, 0)
-theme_override_constants/separation = 2
+theme_override_constants/separation = 3
 
-[node name="AttackBtn" type="Button" parent="BattleUI/MainMenu"]
+[node name="AttackBtn" type="Button" parent="MainLayout/BattleUI/UILayout/MenuPanel/MenuMargin/MainMenu"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
-theme_override_colors/font_color = Color(0.83, 0.64, 0.29, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.20, 0.20, 0.18, 1)
 text = "⚔ Attack"
 alignment = 0
 
-[node name="SkillsBtn" type="Button" parent="BattleUI/MainMenu"]
+[node name="SkillsBtn" type="Button" parent="MainLayout/BattleUI/UILayout/MenuPanel/MenuMargin/MainMenu"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
-theme_override_colors/font_color = Color(0.83, 0.64, 0.29, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.20, 0.20, 0.18, 1)
 text = "★ Skills"
 alignment = 0
 
-[node name="TalkBtn" type="Button" parent="BattleUI/MainMenu"]
+[node name="TalkBtn" type="Button" parent="MainLayout/BattleUI/UILayout/MenuPanel/MenuMargin/MainMenu"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
-theme_override_colors/font_color = Color(0.83, 0.64, 0.29, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.20, 0.20, 0.18, 1)
 text = "💬 Talk"
 alignment = 0
 
-[node name="AnalyzeBtn" type="Button" parent="BattleUI/MainMenu"]
+[node name="AnalyzeBtn" type="Button" parent="MainLayout/BattleUI/UILayout/MenuPanel/MenuMargin/MainMenu"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
-theme_override_colors/font_color = Color(0.83, 0.64, 0.29, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.20, 0.20, 0.18, 1)
 text = "🔍 Analyze"
 alignment = 0
 
-[node name="ItemsBtn" type="Button" parent="BattleUI/MainMenu"]
+[node name="ItemsBtn" type="Button" parent="MainLayout/BattleUI/UILayout/MenuPanel/MenuMargin/MainMenu"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
-theme_override_colors/font_color = Color(0.83, 0.64, 0.29, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.20, 0.20, 0.18, 1)
 text = "🎒 Item"
 alignment = 0
 
-[node name="EndureBtn" type="Button" parent="BattleUI/MainMenu"]
+[node name="EndureBtn" type="Button" parent="MainLayout/BattleUI/UILayout/MenuPanel/MenuMargin/MainMenu"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
-theme_override_colors/font_color = Color(0.83, 0.64, 0.29, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.20, 0.20, 0.18, 1)
 text = "🛡 Endure"
 alignment = 0
 
-[node name="SubMenu" type="VBoxContainer" parent="BattleUI"]
+[node name="SubMenuPanel" type="PanelContainer" parent="MainLayout/BattleUI/UILayout"]
 unique_name_in_owner = true
 layout_mode = 2
-custom_minimum_size = Vector2(180, 0)
+custom_minimum_size = Vector2(200, 0)
 visible = false
-theme_override_constants/separation = 2
 
-[node name="BattleLog" type="RichTextLabel" parent="BattleUI"]
+[node name="SubMenuBg" type="ColorRect" parent="MainLayout/BattleUI/UILayout/SubMenuPanel"]
+layout_mode = 2
+color = Color(0.95, 0.96, 0.97, 1)
+
+[node name="SubMenuMargin" type="MarginContainer" parent="MainLayout/BattleUI/UILayout/SubMenuPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="SubMenu" type="VBoxContainer" parent="MainLayout/BattleUI/UILayout/SubMenuPanel/SubMenuMargin"]
 unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="MenuDivider" type="ColorRect" parent="MainLayout/BattleUI/UILayout"]
+layout_mode = 2
+custom_minimum_size = Vector2(2, 0)
+color = Color(0.82, 0.82, 0.82, 1)
+
+[node name="LogPanel" type="PanelContainer" parent="MainLayout/BattleUI/UILayout"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/normal_font_size = 17
-theme_override_colors/default_color = Color(0.75, 0.72, 0.6, 1)
+
+[node name="LogBg" type="ColorRect" parent="MainLayout/BattleUI/UILayout/LogPanel"]
+layout_mode = 2
+color = Color(1.0, 1.0, 1.0, 1.0)
+
+[node name="LogMargin" type="MarginContainer" parent="MainLayout/BattleUI/UILayout/LogPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="BattleLog" type="RichTextLabel" parent="MainLayout/BattleUI/UILayout/LogPanel/LogMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 18
+theme_override_colors/default_color = Color(0.25, 0.23, 0.20, 1)
 scroll_following = true
+scroll_active = true
 
 [node name="VictoryOverlay" type="Control" parent="."]
 unique_name_in_owner = true
@@ -204,35 +280,37 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -300.0
-offset_top = -150.0
-offset_right = 300.0
-offset_bottom = 150.0
+offset_left = -360.0
+offset_top = -180.0
+offset_right = 360.0
+offset_bottom = 180.0
 alignment = 1
+theme_override_constants/separation = 16
 
 [node name="VictoryTitle" type="Label" parent="VictoryOverlay/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 36
-theme_override_colors/font_color = Color(0.83, 0.64, 0.29, 1)
+theme_override_font_sizes/font_size = 40
+theme_override_colors/font_color = Color(0.90, 0.75, 0.30, 1)
 text = "VICTORY"
 horizontal_alignment = 1
 
 [node name="VictoryText" type="RichTextLabel" parent="VictoryOverlay/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
-custom_minimum_size = Vector2(0, 150)
-theme_override_font_sizes/normal_font_size = 18
-theme_override_colors/default_color = Color(0.75, 0.72, 0.6, 1)
+custom_minimum_size = Vector2(0, 140)
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 20
+theme_override_colors/default_color = Color(0.85, 0.82, 0.75, 1)
 text = ""
-scroll_active = false
-fit_content = true
+scroll_active = true
+fit_content = false
 
 [node name="OverlayPrompt" type="Label" parent="VictoryOverlay/VBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
-theme_override_colors/font_color = Color(0.53, 0.47, 0.33, 1)
-text = "[ SPACE / Click ]"
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.60, 0.55, 0.45, 1)
+text = "[ Click or press SPACE to continue ]"
 horizontal_alignment = 1
 
 [node name="OverlayButton" type="Button" parent="VictoryOverlay"]
@@ -242,10 +320,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 modulate = Color(1, 1, 1, 0)
 
-[connection signal="pressed" from="BattleUI/MainMenu/AttackBtn" to="." method="_on_attack_pressed"]
-[connection signal="pressed" from="BattleUI/MainMenu/SkillsBtn" to="." method="_on_skills_pressed"]
-[connection signal="pressed" from="BattleUI/MainMenu/TalkBtn" to="." method="_on_talk_pressed"]
-[connection signal="pressed" from="BattleUI/MainMenu/AnalyzeBtn" to="." method="_on_analyze_pressed"]
-[connection signal="pressed" from="BattleUI/MainMenu/ItemsBtn" to="." method="_on_items_pressed"]
-[connection signal="pressed" from="BattleUI/MainMenu/EndureBtn" to="." method="_on_endure_pressed"]
+[connection signal="pressed" from="MainLayout/BattleUI/UILayout/MenuPanel/MenuMargin/MainMenu/AttackBtn" to="." method="_on_attack_pressed"]
+[connection signal="pressed" from="MainLayout/BattleUI/UILayout/MenuPanel/MenuMargin/MainMenu/SkillsBtn" to="." method="_on_skills_pressed"]
+[connection signal="pressed" from="MainLayout/BattleUI/UILayout/MenuPanel/MenuMargin/MainMenu/TalkBtn" to="." method="_on_talk_pressed"]
+[connection signal="pressed" from="MainLayout/BattleUI/UILayout/MenuPanel/MenuMargin/MainMenu/AnalyzeBtn" to="." method="_on_analyze_pressed"]
+[connection signal="pressed" from="MainLayout/BattleUI/UILayout/MenuPanel/MenuMargin/MainMenu/ItemsBtn" to="." method="_on_items_pressed"]
+[connection signal="pressed" from="MainLayout/BattleUI/UILayout/MenuPanel/MenuMargin/MainMenu/EndureBtn" to="." method="_on_endure_pressed"]
 [connection signal="pressed" from="VictoryOverlay/OverlayButton" to="." method="_on_overlay_clicked"]
