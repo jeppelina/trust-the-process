@@ -359,6 +359,119 @@
         ::-webkit-scrollbar-track { background: #E0D8C8; }
         ::-webkit-scrollbar-thumb { background: #5a5555; border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: #3a3a3a; }
+
+        /* ─ MOBILE RESPONSIVE ─ */
+        @media (max-width: 640px) {
+            body {
+                padding: 0;
+                align-items: stretch;
+            }
+            #game-container {
+                width: 100%;
+                max-width: 100%;
+                aspect-ratio: auto;
+                height: 100vh;
+                height: 100dvh;
+                border: none;
+                border-radius: 0;
+                box-shadow: none;
+            }
+
+            /* Title */
+            .title-text { font-size: 28px; margin-bottom: 24px; }
+            .title-prompt { font-size: 16px; }
+
+            /* Intro */
+            #intro-screen { padding: 20px 16px; }
+            .intro-text { font-size: 14px; }
+
+            /* HUD — compact 2-row grid */
+            .hud-bar {
+                padding: 4px 8px;
+                gap: 6px 12px;
+                font-size: 10px;
+            }
+            .stat-bar { width: 45px; }
+
+            /* Room area — compact, push NPCs near dialogue */
+            .room-bg {
+                flex: 0 1 auto;
+                padding: 10px 8px;
+                justify-content: flex-end;
+            }
+            .npc-container { gap: 14px; }
+            .npc-emoji { font-size: 40px; }
+            .npc-label { font-size: 10px; }
+            .room-title { font-size: 11px; padding: 6px; }
+
+            /* Nav buttons — larger tap targets */
+            .nav-buttons { padding: 6px; gap: 6px; }
+            .nav-buttons button {
+                padding: 8px 12px;
+                font-size: 12px;
+                min-height: 36px;
+            }
+
+            /* Dialogue — flex-sized, sits right under NPCs */
+            .dialogue-panel {
+                height: auto;
+                flex: 1 1 auto;
+                min-height: 100px;
+                max-height: 40vh;
+                padding: 10px 12px;
+            }
+            .speaker-name { font-size: 13px; }
+            .dialogue-text { font-size: 13px; line-height: 1.4; }
+            .continue-prompt { font-size: 11px; }
+            .choice-btn {
+                padding: 10px 12px;
+                font-size: 13px;
+                min-height: 40px;
+            }
+
+            /* Battle — stack vertically on narrow screens */
+            .battle-header { font-size: 10px; padding: 5px 8px; }
+            .battle-area {
+                padding: 10px;
+                gap: 10px;
+                align-items: center;
+            }
+            .combatant-emoji { font-size: 48px; }
+            .combatant-name { font-size: 10px; }
+
+            .battle-log {
+                height: 80px;
+                font-size: 11px;
+                padding: 6px 8px;
+            }
+            .battle-menu {
+                gap: 4px;
+                padding: 6px;
+            }
+            .action-btn {
+                min-width: 60px;
+                padding: 8px 6px;
+                font-size: 11px;
+                min-height: 36px;
+            }
+
+            /* Victory overlay */
+            .victory-box {
+                max-width: 85vw;
+                padding: 16px;
+            }
+            .victory-title { font-size: 18px; }
+            .victory-text { font-size: 12px; }
+        }
+
+        /* Extra small phones (SE, etc) */
+        @media (max-width: 380px) {
+            .title-text { font-size: 22px; }
+            .npc-emoji { font-size: 32px; }
+            .dialogue-panel { min-height: 100px; }
+            .combatant-emoji { font-size: 36px; }
+            .action-btn { min-width: 50px; font-size: 10px; }
+        }
     </style>
 </head>
 <body>
