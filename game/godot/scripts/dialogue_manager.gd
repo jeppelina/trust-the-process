@@ -106,9 +106,9 @@ func _load_all_dialogues() -> void:
 			{"speaker": "Frank", "text": "Your wife. What's she look like?"},
 			{"speaker": "", "text": "(Steve describes her.)", "thought": true},
 			{"speaker": "Frank", "text": "Yeah. I remember her. Helped me carry wood one afternoon. Only guest who ever did that. Then she stopped coming outside. Got pulled into the inner circle."},
-			{"speaker": "Frank", "text": "The inner circle means The Founder took an interest. Real name's Derek. Don't tell anyone I told you that."},
+			{"speaker": "Frank", "text": "The inner circle means The Founder took an interest. Real name's Paul. Don't tell anyone I told you that."},
 			{"speaker": "Steve", "text": "Where is she now?"},
-			{"speaker": "Frank", "text": "Gone. They always go. Derek sends them to the next place down the pipeline. Your wife's trail will be in his files. Back office or his cabin."},
+			{"speaker": "Frank", "text": "Gone. They always go. Paul sends them to the next place down the pipeline. Your wife's trail will be in his files. Back office or his cabin."},
 			{"speaker": "", "text": "", "goto": "frank_end"}
 		],
 		"frank_long": [
@@ -144,7 +144,7 @@ func _load_all_dialogues() -> void:
 			{"speaker": "Steve", "text": "You're lying. You froze when I mentioned it."},
 			{"speaker": "Maya", "text": "(quietly) Too many ears in here. Meet me at the fire pit after the evening program. When the stupid meditation circle is over. Don't tell anyone."},
 			{"speaker": "Steve", "text": "How long have you been here?"},
-			{"speaker": "Maya", "text": "Seven months. On a two-week stay. (bitter laugh) I attended the sharing circle once. That was a mistake. Then Derek paid attention to me. And now I'm still here."},
+			{"speaker": "Maya", "text": "Seven months. On a two-week stay. (bitter laugh) I attended the sharing circle once. That was a mistake. Then Paul paid attention to me. And now I'm still here."},
 			{"speaker": "Maya", "text": "Attend the sharing circle tonight. You'll understand. Maybe you'll see things I don't."},
 			{"speaker": "", "text": "(Maya returns to the dishes. The conversation is over.)", "thought": true, "callback": "talked_maya"}
 		],
@@ -158,16 +158,16 @@ func _load_all_dialogues() -> void:
 		# ── Maya (Fire Pit) — KEY SCENE ──
 		"maya_firepit": [
 			{"speaker": "", "text": "(The fire pit is ringed with benches. Sparks rise into the night sky. Maya sits alone, silhouetted by orange light.)", "thought": true},
-			{"speaker": "Maya", "text": "Your wife arrived three months ago. She worked in the kitchen with me at first. She was practical. Smart. She asked questions about why volunteers did all the work and Derek took all the money."},
+			{"speaker": "Maya", "text": "Your wife arrived three months ago. She worked in the kitchen with me at first. She was practical. Smart. She asked questions about why volunteers did all the work and Paul took all the money."},
 			{"speaker": "Maya", "text": "He noticed her immediately. He always notices the smart ones. Invited her to the inner circle — that means private sessions in his cabin."},
-			{"speaker": "Maya", "text": "After two weeks, she was gone. Derek gave her a recommendation letter to Pranayama Peak — the next place on the pipeline. Each retreat feeds the next one. It's like... a supply chain."},
+			{"speaker": "Maya", "text": "After two weeks, she was gone. Paul gave her a recommendation letter to Pranayama Peak — the next place on the pipeline. Each retreat feeds the next one. It's like... a supply chain."},
 			{"speaker": "", "text": "(She pokes the fire with a stick. Embers scatter.)", "thought": true},
 			{"speaker": "Steve", "text": "Does he have her documents? Passport?"},
 			{"speaker": "Maya", "text": "He has everyone's. He calls it 'safekeeping.' Really, he just holds them. Makes you more likely to come back. Or recommend your friends."},
 			{"speaker": "Maya", "text": "He has her passport. He has mine too. That's why I'm still here."},
 			{"speaker": "Steve", "text": "Then we get them back."},
 			{"speaker": "Maya", "text": "The documents are in the back office. Next to the ceremony space. The Gatekeeper sits at the entrance but he falls asleep after 10pm meditation. The ceremony space connects to it through a back passage."},
-			{"speaker": "Maya", "text": "If you're going in there, grab my documents too. And don't get caught. Derek doesn't react well to... audits."},
+			{"speaker": "Maya", "text": "If you're going in there, grab my documents too. And don't get caught. Paul doesn't react well to... audits."},
 			{"speaker": "", "text": "(The fire crackles. In the distance, someone is humming a didgeridoo.)", "thought": true, "callback": "firepit_done"}
 		],
 
@@ -176,7 +176,7 @@ func _load_all_dialogues() -> void:
 			{"speaker": "", "text": "(Maya stands at the sanctuary gates, holding a worn passport.)", "thought": true},
 			{"speaker": "Maya", "text": "Thank you. I've been here seven months. I almost forgot what outside felt like."},
 			{"speaker": "Steve", "text": "Are you going to look for her? Your wife?"},
-			{"speaker": "Maya", "text": "She's not the same person you married. Derek's pipeline doesn't just move bodies — it transforms them."},
+			{"speaker": "Maya", "text": "She's not the same person you married. Paul's pipeline doesn't just move bodies — it transforms them."},
 			{"speaker": "Steve", "text": "Neither am I. I just restructured a wellness center that was running at two million in annual revenue. That's not in my job description."},
 			{"speaker": "", "text": "(Maya almost smiles.)", "thought": true},
 			{"speaker": "Maya", "text": "Good luck, Steve. Pranayama Peak is north of here. Three days' drive if you follow the recommendations."}
@@ -201,7 +201,7 @@ func _load_all_dialogues() -> void:
 		"brandon_act2": [
 			{"speaker": "Brandon", "text": "Hey brother! I'm feeling my edges dissolve, you know? Like, I'm becoming one with the universe."},
 			{"speaker": "Steve", "text": "That's... concerning."},
-			{"speaker": "Brandon", "text": "No, man, it's beautiful. The Founder — Derek — he talked to me for like three hours last night. He said I have special sensitivity. I've only been here two days and I'm already in the inner circle."},
+			{"speaker": "Brandon", "text": "No, man, it's beautiful. The Founder — Paul — he talked to me for like three hours last night. He said I have special sensitivity. I've only been here two days and I'm already in the inner circle."},
 			{"speaker": "", "text": "(Brandon's pupils are dilated. His gaze is unfocused.)", "thought": true},
 			{"speaker": "Brandon", "text": "Everything is vibrations, bro. I can hear the vibrations. They're so loud..."},
 			{"speaker": "Steve", "text": "When was the last time you ate?"},
@@ -222,7 +222,7 @@ func _load_all_dialogues() -> void:
 			{"speaker": "", "text": "(Brandon is sitting on the front steps, shaking. He looks at his own hands like he's meeting them for the first time.)", "thought": true},
 			{"speaker": "Brandon", "text": "I... I can think again. What day is it?"},
 			{"speaker": "Steve", "text": "Tuesday. Or Wednesday. Time's weird here."},
-			{"speaker": "Brandon", "text": "My dad gave me that watch. My Timex. I told him I'd carry it forever. I... I gave it to Derek. For a gratitude fund that I've never seen receipts for."},
+			{"speaker": "Brandon", "text": "My dad gave me that watch. My Timex. I told him I'd carry it forever. I... I gave it to Paul. For a gratitude fund that I've never seen receipts for."},
 			{"speaker": "", "text": "(Brandon stares at his empty wrist. Tears are forming.)", "thought": true},
 			{"speaker": "Brandon", "text": "What was he doing to me?"}
 		],
@@ -270,7 +270,7 @@ func _load_all_dialogues() -> void:
 		"meditator_post": [
 			{"speaker": "", "text": "(The meditator is on his knees, breathing hard.)", "thought": true},
 			{"speaker": "Meditator", "text": "Your... unconventional approach has merit. I have underestimated the power of spreadsheet-based martial arts."},
-			{"speaker": "Meditator", "text": "The real work happens in the Ceremony Space, but the Gatekeeper guards it. He's been Derek's instrument for three years."},
+			{"speaker": "Meditator", "text": "The real work happens in the Ceremony Space, but the Gatekeeper guards it. He's been Paul's instrument for three years."},
 			{"speaker": "Meditator", "text": "There is a back passage through the Back Office. If you can get past the Gatekeeper, you can access it."},
 			{"speaker": "", "text": "", "callback": "meditator_intel"}
 		],
@@ -428,7 +428,7 @@ func _load_all_dialogues() -> void:
 			{"speaker": "", "text": "(Steve finds Maya's passport. He finds documents for seven other people.)", "thought": true},
 			{"speaker": "", "text": "(The lights change. The yurt flap opens.)", "thought": true},
 			{"speaker": "The Founder", "text": "I thought you might end up here."},
-			{"speaker": "", "text": "(Derek stands in the doorway. He's wearing white linen. He's smiling.)", "thought": true},
+			{"speaker": "", "text": "(Paul stands in the doorway. He's wearing white linen. He's smiling.)", "thought": true},
 			{"speaker": "", "text": "", "choices": [
 				{"text": "\"I'm leaving with these documents.\" (Refuse)", "next": "founder_battle_start"},
 				{"text": "\"What if I'm interested in a deal?\" (Accept)", "next": "founder_prefight"}
@@ -451,7 +451,7 @@ func _load_all_dialogues() -> void:
 		# ── Founder Battle Start ──
 		"founder_battle_start": [
 			{"speaker": "The Founder", "text": "I really hoped you wouldn't do that."},
-			{"speaker": "", "text": "(Derek closes the yurt door. Brandon enters from a side passage, still dazed, ready to fight.)", "thought": true},
+			{"speaker": "", "text": "(Paul closes the yurt door. Brandon enters from a side passage, still dazed, ready to fight.)", "thought": true},
 			{"speaker": "", "text": "", "callback": "start_founder_battle"}
 		],
 
@@ -469,7 +469,7 @@ func _load_all_dialogues() -> void:
 			{"speaker": "Steve", "text": "You're not running this place efficiently. Wrong LLC structure. Volunteers need to be either contractors or employees. You're exposed to litigation."},
 			{"speaker": "The Founder", "text": "I... what?"},
 			{"speaker": "Steve", "text": "I'm going to fix it. New org chart. Payroll system. Quarterly reports. You'll make more money and have legal compliance."},
-			{"speaker": "", "text": "(Two weeks later: The Sanctuary runs like an actual business. Derek is now Community Coordinator. His title is smaller but his liability is gone.)", "thought": true},
+			{"speaker": "", "text": "(Two weeks later: The Sanctuary runs like an actual business. Paul is now Community Coordinator. His title is smaller but his liability is gone.)", "thought": true},
 			{"speaker": "", "text": "(Steve has accidentally done to the Sanctuary what he was supposed to do for his marriage: made it more efficient.)", "thought": true},
 			{"speaker": "", "text": "", "goto": "departure"}
 		],
@@ -479,7 +479,7 @@ func _load_all_dialogues() -> void:
 			{"speaker": "Steve", "text": "I'm sending this to the state. All of it. Financial documents, volunteer agreements, passport holder records."},
 			{"speaker": "The Founder", "text": "You'll ruin it."},
 			{"speaker": "Steve", "text": "Yes."},
-			{"speaker": "", "text": "(Three weeks later: The Sanctuary is shut down. The volunteers are scattered. Derek is under investigation. Eight people are homeless because they donated all their money and quit their jobs.)", "thought": true},
+			{"speaker": "", "text": "(Three weeks later: The Sanctuary is shut down. The volunteers are scattered. Paul is under investigation. Eight people are homeless because they donated all their money and quit their jobs.)", "thought": true},
 			{"speaker": "", "text": "(Steve saved the people he could. But there are costs.)", "thought": true},
 			{"speaker": "", "text": "", "goto": "departure"}
 		],

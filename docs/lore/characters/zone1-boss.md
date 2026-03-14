@@ -3,7 +3,7 @@
 ## Name Ideas
 - Ananda Dharmaraj ("bliss" + "king of dharma" — pretentious combo)
 - Just goes by "A." (single letter name, ultimate minimalism flex)
-- Born: probably Derek or something
+- Born: probably Paul or something
 
 ## The Character
 

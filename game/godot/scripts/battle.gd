@@ -97,13 +97,13 @@ const ENEMY_DB := {
 		"weakness": "bureaucratic",
 		"intro": "\"I really hoped you wouldn't do this, Akash Prem. I liked you. You have a very... acquisitive energy.\"",
 		"is_boss": true,
-		# Phase 1: Brandon shields Derek
+		# Phase 1: Brandon shields Paul
 		"phase1_hp": 30,
 		"phase1_name": "BRANDON (BRAINWASHED)",
 		"phase1_char_id": "brandon",
 		"phase1_attacks": [
 			{"name": "Eager Defense", "dmg": 10, "msg": "\"I WON'T LET YOU HURT HIM! He SEES me!\" Brandon throws himself in the way.", "effect": ""},
-			{"name": "Gratitude Shield", "dmg": 0, "msg": "Brandon's blind devotion creates a barrier of positive energy. Derek's defense rises.", "effect": "defend"},
+			{"name": "Gratitude Shield", "dmg": 0, "msg": "Brandon's blind devotion creates a barrier of positive energy. Paul's defense rises.", "effect": "defend"},
 			{"name": "Love Bomb", "dmg": 8, "msg": "\"You just don't UNDERSTAND, Steve! The Founder LOVES us!\" The sincerity stings.", "effect": ""},
 		],
 		"phase1_talk_options": {
@@ -114,24 +114,24 @@ const ENEMY_DB := {
 		},
 		"phase1_defeat_text": "Brandon collapses, shaking. \"I haven't eaten in three days. I gave him my dad's watch. Why did I give him my dad's watch?\"",
 
-		# Phase 2: Derek fights directly
+		# Phase 2: Paul fights directly
 		"attacks": [
 			{"name": "Charismatic Redirect", "dmg": 16, "msg": "\"What you're feeling right now is RESISTANCE. That means we're close to a breakthrough.\"", "effect": ""},
 			{"name": "Gaslighting", "dmg": 12, "msg": "\"I never said that. You're projecting. This is your trauma speaking.\"", "effect": "smudge"},
-			{"name": "Financial Restructure", "dmg": 0, "msg": "Derek adjusts his pricing model mid-battle. His defense increases and he gains 2 ATK.", "effect": "boss_buff"},
+			{"name": "Financial Restructure", "dmg": 0, "msg": "Paul adjusts his pricing model mid-battle. His defense increases and he gains 2 ATK.", "effect": "boss_buff"},
 			{"name": "Inner Circle Invitation", "dmg": 20, "msg": "\"Join me, Steve. You have a gift for systems. Imagine what we could BUILD together.\"", "effect": "enroll"},
 		],
 
-		# Phase 3: Desperate Derek
+		# Phase 3: Desperate Paul
 		"phase3_hp_threshold": 15,
 		"phase3_attacks": [
 			{"name": "Desperate Plea", "dmg": 8, "msg": "\"Please. I built this from NOTHING. You can't take it away.\"", "effect": ""},
-			{"name": "Full Meltdown", "dmg": 25, "msg": "Derek throws the desk. Papers fly everywhere. \"I AM THE FOUNDER! I AM THE VISION!\"", "effect": ""},
+			{"name": "Full Meltdown", "dmg": 25, "msg": "Paul throws the desk. Papers fly everywhere. \"I AM THE FOUNDER! I AM THE VISION!\"", "effect": ""},
 			{"name": "Vulnerable Honesty", "dmg": 0, "msg": "\"I was a used car salesman in Tucson. I read one book about chakras. ONE BOOK.\"", "effect": "lower_def"},
 		],
 
-		"analyze_text": "Type: Wellness Entrepreneur\nWeakness: Bureaucratic (financial records)\nResistance: Spiritual, Psychic\nReal name: Derek Fontaine\nPrevious career: Used car sales (2016-2021)\nAnnual revenue: $1.2M\nPaid to staff: $0\nVolunteers: 40 (unpaid)\nPassports held: 12\n[color=#aa7744]BOSS: 3 phases. Break Brandon's conditioning first.[/color]",
-		"defeat_text": "Derek sits in his ergonomic office chair. The one normal thing in the whole compound.\n\"It started as a joke. A weekend retreat for my ex's book club. Then they came back. And they brought friends. And they brought money.\"\nHe looks at his hands. \"I'm not enlightened. I'm just good at PowerPoint.\"",
+		"analyze_text": "Type: Wellness Entrepreneur\nWeakness: Bureaucratic (financial records)\nResistance: Spiritual, Psychic\nReal name: Paul Fontaine\nPrevious career: Used car sales (2016-2021)\nAnnual revenue: $1.2M\nPaid to staff: $0\nVolunteers: 40 (unpaid)\nPassports held: 12\n[color=#aa7744]BOSS: 3 phases. Break Brandon's conditioning first.[/color]",
+		"defeat_text": "Paul sits in his ergonomic office chair. The one normal thing in the whole compound.\n\"It started as a joke. A weekend retreat for my ex's book club. Then they came back. And they brought friends. And they brought money.\"\nHe looks at his hands. \"I'm not enlightened. I'm just good at PowerPoint.\"",
 		"defeat_flag": "founder_defeated",
 		"xp": 10, "cacao": 100,
 		"drops": [
@@ -153,7 +153,7 @@ var enduring: bool = false
 
 # Boss state
 var is_boss: bool = false
-var boss_phase: int = 1  # 1=Brandon shield, 2=Derek direct, 3=Derek desperate
+var boss_phase: int = 1  # 1=Brandon shield, 2=Paul direct, 3=Paul desperate
 var phase1_hp: int = 0
 var phase1_max_hp: int = 0
 
@@ -524,12 +524,12 @@ func _check_enemy_defeated() -> bool:
 
 func _advance_boss_phase() -> void:
 	if boss_phase == 1:
-		# Brandon falls, Derek steps forward
+		# Brandon falls, Paul steps forward
 		boss_phase = 2
 		_log("───────────────", COL_NARRATOR)
 		_log(enemy["phase1_defeat_text"], COL_DIALOGUE)
 		_log("───────────────", COL_NARRATOR)
-		_log("Phase 2: Derek steps forward!", Color(0.75, 0.20, 0.20))
+		_log("Phase 2: Paul steps forward!", Color(0.75, 0.20, 0.20))
 		enemy_name_label.text = enemy["name"]
 
 		# Swap the enemy character
@@ -592,7 +592,7 @@ func _enemy_turn() -> void:
 		# Switch to phase 3
 		if boss_phase == 2:
 			boss_phase = 3
-			_log("Derek is desperate! Phase 3!", Color(0.75, 0.20, 0.20))
+			_log("Paul is desperate! Phase 3!", Color(0.75, 0.20, 0.20))
 		attacks_pool = enemy.get("phase3_attacks", enemy["attacks"])
 	else:
 		attacks_pool = enemy["attacks"]
@@ -637,10 +637,10 @@ func _enemy_turn() -> void:
 		"boss_buff":
 			enemy["def"] = enemy.get("def", 0) + 2
 			enemy["atk"] = enemy.get("atk", 18) + 2
-			_log("Derek restructures mid-fight! ATK and DEF increase!", COL_EFFECT)
+			_log("Paul restructures mid-fight! ATK and DEF increase!", COL_EFFECT)
 		"lower_def":
 			enemy["def"] = 0
-			_log("Derek's defenses crumble with honesty!", COL_HEAL)
+			_log("Paul's defenses crumble with honesty!", COL_HEAL)
 
 	_update_display()
 

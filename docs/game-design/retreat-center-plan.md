@@ -420,7 +420,7 @@ The Sanctuary isn't static — things change as Steve progresses:
 
 ### After Boss Fight (Act 4)
 - All NPCs have post-battle dialogue
-- Brandon (if saved during fight): "I... I donated my watch to a man named Derek."
+- Brandon (if saved during fight): "I... I donated my watch to a man named Paul."
 - Frank: "You did good, kid. First useful thing that's happened here in twelve years."
 - Receptionist: "Safe travels, Steve." (first time she uses his real name)
 - Maya has her passport, waiting by the gate
@@ -539,7 +539,7 @@ and it made him very uncomfortable.
 
 2. **Brandon's Watch** — If Steve talks to Brandon at night and mentions the watch, Brandon briefly snaps out of it: "I... it was a graduation gift from my dad." Then snaps back: "But material things are just ego!" This is setup for the boss fight where Steve can invoke the watch to break Brandon's follower state.
 
-3. **The Founder's Book** — Available at the gift shop for 150 cacao. "FINDING YOUR ENOUGH: A Journey Beyond Journey" by "Derek (The Founder)." Every quote is misattributed. Reading it gives +2 Insight and a devastating dialogue option in the boss fight.
+3. **The Founder's Book** — Available at the gift shop for 150 cacao. "FINDING YOUR ENOUGH: A Journey Beyond Journey" by "Paul (The Founder)." Every quote is misattributed. Reading it gives +2 Insight and a devastating dialogue option in the boss fight.
 
 4. **The Actual Financial Records** — Finding these in the Back Office isn't just a plot item. If Steve has high enough Insight (≥8), he notices an additional detail: The Founder has been sending monthly checks to a woman named "L. Stevens" at an address in upstate New York. His wife has been receiving money from The Founder. This doesn't resolve here — it's a Zone 2 mystery seed.
 

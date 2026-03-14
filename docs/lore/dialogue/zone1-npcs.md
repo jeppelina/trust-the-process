@@ -192,15 +192,15 @@ Notes on format:
 
 (They walk to the generator.)
 
-**Frank:** This place used to make sense, you know. Derek — that's The Founder, real name's Derek, don't tell anyone I told you that — Derek started it with good intentions. Wanted a place where people could slow down. Fair enough. Then he went to Bali, came back with a new name and a business plan, and now we've got a caste system with incense.
+**Frank:** This place used to make sense, you know. Paul — that's The Founder, real name's Paul, don't tell anyone I told you that — Paul started it with good intentions. Wanted a place where people could slow down. Fair enough. Then he went to Bali, came back with a new name and a business plan, and now we've got a caste system with incense.
 
-**Steve:** You call him Derek?
+**Steve:** You call him Paul?
 
 **Frank:** To his face. He hates it. It's the only power I have and I use it daily.
 
 (They fix the generator. It's the most straightforward task Steve has encountered at The Sanctuary.)
 
-**Frank:** Tell you what, Steve. You helped me, I'll help you. I've got a key that opens every door in this place. Including the office where Derek keeps his files. Including whatever paper trail your wife left behind.
+**Frank:** Tell you what, Steve. You helped me, I'll help you. I've got a key that opens every door in this place. Including the office where Paul keeps his files. Including whatever paper trail your wife left behind.
 
 [CHOICE 1] "Thank you, Frank."
 > **Frank:** Don't get spiritual about it. It's a transaction. You fixed my generator, I open your door. That's just... what's the word they use here... *reciprocity*. Actually no, that's just *fairness*. They ruined a perfectly good word.

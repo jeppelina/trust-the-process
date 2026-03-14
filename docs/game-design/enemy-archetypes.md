@@ -122,4 +122,4 @@ If companions are implemented, each fills a classic RPG role but flavored:
 Companions have their own Talk actions during combat:
 - Frank: "Have you tried just being normal?" (Deals cringe damage to spiritual enemies)
 - Maya: "I worked in the kitchen for seven months. You think I'm afraid of YOU?" (Intimidation)
-- Frank on seeing The Founder: "Morning, Derek." (Targeted ego damage)
+- Frank on seeing The Founder: "Morning, Paul." (Targeted ego damage)

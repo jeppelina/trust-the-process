@@ -1,11 +1,11 @@
 extends StickCharacter
 class_name CharFounder
-## The Founder (Derek) — Zone 1 boss.
+## The Founder (Paul) — Zone 1 boss.
 ## Triangle-shaped authority figure: linen tunic, man-bun, groomed beard, mala beads.
 ## Three expressions map to boss phases:
 ## - NEUTRAL = Phase 1 (welcoming): warm eyes, practiced smile, wide open arms, intact mala
 ## - ANGRY = Phase 2 (mask slipping): intense eyes, vein, broken mala, accusing arm
-## - SCARED = Phase 3 (broken/just Derek): collapsed posture, vulnerable eyes, scattered beads, hair falling
+## - SCARED = Phase 3 (broken/just Paul): collapsed posture, vulnerable eyes, scattered beads, hair falling
 ## Accent color: deep warm amber #d4a34a
 
 const MALA_COLOR := Color(0.83, 0.64, 0.29)  # warm amber for mala beads and pendant
@@ -366,7 +366,7 @@ func _draw_face_angry(center: Vector2, s: float) -> void:
 	]), LINE_COLOR, THIN_LINE, true)
 
 func _draw_face_scared(center: Vector2, s: float) -> void:
-	# Phase 3: broken, vulnerable, just Derek
+	# Phase 3: broken, vulnerable, just Paul
 	var eye_l = center + Vector2(-7, -1) * s
 	var eye_r = center + Vector2(7, -1) * s
 

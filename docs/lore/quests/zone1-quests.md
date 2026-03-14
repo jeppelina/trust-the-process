@@ -128,7 +128,7 @@ Steve obtains the recommendation letter and/or records showing where his wife wa
 
 **Comedy beats:**
 - The Groundskeeper has watched 12 years of retreats. They've Seen Things.
-- They refer to The Founder by his real name (Derek) and nobody else even knows his real name
+- They refer to The Founder by his real name (Paul) and nobody else even knows his real name
 - They have zero spiritual vocabulary but accidentally say the wisest things in the game
 - Steve and the Groundskeeper bond over being the only normal people here
 - The Groundskeeper's toolbox is the most functional item in a place full of crystals and singing bowls

@@ -43,7 +43,7 @@
 **The Founder:** (raising a hand) I think you should go, Steve. You're not ready for this space.
 
 [If Steve has the financial evidence]
-> **Steve:** I've seen your books, Derek.
+> **Steve:** I've seen your books, Paul.
 > (The room shifts. The Founder's smile loses exactly one degree of warmth.)
 > **The Founder:** ...we don't use that name here.
 > **Steve:** $1.2 million in revenue. Forty unpaid workers. Your "modest stipend" is $180,000 a year. This non-profit donated $200 to charity last year. Two hundred dollars. That's less than the cost of one breathwork session.
@@ -157,7 +157,7 @@ Steve uses Spreadsheet Analysis or presents the financial evidence. Reading the 
 
 **Steve:** Then why—
 
-**The Founder:** Because I built something, Steve. For the first time in my life, I built something that MATTERED to people. Do you know what that feels like? You sit in a room and people look at you like you have answers. You don't. You never did. But they BELIEVE you do, and their belief makes you feel like maybe you could. And once that starts, you can't stop it. Because stopping it means admitting you're just Derek from Scottsdale who couldn't keep his own marriage together.
+**The Founder:** Because I built something, Steve. For the first time in my life, I built something that MATTERED to people. Do you know what that feels like? You sit in a room and people look at you like you have answers. You don't. You never did. But they BELIEVE you do, and their belief makes you feel like maybe you could. And once that starts, you can't stop it. Because stopping it means admitting you're just Paul from Scottsdale who couldn't keep his own marriage together.
 
 **Steve:** (pause) ...you're divorced?
 
@@ -165,7 +165,7 @@ Steve uses Spreadsheet Analysis or presents the financial evidence. Reading the 
 
 **[ATTACK: Existential Crisis]**
 (Wild, erratic. He's not fighting Steve anymore — he's fighting the realization.)
-"I'm fifty-three! I can't go BACK! Back to WHAT? Back to DEREK? Derek didn't have a COMMUNITY! Derek ate MICROWAVE DINNERS and called his mother on SUNDAYS and felt NOTHING!"
+"I'm fifty-three! I can't go BACK! Back to WHAT? Back to DEREK? Paul didn't have a COMMUNITY! Paul ate MICROWAVE DINNERS and called his mother on SUNDAYS and felt NOTHING!"
 
 **[ATTACK: "Without Me They Have Nothing"]**
 "If I'm a fraud, then what are they? (points to remaining followers) What did they INVEST in? What did they LEAVE their lives for? If I go down, they go down. Is that what you want? Is that JUSTICE to you?"
@@ -208,7 +208,7 @@ Steve uses Spreadsheet Analysis or presents the financial evidence. Reading the 
 
 ### Ending C: "Restructure" (Corporate Intervention)
 
-**Steve:** Here's what's going to happen, Derek. I'm going to restructure your non-profit. You're going to pay your workers minimum wage. You're going to file proper tax returns. You're going to get that kitchen inspected. And you're going to change your operating model from "feudal lord cosplaying as a guru" to "legitimate retreat center with ethical labor practices."
+**Steve:** Here's what's going to happen, Paul. I'm going to restructure your non-profit. You're going to pay your workers minimum wage. You're going to file proper tax returns. You're going to get that kitchen inspected. And you're going to change your operating model from "feudal lord cosplaying as a guru" to "legitimate retreat center with ethical labor practices."
 
 **The Founder:** ...what?
 

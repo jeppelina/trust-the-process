@@ -12,7 +12,7 @@ When updating: add new entries at the TOP of the relevant section. If today's da
 - **Full retreat center implementation** — 10 connected rooms (pavilion, path, garden, kitchen, dorms, studio, main_hall, firepit, ceremony, back_office) with dynamic navigation, flag-based exit requirements, and room-specific background colors
 - **5 new character designs** — Maya (terracotta skeptic, arms-crossed), Brandon (eager convert, teal polo), Dharma John/Gatekeeper (dark indigo, long beard, judging stare), all registered in CharacterFactory with unique accent colors
 - **Complete dialogue system** — 35+ dialogue trees totaling ~650 lines covering: receptionist family (phone/name/wife branches), oil warrior, frank family (wife/long/unusual), maya arc (kitchen → return → firepit revelation → post-boss), brandon arc (arrival → act2 → night → post-boss), cacao dealer shop with item purchases, meditator challenge + post, full sharing circle (3 rounds × 3 choices each), gatekeeper confrontation (reason/challenge/expose paths), back office discovery, founder prefight/battle/3 endings (walk/restructure/destroy), departure, breathwork monk healing, frank quest (pipe/done)
-- **Data-driven battle system** — Rewritten battle.gd supports 4 enemies via ENEMY_DB: Oil Warrior (45 HP, bureaucratic weakness, spreadsheet instakill), Competitive Meditator (60 HP, psychic weakness), Gatekeeper (80 HP, bureaucratic weakness, corporate past), Founder boss (3-phase: Brandon shield 30HP → Derek direct 50HP → Desperate Derek with phase3 attacks)
+- **Data-driven battle system** — Rewritten battle.gd supports 4 enemies via ENEMY_DB: Oil Warrior (45 HP, bureaucratic weakness, spreadsheet instakill), Competitive Meditator (60 HP, psychic weakness), Gatekeeper (80 HP, bureaucratic weakness, corporate past), Founder boss (3-phase: Brandon shield 30HP → Paul direct 50HP → Desperate Paul with phase3 attacks)
 - **Ego death mechanic** — On HP=0 in battle, calls GameState.ego_death(): respawn in dorms, 50% HP/EP, -5 Normality, rotating funny death messages. Battle returns to exploration instead of restarting
 - **Stick figure characters in battle** — Replaced emoji Labels with dynamically spawned StickCharacter nodes via CharacterFactory in battle scene
 - **Bright theme battle scene** — battle.tscn updated: white UI panel, warm cream background, Liberation Mono font, dark text on light backgrounds
@@ -34,7 +34,7 @@ When updating: add new entries at the TOP of the relevant section. If today's da
 - **SceneryDrawer integration**: Added SceneryDrawer node to `exploration.tscn` (inside SceneBG, behind NPCContainer) and wired `set_room()` call in `exploration.gd` on room entry.
 
 ### Added — 2026-03-13
-- **The Founder character** (`char_founder.gd`): Zone 1 boss with 3-phase visual design — welcoming (arms wide, intact mala beads, aura glow), mask slipping (intense eyes, pointing, beads breaking), and broken/Derek (collapsed, hugging self, beads scattered). Triangle silhouette that collapses across phases. 180px tall boss scale.
+- **The Founder character** (`char_founder.gd`): Zone 1 boss with 3-phase visual design — welcoming (arms wide, intact mala beads, aura glow), mask slipping (intense eyes, pointing, beads breaking), and broken/Paul (collapsed, hugging self, beads scattered). Triangle silhouette that collapses across phases. 180px tall boss scale.
 - **The Oversharer character** (`char_oversharer.gd`): Zone 1 enemy built from circles. Round head, huge watery eyes with permanent streaming tears, open mouth (never stops talking), messy hair, grabby reaching arms, tear-stained journal. Trauma Dump attack pose with word fragments flying out.
 - **The Competitive Meditator character** (`char_competitive_meditator.gd`): Zone 1 enemy — perfect lotus position on embroidered cushion. Smugly closed eyes, oversized mala beads, concentric aura rings. "Performative Stillness" defense with one eye peeking to check if anyone notices.
 - **Groundskeeper Frank character** (`char_frank.gd`): Upgraded from generic NPC to detailed custom class. All rectangles and straight lines. Square jaw, baseball cap, flat unimpressed eyes, work shirt with "FRANK" name tag, belt with key ring, wrench in one hand, coffee mug in the other, heavy work boots. The least spiritual character in the game.
@@ -48,7 +48,7 @@ When updating: add new entries at the TOP of the relevant section. If today's da
 - **Project scaffolding**: Full folder structure for docs, game, art, audio, scripts, prototype
 - **Design documentation** (26 markdown files):
   - Game design: combat system, progression, items/loot, puzzles/dialogue, enemy archetypes
-  - Lore: Steve character sheet, the wife's transformation trail, Zone 1 faction (The Sanctuary), Zone 1 enemies (8 types + 2 elites + 4 NPCs), Zone 1 boss (The Founder/Derek, 3-phase fight, 3 endings), character idea bank (27+ concepts)
+  - Lore: Steve character sheet, the wife's transformation trail, Zone 1 faction (The Sanctuary), Zone 1 enemies (8 types + 2 elites + 4 NPCs), Zone 1 boss (The Founder/Paul, 3-phase fight, 3 endings), character idea bank (27+ concepts)
   - World: 10-zone setting overview, 20 scene/encounter concepts
   - Dialogue: Zone 1 NPC dialogue trees, enemy battle dialogue, elite encounters, boss battle dialogue (3 phases), 50+ ambient snippets
   - Items: 30+ Zone 1 items with stats and flavor text

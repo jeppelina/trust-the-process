@@ -56,7 +56,7 @@ Two guests have the most honest conversation in the game in the parking lot, nex
 Found in The Founder's files or in her old dorm. A journal entry from early in her stay. She writes about missing Steve, about feeling something she can't name, about being terrified and excited at the same time. It's loving, confused, and honest. Steve reads it and doesn't know what to feel. The player doesn't get a dialogue choice here. Just silence.
 
 ### The Guru's Origin Story Reveal
-Late in a zone, Steve discovers the boss's real backstory — always mundane, always sad. The Founder is Derek from Scottsdale whose marriage fell apart. The Breathwork Master is an ex-accountant (Steve's parallel) who had a real breakdown. The Tantra Teacher was cheated on and rebuilt their identity around sexual empowerment. The reveal always complicates the fight.
+Late in a zone, Steve discovers the boss's real backstory — always mundane, always sad. The Founder is Paul from Scottsdale whose marriage fell apart. The Breathwork Master is an ex-accountant (Steve's parallel) who had a real breakdown. The Tantra Teacher was cheated on and rebuilt their identity around sexual empowerment. The reveal always complicates the fight.
 
 ### Burning Man Arrival
 The final zone opener. Steve drives through the desert. The landscape changes. Dust everywhere. A greeter in body paint hugs him and says "Welcome home." Steve has never felt less at home. His Honda Civic looks like a spaceship from another dimension. Someone immediately asks if he's brought any gifts. He has a bag of office supplies. They're thrilled.
