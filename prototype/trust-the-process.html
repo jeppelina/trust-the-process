@@ -394,6 +394,9 @@
             .stat-bar { width: 45px; }
 
             /* Room area — compact, push NPCs near dialogue */
+            .room-area {
+                flex: 0 1 auto;
+            }
             .room-bg {
                 flex: 0 1 auto;
                 padding: 10px 8px;
@@ -581,75 +584,64 @@
                 { speaker: 'Receptionist', text: 'We don\'t use the word "reservation" here. You\'ve set an INTENTION to arrive, and the universe has honored it.' },
                 { speaker: '', text: '(She opens a completely normal Excel spreadsheet.)', thought: true },
                 { speaker: 'Receptionist', text: 'Before we begin, I\'ll need your phone, any watches, and anything with a screen. We\'re creating a sacred container free from digital interference.' },
-                { speaker: '', text: 'Choose:', choices: [
+                { speaker: '', text: '', choices: [
                     { text: '"My phone? Absolutely not."', next: 'receptionist_phone_no' },
                     { text: '"Fine. Take it."', next: 'receptionist_phone_yes' },
                     { text: '"Is there Wi-Fi here?"', next: 'receptionist_wifi' }
                 ]}
             ],
             'receptionist_phone_no': [
-                { speaker: 'Receptionist', text: 'I hear your resistance. Beautiful. The attachment you feel is exactly what we\'re here to release. Also it\'s mandatory — it says so in the waiver you signed online. On your phone.' },
-                { speaker: '', text: '(Steve reluctantly hands over his phone.)', thought: true },
+                { speaker: 'Receptionist', text: 'I hear your resistance. That\'s beautiful. The attachment you feel is exactly what we\'re here to release. Also it\'s mandatory — it says so in the waiver you signed online. On your phone.' },
+                { speaker: '', text: '(Steve reluctantly hands over his phone. He feels a phantom vibration in his pocket immediately.)', thought: true },
                 { speaker: '', text: '', goto: 'receptionist_name' }
             ],
             'receptionist_phone_yes': [
                 { speaker: 'Receptionist', text: 'Beautiful surrender. You\'re already doing the work.' },
-                { speaker: '', text: '(Steve hands over his phone.)', thought: true },
+                { speaker: '', text: '(Steve hands over his phone. He feels a phantom vibration in his pocket immediately.)', thought: true },
                 { speaker: '', text: '', goto: 'receptionist_name' }
             ],
             'receptionist_wifi': [
-                { speaker: 'Receptionist', text: 'We find that disconnecting from the digital realm allows us to connect more deeply with... (her voice drops to a whisper) ...there\'s none. There\'s no Wi-Fi. I haven\'t checked my email in nine weeks.' },
+                { speaker: 'Receptionist', text: 'We find that disconnecting from the digital realm allows us to connect more deeply with...' },
+                { speaker: 'Receptionist', text: '(her voice drops to a whisper) ...there\'s none. There\'s no Wi-Fi. I haven\'t checked my email in nine weeks. I don\'t know what\'s happening out there. Is everything okay out there?' },
+                { speaker: '', text: '(The smile returns.)', thought: true },
                 { speaker: 'Receptionist', text: 'I mean — isn\'t that LIBERATING?' },
                 { speaker: '', text: '(Steve hands over his phone.)', thought: true },
                 { speaker: '', text: '', goto: 'receptionist_name' }
             ],
             'receptionist_name': [
-                { speaker: 'Receptionist', text: 'Now! Every guest receives a Sanskrit name to honor their soul\'s essence. Looking into your eyes... Akash Prem. Sky Love.' },
+                { speaker: 'Receptionist', text: 'Now! Every guest receives a Sanskrit name to honor their soul\'s essence. I\'m going to look into your eyes and channel the name that\'s been waiting for you across lifetimes.' },
+                { speaker: '', text: '(She stares at Steve for an uncomfortable amount of time.)', thought: true },
+                { speaker: 'Receptionist', text: '...Akash Prem. Sky Love.' },
                 { speaker: 'Steve', text: 'My name is Steve.' },
                 { speaker: 'Receptionist', text: 'Steve is the name your PARENTS gave you. Akash Prem is the name your SOUL chose before incarnation.' },
+                { speaker: '', text: '(She hands you a name tag. It says "Akash Prem" in Comic Sans.)', thought: true },
                 { speaker: '', text: '', goto: 'receptionist_wife' }
             ],
             'receptionist_wife': [
                 { speaker: 'Steve', text: 'I\'m looking for my wife. She was here a few weeks ago?' },
-                { speaker: 'Receptionist', text: 'We honor the privacy of all souls who pass through The Sanctuary. I can\'t share details.' },
+                { speaker: 'Receptionist', text: 'We honor the privacy of all souls who pass through The Sanctuary. I can\'t share details about another person\'s journey.' },
                 { speaker: 'Steve', text: 'She\'s my WIFE.' },
-                { speaker: 'Receptionist', text: 'She\'s the universe\'s wife, Steve. We all belong to each other. Especially to ourselves.' },
-                { speaker: 'Receptionist', text: 'Settle in first. Attend a session. Let the land hold you. The answers you seek will come when you stop seeking them.' },
-                { speaker: '', text: '(She hands you a map. Your assigned space is the dorms. Kitchen at five.)', thought: true, callback: 'map_obtained' }
+                { speaker: 'Receptionist', text: 'She\'s the universe\'s wife, Steve. We all belong to each other. And also to ourselves. Especially to ourselves.' },
+                { speaker: 'Receptionist', text: 'I\'d invite you to settle in first. Attend a session. Let the land hold you. The answers you seek will come when you stop seeking them.' },
+                { speaker: 'Receptionist', text: 'Here\'s a map of the grounds. Your assigned space is in the dorms. The kitchen serves at five. And remember — there are no strangers here, only fellow travelers.' },
+                { speaker: '', text: '(She hands you a hand-drawn map on recycled paper. It smells like lavender.)', thought: true, callback: 'add_retreat_map' },
+                { speaker: '', text: '(She touches her heart with both hands and bows. Steve is dismissed.)', thought: true },
+                { speaker: 'Receptionist', text: 'Oh — one more thing. We don\'t use money here. The Sanctuary runs on cacao beans. Ceremonial currency. You\'ll find it\'s much more grounding than fiat.' },
+                { speaker: 'Steve', text: 'You use chocolate as money.' },
+                { speaker: 'Receptionist', text: 'We use CACAO as a medium of ENERGETIC EXCHANGE. Completely different. You\'ll receive some for participating in activities. The Cacao Dealer in the kitchen can help you spend it.' },
+                { speaker: '', text: '(Steve decides not to ask why a place that rejects capitalism has a dealer.)', thought: true },
+                { speaker: '', text: '(Maybe someone else here knows something. You should look around.)', thought: true, callback: 'talked_receptionist' }
             ],
-            'frank': [
-                { speaker: '', text: '(A man in overalls is fixing a fence with actual tools. He is the first person doing real work without calling it "sacred.")', thought: true },
-                { speaker: 'Frank', text: 'You\'re new. Guest or volunteer?' },
-                { speaker: 'Steve', text: 'Guest. I think. I paid money.' },
-                { speaker: 'Frank', text: 'You paid? Then you\'re a guest. The ones who didn\'t pay work harder. Been trying to figure out the system for twelve years. Think it\'s called feudalism with candles.' },
-                { speaker: '', text: '', choices: [
-                    { text: '"I\'m looking for my wife."', next: 'frank_wife' },
-                    { text: '"How long have you worked here?"', next: 'frank_long' },
-                    { text: '"This place seems unusual."', next: 'frank_unusual' }
-                ]}
-            ],
-            'frank_wife': [
-                { speaker: 'Frank', text: 'Your wife. Yeah, I remember her. Helped me carry wood one afternoon. Only guest who ever did that. Then she got pulled into the inner circle.' },
-                { speaker: 'Frank', text: 'The Founder — real name\'s Derek — took an interest. He sends people down a pipeline to other places. Your wife got a recommendation letter.' },
-                { speaker: '', text: '', goto: 'frank_end' }
-            ],
-            'frank_long': [
-                { speaker: 'Frank', text: 'Twelve years. Was here when it was a golf course. Better business model. Golfers at least know they\'re wasting money.' },
-                { speaker: '', text: '', goto: 'frank_end' }
-            ],
-            'frank_unusual': [
-                { speaker: 'Frank', text: 'Here\'s what I\'ve learned: These people talk about being present but can\'t change a tire. They talk about connection but never asked my last name. They talk about non-attachment but try moving one of their crystals.' },
-                { speaker: '', text: '', goto: 'frank_end' }
-            ],
-            'frank_end': [
-                { speaker: 'Frank', text: 'You seem alright, Steve. If you need anything practical — not energetic — find me.' },
-                { speaker: '', text: '(Frank nods and returns to his fence.)', thought: true, callback: 'talked_frank' }
+            'receptionist_return': [
+                { speaker: 'Receptionist', text: 'Welcome back, Akash Prem! How are you LANDING today?' }
             ],
             'oil_warrior': [
-                { speaker: '???', text: 'Hey! Have you heard of doTERRA? It\'s not a pyramid scheme. It\'s a WELLNESS ECOSYSTEM with a tiered distribution model.' },
+                { speaker: '???', text: 'Hey! Hey, wait! Can I just — have you heard of doTERRA?' },
+                { speaker: 'Steve', text: 'No.' },
+                { speaker: 'Essential Oil Warrior', text: 'It\'s not what you think. It\'s not a pyramid scheme. It\'s a WELLNESS ECOSYSTEM with a tiered distribution model.' },
                 { speaker: 'Steve', text: 'That is exactly what a pyramid scheme is.' },
-                { speaker: 'Essential Oil Warrior', text: 'A pyramid has a POINT. This is a DIAMOND. Completely different geometry. Here — smell this.' },
-                { speaker: '', text: '(She thrusts a tiny bottle at your face. The smell is overwhelming.)', thought: true },
+                { speaker: 'Essential Oil Warrior', text: 'A pyramid has a POINT at the TOP. This has a DIAMOND shape. Completely different geometry. Here — smell this.' },
+                { speaker: '', text: '(She thrusts a tiny bottle toward your face. The smell hits you like a forest fire in a health food store.)', thought: true },
                 { speaker: '', text: '', choices: [
                     { text: '"Get that away from me."', next: 'oil_fight' },
                     { text: '"How much do you actually make?"', next: 'oil_fight' },
@@ -658,159 +650,319 @@
             ],
             'oil_fight': [
                 { speaker: 'Essential Oil Warrior', text: 'RECEIVE THIS BLESSING!' },
-                { speaker: '', text: '(She throws peppermint oil at you. Combat is unavoidable.)', thought: true, callback: 'start_oil_battle' }
+                { speaker: '', text: '(She throws peppermint oil at you. It burns. Combat is unavoidable.)', thought: true, callback: 'start_oil_battle' }
+            ],
+            'frank': [
+                { speaker: '', text: '(A man in overalls is fixing a fence with actual tools. He is the first person you\'ve seen doing real physical work without calling it "sacred.")', thought: true },
+                { speaker: 'Frank', text: 'You\'re new. Guest or volunteer?' },
+                { speaker: 'Steve', text: 'Guest, I think. I paid money.' },
+                { speaker: 'Frank', text: 'You paid? Then you\'re a guest. The ones who didn\'t pay work harder. Funny system. Been trying to work it out for twelve years. Think it\'s called feudalism but with candles.' },
+                { speaker: '', text: '', choices: [
+                    { text: '"I\'m looking for my wife."', next: 'frank_wife' },
+                    { text: '"How long have you worked here?"', next: 'frank_long' },
+                    { text: '"This place seems... unusual."', next: 'frank_unusual' }
+                ]}
+            ],
+            'frank_wife': [
+                { speaker: 'Frank', text: 'Your wife. What\'s she look like?' },
+                { speaker: '', text: '(Steve describes her.)', thought: true },
+                { speaker: 'Frank', text: 'Yeah. I remember her. Helped me carry wood one afternoon. Only guest who ever did that. Then she stopped coming outside. Got pulled into the inner circle.' },
+                { speaker: 'Frank', text: 'The inner circle means The Founder took an interest. Real name\'s Derek. Don\'t tell anyone I told you that.' },
+                { speaker: 'Steve', text: 'Where is she now?' },
+                { speaker: 'Frank', text: 'Gone. They always go. Derek sends them to the next place down the pipeline. Your wife\'s trail will be in his files. Back office or his cabin.' },
+                { speaker: '', text: '', goto: 'frank_end' }
+            ],
+            'frank_long': [
+                { speaker: 'Frank', text: 'Twelve years. Was here when it was a golf course. Better business model. At least golfers know they\'re wasting money.' },
+                { speaker: '', text: '', goto: 'frank_end' }
+            ],
+            'frank_unusual': [
+                { speaker: 'Frank', text: 'You know what I\'ve learned in twelve years? These people talk about being present, but none of them can change a tire.' },
+                { speaker: 'Frank', text: 'They talk about connection but never asked my last name. They talk about non-attachment but try moving one of their crystals.' },
+                { speaker: 'Frank', text: 'Not bad people. Mostly. Just people who got lost looking for something and found a building instead.' },
+                { speaker: '', text: '', goto: 'frank_end' }
+            ],
+            'frank_end': [
+                { speaker: 'Frank', text: 'Tell you what, Steve. You seem alright. If you need anything practical — and I mean PRACTICAL, not energetic — come find me.' },
+                { speaker: '', text: '(Frank nods and returns to his fence. It\'s the most straightforward interaction you\'ve had since arriving.)', thought: true, callback: 'talked_frank' }
+            ],
+            'frank_return': [
+                { speaker: 'Frank', text: 'Still here? Good luck, accountant.' }
             ],
             'maya_kitchen': [
-                { speaker: '', text: '(A woman with tired eyes is washing dishes. She looks up sharply when you enter.)', thought: true },
+                { speaker: '', text: '(A woman with tired eyes is washing dishes in the industrial kitchen. She looks up sharply when you enter.)', thought: true },
                 { speaker: 'Maya', text: 'We\'re not serving until five. Kitchen\'s closed.' },
                 { speaker: 'Steve', text: 'I\'m looking for my wife. She was here maybe three months ago?' },
-                { speaker: '', text: '(Maya\'s hands go still. She doesn\'t turn around.)', thought: true },
+                { speaker: '', text: '(Maya\'s hands go still in the dishwater. She doesn\'t turn around.)', thought: true },
                 { speaker: 'Maya', text: 'I don\'t know anything.' },
                 { speaker: 'Steve', text: 'You\'re lying. You froze when I mentioned it.' },
-                { speaker: 'Maya', text: '(quietly) Too many ears in here. Meet me at the fire pit after the evening program. When the meditation circle is over. Don\'t tell anyone.' },
-                { speaker: '', text: '', callback: 'talked_maya' }
+                { speaker: 'Maya', text: '(quietly) Too many ears in here. Meet me at the fire pit after the evening program. When the stupid meditation circle is over. Don\'t tell anyone.' },
+                { speaker: 'Steve', text: 'How long have you been here?' },
+                { speaker: 'Maya', text: 'Seven months. On a two-week stay. (bitter laugh) I attended the sharing circle once. That was a mistake. Then Derek paid attention to me. And now I\'m still here.' },
+                { speaker: 'Maya', text: 'Attend the sharing circle tonight. You\'ll understand. Maybe you\'ll see things I don\'t.' },
+                { speaker: '', text: '(Maya returns to the dishes. The conversation is over.)', thought: true, callback: 'talked_maya' }
+            ],
+            'maya_return': [
+                { speaker: 'Maya', text: '(glancing toward the door) Fire pit. After the circle. Don\'t be late.' }
             ],
             'maya_firepit': [
-                { speaker: '', text: '(The fire pit is ringed with benches. Maya sits alone, silhouetted by orange light.)', thought: true },
-                { speaker: 'Maya', text: 'Your wife arrived three months ago. She helped in the kitchen with me. She was smart. She asked uncomfortable questions about why volunteers did all the work.' },
-                { speaker: 'Maya', text: 'The Founder noticed her. He always notices the smart ones. Invited her to private sessions, then inner circle.' },
-                { speaker: 'Maya', text: 'After two weeks, she was gone. Derek gave her a recommendation letter to Pranayama Peak — the next place on the pipeline. Each retreat feeds the next.' },
+                { speaker: '', text: '(The fire pit is ringed with benches. Sparks rise into the night sky. Maya sits alone, silhouetted by orange light.)', thought: true },
+                { speaker: 'Maya', text: 'Your wife arrived three months ago. She worked in the kitchen with me at first. She was practical. Smart. She asked questions about why volunteers did all the work and Derek took all the money.' },
+                { speaker: 'Maya', text: 'He noticed her immediately. He always notices the smart ones. Invited her to the inner circle — that means private sessions in his cabin.' },
+                { speaker: 'Maya', text: 'After two weeks, she was gone. Derek gave her a recommendation letter to Pranayama Peak — the next place on the pipeline. Each retreat feeds the next one. It\'s like... a supply chain.' },
+                { speaker: '', text: '(She pokes the fire with a stick. Embers scatter.)', thought: true },
+                { speaker: 'Steve', text: 'Does he have her documents? Passport?' },
+                { speaker: 'Maya', text: 'He has everyone\'s. He calls it "safekeeping." Really, he just holds them. Makes you more likely to come back. Or recommend your friends.' },
                 { speaker: 'Maya', text: 'He has her passport. He has mine too. That\'s why I\'m still here.' },
-                { speaker: 'Maya', text: 'The documents are in the back office. The Gatekeeper guards it but falls asleep after 10pm meditation. There\'s a back passage through the ceremony space.' },
-                { speaker: '', text: '(The fire crackles. Someone in the distance hums a didgeridoo.)', thought: true, callback: 'firepit_done' }
+                { speaker: 'Steve', text: 'Then we get them back.' },
+                { speaker: 'Maya', text: 'The documents are in the back office. Next to the ceremony space. The Gatekeeper sits at the entrance but he falls asleep after 10pm meditation. The ceremony space connects to it through a back passage.' },
+                { speaker: 'Maya', text: 'If you\'re going in there, grab my documents too. And don\'t get caught. Derek doesn\'t react well to... audits.' },
+                { speaker: '', text: '(The fire crackles. In the distance, someone is humming a didgeridoo.)', thought: true, callback: 'firepit_done' }
             ],
             'maya_post_boss': [
-                { speaker: '', text: '(Maya stands at the sanctuary gates, holding her passport.)', thought: true },
-                { speaker: 'Maya', text: 'Thank you. I\'ve been here seven months. Your wife isn\'t the same person you married. Derek\'s pipeline transforms people.' },
-                { speaker: 'Steve', text: 'Neither am I. I just restructured a wellness center. That\'s not in my job description.' }
+                { speaker: '', text: '(Maya stands at the sanctuary gates, holding a worn passport.)', thought: true },
+                { speaker: 'Maya', text: 'Thank you. I\'ve been here seven months. I almost forgot what outside felt like.' },
+                { speaker: 'Steve', text: 'Are you going to look for her? Your wife?' },
+                { speaker: 'Maya', text: 'She\'s not the same person you married. Derek\'s pipeline doesn\'t just move bodies — it transforms them.' },
+                { speaker: 'Steve', text: 'Neither am I. I just restructured a wellness center that was running at two million in annual revenue. That\'s not in my job description.' },
+                { speaker: '', text: '(Maya almost smiles.)', thought: true },
+                { speaker: 'Maya', text: 'Good luck, Steve. Pranayama Peak is north of here. Three days\' drive if you follow the recommendations.' }
             ],
             'brandon_arrive': [
                 { speaker: '', text: '(A young man with a backward baseball cap bounces on the bunk above yours.)', thought: true },
                 { speaker: 'Brandon', text: 'Dude! Welcome! You are going to LOVE it here. This place is incredible!' },
                 { speaker: 'Steve', text: 'I\'ve been here for four hours.' },
-                { speaker: 'Brandon', text: 'Exactly! Isn\'t it amazing? I just got here yesterday. The energy is everywhere!' },
-                { speaker: 'Brandon', text: 'I\'m Brandon. Spiritually I\'m Surya. You should come to yoga. It\'s going to change your life.' },
+                { speaker: 'Brandon', text: 'Exactly! Isn\'t it amazing? I just got here yesterday. The energy is like... (gestures wildly) ...everywhere.' },
+                { speaker: '', text: '(He jumps down and pulls a yoga mat from his backpack.)', thought: true },
+                { speaker: 'Brandon', text: 'I\'m Brandon, by the way. Well, spiritually I\'m Surya. But Brandon for official stuff. You should come to yoga with me this afternoon. It\'s going to change your life. I can feel it.' },
                 { speaker: 'Steve', text: 'Where\'s your watch?' },
-                { speaker: 'Brandon', text: 'Oh man, I donated it! Why am I enslaved to timekeeping, right?' },
-                { speaker: '', text: '(He looks genuinely happy about this poor decision.)', thought: true, callback: 'talked_brandon' }
+                { speaker: 'Brandon', text: 'Oh man, I donated it! They have this gratitude fund and I just felt like... why am I enslaved to timekeeping, you know?' },
+                { speaker: '', text: '(He looks genuinely happy about this poor decision.)', thought: true },
+                { speaker: 'Brandon', text: 'You should donate something too. It\'s liberation, bro.' },
+                { speaker: '', text: '', callback: 'talked_brandon' }
+            ],
+            'brandon_act2': [
+                { speaker: 'Brandon', text: 'Hey brother! I\'m feeling my edges dissolve, you know? Like, I\'m becoming one with the universe.' },
+                { speaker: 'Steve', text: 'That\'s... concerning.' },
+                { speaker: 'Brandon', text: 'No, man, it\'s beautiful. The Founder — Derek — he talked to me for like three hours last night. He said I have special sensitivity. I\'ve only been here two days and I\'m already in the inner circle.' },
+                { speaker: '', text: '(Brandon\'s pupils are dilated. His gaze is unfocused.)', thought: true },
+                { speaker: 'Brandon', text: 'Everything is vibrations, bro. I can hear the vibrations. They\'re so loud...' },
+                { speaker: 'Steve', text: 'When was the last time you ate?' },
+                { speaker: 'Brandon', text: 'Food is densifying. The Founder says enlightenment requires fasting. I feel so light, man. So... light...' }
             ],
             'brandon_night': [
-                { speaker: '', text: '(Brandon stands in the garden at 2 AM, staring at the moon. He doesn\'t blink.)', thought: true },
+                { speaker: '', text: '(Brandon stands in the garden at 2 AM, staring at the moon. His hands are open at his sides. He doesn\'t blink.)', thought: true },
                 { speaker: 'Brandon', text: 'Akash... the universe is singing... can you hear it...' },
                 { speaker: 'Steve', text: 'Brandon, we need to get you out of here.' },
-                { speaker: 'Brandon', text: '(dreamily) I am the universe... I am the song... I am the dissolution...' }
+                { speaker: 'Brandon', text: '(dreamily) I am the universe... I am the song... I am the dissolution...' },
+                { speaker: '', text: '(He hasn\'t slept in forty hours. His mind is gone.)', thought: true }
             ],
             'brandon_post_boss': [
-                { speaker: '', text: '(Brandon is sitting on the front steps, shaking. He looks at his hands like meeting them for the first time.)', thought: true },
+                { speaker: '', text: '(Brandon is sitting on the front steps, shaking. He looks at his own hands like he\'s meeting them for the first time.)', thought: true },
                 { speaker: 'Brandon', text: 'I... I can think again. What day is it?' },
                 { speaker: 'Steve', text: 'Tuesday. Or Wednesday. Time\'s weird here.' },
-                { speaker: 'Brandon', text: 'My dad gave me that watch. I told him I\'d carry it forever. I gave it to Derek.' },
-                { speaker: '', text: '(Brandon stares at his empty wrist. Tears form.)', thought: true }
+                { speaker: 'Brandon', text: 'My dad gave me that watch. My Timex. I told him I\'d carry it forever. I... I gave it to Derek. For a gratitude fund that I\'ve never seen receipts for.' },
+                { speaker: '', text: '(Brandon stares at his empty wrist. Tears are forming.)', thought: true },
+                { speaker: 'Brandon', text: 'What was he doing to me?' }
             ],
             'meditator_challenge': [
-                { speaker: '', text: '(A man sits cross-legged in the movement studio, eyes closed. His jaw is clenched.)', thought: true },
-                { speaker: 'Meditator', text: '(not opening his eyes) I sensed a disturbance. Your energy is nascent. Unrefined.' },
+                { speaker: '', text: '(A man sits cross-legged in the movement studio, eyes closed. His jaw is clenched. You feel him register your presence before you enter.)', thought: true },
+                { speaker: 'Meditator', text: '(not opening his eyes) I sensed a disturbance.' },
+                { speaker: '', text: '(His eyes snap open, blazing with intensity.)', thought: true },
+                { speaker: 'Meditator', text: 'Your energy is... nascent. Unrefined.' },
                 { speaker: 'Steve', text: 'I\'m not here for energy criticism.' },
-                { speaker: 'Meditator', text: 'Yet here you are. In my space. This is a test. Prove your practice. Fight me.' },
+                { speaker: 'Meditator', text: 'Yet here you are. In my space. Disrupting my practice. This is a test.' },
+                { speaker: 'Meditator', text: 'Prove your practice. Fight me. If you win, I will show you the path to the Ceremony Space.' },
                 { speaker: '', text: '', callback: 'start_meditator_battle' }
             ],
             'meditator_post': [
                 { speaker: '', text: '(The meditator is on his knees, breathing hard.)', thought: true },
-                { speaker: 'Meditator', text: 'Your unconventional approach... has merit. The real work is in the Ceremony Space. The Gatekeeper guards it. But there\'s a back passage through the Back Office.' },
+                { speaker: 'Meditator', text: 'Your... unconventional approach has merit. I have underestimated the power of spreadsheet-based martial arts.' },
+                { speaker: 'Meditator', text: 'The real work happens in the Ceremony Space, but the Gatekeeper guards it. He\'s been Derek\'s instrument for three years.' },
+                { speaker: 'Meditator', text: 'There is a back passage through the Back Office. If you can get past the Gatekeeper, you can access it.' },
                 { speaker: '', text: '', callback: 'meditator_intel' }
             ],
             'cacao_dealer_shop': [
-                { speaker: '', text: '(A figure in a dark hoodie appears. He\'s carrying a small canvas bag.)', thought: true },
-                { speaker: 'Cacao Dealer', text: 'Pssst. You didn\'t get this from me. They took your phone. Told you it was liberating.' },
-                { speaker: 'Cacao Dealer', text: 'I have things that are... discouraged here.' },
+                { speaker: '', text: '(A figure in a dark hoodie appears at the kitchen\'s back door. He\'s carrying a small canvas bag.)', thought: true },
+                { speaker: 'Cacao Dealer', text: 'Pssst. You didn\'t get this from me.' },
+                { speaker: 'Steve', text: 'Is this... a black market?' },
+                { speaker: 'Cacao Dealer', text: 'I prefer "alternative distribution network." Anyway. They took your phone. Probably told you it was liberating.' },
+                { speaker: 'Cacao Dealer', text: 'I have things that will help. Things that are... discouraged here.' },
                 { speaker: '', text: '', choices: [
                     { text: '"What are you selling?"', next: 'cacao_dealer_inventory' },
                     { text: '(Walk away)', next: '' }
                 ]}
             ],
             'cacao_dealer_inventory': [
-                { speaker: 'Cacao Dealer', text: 'Actual Coffee. 80 cacao. Cacao Drink. 50 cacao. Kombucha. 20 cacao.' },
+                { speaker: 'Cacao Dealer', text: 'Actual Coffee. Real stuff. 80 cacao per cup.' },
+                { speaker: 'Cacao Dealer', text: 'Cacao Ceremony Drink. The good kind, not the spiritual kind. 50 cacao.' },
+                { speaker: 'Cacao Dealer', text: 'Kombucha. Gas, but at least it\'s fermented. 20 cacao.' },
+                { speaker: 'Cacao Dealer', text: 'And... WiFi password to the admin network. 100 cacao. You didn\'t get this from me.' },
                 { speaker: '', text: '', choices: [
                     { text: '"Actual Coffee." (80 cacao)', next: '', callback: 'add_coffee' },
                     { text: '"Cacao Drink." (50 cacao)', next: '', callback: 'add_cacao_drink' },
                     { text: '"Kombucha." (20 cacao)', next: '', callback: 'add_kombucha' },
+                    { text: '"WiFi password." (100 cacao)', next: '', callback: 'add_wifi_password' },
                     { text: '"Never mind."', next: '' }
                 ]}
             ],
             'sharing_circle': [
-                { speaker: '', text: '(The main hall has been arranged in a circle. About 30 people sit on cushions. A didgeridoo plays.)', thought: true },
-                { speaker: 'Facilitator', text: 'Welcome, beautiful souls, to our sharing circle. This is a sacred space.' },
-                { speaker: 'The Oversharer', text: '(sobbing) I used to work in corporate marketing. I was dead inside. But this journey... it\'s given me...' },
+                { speaker: '', text: '(The main hall has been arranged in a circle. About 30 people sit on cushions. There\'s a fire pit in the center. Someone starts playing a didgeridoo.)', thought: true },
+                { speaker: 'Facilitator', text: 'Welcome, beautiful souls, to our sharing circle. This is a sacred space. What\'s shared in circle stays in circle. Unless it needs processing in another circle.' },
+                { speaker: 'Facilitator', text: 'Who wants to begin?' },
+                { speaker: '', text: '(A woman\'s hand shoots up. She\'s shaking with emotion.)', thought: true },
+                { speaker: 'The Oversharer', text: '(sobbing) I just... I used to work in corporate. In marketing. And I was dead inside. So dead.' },
+                { speaker: 'The Oversharer', text: 'But this journey... being here... it\'s given me... I don\'t even know who I am yet but it\'s better than who I was!' },
                 { speaker: '', text: '', choices: [
-                    { text: '"That\'s beautiful. Thank you for sharing."', next: 'sharing_circle_r2' },
-                    { text: '"Have you calculated your ROI?"', next: 'sharing_circle_r2' },
-                    { text: '(Say nothing.)', next: 'sharing_circle_r2' }
+                    { text: '"That\'s beautiful. Thank you for sharing."', next: 'sharing_circle_r1_validate' },
+                    { text: '"Have you considered your ROI on this emotional labor?"', next: 'sharing_circle_r1_deflect' },
+                    { text: '(Say nothing. Just sit with it.)', next: 'sharing_circle_r1_endure' }
                 ]}
+            ],
+            'sharing_circle_r1_validate': [
+                { speaker: 'Steve', text: 'That\'s beautiful. Thank you for sharing your truth.' },
+                { speaker: 'The Oversharer', text: '(beaming through tears) Oh my god, thank you. That means so much.' },
+                { speaker: '', text: '(Everyone nods sagely. You\'ve passed the first test of spiritual conformity.)', thought: true, callback: 'add_insight' },
+                { speaker: '', text: '', goto: 'sharing_circle_r2' }
+            ],
+            'sharing_circle_r1_deflect': [
+                { speaker: 'Steve', text: 'Have you calculated the ROI on this emotional labor? From a cost-benefit standpoint?' },
+                { speaker: '', text: '(Long silence.)', thought: true },
+                { speaker: 'The Oversharer', text: '(confused) I... what?' },
+                { speaker: 'Facilitator', text: 'Let\'s honor all perspectives in circle.' },
+                { speaker: '', text: '(You\'ve made the first enemy at the Sanctuary.)', thought: true },
+                { speaker: '', text: '', goto: 'sharing_circle_r2' }
+            ],
+            'sharing_circle_r1_endure': [
+                { speaker: '', text: '(Steve says nothing. The silence stretches. The Oversharer finishes her sentence and sits down, satisfied.)', thought: true },
+                { speaker: 'The Oversharer', text: 'Thank you for witnessing my process.' },
+                { speaker: '', text: '', goto: 'sharing_circle_r2' }
             ],
             'sharing_circle_r2': [
-                { speaker: 'Facilitator', text: 'Akash Prem. We haven\'t heard from you yet. What brought you here?' },
+                { speaker: 'Facilitator', text: 'Akash Prem. We haven\'t heard from you yet. What brought you to The Sanctuary?' },
                 { speaker: '', text: '', choices: [
-                    { text: '"My wife disappeared here. I need to find her."', next: 'sharing_circle_r3' },
-                    { text: '"Professional development and synergistic alignment."', next: 'sharing_circle_r3' },
-                    { text: '"I\'m still processing."', next: 'sharing_circle_r3' }
+                    { text: '"My wife disappeared here. I need to find her."', next: 'sharing_circle_r2_honest' },
+                    { text: '"Professional development and synergistic alignment."', next: 'sharing_circle_r2_corporate' },
+                    { text: '"I\'m just observing. Processing quietly."', next: 'sharing_circle_r2_refuse' }
                 ]}
             ],
+            'sharing_circle_r2_honest': [
+                { speaker: 'Steve', text: 'My wife came here three months ago. She disappeared. I\'m here to find her.' },
+                { speaker: '', text: '(The circle goes very still.)', thought: true },
+                { speaker: 'Facilitator', text: 'We honor your journey of reunion. When we\'re ready, what we seek finds us.' },
+                { speaker: '', text: '(It\'s clear no one in this circle is going to help.)', thought: true },
+                { speaker: '', text: '', goto: 'sharing_circle_r3' }
+            ],
+            'sharing_circle_r2_corporate': [
+                { speaker: 'Steve', text: 'Professional development. Synergistic team alignment. Exploring paradigm shifts in organizational wellness.' },
+                { speaker: '', text: '(Everyone nods enthusiastically.)', thought: true },
+                { speaker: 'Facilitator', text: 'Beautiful corporate framing of your soul\'s work.' },
+                { speaker: '', text: '', goto: 'sharing_circle_r3' }
+            ],
+            'sharing_circle_r2_refuse': [
+                { speaker: 'Steve', text: 'I\'m still processing. Observing with reverence.' },
+                { speaker: 'Facilitator', text: 'Wise. Silent witnessing is a profound practice.' },
+                { speaker: '', text: '', goto: 'sharing_circle_r3' }
+            ],
             'sharing_circle_r3': [
-                { speaker: 'Facilitator', text: 'Now we move into our final exercise. A vibrational alignment. We make sounds from our root chakra.' },
+                { speaker: 'Facilitator', text: 'Now we move into our final exercise. A vibrational alignment.' },
+                { speaker: 'Facilitator', text: 'This requires us to make sounds from our root chakra. Deep sounds. Primal sounds.' },
                 { speaker: '', text: '(Everyone is looking at you expectantly.)', thought: true },
                 { speaker: '', text: '', choices: [
-                    { text: '"Let\'s do it."', next: 'sharing_circle_end' },
-                    { text: '(Sit quietly)', next: 'sharing_circle_end' },
-                    { text: '"I need air."', next: 'sharing_circle_end' }
+                    { text: '"Let\'s do it."', next: 'sharing_circle_r3_join' },
+                    { text: '(Sit quietly and don\'t participate)', next: 'sharing_circle_r3_sit' },
+                    { text: '"I need air. Excuse me."', next: 'sharing_circle_r3_leave' }
                 ]}
+            ],
+            'sharing_circle_r3_join': [
+                { speaker: '', text: '(Steve takes a deep breath and makes a low, humiliating sound from his diaphragm. OOOOOOHHHHMMMMM.)', thought: true },
+                { speaker: '', text: '(Everyone joins in. The sound is deafening and deeply embarrassing.)', thought: true },
+                { speaker: '', text: '', goto: 'sharing_circle_end' }
+            ],
+            'sharing_circle_r3_sit': [
+                { speaker: '', text: '(Steve sits silently while 30 people make primal chakra sounds around him. He is invisible. He is also very conspicuous.)', thought: true },
+                { speaker: 'The Oversharer', text: '(opening one eye) Are you okay? Do you want to process?' },
+                { speaker: 'Steve', text: 'I\'m good.' },
+                { speaker: '', text: '', goto: 'sharing_circle_end' }
+            ],
+            'sharing_circle_r3_leave': [
+                { speaker: 'Steve', text: 'I need some air.' },
+                { speaker: '', text: '(Steve stands and walks toward the exit. The Oversharer immediately gets up and follows him.)', thought: true },
+                { speaker: 'The Oversharer', text: 'Can I process with you about this? I feel like I triggered something for you.' },
+                { speaker: '', text: '', goto: 'sharing_circle_end' }
             ],
             'sharing_circle_end': [
                 { speaker: 'Facilitator', text: 'Remember: what happens in circle stays in circle. Unless it needs processing in another circle.' },
-                { speaker: '', text: '(The sharing circle disbands. The fire pit should be accessible now. Maya will be waiting.)', thought: true, callback: 'circle_done' }
+                { speaker: '', text: '(The sharing circle disbands. People wander off into the night with glazed expressions.)', thought: true },
+                { speaker: '', text: '(The fire pit should be accessible now. The meditation is over. Maya will be waiting.)', thought: true, callback: 'circle_done' }
+            ],
+            'breathwork_monk': [
+                { speaker: '', text: '(A serene man sits in the corner of the studio, breathing with theatrical intensity. Each exhale could extinguish birthday candles from across a room.)', thought: true },
+                { speaker: 'Breathwork Monk', text: '(inhale for 8 seconds) ... (exhale for 12 seconds) ... You\'re here. Good. The universe sent you.' },
+                { speaker: 'Steve', text: 'I walked here. Through a door.' },
+                { speaker: 'Breathwork Monk', text: 'Same thing. Would you like to breathe with me?' },
+                { speaker: 'Steve', text: 'I\'ve been breathing my whole life without instruction.' },
+                { speaker: 'Breathwork Monk', text: 'Yes. And look how that turned out. Your wife left, you\'re at a retreat center, and your posture suggests chronic stress.' },
+                { speaker: '', text: '(That was... surprisingly accurate.)', thought: true },
+                { speaker: 'Breathwork Monk', text: 'One session. Free of charge. Just breathe with me for sixty seconds. What\'s the worst that could happen?' },
+                { speaker: '', text: '(Steve breathes. For sixty seconds, nothing else exists. No wife. No retreat. No spreadsheets. Just air.)', thought: true },
+                { speaker: '', text: '(Steve\'s EP is fully restored.)', thought: true, callback: 'breathwork_heal' },
+                { speaker: 'Steve', text: '...That was... fine. It was fine.' },
+                { speaker: 'Breathwork Monk', text: 'The highest compliment an accountant can give. Come back anytime.' }
             ],
             'gatekeeper_confront': [
-                { speaker: '', text: '(A man with a shaved head sits in front of the Ceremony Space yurt, radiating impossible authority.)', thought: true },
-                { speaker: 'Gatekeeper', text: 'You are not ready. The Ceremony Space exists in a frequency beyond comprehension.' },
+                { speaker: '', text: '(The Ceremony Space is a large yurt with a fabric door. Standing in front of it is a man with a shaved head and an inexplicable accent that shifts between South African and New Jersey.)', thought: true },
+                { speaker: 'Gatekeeper', text: 'You are not ready. The Ceremony Space exists in a frequency beyond human comprehension.' },
                 { speaker: 'Steve', text: 'It\'s a tent.' },
                 { speaker: 'Gatekeeper', text: 'Yes. A sacred tent. Your energy is not aligned.' },
                 { speaker: '', text: '', choices: [
                     { text: '"Let me through." (Challenge)', next: 'gatekeeper_challenge' },
-                    { text: '"What do I need to do?"', next: 'gatekeeper_reason' },
-                    { text: '"You were a Verizon manager."', next: 'gatekeeper_exposed' }
+                    { text: '"What do I need to do to be ready?"', next: 'gatekeeper_reason' },
+                    { text: '"You were a Verizon manager in 2024, weren\'t you?"', next: 'gatekeeper_exposed' }
                 ]}
             ],
             'gatekeeper_reason': [
                 { speaker: 'Gatekeeper', text: 'You must pass through seventeen levels of inner work. Each level takes a month.' },
                 { speaker: 'Steve', text: 'I don\'t have seventeen months.' },
-                { speaker: 'Gatekeeper', text: 'Then you\'re not ready. Such is the path of enlightenment.' }
+                { speaker: 'Gatekeeper', text: 'Then you\'re not ready. Such is the path of enlightenment.' },
+                { speaker: '', text: '(The Gatekeeper sits back down in lotus position, fully blocking the entrance.)', thought: true }
             ],
             'gatekeeper_challenge': [
-                { speaker: 'Gatekeeper', text: 'You wish to challenge the Gatekeeper? Then we fight.' },
+                { speaker: 'Gatekeeper', text: 'You wish to challenge the Gatekeeper?' },
+                { speaker: 'Steve', text: 'I wish to walk through that door.' },
+                { speaker: 'Gatekeeper', text: 'Then we fight. Your spirit against my disciplined consciousness.' },
                 { speaker: '', text: '', callback: 'start_gatekeeper_battle' }
             ],
             'gatekeeper_exposed': [
-                { speaker: 'Steve', text: 'You worked for Verizon. In 2024. You were a district manager. Dave Carver. Seventeen LinkedIn recommendations.' },
+                { speaker: '', text: '(Steve leans in close. He lowers his voice.)', thought: true },
+                { speaker: 'Steve', text: 'You worked for Verizon. In 2024. You were a district manager. Your name was Dave Carver. You have seventeen LinkedIn recommendations from people who call you a "people person."' },
                 { speaker: '', text: '(The Gatekeeper\'s eyes go wide. His accent drops.)', thought: true },
-                { speaker: 'Gatekeeper', text: 'How did you... no. That was a different life. A life of corporate enslavement.' },
+                { speaker: 'Gatekeeper', text: 'How did you... no. No. That was a different life. A life of corporate enslavement.' },
                 { speaker: 'Steve', text: 'You\'re still enslaved. You\'re just doing it for free.' },
-                { speaker: '', text: '(The Gatekeeper stands. His entire façade cracks.)', thought: true },
-                { speaker: 'Gatekeeper', text: 'I... I needed to believe I was something more. The back office. Behind the ceremony space. The door\'s not locked.' },
+                { speaker: '', text: '(The Gatekeeper stands slowly. His entire façade cracks.)', thought: true },
+                { speaker: 'Gatekeeper', text: 'I... I needed to believe I was something more than a middle manager.' },
+                { speaker: 'Steve', text: 'The back office. Where is it?' },
+                { speaker: 'Gatekeeper', text: '(defeated) Behind the ceremony space. Through the back flap. The door\'s not locked.' },
                 { speaker: '', text: '', callback: 'gatekeeper_cleared' }
             ],
             'back_office_discover': [
-                { speaker: '', text: '(The back office is jarring. Fluorescent lights. A file cabinet. A desk with a modern laptop. Spreadsheets.)', thought: true },
-                { speaker: '', text: '(Steve opens the filing cabinet. Passports. Recommendation letters. Bank statements. $1.2M revenue. $180K to The Founder\'s personal LLC.)', thought: true },
-                { speaker: '', text: '(Steve finds his wife\'s recommendation letter. "Pranayama Peak. Advanced work.")', thought: true },
-                { speaker: '', text: '(The lights turn on. The Founder is standing in the doorway.)', thought: true },
-                { speaker: 'The Founder', text: 'I thought you might end up here. The practical ones always do.' },
+                { speaker: '', text: '(The back office is a jarring contrast. Fluorescent lights. A file cabinet. A desk with a surprisingly modern laptop. Spreadsheets. This is the real Sanctuary.)', thought: true },
+                { speaker: '', text: '(Steve opens the filing cabinet. Inside: dozens of passports. Recommendation letters in a neat stack. Bank statements.)', thought: true },
+                { speaker: 'Steve', text: '(reading) One point two million in annual revenue. One hundred eighty thousand to a personal LLC. Forty unpaid volunteers on the roster.' },
+                { speaker: '', text: '(Steve finds his wife\'s recommendation letter. Dated three months ago. Addressed to Pranayama Peak. Recommends her for "advanced work.")', thought: true },
+                { speaker: '', text: '(Steve finds Maya\'s passport. He finds documents for seven other people.)', thought: true },
+                { speaker: '', text: '(The lights change. The yurt flap opens.)', thought: true },
+                { speaker: 'The Founder', text: 'I thought you might end up here.' },
+                { speaker: '', text: '(Derek stands in the doorway. He\'s wearing white linen. He\'s smiling.)', thought: true },
                 { speaker: '', text: '', choices: [
                     { text: '"I\'m leaving with these documents."', next: 'founder_battle_start' },
                     { text: '"What if I\'m interested in a deal?"', next: 'founder_prefight' }
                 ]}
             ],
             'founder_prefight': [
-                { speaker: 'The Founder', text: 'I was hoping you might be practical. Take the recommendation letter. Go find your wife. Forget the other documents.' },
-                { speaker: 'The Founder', text: 'I\'m not a bad man. I\'m running a business. Everyone here wants to be here. Until they don\'t.' },
+                { speaker: 'The Founder', text: 'I was hoping you might be practical.' },
+                { speaker: 'The Founder', text: 'Take the recommendation letter. Go north to Pranayama Peak. Tell your wife the Sanctuary is wonderful. Forget the other documents.' },
+                { speaker: 'The Founder', text: 'I\'m not a bad man. I\'m running a business. Everyone here wants to be here. Until they don\'t. Then they go somewhere else.' },
                 { speaker: 'Steve', text: 'You\'re holding their passports.' },
                 { speaker: 'The Founder', text: 'For safekeeping. A small incentive to keep people engaged.' },
                 { speaker: '', text: '', choices: [
@@ -820,7 +972,7 @@
             ],
             'founder_battle_start': [
                 { speaker: 'The Founder', text: 'I really hoped you wouldn\'t do that.' },
-                { speaker: '', text: '(Derek closes the yurt door. Brandon enters from a side passage, ready to fight.)', thought: true, callback: 'start_founder_battle' }
+                { speaker: '', text: '(Derek closes the yurt door. Brandon enters from a side passage, still dazed, ready to fight.)', thought: true, callback: 'start_founder_battle' }
             ],
             'founder_end_walk': [
                 { speaker: 'The Founder', text: 'Smart man. Your wife would be proud. Actually — she\'d be disappointed. She was more idealistic than you.' },
@@ -843,10 +995,11 @@
                 { speaker: '', text: '(Steve saved the people he could. But there are costs.)', thought: true, callback: 'end_walk' }
             ],
             'departure': [
-                { speaker: '', text: '(Steve drives out of The Sanctuary. At the gate, they return his phone. 847 emails. A text from an unknown number.)', thought: true },
-                { speaker: '', text: '"Your wife is at Pranayama Peak. She\'s expecting someone. Don\'t let her down."', thought: true },
-                { speaker: '', text: '(Steve puts the phone down. Paranayama Peak awaits. But The Sanctuary has taught him something: the person he finds might not be the person he lost.)', thought: true },
-                { speaker: '', text: 'THE SANCTUARY COMPLETE — NEXT ZONE: PRANAYAMA PEAK', thought: true }
+                { speaker: '', text: '(Steve drives out of The Sanctuary. At the gate, they return his phone.)', thought: true },
+                { speaker: '', text: '(847 emails. 23 missed calls. A voicemail from his boss. Another from the bank. One text from an unknown number.)', thought: true },
+                { speaker: '', text: 'Unknown: Your wife is at Pranayama Peak, two hours north. Room 7. She\'s expecting someone. Don\'t let her down.', thought: true },
+                { speaker: '', text: '(Steve puts the phone down. Pranayama Peak awaits. But The Sanctuary has taught him something: the person he finds might not be the person he lost.)', thought: true },
+                { speaker: '', text: '(END SANCTUARY ZONE)', thought: true }
             ]
         };
 
@@ -899,7 +1052,7 @@
             'studio': {
                 name: 'THE MOVEMENT STUDIO',
                 color: 'rgb(225, 216, 204)',
-                npcs: ['meditator'],
+                npcs: ['meditator', 'breathwork_monk'],
                 exits: [{ label: 'Garden', room: 'garden' }]
             },
             'main_hall': {
@@ -938,15 +1091,16 @@
         // NPCs
         // ═══════════════════════════════════════════════════════════════════
         const npcs = {
-            'receptionist': { name: 'Receptionist', color: '#CC7700', emoji: '💁‍♀️✨', dialogue: 'receptionist' },
-            'frank': { name: 'Groundskeeper', color: '#666666', emoji: '🧔🔧', dialogue: 'frank' },
-            'oil_warrior': { name: '???', color: '#D12064', emoji: '🧴💥', dialogue: 'oil_warrior' },
-            'maya': { name: 'Maya', color: '#B85726', emoji: '👩‍🍳🥣', dialogue: 'maya_kitchen' },
-            'brandon': { name: 'Brandon', color: '#1B8D8D', emoji: '🧑‍🦲🙏', dialogue: 'brandon_arrive' },
-            'meditator': { name: '???', color: '#8034A0', emoji: '🧘‍♂️💢', dialogue: 'meditator_challenge' },
-            'cacao_dealer': { name: 'Cacao Dealer', color: '#2E8E18', emoji: '🍫😏', dialogue: 'cacao_dealer_shop' },
-            'gatekeeper': { name: 'Gatekeeper', color: '#A62424', emoji: '🚫🧙‍♂️', dialogue: 'gatekeeper_confront' },
-            'founder': { name: 'The Founder', color: '#C78C00', emoji: '👁️🕴️', dialogue: 'founder_prefight' }
+            'receptionist': { name: 'Receptionist', color: '#CC7700', emoji: '💁‍♀️✨', dialogue: 'receptionist', returnDialogue: 'receptionist_return' },
+            'frank': { name: 'Groundskeeper', color: '#666666', emoji: '🧔🔧', dialogue: 'frank', returnDialogue: 'frank_return' },
+            'oil_warrior': { name: '???', color: '#D12064', emoji: '🧴💥', dialogue: 'oil_warrior', hideFlag: 'oil_defeated' },
+            'maya': { name: 'Maya', color: '#B85726', emoji: '👩‍🍳🥣', dialogue: 'maya_kitchen', returnDialogue: 'maya_return' },
+            'brandon': { name: 'Brandon', color: '#1B8D8D', emoji: '🧑‍🦲🙏', dialogue: 'brandon_arrive', returnDialogue: 'brandon_act2' },
+            'meditator': { name: '???', color: '#8034A0', emoji: '🧘‍♂️💢', dialogue: 'meditator_challenge', postDefeatDialogue: 'meditator_post', defeatFlag: 'meditator_defeated' },
+            'breathwork_monk': { name: 'Breathwork Monk', color: '#1A59C6', emoji: '🌬️😌', dialogue: 'breathwork_monk', showFlag: 'meditator_defeated' },
+            'cacao_dealer': { name: 'Cacao Dealer', color: '#2E8E18', emoji: '🍫😏', dialogue: 'cacao_dealer_shop', showFlag: 'talked_maya' },
+            'gatekeeper': { name: 'Gatekeeper', color: '#A62424', emoji: '🚫🧙‍♂️', dialogue: 'gatekeeper_confront', hideFlag: 'gatekeeper_cleared' },
+            'founder': { name: 'The Founder', color: '#C78C00', emoji: '👁️🕴️', dialogue: 'back_office_discover' }
         };
 
         // ═══════════════════════════════════════════════════════════════════
@@ -1031,12 +1185,12 @@
         // INTRO PAGES
         // ═══════════════════════════════════════════════════════════════════
         const introPages = [
-            'Steve Stevens was a perfectly ordinary accountant with a perfectly ordinary life. He had a sensible car, a sensible apartment, and a wife with increasingly non-sensible ideas about "self-care."',
-            'Last month, she went to a place called "The Sanctuary of Infinite Becoming" for a weekend yoga retreat. That was three months ago. She said she needed to "find her authentic self."',
-            'Steve had no idea what she was looking for. Her authentic self appeared to him to be a person who liked spreadsheets and discount groceries.',
-            'But she was gone. She had stopped answering texts. The retreat center said they "honor the privacy of all souls." Steve decided to go retrieve her, because that\'s what you do when your wife disappears.',
-            'Also, he had paid $2,400 for this retreat on a credit card, and it was marked "non-refundable." This would later prove to be his only leverage.',
-            'Steve got in his Camry and drove north. He had no idea he was about to learn more about accounting, consent, and human delusion than any accountant should ever have to know.'
+            'You are Steve Stevens.\n\nYou are 38 years old. You work in accounting.\nYou are adequate at your job.\nYou are adequate at most things.',
+            'Three weeks ago, your wife went to an\nAyahuasca retreat in the mountains.\n\nShe said it would be "just a weekend."\nShe said she\'d be back by Monday.',
+            'She did not come back by Monday.\n\nShe texted: "I need more time.\nSomething is opening inside me."\n\nSteve did not know what was opening.\nSteve did not want to know.',
+            'Then the texts stopped.\n\nThe credit card did not stop.\n$2,400 — "Transformational Immersion."\n$800 — "Sacred Sound Healing Intensive."\n$340 — "Artisanal Cacao Ceremony Kit."\n\nSteve does not know what artisanal cacao is.\nSteve knows what $3,540 is.',
+            'You have tracked the charges to a place called\n"The Sanctuary of Infinite Becoming."\n\nIt used to be a golf course.\n\nYou have packed sensible shoes, a change of\nclothes, and the quiet certainty of a man\nwho has filed fourteen years of tax returns\nwithout a single error.',
+            'You are going to find your wife.\n\nYou are going to bring her home.\n\nYou are not going to "open" anything.'
         ];
 
         // ═══════════════════════════════════════════════════════════════════
@@ -1112,7 +1266,7 @@
             showScreen('intro');
             const container = document.getElementById('intro-pages');
             container.innerHTML = introPages.map((text, i) =>
-                `<div class="intro-page ${i === 0 ? 'active' : ''} intro-text">${text}</div>`
+                `<div class="intro-page ${i === 0 ? 'active' : ''} intro-text">${text.replace(/\n/g, '<br>')}</div>`
             ).join('');
             gameState.introPage = 0;
             updateIntroPageNum();
@@ -1143,18 +1297,32 @@
             document.getElementById('room-title').textContent = room.name;
             document.getElementById('room-bg').style.background = room.color;
 
-            // NPCs
+            // NPCs — check hide/show flags
             const npcContainer = document.getElementById('npc-container');
             npcContainer.innerHTML = '';
             room.npcs.forEach(npcId => {
-                if (npcs[npcId]) {
-                    const npc = npcs[npcId];
-                    const slot = document.createElement('div');
-                    slot.className = 'npc-slot';
-                    slot.innerHTML = `<div class="npc-emoji">${npc.emoji}</div><div class="npc-label">${npc.name}</div>`;
-                    slot.onclick = () => startDialogue(npc.dialogue);
-                    npcContainer.appendChild(slot);
-                }
+                if (!npcs[npcId]) return;
+                const npc = npcs[npcId];
+                // Hide if defeat/hide flag is set
+                if (npc.hideFlag && gameState.flags[npc.hideFlag]) return;
+                // Only show if required flag is set
+                if (npc.showFlag && !gameState.flags[npc.showFlag]) return;
+
+                const slot = document.createElement('div');
+                slot.className = 'npc-slot';
+                slot.innerHTML = `<div class="npc-emoji">${npc.emoji}</div><div class="npc-label">${npc.name}</div>`;
+                slot.onclick = () => {
+                    // Use post-defeat dialogue if enemy was defeated
+                    if (npc.postDefeatDialogue && npc.defeatFlag && gameState.flags[npc.defeatFlag]) {
+                        startDialogue(npc.postDefeatDialogue);
+                    // Use return dialogue if we've talked before
+                    } else if (npc.returnDialogue && gameState.flags['talked_' + npcId]) {
+                        startDialogue(npc.returnDialogue);
+                    } else {
+                        startDialogue(npc.dialogue);
+                    }
+                };
+                npcContainer.appendChild(slot);
             });
 
             // Exits
@@ -1229,6 +1397,9 @@
                 });
                 return;
             }
+
+            // Clear any leftover choices from previous line
+            document.getElementById('choices-container').innerHTML = '';
 
             // Display line
             const text = line.text || '';
@@ -1331,6 +1502,24 @@
                         gameState.cacao -= 20;
                         gameState.inventory.push({ id: 'kombucha', name: 'Kombucha', heal: 10, qty: 1 });
                     }
+                    break;
+                case 'add_wifi_password':
+                    if (gameState.cacao >= 100) {
+                        gameState.cacao -= 100;
+                        gameState.inventory.push({ id: 'wifi_password', name: 'WiFi Password (scribbled on napkin)', type: 'key' });
+                    }
+                    break;
+                case 'add_retreat_map':
+                    gameState.flags['map_obtained'] = true;
+                    break;
+                case 'add_insight':
+                    gameState.insight++;
+                    break;
+                case 'breathwork_heal':
+                    gameState.ep = gameState.maxEp;
+                    break;
+                case 'talked_receptionist':
+                    gameState.flags['talked_receptionist'] = true;
                     break;
                 case 'end_walk':
                     startDialogue('departure');
