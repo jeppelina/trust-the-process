@@ -1364,6 +1364,8 @@
         }
 
         function clearDialogue() {
+            currentDialogue = null;
+            dialogueIndex = 0;
             document.getElementById('speaker-name').textContent = '';
             document.getElementById('dialogue-text').textContent = '';
             document.getElementById('choices-container').innerHTML = '';
