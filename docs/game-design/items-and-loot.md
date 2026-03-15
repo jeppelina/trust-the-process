@@ -12,11 +12,13 @@ Steve doesn't carry swords. He carries objects that happen to be effective in th
 
 | Type | Damage Type | Speed | Examples |
 |------|------------|-------|---------|
-| **Office Supplies** | Bureaucratic | Fast | Orientation pamphlet, red pen, stapler, filing cabinet drawer |
-| **Spiritual Objects (Repurposed)** | Physical + Spiritual | Medium | Singing bowl (blunt), crystal cluster (heavy), didgeridoo (two-handed) |
-| **Consumable Throwables** | Varies | Fast | Sage bundles (smoke/confusion), essential oils (poison), kombucha (acid?) |
+| **Blunt Objects** | Physical | Medium | Singing bowl (blunt), crystal cluster (heavy), didgeridoo (two-handed) |
+| **Throwables** | Physical / Spiritual | Fast | Rocks, crystals, sage bundles (smoke/confusion) |
 | **Found Tools** | Physical | Slow but powerful | Groundskeeper's wrench, kitchen ladle, tent pole |
-| **Documents** | Bureaucratic + Psychic | Medium | Tax returns, audit reports, compliance violations, Terms & Conditions |
+| **Psychological Weapons** | Psychic | Fast | Evidence documents, exposing questions, weaponized corporate speak |
+| **Accidental Spiritual** | Spiritual | Varies | Items that channel spiritual energy despite Steve's denial |
+
+Note: Steve's primary damage comes from his unlocked skills (FIGHT/MOUTH/SPIRIT), not from equipped weapons. Weapons in the prototype provide passive bonuses rather than replacing the skill system.
 
 **Weapon Scaling:** Weapons don't level up in a traditional sense. Instead, Steve finds contextually more powerful items as zones escalate. A singing bowl is devastating at a retreat center; at Burning Man you might need a megaphone or a fire poi.
 
@@ -33,7 +35,7 @@ Steve doesn't wear armor. He wears clothes. Some clothes happen to protect him i
 | **Feet** | Sensible shoes, loafers | Barefoot, Birkenstocks, toe shoes | Barefoot is required in some areas. Steve suffers. |
 | **Head** | Nothing (Steve doesn't wear hats) | Flower crown, turban wrap, headband | Head items are mostly spiritual-world items |
 
-**Armor Philosophy:** There's no "best" armor. Corporate wear protects Normality and boosts Bureaucratic damage but makes spiritual NPCs dismiss you. Spiritual wear lowers Normality but opens doors and social options. The player has to dress Steve for the situation, which is its own comedy.
+**Armor Philosophy:** There's no "best" armor. Corporate wear protects Normality and boosts Psychic damage (Steve's corporate confidence is weaponized) but makes spiritual NPCs dismiss you. Spiritual wear lowers Normality but opens doors and social options. The player has to dress Steve for the situation, which is its own comedy.
 
 ### 3. Accessories
 
@@ -47,7 +49,7 @@ Steve doesn't wear armor. He wears clothes. Some clothes happen to protect him i
 | Business Card Holder | +3 Credibility with normal people | Absolutely useless in spiritual settings |
 | Crystal Pouch | +2 all spiritual stats | Steve carries it "ironically" (he's not sure anymore) |
 | Fitbit | +2 Awareness (step tracking = map awareness) | Steve checks his step count during ceremonies |
-| Pocket Calculator | +5 Bureaucratic damage | The sound of the buttons infuriates spiritual enemies |
+| Pocket Calculator | +5 Psychic damage | The sound of the buttons infuriates spiritual enemies |
 | Wedding Ring | +5 HP, passive reminder of why he's here | Removing it unlocks certain dialogue but reduces max HP |
 
 ### 4. Consumables

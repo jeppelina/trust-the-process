@@ -91,7 +91,7 @@ Steve must get past THE GATEKEEPER to reach the Ceremony Space. Three options:
 Wait until 10pm. The Gatekeeper falls asleep after meditation. Steve sneaks past. If caught → forced dialogue → possible fight.
 
 **Path B — Confront (requires: Insight ≥ 5)**
-Steve can challenge The Gatekeeper's authority directly. Using Risk Assessment reveals the Gatekeeper (Dharma John) worked at Verizon 18 months ago and got divorced. He's not ancient wisdom — he's a recently divorced telecom middle manager. Exposing this lets Steve through.
+Steve can challenge The Gatekeeper's authority directly. Using Cold Read reveals the Gatekeeper (Dharma John) worked at Verizon 18 months ago and got divorced. He's not ancient wisdom — he's a recently divorced telecom middle manager. Exposing this lets Steve through.
 
 **Path C — Frank's Key (requires: completed Frank's side quest)**
 If Steve helped Frank fix the burst pipe in the garden (available anytime in Act 2), Frank gives him a MASTER KEY that opens the Back Office directly, bypassing the Ceremony Space entirely. This is the reward for being a decent person.
@@ -123,13 +123,13 @@ If Steve refuses:
 - The Founder doesn't attack directly. He SUMMONS FOLLOWERS — Brandon appears, fully converted, plus a Karma Yogi.
 - Steve must fight through the followers. The Founder uses REFRAME (heals followers by "recontextualizing" their damage as growth).
 - Key mechanic: Steve can use TALK → "Brandon, where's your watch?" to snap Brandon out of it. This removes the follower without fighting.
-- Breaking the phase: Use SPREADSHEET ANALYSIS on The Founder while followers are down → reveals the financial records Steve just found → followers see the truth → followers leave.
+- Breaking the phase: Use verbal attacks (Insult, Cold Read) on The Founder while followers are down → reveals the financial records Steve just found → followers see the truth → followers leave.
 
 **PHASE 2: "You Don't Understand What We're Building" (HP 60%→25%)**
 - The Founder drops the calm act. He's angry, defensive, but still manipulative.
 - Attacks: SPIRITUAL GASLIGHTING (confusion, Steve might attack himself), SACRED RAGE (physical — he throws a singing bowl), GUILT BOMB ("If you destroy this, where do these people GO?")
 - The Guilt Bomb is the hardest attack — it's actually a fair point. Reduces Steve's attack power temporarily.
-- Key mechanic: Use AUDIT to dismantle his arguments one by one. Each successful Audit reduces his defense.
+- Key mechanic: Use verbal attacks (Cold Read, Manipulate) to dismantle his arguments one by one. Each successful hit reduces his defense.
 - REFRAME still works but weaker. He's losing control of the narrative.
 
 **PHASE 3: "You're Just Like Her" (HP 25%→0)**
@@ -138,7 +138,7 @@ If Steve refuses:
 - He reveals: He didn't just give her a recommendation. He gave her a GLOWING recommendation specifically to get her away from his operation before she exposed him. She was the real threat, not Steve.
 - Attacks are erratic — EXISTENTIAL CRISIS (hurts himself), DESPERATION GRAB (tries to take evidence).
 - Steve can end this three ways:
-  - **FULL AUDIT** (destroy) — Expose everything. The Sanctuary closes. People are displaced but free.
+  - **FULL EXPOSURE** (destroy) — Expose everything. The Sanctuary closes. People are displaced but free.
   - **WALK AWAY** (pragmatic) — Take the letter, leave the records. The Sanctuary continues. Steve got what he came for.
   - **RESTRUCTURE** (funniest) — Steve, the accountant, takes over the books. Sets up a proper LLC, payroll for volunteers, transparent pricing. The Sanctuary survives as a legitimate business. The Founder is demoted to "Community Coordinator."
 
@@ -191,7 +191,7 @@ Steve leaves. Text on screen:
 **1. THE WELCOME PAVILION** (starting room)
 - Color: warm cream (0.88, 0.84, 0.76)
 - NPCs: Receptionist
-- Items: Orientation pamphlet (starting weapon)
+- Items: Orientation pamphlet (flavor item / evidence)
 - Nav: → Path
 - Notes: Gift shop accessible after Act 1
 
@@ -295,7 +295,7 @@ Steve leaves. Text on screen:
 
 | Item | Found | Purpose |
 |---|---|---|
-| Orientation Pamphlet | Start | Starting weapon (5 Bureaucratic dmg) |
+| Retreat Brochure | Start | Flavor item (evidence of pricing) |
 | Retreat Map | Oil Warrior drop | Unlocks rooms 4-7 |
 | Volunteer Schedule | Dorms wall | Evidence, enables sneak path |
 | Master Key | Frank (quest reward) | Opens Back Office directly |
@@ -350,15 +350,15 @@ Steve leaves. Text on screen:
 ### Conditional Fight: The Gatekeeper
 - Purpose: Test if player has gathered enough intel
 - 150 HP. Attacks: "You're Not Ready" (blocks all attacks 1 turn), Spiritual Gaslighting (confusion), Ancient Wisdom (psychic 25)
-- Weakness: Risk Assessment reveals his Verizon past. Each revealed truth removes 50 HP worth of "spiritual armor."
+- Weakness: Cold Read reveals his Verizon past. Each revealed truth removes 50 HP worth of "spiritual armor."
 - Can be bypassed entirely with sneak or key path.
 
 ### Boss Fight: The Founder
 See Act 4 above for full three-phase design.
 
 Summary:
-- Phase 1 (100→60 HP): Summons followers, uses Reframe to heal them. Break with Spreadsheet Analysis + evidence. Or talk Brandon out of it.
-- Phase 2 (60→25 HP): Direct combat, Gaslighting/Sacred Rage/Guilt Bomb. Use Audit repeatedly.
+- Phase 1 (100→60 HP): Summons followers, uses Reframe to heal them. Break with verbal attacks (Insult, Cold Read) + evidence. Or talk Brandon out of it.
+- Phase 2 (60→25 HP): Direct combat, Gaslighting/Sacred Rage/Guilt Bomb. Use Cold Read / Manipulate repeatedly.
 - Phase 3 (25→0 HP): Erratic, vulnerable. Choose ending: Destroy / Walk Away / Restructure.
 
 Total boss HP: effective ~200 with follower phase.
@@ -487,13 +487,13 @@ and it made him very uncomfortable.
 - `sharing_circle_r2` — round 2: Steve's turn
 - `sharing_circle_r3` — round 3: group exercise
 - `gatekeeper_confront` — challenging his authority
-- `gatekeeper_exposed` — after Risk Assessment
+- `gatekeeper_exposed` — after Cold Read
 - `back_office_discover` — finding the documents
 - `founder_prefight` — calm negotiation
 - `founder_phase1` — with followers
 - `founder_phase2` — mask off
 - `founder_phase3` — broken
-- `founder_end_destroy` — full audit ending
+- `founder_end_destroy` — full exposure ending
 - `founder_end_walk` — pragmatic ending
 - `founder_end_restructure` — funniest ending
 - `departure` — zone ending dialogue

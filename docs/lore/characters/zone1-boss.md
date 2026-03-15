@@ -37,7 +37,7 @@ The Founder refuses to engage. He's "above" fighting.
 - *Follower Shield* — Loyal guests physically place themselves between Steve and The Founder. Steve has to decide if he's willing to go through them.
 - *"I Invite You to Sit With That"* — Stun/delay. The Founder suggests Steve's anger is unprocessed grief. It's annoyingly insightful.
 
-**How to break Phase 1:** Steve has to use non-combat skills. "Spreadsheet Analysis" on The Sanctuary's finances reveals the unpaid labor, the markup on rooms, the Founder's salary. Reading this aloud shakes the followers' faith and removes the shield.
+**How to break Phase 1:** Steve has to break Brandon's conditioning. Verbal skills (Insult, Guilt Trip, Cold Read) are effective — psychic damage targeting Brandon's insecurity and his relationship with his family. Physical attacks work but feel wrong. At higher tiers, Accurate Insult or Empathic Read can expose what Paul has done to Brandon.
 
 ### Phase 2: "You Don't Understand What We're Building Here"
 The mask slips. The Founder gets defensive. He's still using spiritual language but now it's weaponized.
@@ -46,7 +46,7 @@ The mask slips. The Founder gets defensive. He's still using spiritual language 
 - *Guilt Bomb* — "Do you know how many people I've helped?" AOE psychic damage.
 - *Reframe* — Healing ability. Reframes any damage as "growth" and recovers HP.
 
-**Strategy:** Consistent, boring, factual attacks work best. Steve's accounting skills cut through narrative. "Audit" is devastating because The Founder cannot handle scrutiny.
+**Strategy:** Consistent, boring, factual attacks work best. Steve's verbal skills (Insult, Cold Read, Manipulate) cut through narrative. The Founder cannot handle scrutiny.
 
 ### Phase 3: "You're Just Like Everyone Else"
 Last stand. The Founder drops all pretense of spirituality and reveals the ego underneath.

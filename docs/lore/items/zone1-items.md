@@ -4,9 +4,9 @@
 
 ### Weapons (Things Steve Can Wield)
 
-**The Orientation Pamphlet** (Starting weapon)
+**The Orientation Pamphlet** (Starting item / Evidence)
 - A tri-fold brochure full of buzzwords and stock photos of people meditating at sunset
-- Stats: +1 attack (paper cuts)
+- Stats: Evidence item (exposes pricing structure when used in dialogue)
 - Flavor text: *"Welcome to The Sanctuary of Infinite Becoming! Please note the non-refundable deposit policy on page 3 (in very small print)."*
 
 **Sage Bundle** (Throwable / Grenade equivalent)

@@ -84,7 +84,7 @@
 **Steve:** (to himself) Shit. Some of that was accurate.
 
 **[HOW TO BREAK PHASE 1]**
-Steve uses Spreadsheet Analysis or presents the financial evidence. Reading the numbers aloud causes the followers to step back. The Deflection Aura weakens.
+Steve uses verbal attacks (Insult, Guilt Trip) or presents the financial evidence found in the back office. Reading the numbers aloud causes the followers to step back. The Deflection Aura weakens.
 
 **Steve:** Your teacher charges $400 a night for a shared dorm and pays his workers nothing. His non-profit is a tax shelter. His "gift economy" is a regular economy where only he gets paid. Those are the numbers. Numbers don't have shadows.
 
@@ -136,11 +136,11 @@ Steve uses Spreadsheet Analysis or presents the financial evidence. Reading the 
 
 **[STEVE'S EFFECTIVE ATTACKS THIS PHASE:]**
 
-**Audit:** "Let's talk about the karma yogi program. By labor law, these are employees. They work set hours, follow your instructions, can't refuse tasks. You owe them minimum wage retroactively. My rough calculation, and I'm being conservative, is $1.4 million."
+**Cold Read:** "Let's talk about the karma yogi program. By labor law, these are employees. They work set hours, follow your instructions, can't refuse tasks. You owe them minimum wage retroactively. My rough calculation, and I'm being conservative, is $1.4 million."
 
-**Schedule Optimization:** "Your workshops overlap by design. Guests can't attend competing sessions, which means each facilitator has a captive audience. You've created artificial scarcity in an environment you control completely. That's not healing. That's a mall food court."
+**Manipulate:** "Your workshops overlap by design. Guests can't attend competing sessions, which means each facilitator has a captive audience. You've created artificial scarcity in an environment you control completely. That's not healing. That's a mall food court."
 
-**Risk Assessment:** "Three former volunteers have filed complaints. One with the labor board, two with the county health department. The sweat lodge doesn't have a permit. The kitchen hasn't been inspected since 2021."
+**Insult:** "Three former volunteers have filed complaints. One with the labor board, two with the county health department. The sweat lodge doesn't have a permit. The kitchen hasn't been inspected since 2021."
 
 ---
 
@@ -172,11 +172,11 @@ Steve uses Spreadsheet Analysis or presents the financial evidence. Reading the 
 
 **[FINAL CHOICE — Three Endings]**
 
-### Ending A: "Destroy Him" (Full Audit)
+### Ending A: "Destroy Him" (Full Exposure)
 
 **Steve:** It's not my job to protect people from the truth. It's just my job to find it.
 
-(Steve presents the complete financial audit to the remaining followers.)
+(Steve presents the complete financial breakdown to the remaining followers.)
 
 **The Founder:** (sits down, done) You know what? Fine. FINE. I'm tired. I've been performing for twelve years and I'm so tired, Steve. You can't imagine.
 

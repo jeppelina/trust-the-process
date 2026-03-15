@@ -51,7 +51,7 @@ title_screen.tscn → intro_screen.tscn → exploration.tscn ↔ battle.tscn
 - **title_screen:** Blinking prompt, Space/click to begin.
 - **intro_screen:** 6-page typewriter backstory. Uses anchor-based text area (8% margins, scroll enabled).
 - **exploration:** Room-based navigation (pavilion → path → garden). Click stick figure NPCs for dialogue. Typewriter text with click/Space to advance. HUD shows all stats.
-- **battle:** Turn-based. 6 action types (Attack, Skills, Talk, Analyze, Items, Endure). Status effects (Smudged, Enrolled, Enduring). SubMenuPanel toggles for skill/talk/item lists.
+- **battle:** Turn-based. 6 action types (Fight, Mouth, Spirit, Item, Endure, Flee). Status effects (Stun, Pin, DOT, Block, Smoke Screen, Buff Next). SubMenuPanel toggles for branch skill lists and item lists.
 
 ### Stick Figure Character System
 
@@ -78,7 +78,7 @@ Dialogue trees live in `dialogue_manager.gd` as a Dictionary of Arrays. Each ent
 
 ### Combat System
 
-Five damage types: Physical, Psychic, Bureaucratic, Spiritual, Cringe. Each enemy has a weakness type. Steve's attacks are accounting-themed (Spreadsheet Analysis, Schedule Optimization, Risk Assessment, Audit, Tax Write-Off). Bureaucratic damage is super effective against MLM types.
+Three damage types: Physical, Psychic, Spiritual. Each enemy has a weakness type. Steve has three skill branches: Physical (use-based unlocks, Slap→Rage), Verbal (use + Insight unlocks, Complain→Silence), and Spiritual (involuntary, Normality-gated). Verbal skills deal Psychic damage. Spiritual enhancements transform existing skills as Normality drops. Battle menu: FIGHT/MOUTH/SPIRIT/ITEM/ENDURE/FLEE.
 
 ### Key Flags
 

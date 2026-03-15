@@ -465,6 +465,244 @@
             }
             .victory-title { font-size: 18px; }
             .victory-text { font-size: 12px; }
+
+            /* Menu overlay — mobile */
+            .menu-body { padding: 10px 12px; font-size: 12px; }
+            .menu-tab { font-size: 12px; padding: 8px 14px; }
+            .menu-close { font-size: 22px; padding: 6px 10px; }
+            .quest-item { padding: 6px 0; font-size: 12px; }
+            .inv-item { padding: 7px 0; }
+            .inv-item-name { font-size: 12px; }
+            .menu-btn { font-size: 14px; padding: 4px 8px; min-height: 32px; }
+        }
+
+        /* ─ MENU OVERLAY ─ */
+        .menu-overlay {
+            display: none;
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(30, 25, 18, 0.92);
+            z-index: 50;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .menu-overlay.active {
+            display: flex;
+        }
+        .menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 14px;
+            border-bottom: 1px solid #5a5040;
+        }
+        .menu-tabs {
+            display: flex;
+            gap: 0;
+        }
+        .menu-tab {
+            padding: 6px 14px;
+            font-family: 'Courier Prime', monospace;
+            font-size: 11px;
+            background: transparent;
+            color: #8a7e6a;
+            border: 1px solid #5a5040;
+            border-bottom: none;
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s;
+        }
+        .menu-tab.active {
+            background: #3a3020;
+            color: #E0D8C8;
+        }
+        .menu-tab:hover {
+            color: #E0D8C8;
+        }
+        .menu-close {
+            font-size: 18px;
+            color: #8a7e6a;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-family: 'Courier Prime', monospace;
+            padding: 4px 8px;
+        }
+        .menu-close:hover { color: #E0D8C8; }
+        .menu-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px 14px;
+            color: #E0D8C8;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+        .menu-section-title {
+            font-size: 10px;
+            color: #8a7e6a;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid #3a3020;
+        }
+        .quest-item {
+            display: flex;
+            gap: 8px;
+            padding: 4px 0;
+            align-items: flex-start;
+        }
+        .quest-check {
+            flex-shrink: 0;
+            width: 14px;
+            text-align: center;
+        }
+        .quest-item.done {
+            color: #6a6050;
+            text-decoration: line-through;
+            text-decoration-color: #4a4030;
+        }
+        .quest-item.current {
+            color: #d4c090;
+        }
+        .quest-item.locked {
+            display: none;
+        }
+        .inv-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid #2a2518;
+        }
+        .inv-item-name {
+            color: #E0D8C8;
+        }
+        .inv-item-detail {
+            color: #8a7e6a;
+            font-size: 10px;
+        }
+        .inv-item-type {
+            font-size: 9px;
+            color: #6a6050;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        /* Skill tree in menu */
+        .skill-branch-title {
+            font-size: 11px;
+            font-weight: bold;
+            color: #d4c090;
+            margin: 10px 0 4px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .skill-branch-title:first-child { margin-top: 0; }
+        .skill-entry {
+            padding: 3px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .skill-entry.locked { color: #5a5040; }
+        .skill-entry.unlocked { color: #E0D8C8; }
+        .skill-entry.enhanced { color: #b8a0d8; }
+        .skill-progress {
+            font-size: 9px;
+            color: #6a6050;
+        }
+        .skill-progress-bar {
+            display: inline-block;
+            width: 50px;
+            height: 4px;
+            background: #2a2518;
+            border-radius: 2px;
+            overflow: hidden;
+            vertical-align: middle;
+            margin-left: 4px;
+        }
+        .skill-progress-fill {
+            height: 100%;
+            background: #8a7e3a;
+            border-radius: 2px;
+            transition: width 0.3s;
+        }
+        .norm-ticker {
+            margin-top: 14px;
+            padding: 8px;
+            background: #2a2518;
+            border-radius: 4px;
+            border: 1px solid #3a3020;
+        }
+        .norm-ticker-label {
+            font-size: 10px;
+            color: #8a7e6a;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+        .norm-ticker-val {
+            font-size: 14px;
+            color: #d4c090;
+            font-weight: bold;
+        }
+        .norm-ticker-next {
+            font-size: 9px;
+            color: #6a6050;
+            margin-top: 4px;
+        }
+        /* Notification overlay */
+        .skill-notification {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(20, 15, 8, 0.95);
+            z-index: 60;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            cursor: pointer;
+        }
+        .skill-notification-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #d4c090;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        .skill-notification-title.enhancement {
+            color: #b8a0d8;
+        }
+        .skill-notification-title.spiritual {
+            color: #7abfa0;
+        }
+        .skill-notification-desc {
+            font-size: 12px;
+            color: #8a7e6a;
+            text-align: center;
+            max-width: 400px;
+            line-height: 1.5;
+            font-style: italic;
+        }
+        .skill-notification-dismiss {
+            font-size: 9px;
+            color: #5a5040;
+            margin-top: 16px;
+        }
+
+        .menu-btn {
+            background: none;
+            border: 1px solid #5a5555;
+            color: #E0D8C8;
+            cursor: pointer;
+            font-family: 'Courier Prime', monospace;
+            font-size: 12px;
+            padding: 2px 6px;
+            line-height: 1;
+            transition: background 0.15s;
+            border-radius: 2px;
+        }
+        .menu-btn:hover {
+            background: #5a5555;
         }
 
         /* Extra small phones (SE, etc) */
@@ -493,11 +731,15 @@
 
             <div id="exploration-screen" class="screen-panel">
                 <div class="hud-bar">
-                    <div class="stat-item">HP: <span id="hp-val">100</span>/<span id="hp-max">100</span> <div class="stat-bar"><div class="stat-fill" id="hp-bar" style="width: 100%;"></div></div></div>
-                    <div class="stat-item">EP: <span id="ep-val">50</span>/<span id="ep-max">50</span> <div class="stat-bar"><div class="stat-fill" id="ep-bar" style="width: 100%; background: #3d7fd4;"></div></div></div>
-                    <div class="stat-item">NORM: <span id="norm-val">90</span></div>
-                    <div class="stat-item">INSIGHT: <span id="insight-val">0</span></div>
+                    <div class="stat-item" style="font-weight:bold;">DAY <span id="day-val">1</span> <span id="time-val" style="color:#d4c090;font-weight:normal;font-size:10px;">morning</span></div>
+                    <div class="stat-item">HP: <span id="hp-val">60</span>/<span id="hp-max">60</span> <div class="stat-bar"><div class="stat-fill" id="hp-bar" style="width: 100%;"></div></div></div>
+                    <div class="stat-item">EP: <span id="ep-val">30</span>/<span id="ep-max">30</span> <div class="stat-bar"><div class="stat-fill" id="ep-bar" style="width: 100%; background: #3d7fd4;"></div></div></div>
+                    <div class="stat-item">NORM: <span id="norm-val">95</span></div>
+                    <div class="stat-item">INS: <span id="insight-val">0</span></div>
                     <div class="stat-item">🫘<span id="cacao-val">0</span></div>
+                    <div class="stat-item" id="ego-death-display" style="display:none;">☠️<span id="ego-death-val">0</span></div>
+                    <div class="stat-item" id="actions-display" style="color:#d4c090;">⚡<span id="actions-val">4</span></div>
+                    <div class="stat-item" style="margin-left:auto;"><button class="menu-btn" id="menu-toggle-btn" title="Quest Log & Inventory">☰</button></div>
                 </div>
                 <div class="room-area">
                     <div class="room-title" id="room-title">THE WELCOME PAVILION</div>
@@ -516,7 +758,7 @@
 
             <div id="battle-screen" class="screen-panel">
                 <div class="battle-header">
-                    <div><span id="steve-hp-label">STEVE</span> <span id="steve-hp">100</span>/<span id="steve-hp-max">100</span> HP</div>
+                    <div><span id="steve-hp-label">STEVE</span> <span id="steve-hp">60</span>/<span id="steve-hp-max">60</span> HP</div>
                     <div id="battle-turn-info" style="font-weight: bold;">Your Turn</div>
                     <div><span id="enemy-name-label">ENEMY</span> <span id="enemy-hp">50</span>/<span id="enemy-hp-max">50</span> HP</div>
                 </div>
@@ -533,12 +775,12 @@
                 </div>
                 <div class="battle-log" id="battle-log"></div>
                 <div class="battle-menu" id="battle-menu">
-                    <button class="action-btn" id="attack-btn">Attack</button>
-                    <button class="action-btn" id="skills-btn">Skills</button>
-                    <button class="action-btn" id="talk-btn">Talk</button>
-                    <button class="action-btn" id="analyze-btn">Analyze</button>
-                    <button class="action-btn" id="items-btn">Items</button>
+                    <button class="action-btn" id="fight-btn">Fight</button>
+                    <button class="action-btn" id="mouth-btn">Mouth</button>
+                    <button class="action-btn" id="spirit-btn">Spirit</button>
+                    <button class="action-btn" id="items-btn">Item</button>
                     <button class="action-btn" id="endure-btn">Endure</button>
+                    <button class="action-btn" id="flee-btn">Flee</button>
                 </div>
                 <div class="victory-overlay" id="victory-overlay">
                     <div class="victory-box">
@@ -547,6 +789,17 @@
                         <div style="font-size: 10px; color: #999; margin-top: 10px;">Click to continue...</div>
                     </div>
                 </div>
+            </div>
+            <div class="menu-overlay" id="menu-overlay">
+                <div class="menu-header">
+                    <div class="menu-tabs">
+                        <button class="menu-tab active" data-tab="quests">Quests</button>
+                        <button class="menu-tab" data-tab="skills">Skills</button>
+                        <button class="menu-tab" data-tab="items">Items</button>
+                    </div>
+                    <button class="menu-close" id="menu-close-btn">✕</button>
+                </div>
+                <div class="menu-body" id="menu-body"></div>
             </div>
         </div>
     </div>
@@ -558,21 +811,205 @@
         const gameState = {
             screen: 'title',
             currentRoom: 'pavilion',
-            hp: 100, maxHp: 100,
-            ep: 50, maxEp: 50,
-            normality: 90,
+            hp: 60, maxHp: 60,
+            ep: 30, maxEp: 30,
+            normality: 95,
             insight: 0,
             cacao: 0,
+            currentDay: 1,
             flags: {},
             inventory: [
-                { id: 'pamphlet', name: 'Orientation Pamphlet', type: 'weapon', dmg: 5 },
                 { id: 'polo', name: 'Steve\'s Polo Shirt', type: 'armor', def: 2 },
                 { id: 'energy_bar', name: 'Energy Bar', type: 'consumable', heal: 20, qty: 3 }
             ],
             currentBattleEnemy: null,
             deathCount: 0,
-            introPage: 0
+            introPage: 0,
+            // Skill system
+            physicalAttacks: 0,
+            verbalAttacks: 0,
+            unlockedSkills: ['slap', 'complain', 'set_boundary'],
+            skillNotifications: [],
+            enhancedSkills: {},
+            // Day/action system
+            timeOfDay: 'morning',  // morning, day, evening
+            actionsLeft: 4,        // day actions
+            eveningActionsLeft: 2,  // evening actions
+            // Max HP/EP growth tracking
+            hpBonuses: {},  // tracks which HP increases have been earned
+            epBonuses: {},  // tracks which EP increases have been earned
+            // Encounter tracking
+            lastEncounterRoom: null,
+            encountersToday: 0
         };
+
+        // ═══════════════════════════════════════════════════════════════════
+        // SKILL DATABASE
+        // ═══════════════════════════════════════════════════════════════════
+        const SKILL_DB = {
+            // ── PHYSICAL (Fists) ──
+            slap:        { id: 'slap',        name: 'Slap',        branch: 'physical', tier: 0, ep: 0,  dmg: 4,  type: 'physical', effect: null,
+                           desc: 'Open palm. Undignified.', log: [
+                               'Steve slaps with an open palm. It\'s not a punch. It\'s a punctuation mark.',
+                               'Steve slaps. He briefly considers whether his health insurance covers this.',
+                               'An open-handed slap. His mother would be horrified. His father would nod.',
+                               'Steve slaps like a man who has never slapped anyone. Because he hasn\'t. Until now.',
+                               'The slap echoes. Steve\'s palm stings. This is not in his job description.',
+                           ] },
+            shove:       { id: 'shove',       name: 'Shove',       branch: 'physical', tier: 1, ep: 0,  dmg: 8,  type: 'physical', effect: 'stun_chance',
+                           desc: 'Pushback. Chance to stun.', log: 'Steve shoves with both hands. He immediately wants to apologize.',
+                           unlock: { physicalAttacks: 3 } },
+            throw_rock:  { id: 'throw_rock',  name: 'Throw Rock',  branch: 'physical', tier: 2, ep: 2,  dmg: 14, type: 'physical', effect: null,
+                           desc: 'Ranged. Can\'t miss. Crude.', log: 'Steve picks up a rock and throws it at a human being. His father would understand.',
+                           unlock: { physicalAttacks: 8 } },
+            punch:       { id: 'punch',       name: 'Punch',       branch: 'physical', tier: 3, ep: 3,  dmg: 18, type: 'physical', effect: 'stun_chance',
+                           desc: 'First real attack. Hurts his hand.', log: 'Steve makes a fist. He does not tuck his thumb correctly. It still works.',
+                           unlock: { physicalAttacks: 15 } },
+            headbutt:    { id: 'headbutt',    name: 'Headbutt',    branch: 'physical', tier: 4, ep: 4,  dmg: 22, type: 'physical', effect: 'self_damage',
+                           desc: 'Heavy hit. Steve also takes damage.', log: 'Steve headbutts. He loses feeling in his forehead.',
+                           unlock: { physicalAttacks: 25, insight: 3 } },
+            tackle:      { id: 'tackle',      name: 'Tackle',      branch: 'physical', tier: 5, ep: 6,  dmg: 28, type: 'physical', effect: 'pin',
+                           desc: 'Full weight. Both go down. Enemy skips turn.', log: 'Steve played rugby once. He was terrible. But 190 pounds counts for something.',
+                           unlock: { physicalAttacks: 40, day: 4 } },
+
+            // ── VERBAL (Mouth) ──
+            complain:    { id: 'complain',    name: 'Complain',    branch: 'verbal',   tier: 0, ep: 0,  dmg: 4,  type: 'psychic',  effect: null,
+                           desc: 'Annoyance damage. Persistent.', log: [
+                               '"The water pressure in the shower is unacceptable."',
+                               '"I was told there would be towels. ADEQUATE towels."',
+                               '"The exit signs in this building do not meet OSHA standards."',
+                               '"Is anyone going to address the mold situation? Anyone?"',
+                               '"I\'d like to speak to whoever manages the parking situation."',
+                               '"This mat smells like someone else\'s spiritual awakening."',
+                               '"The breakfast didn\'t have protein. REAL protein. Not hemp seeds."',
+                           ] },
+            set_boundary:{ id: 'set_boundary', name: 'Set Boundary', branch: 'verbal', tier: 0, ep: 0,  dmg: 0,  type: 'psychic',  effect: 'block',
+                           desc: 'Blocks enemy attack for 2 turns.', log: [
+                               '"I\'m not comfortable with this." The enemy doesn\'t know how to respond.',
+                               '"I need you to respect my personal space." Steve draws an invisible line with his finger.',
+                               '"This interaction is over." Steve crosses his arms. It\'s surprisingly effective.',
+                               '"I did NOT consent to this." The enemy hesitates.',
+                               '"Per my previous statement: no." Steve\'s corporate tone is devastating.',
+                           ] },
+            nag:         { id: 'nag',         name: 'Nag',         branch: 'verbal',   tier: 1, ep: 2,  dmg: 8,  type: 'psychic',  effect: 'dot',
+                           desc: '8 dmg/turn for 3 turns. Won\'t let it go.', log: '"Where is the CERTIFICATE? I asked about the certificate. Do you even HAVE a certificate?"',
+                           unlock: { verbalAttacks: 5, insight: 1 } },
+            insult:      { id: 'insult',      name: 'Insult',      branch: 'verbal',   tier: 2, ep: 3,  dmg: 15, type: 'psychic',  effect: null,
+                           desc: 'Direct hit to self-image.', log: '"Your ponytail is a cry for help."',
+                           unlock: { verbalAttacks: 12, insight: 2 } },
+            change_subject:{ id: 'change_subject', name: 'Change Subject', branch: 'verbal', tier: 2, ep: 2, dmg: 0, type: 'psychic', effect: 'stun',
+                           desc: 'Stun 1 turn. Derails enemy.', log: '"Quick question — is this building up to code?" Enemy forgets what they were doing.',
+                           unlock: { verbalAttacks: 12, insight: 2 } },
+
+            // ── SPIRITUAL (Involuntary) ──
+            panic_breathing: { id: 'panic_breathing', name: 'Panic Breathing', branch: 'spiritual', tier: 0, ep: 3, dmg: 0, type: 'spiritual', effect: 'heal', healAmt: 10,
+                           desc: 'Heal 10 HP. Accidental breathwork.', log: [
+                               'Steve hyperventilates. It accidentally becomes rhythmic. He heals.',
+                               'Steve breathes in panic. Somehow it becomes a legitimate breathing technique.',
+                               'Steve\'s stress breathing accidentally aligns with a recognized pranayama pattern. He\'s horrified.',
+                               'Inhale terror. Exhale slightly less terror. Steve heals despite himself.',
+                               'Steve pants like a man who ran for a bus. His body interprets this as "wellness."',
+                           ],
+                           unlock: { maxNormality: 90 } },
+            sage_toss:   { id: 'sage_toss',   name: 'Sage Toss',   branch: 'spiritual', tier: 1, ep: 2,  dmg: 8,  type: 'spiritual', effect: 'smoke',
+                           desc: '8 dmg + smoke screen. -20% enemy accuracy.', log: 'Steve has watched someone light sage 400 times. Muscle memory.',
+                           unlock: { maxNormality: 80 } },
+            the_nod:     { id: 'the_nod',     name: 'The Nod',     branch: 'spiritual', tier: 2, ep: 2,  dmg: 0,  type: 'spiritual', effect: 'buff_next',
+                           desc: 'De-escalate + buff next attack +30%.', log: 'The nod is involuntary now. He does it in his sleep. It works on everyone.',
+                           unlock: { maxNormality: 70 } },
+        };
+
+        // ═══════════════════════════════════════════════════════════════════
+        // ENHANCEMENT DATABASE — spiritual transformations of existing skills
+        // ═══════════════════════════════════════════════════════════════════
+        const ENHANCEMENT_DB = [
+            { original: 'slap',     enhanced: 'energy_slap',     normGate: 75,
+              name: 'Energy Slap', dmg: 10, ep: 0, type: 'physical', bonusType: 'spiritual', effect: null,
+              log: 'Steve slaps. His palm leaves a brief afterimage. "Why did that GLOW."',
+              notification: 'Steve notices his hands tingling before he strikes. The impact leaves a faint shimmer. He shakes his hand out and mutters "static electricity."' },
+            { original: 'complain', enhanced: 'mindful_complaint', normGate: 75,
+              name: 'Mindful Complaint', dmg: 4, ep: 0, type: 'psychic', bonusType: 'spiritual', effect: 'dot',
+              log: '"I feel that the water pressure doesn\'t honor my needs." It\'s an I-statement. It\'s more devastating this way.',
+              notification: 'Steve phrases a complaint as an I-statement without realizing it. The receptionist tears up. Steve is confused.' },
+            { original: 'shove',    enhanced: 'force_push',      normGate: 65,
+              name: 'Force Push', dmg: 14, ep: 0, type: 'physical', bonusType: 'spiritual', effect: 'stun',
+              log: 'Steve shoves. The target slides further than physics allows. Steve stares at his hands.',
+              notification: 'Steve shoves someone and they fly back three feet. Gravity doesn\'t explain it. Steve stares at his hands for a long time.' },
+        ];
+
+        // Resolve log text — supports string or array for rotating messages
+        function getLogText(skill) {
+            if (Array.isArray(skill.log)) return skill.log[Math.floor(Math.random() * skill.log.length)];
+            return skill.log;
+        }
+        function pickRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+        // Get the effective version of a skill (enhanced if applicable)
+        function getEffectiveSkill(skillId) {
+            if (gameState.enhancedSkills[skillId]) {
+                const enh = ENHANCEMENT_DB.find(e => e.original === skillId);
+                if (enh) {
+                    return {
+                        id: enh.enhanced, name: enh.name, branch: SKILL_DB[skillId].branch,
+                        tier: SKILL_DB[skillId].tier, ep: enh.ep, dmg: enh.dmg,
+                        type: enh.type, bonusType: enh.bonusType, effect: enh.effect,
+                        log: enh.log, originalName: SKILL_DB[skillId].name
+                    };
+                }
+            }
+            return SKILL_DB[skillId];
+        }
+
+        // Check if a skill's unlock conditions are met
+        function isSkillUnlockable(skill) {
+            if (!skill.unlock) return true; // starting skills
+            const u = skill.unlock;
+            if (u.physicalAttacks && gameState.physicalAttacks < u.physicalAttacks) return false;
+            if (u.verbalAttacks && gameState.verbalAttacks < u.verbalAttacks) return false;
+            if (u.insight && gameState.insight < u.insight) return false;
+            if (u.day && gameState.currentDay < u.day) return false;
+            if (u.maxNormality && gameState.normality > u.maxNormality) return false;
+            return true;
+        }
+
+        // Check and unlock new skills, queue notifications
+        function checkSkillUnlocks() {
+            Object.values(SKILL_DB).forEach(skill => {
+                if (gameState.unlockedSkills.includes(skill.id)) return;
+                if (isSkillUnlockable(skill)) {
+                    gameState.unlockedSkills.push(skill.id);
+                    if (skill.branch === 'spiritual') {
+                        gameState.skillNotifications.push({
+                            type: 'spiritual',
+                            text: `NEW ABILITY: ${skill.name}`,
+                            desc: skill.desc
+                        });
+                    } else {
+                        gameState.skillNotifications.push({
+                            type: 'unlock',
+                            text: `NEW SKILL: ${skill.name}`,
+                            desc: skill.desc
+                        });
+                    }
+                }
+            });
+        }
+
+        // Check and apply spiritual enhancements
+        function checkEnhancements() {
+            ENHANCEMENT_DB.forEach(enh => {
+                if (gameState.enhancedSkills[enh.original]) return; // already enhanced
+                if (!gameState.unlockedSkills.includes(enh.original)) return; // don't have base skill
+                if (gameState.normality <= enh.normGate) {
+                    gameState.enhancedSkills[enh.original] = enh.enhanced;
+                    gameState.skillNotifications.push({
+                        type: 'enhancement',
+                        text: `SKILL TRANSFORMED: ${SKILL_DB[enh.original].name} → ${enh.name}`,
+                        desc: enh.notification
+                    });
+                }
+            });
+        }
 
         // ═══════════════════════════════════════════════════════════════════
         // DIALOGUE DATA
@@ -632,8 +1069,14 @@
                 { speaker: '', text: '(Steve decides not to ask why a place that rejects capitalism has a dealer.)', thought: true },
                 { speaker: '', text: '(Maybe someone else here knows something. You should look around.)', thought: true, callback: 'talked_receptionist' }
             ],
-            'receptionist_return': [
-                { speaker: 'Receptionist', text: 'Welcome back, Akash Prem! How are you LANDING today?' }
+            'receptionist_return': () => [
+                { speaker: 'Receptionist', text: pickRandom([
+                    'Welcome back, Akash Prem! How are you LANDING today?',
+                    'Akash Prem! Your energy is... shifting. I can feel it. It\'s still very dense, but there are... wisps.',
+                    'Oh! You\'re still here! I mean — of COURSE you\'re still here. The Sanctuary holds all who need holding.',
+                    'Akash Prem! I pulled a tarot card for you this morning. It was The Tower. That\'s... it\'s a growth card.',
+                    'Namaste! Have you signed up for the cacao ceremony yet? It\'s very grounding. Unlike you. Currently.',
+                ]) }
             ],
             'oil_warrior': [
                 { speaker: '???', text: 'Hey! Hey, wait! Can I just — have you heard of doTERRA?' },
@@ -650,7 +1093,7 @@
             ],
             'oil_fight': [
                 { speaker: 'Essential Oil Warrior', text: 'RECEIVE THIS BLESSING!' },
-                { speaker: '', text: '(She throws peppermint oil at you. It burns. Combat is unavoidable.)', thought: true, callback: 'start_oil_battle' }
+                { speaker: '', text: '(She throws peppermint oil directly into Steve\'s eyes. It burns like a forest fire in a Whole Foods. Combat is unavoidable.)', thought: true, callback: 'start_oil_battle' }
             ],
             'frank': [
                 { speaker: '', text: '(A man in overalls is fixing a fence with actual tools. He is the first person you\'ve seen doing real physical work without calling it "sacred.")', thought: true },
@@ -686,8 +1129,14 @@
                 { speaker: 'Frank', text: 'Tell you what, Steve. You seem alright. If you need anything practical — and I mean PRACTICAL, not energetic — come find me.' },
                 { speaker: '', text: '(Frank nods and returns to his fence. It\'s the most straightforward interaction you\'ve had since arriving.)', thought: true, callback: 'talked_frank' }
             ],
-            'frank_return': [
-                { speaker: 'Frank', text: 'Still here? Good luck, accountant.' }
+            'frank_return': () => [
+                { speaker: 'Frank', text: pickRandom([
+                    'Still here? Good luck, accountant.',
+                    'Fence is still broken. Been broken for three years. Nobody notices but me. What does that tell you about this place?',
+                    'You look different. Eyes are wider. Happens to everyone by day three. It\'s not enlightenment. It\'s sleep deprivation.',
+                    'The plumbing\'s backed up again. Probably all the sage they keep flushing. Don\'t ask.',
+                    'Did you eat today? Real food? Not whatever they\'re calling "activated" this week?',
+                ]) }
             ],
             'maya_kitchen': [
                 { speaker: '', text: '(A woman with tired eyes is washing dishes in the industrial kitchen. She looks up sharply when you enter.)', thought: true },
@@ -717,7 +1166,9 @@
                 { speaker: 'Steve', text: 'Then we get them back.' },
                 { speaker: 'Maya', text: 'The documents are in the back office. Next to the ceremony space. The Gatekeeper sits at the entrance but he falls asleep after 10pm meditation. The ceremony space connects to it through a back passage.' },
                 { speaker: 'Maya', text: 'If you\'re going in there, grab my documents too. And don\'t get caught. Paul doesn\'t react well to... audits.' },
-                { speaker: '', text: '(The fire crackles. In the distance, someone is humming a didgeridoo.)', thought: true, callback: 'firepit_done' }
+                { speaker: 'Steve', text: 'I once audited a circus. They had three sets of books and a lion with tax issues. This can\'t be worse.' },
+                { speaker: '', text: '(Maya almost laughs. It\'s the first time she\'s done that in months.)', thought: true },
+                { speaker: '', text: '(The fire crackles. In the distance, someone is humming a didgeridoo. Steve has a plan.)', thought: true, callback: 'firepit_done' }
             ],
             'maya_post_boss': [
                 { speaker: '', text: '(Maya stands at the sanctuary gates, holding a worn passport.)', thought: true },
@@ -765,6 +1216,59 @@
                 { speaker: '', text: '(Brandon stares at his empty wrist. Tears are forming.)', thought: true },
                 { speaker: 'Brandon', text: 'What was he doing to me?' }
             ],
+            'brandon_day1': [
+                { speaker: '', text: '(A young man with a backward baseball cap bounces on the bunk above yours. He\'s wearing a Patagonia vest and his dad\'s Timex watch.)', thought: true },
+                { speaker: 'Brandon', text: 'Dude! Welcome! You are going to LOVE it here. I just got here yesterday and already the energy is like... (gestures wildly) ...everywhere.' },
+                { speaker: 'Steve', text: 'I\'m here to find my wife.' },
+                { speaker: 'Brandon', text: 'That\'s beautiful, man. Love is the highest vibration. Hey — you should come to yoga this afternoon. It\'s going to change your life.' },
+                { speaker: '', text: '(He points at his watch.)', thought: true },
+                { speaker: 'Brandon', text: 'My dad gave me this Timex. Twenty years ago. I wear it every day. Keeps me grounded, you know?' },
+                { speaker: '', text: '(Steve notices the watch. It\'s a nice watch. Brandon is a nice kid.)', thought: true, callback: 'brandon_day1_done' }
+            ],
+            'brandon_day2': [
+                { speaker: '', text: '(Brandon is sitting cross-legged on his bunk, wearing retreat whites. He\'s trying to meditate but keeps peeking at Steve.)', thought: true },
+                { speaker: 'Brandon', text: 'Hey man! I\'m really trying to, like, be present today. The teacher said my downward dog showed real emotional intelligence!' },
+                { speaker: 'Steve', text: 'That\'s not a thing.' },
+                { speaker: 'Brandon', text: 'It IS a thing! She said my hips hold a lot of wisdom. (pause) Is that weird?' },
+                { speaker: '', text: '(Brandon still has the watch.)', thought: true, callback: 'brandon_day2_done' }
+            ],
+            'brandon_day3': [
+                { speaker: '', text: '(Brandon is volunteering in the kitchen. He\'s wearing all white now. The watch is gone.)', thought: true },
+                { speaker: 'Brandon', text: 'Hey Akash! I thought I\'d help out. They said it\'s good karma.' },
+                { speaker: 'Steve', text: 'Where\'s your watch?' },
+                { speaker: 'Brandon', text: '(touching his bare wrist) I donated it. To the gratitude fund. The Founder said material attachments are — why are you looking at me like that?' },
+                { speaker: 'Steve', text: 'Your dad gave you that watch.' },
+                { speaker: 'Brandon', text: '(defensive) Money is just crystallized fear, Steve. I mean Akash. I mean... (trails off) ...it\'s fine. It\'s liberation.' },
+                { speaker: '', text: '(It is not fine. Brandon\'s hand keeps going to his empty wrist.)', thought: true, callback: 'brandon_day3_done' }
+            ],
+            'brandon_day4': [
+                { speaker: '', text: '(Brandon\'s eyes are glazed. His pupils are dilated. He hasn\'t eaten today. He calls you Akash Prem unprompted.)', thought: true },
+                { speaker: 'Brandon', text: 'Brother. I had the most incredible experience. The Founder spoke to me privately. He said I have SPECIAL sensitivity. He\'s never said that to anyone.' },
+                { speaker: 'Steve', text: 'He says that to everyone, Brandon.' },
+                { speaker: 'Brandon', text: '(not hearing) I\'m going to become a facilitator. After another six months of seva. Food is densifying anyway. The Founder says enlightenment requires fasting.' },
+                { speaker: 'Steve', text: 'When did you last eat?' },
+                { speaker: 'Brandon', text: 'Food is... I feel so light, man. So light...' },
+                { speaker: '', text: '(Brandon sways. His hand goes to his wrist again. The watch isn\'t there.)', thought: true, callback: 'brandon_day4_done' }
+            ],
+            'brandon_day5': [
+                { speaker: '', text: '(Brandon is standing guard near the ceremony space. He\'s wearing a white robe. He doesn\'t make eye contact.)', thought: true },
+                { speaker: 'Steve', text: 'Brandon.' },
+                { speaker: 'Brandon', text: '(quietly, not looking up) My name is Surya Dev.' },
+                { speaker: 'Steve', text: 'Your name is Brandon. Your dad gave you a Timex watch. You liked Patagonia vests and—' },
+                { speaker: 'Brandon', text: '(sharp) That person is GONE. The Founder helped me see that Brandon was a shell. A construct. Surya Dev is who I really—' },
+                { speaker: '', text: '(His voice cracks. Just for a second. Then the mask returns.)', thought: true },
+                { speaker: 'Brandon', text: 'Please don\'t come here again.' },
+                { speaker: '', text: '(Steve watches him stand guard. He\'s 23 years old.)', thought: true, callback: 'brandon_day5_done' }
+            ],
+            'brandon_generic': () => [
+                { speaker: 'Brandon', text: pickRandom([
+                    '(Doesn\'t look at Steve. His hands are clasped. His wrist is bare.)',
+                    '(Brandon hums a mantra under his breath. His eyes don\'t focus on anything.)',
+                    '(Brandon nods at Steve. It\'s the nod of someone who has been taught to nod. Not the nod of someone who has something to say.)',
+                    '(Brandon is writing in a gratitude journal. The same sentence. Over and over.)',
+                ]) },
+                { speaker: '', text: '(There\'s nothing to say right now.)', thought: true }
+            ],
             'meditator_challenge': [
                 { speaker: '', text: '(A man sits cross-legged in the movement studio, eyes closed. His jaw is clenched. You feel him register your presence before you enter.)', thought: true },
                 { speaker: 'Meditator', text: '(not opening his eyes) I sensed a disturbance.' },
@@ -776,8 +1280,8 @@
                 { speaker: '', text: '', callback: 'start_meditator_battle' }
             ],
             'meditator_post': [
-                { speaker: '', text: '(The meditator is on his knees, breathing hard.)', thought: true },
-                { speaker: 'Meditator', text: 'Your... unconventional approach has merit. I have underestimated the power of spreadsheet-based martial arts.' },
+                { speaker: '', text: '(The meditator is on his knees, breathing hard. His perfect stillness is gone.)', thought: true },
+                { speaker: 'Meditator', text: 'Your... unconventional approach has merit. You broke my Stillness with a ROCK. A literal ROCK.' },
                 { speaker: 'Meditator', text: 'The real work happens in the Ceremony Space, but the Gatekeeper guards it. He\'s been Paul\'s instrument for three years.' },
                 { speaker: 'Meditator', text: 'There is a back passage through the Back Office. If you can get past the Gatekeeper, you can access it.' },
                 { speaker: '', text: '', callback: 'meditator_intel' }
@@ -908,7 +1412,15 @@
                 { speaker: '', text: '(Steve breathes. For sixty seconds, nothing else exists. No wife. No retreat. No spreadsheets. Just air.)', thought: true },
                 { speaker: '', text: '(Steve\'s EP is fully restored.)', thought: true, callback: 'breathwork_heal' },
                 { speaker: 'Steve', text: '...That was... fine. It was fine.' },
-                { speaker: 'Breathwork Monk', text: 'The highest compliment an accountant can give. Come back anytime.' }
+                { speaker: 'Breathwork Monk', text: 'The highest compliment an accountant can give. Come back anytime.', callback: 'talked_breathwork_monk' }
+            ],
+            'breathwork_return': () => [
+                { speaker: 'Breathwork Monk', text: pickRandom([
+                    '(inhale) ... You\'re back. (exhale) ... Your posture is slightly better. (inhale) ... Don\'t let it go to your head.',
+                    'Ah, the accountant. Still breathing, I see. That\'s progress. Sixty seconds?',
+                    'Your exhale has improved. Your inhale is still the exhale of a man who files taxes. But we work with what we have.',
+                ]) },
+                { speaker: '', text: '(Steve breathes. His EP is fully restored.)', thought: true, callback: 'breathwork_heal' }
             ],
             'gatekeeper_confront': [
                 { speaker: '', text: '(The Ceremony Space is a large yurt with a fabric door. Standing in front of it is a man with a shaved head and an inexplicable accent that shifts between South African and New Jersey.)', thought: true },
@@ -941,6 +1453,8 @@
                 { speaker: 'Steve', text: 'You\'re still enslaved. You\'re just doing it for free.' },
                 { speaker: '', text: '(The Gatekeeper stands slowly. His entire façade cracks.)', thought: true },
                 { speaker: 'Gatekeeper', text: 'I... I needed to believe I was something more than a middle manager.' },
+                { speaker: 'Steve', text: 'You ARE more than a middle manager. You\'re a man standing in front of a tent. That\'s at least lateral.' },
+                { speaker: '', text: '(The Gatekeeper makes a sound that might be a laugh or a sob.)', thought: true },
                 { speaker: 'Steve', text: 'The back office. Where is it?' },
                 { speaker: 'Gatekeeper', text: '(defeated) Behind the ceremony space. Through the back flap. The door\'s not locked.' },
                 { speaker: '', text: '', callback: 'gatekeeper_cleared' }
@@ -1095,9 +1609,9 @@
             'frank': { name: 'Groundskeeper', color: '#666666', emoji: '🧔🔧', dialogue: 'frank', returnDialogue: 'frank_return' },
             'oil_warrior': { name: '???', color: '#D12064', emoji: '🧴💥', dialogue: 'oil_warrior', hideFlag: 'oil_defeated' },
             'maya': { name: 'Maya', color: '#B85726', emoji: '👩‍🍳🥣', dialogue: 'maya_kitchen', returnDialogue: 'maya_return' },
-            'brandon': { name: 'Brandon', color: '#1B8D8D', emoji: '🧑‍🦲🙏', dialogue: 'brandon_arrive', returnDialogue: 'brandon_act2' },
+            'brandon': { name: 'Brandon', color: '#1B8D8D', emoji: '🧑‍🦲🙏', dialogue: 'brandon_day1', dynamicDialogue: true },
             'meditator': { name: '???', color: '#8034A0', emoji: '🧘‍♂️💢', dialogue: 'meditator_challenge', postDefeatDialogue: 'meditator_post', defeatFlag: 'meditator_defeated' },
-            'breathwork_monk': { name: 'Breathwork Monk', color: '#1A59C6', emoji: '🌬️😌', dialogue: 'breathwork_monk', showFlag: 'meditator_defeated' },
+            'breathwork_monk': { name: 'Breathwork Monk', color: '#1A59C6', emoji: '🌬️😌', dialogue: 'breathwork_monk', returnDialogue: 'breathwork_return', showFlag: 'meditator_defeated' },
             'cacao_dealer': { name: 'Cacao Dealer', color: '#2E8E18', emoji: '🍫😏', dialogue: 'cacao_dealer_shop', showFlag: 'talked_maya' },
             'gatekeeper': { name: 'Gatekeeper', color: '#A62424', emoji: '🚫🧙‍♂️', dialogue: 'gatekeeper_confront', hideFlag: 'gatekeeper_cleared' },
             'founder': { name: 'The Founder', color: '#C78C00', emoji: '👁️🕴️', dialogue: 'back_office_discover', hideFlag: 'founder_defeated' }
@@ -1110,44 +1624,47 @@
             'oil_warrior': {
                 name: 'ESSENTIAL OIL WARRIOR',
                 emoji: '🧴💥',
-                hp: 45, maxHp: 45,
-                atk: 12, def: 0,
-                weakness: 'bureaucratic',
+                hp: 30, maxHp: 30,
+                atk: 8, def: 0,
+                weakness: 'psychic',
                 intro: '"Your aura is STAGNANT. Receive this blessing!"',
                 attacks: [
-                    { name: 'Anoint', dmg: 14, msg: '"RECEIVE THIS BLESSING!" She hurls peppermint oil at Steve.' },
-                    { name: 'MLM Pitch', dmg: 10, msg: '"What if I told you that for a ONE-TIME investment of $150..."' }
+                    { name: 'Anoint', dmg: 10, msg: '"RECEIVE THIS BLESSING!" She hurls peppermint oil at Steve.' },
+                    { name: 'MLM Pitch', dmg: 7, msg: '"What if I told you that for a ONE-TIME investment of $150..."' }
                 ],
                 defeat: '"My mother bought out of pity, didn\'t she." (She walks away slowly.)',
-                xp: 3, cacao: 25
+                xp: 2, cacao: 20
             },
             'meditator': {
                 name: 'COMPETITIVE MEDITATOR',
                 emoji: '🧘‍♂️💢',
                 hp: 60, maxHp: 60,
-                atk: 14, def: 2,
-                weakness: 'psychic',
-                intro: '"Your breathing technique is AMATEUR."',
+                atk: 12, def: 2,
+                weakness: 'physical',
+                intro: '"Your breathing technique is AMATEUR." (His stillness radiates hostility.)',
+                stillnessShield: true,
                 attacks: [
-                    { name: 'Judgmental Silence', dmg: 12, msg: 'He stares at Steve with the intensity of a man who meditates competitively.' },
-                    { name: 'Aggressive Namaste', dmg: 16, msg: '"NAMASTE!" (He bows so aggressively it\'s basically a headbutt.)' }
+                    { name: 'Judgmental Silence', dmg: 9, msg: 'He stares at Steve with the intensity of a man who meditates competitively.' },
+                    { name: 'Humble Brag Sutra', dmg: 10, msg: '"I once sat for 72 hours straight. In Dharamsala. Without water."' },
+                    { name: 'Om Barrage', dmg: 14, msg: '"OMMMMMMM!" The resonance shakes Steve\'s fillings loose.' },
+                    { name: 'Aggressive Namaste', dmg: 13, msg: '"NAMASTE!" (He bows so aggressively it\'s basically a headbutt.)' }
                 ],
-                defeat: '"I... I wasn\'t even the best meditator here?" (His knees crack loudly.)',
-                xp: 4, cacao: 35
+                defeat: '"I... I wasn\'t even the best meditator here?" (His knees crack loudly as he unfolds.)',
+                xp: 3, cacao: 30
             },
             'gatekeeper': {
                 name: 'THE GATEKEEPER',
                 emoji: '🚫🧙‍♂️',
-                hp: 80, maxHp: 80,
-                atk: 16, def: 4,
-                weakness: 'bureaucratic',
+                hp: 60, maxHp: 60,
+                atk: 14, def: 3,
+                weakness: 'psychic',
                 intro: '"Your energy signature is INSUFFICIENT."',
                 attacks: [
-                    { name: 'Gatekeep', dmg: 18, msg: '"YOU ARE NOT READY." He blocks the entrance with his entire being.' },
-                    { name: 'Spiritual Authority', dmg: 14, msg: '"I have studied with masters in seven countries."' }
+                    { name: 'Gatekeep', dmg: 15, msg: '"YOU ARE NOT READY." He blocks the entrance with his entire being.' },
+                    { name: 'Spiritual Authority', dmg: 11, msg: '"I have studied with masters in seven countries."' }
                 ],
                 defeat: '"My name is Dave. Dave Carver." (He sits on the floor.)',
-                xp: 5, cacao: 50
+                xp: 4, cacao: 40
             },
             'founder': {
                 name: 'BRANDON (BRAINWASHED)',
@@ -1155,31 +1672,268 @@
                 phase2Emoji: '👁️🕴️',
                 phase3Emoji: '😱🕴️💀',
                 hp: 50, maxHp: 50,
-                atk: 18, def: 3,
-                weakness: 'bureaucratic',
+                atk: 16, def: 3,
+                weakness: 'psychic',
                 intro: '"I really hoped you wouldn\'t do this, Akash Prem." Brandon enters, eyes glazed. BOSS BATTLE — Phase 1: Break Brandon\'s conditioning!',
                 isBoss: true,
-                analyzeText: 'BOSS: 3 phases. Break Brandon first. Paul\'s weakness is bureaucratic (financial records). Real name: Paul Fontaine. Previous career: used car sales.',
                 phase1Attacks: [
-                    { name: 'Eager Defense', dmg: 10, msg: '"I WON\'T LET YOU HURT HIM!" Brandon throws himself in the way.' },
+                    { name: 'Eager Defense', dmg: 8, msg: '"I WON\'T LET YOU HURT HIM!" Brandon throws himself in the way.' },
                     { name: 'Gratitude Shield', dmg: 0, msg: 'Brandon\'s blind devotion creates a barrier.', effect: 'defend' },
-                    { name: 'Love Bomb', dmg: 8, msg: '"You just don\'t UNDERSTAND! The Founder LOVES us!"' }
+                    { name: 'Love Bomb', dmg: 6, msg: '"You just don\'t UNDERSTAND! The Founder LOVES us!"' }
                 ],
                 attacks: [
-                    { name: 'Charismatic Redirect', dmg: 16, msg: '"What you\'re feeling is RESISTANCE. That means we\'re close to a breakthrough."' },
-                    { name: 'Gaslighting', dmg: 12, msg: '"I never said that. You\'re projecting. This is your trauma speaking."', effect: 'smudge' },
+                    { name: 'Charismatic Redirect', dmg: 14, msg: '"What you\'re feeling is RESISTANCE. That means we\'re close to a breakthrough."' },
+                    { name: 'Gaslighting', dmg: 10, msg: '"I never said that. You\'re projecting. This is your trauma speaking."', effect: 'smudge' },
                     { name: 'Financial Restructure', dmg: 0, msg: 'Paul adjusts his pricing model mid-battle.', effect: 'boss_buff' },
-                    { name: 'Inner Circle Invitation', dmg: 20, msg: '"Join me, Steve. You have a gift for systems."' }
+                    { name: 'Inner Circle Invitation', dmg: 18, msg: '"Join me, Steve. You have a gift for systems."' }
                 ],
                 phase3Attacks: [
-                    { name: 'Desperate Plea', dmg: 8, msg: '"Please. I built this from NOTHING."' },
-                    { name: 'Full Meltdown', dmg: 25, msg: 'Paul throws the desk. "I AM THE FOUNDER! I AM THE VISION!"' },
+                    { name: 'Desperate Plea', dmg: 6, msg: '"Please. I built this from NOTHING."' },
+                    { name: 'Full Meltdown', dmg: 22, msg: 'Paul throws the desk. "I AM THE FOUNDER! I AM THE VISION!"' },
                     { name: 'Vulnerable Honesty', dmg: 0, msg: '"I was a used car salesman in Tucson. I read one book about chakras. ONE BOOK."' }
                 ],
-                defeat: 'Paul sits in his ergonomic office chair.\n"It started as a joke. Then they came back. And they brought friends. And they brought money."\nHe looks at his hands. "I\'m not enlightened. I\'m just good at PowerPoint."',
-                xp: 10, cacao: 100
+                defeat: 'Paul sits in his ergonomic office chair.\n"It started as a joke. A weekend workshop called \'Awaken Your Truth.\' I made the flyer in Canva."\n"Then they came back. And they brought friends. And they brought money."\nHe looks at his hands. "I\'m not enlightened. I\'m just good at PowerPoint."',
+                xp: 8, cacao: 80
+            },
+            'hugger': {
+                name: 'AGGRESSIVE HUGGER', emoji: '🤗💪',
+                hp: 15, maxHp: 15, atk: 3, def: 0, weakness: 'psychic',
+                intro: '"Bring it in! Bring it IN! I sense you need CONNECTION!"',
+                attacks: [
+                    { name: 'Unsolicited Hug', dmg: 5, msg: '"You just looked like you needed it!" The hugger squeezes.' },
+                    { name: 'Squeeze', dmg: 3, msg: '"Let it out! Let it ALL out!" The pressure intensifies.' }
+                ],
+                defeat: '"I... I just wanted human contact." (Falls over gently.)',
+                xp: 1, cacao: 5,
+                drop: { id: 'consent_card', name: 'Consent Card', type: 'accessory', desc: 'Blocks 1 physical attack per battle', dropChance: 1 }
+            },
+            'pamphlet_pusher': {
+                name: 'PAMPHLET PUSHER', emoji: '📄😤',
+                hp: 18, maxHp: 18, atk: 4, def: 0, weakness: 'physical',
+                intro: '"HAVE YOU HEARD ABOUT OUR WEEKEND INTENSIVE?!"',
+                attacks: [
+                    { name: 'Pamphlet Barrage', dmg: 6, msg: 'A flurry of tri-fold brochures. Paper cuts everywhere.' },
+                    { name: 'Signup Pressure', dmg: 4, msg: '"There\'s only THREE spots left!" There are always three spots left.' }
+                ],
+                defeat: '"Nobody reads them anyway." (Drops a stack of flyers.)',
+                xp: 1, cacao: 5,
+                drop: { id: 'workshop_flyer', name: 'Workshop Flyer', type: 'evidence', desc: 'Evidence of overlapping scheduling', dropChance: 0.5 }
+            },
+            'sound_healer': {
+                name: 'FERAL SOUND HEALER', emoji: '🎸😵',
+                hp: 25, maxHp: 25, atk: 5, def: 0, weakness: 'physical',
+                intro: 'A badly-tuned ukulele appears. The sound is... spiritual. And awful.',
+                attacks: [
+                    { name: 'Off-Key Chanting', dmg: 7, msg: '"OMMMMM" — it\'s the wrong note. Every cell in Steve\'s body rejects it.' },
+                    { name: 'Ukulele Solo', dmg: 5, msg: 'An unsolicited acoustic performance. Steve\'s ears bleed metaphorically.' }
+                ],
+                defeat: '"But... Spotify said I had 12 monthly listeners." (Strings snap.)',
+                xp: 1, cacao: 8,
+                drop: { id: 'offkey_ukulele', name: 'Off-Key Ukulele', type: 'weapon', dmg: 3, desc: '+3 psychic damage', dropChance: 0.4 }
+            },
+            'oversharer_enemy': {
+                name: 'THE OVERSHARER', emoji: '😭📢',
+                hp: 22, maxHp: 22, atk: 6, def: 0, weakness: 'psychic',
+                intro: '"Oh my god, I\'m so glad you\'re here. I REALLY need to process something. Sit DOWN."',
+                attacks: [
+                    { name: 'Trauma Dump', dmg: 8, msg: '"So my mother NEVER validated my inner child and—" Psychic damage mounts.' },
+                    { name: 'Can I Share Something?', dmg: 0, msg: '"Can I share something? Can I? I\'m going to." Steve is stunned.', effect: 'stun' },
+                    { name: 'Ugly Cry', dmg: 5, msg: 'The sobbing is so intense it becomes a physical force.' }
+                ],
+                defeat: '"Thank you for witnessing my process." (Walks away, somehow lighter.)',
+                xp: 2, cacao: 8,
+                drop: { id: 'emotional_baggage', name: 'Emotional Baggage', type: 'accessory', desc: '+2 psychic DEF', dropChance: 0.5 }
+            },
+            'yoga_snob': {
+                name: 'YOGA SNOB', emoji: '🧘‍♀️👃',
+                hp: 35, maxHp: 35, atk: 8, def: 1, weakness: 'physical',
+                intro: '"In Mysore, we practiced at 4 AM. On STONE FLOORS. Your form is... quaint."',
+                attacks: [
+                    { name: 'Adjustment', dmg: 10, msg: '"Let me fix your alignment." She physically moves Steve\'s limbs without asking.' },
+                    { name: 'In Mysore We...', dmg: 8, msg: '"In MYSORE we didn\'t need PROPS." The condescension is palpable.' },
+                    { name: 'Advanced Pose Flex', dmg: 6, msg: 'She does a handstand mid-fight. It\'s impressive and infuriating.' }
+                ],
+                defeat: '"I... I\'ve only been to Bali. I just watched a lot of YouTube." (Collapses from flexibility.)',
+                xp: 2, cacao: 12,
+                drop: { id: 'yoga_mat', name: 'Overpriced Yoga Mat', type: 'armor', def: 2, desc: '+2 DEF, smells like sandalwood', dropChance: 0.4 }
+            },
+            'boundary_violator': {
+                name: 'BOUNDARY VIOLATOR', emoji: '🫂❌',
+                hp: 30, maxHp: 30, atk: 7, def: 0, weakness: 'psychic',
+                intro: '"I just want to say — I SEE you. I REALLY see you." (Approaches with arms wide open.)',
+                attacks: [
+                    { name: 'Unwanted Touch', dmg: 9, msg: '"Connection is healing!" She grabs Steve\'s arm. Steve does not want to be grabbed.' },
+                    { name: 'Boundary Lecture', dmg: 6, msg: '"Your resistance to touch is actually a trauma response." Psychic damage from armchair psychology.' },
+                    { name: 'I\'m Just Reflecting', dmg: 5, msg: '"I\'m not invading your space, I\'m REFLECTING your energy back to you."' }
+                ],
+                defeat: '"Wait — you actually DON\'T want to be hugged? That\'s... allowed?" (Genuine confusion.)',
+                xp: 2, cacao: 10,
+                drop: { id: 'consent_pamphlet', name: 'Consent Workshop Pamphlet', type: 'evidence', desc: 'Ironic evidence', dropChance: 0.5 }
+            },
+            'shadow_enthusiast': {
+                name: 'SHADOW WORK ENTHUSIAST', emoji: '🪞🧠',
+                hp: 40, maxHp: 40, atk: 9, def: 1, weakness: 'psychic',
+                intro: '"That\'s your shadow talking. Everything you don\'t like about me is actually something you don\'t like about yourself."',
+                attacks: [
+                    { name: 'That\'s Your Shadow', dmg: 8, msg: '"Your anger isn\'t about ME. It\'s about your FATHER." Armchair Jungian analysis.' },
+                    { name: 'Mirror', dmg: 0, msg: '"I\'m basically a mirror." Reflects 30% of next attack back at Steve.', effect: 'mirror' },
+                    { name: 'Integration Attempt', dmg: 10, msg: '"Let me help you integrate your shadow." She does not have credentials for this.' }
+                ],
+                defeat: '"Maybe MY shadow is... pretending to understand Jung after reading one Wikipedia article." (Existential crisis.)',
+                xp: 3, cacao: 15,
+                drop: { id: 'jung_book', name: 'Dog-Eared Jung Book', type: 'accessory', desc: '+3 Insight on read', dropChance: 0.4 }
+            },
+            'kombucha_evangelist': {
+                name: 'KOMBUCHA EVANGELIST', emoji: '🫙💥',
+                hp: 30, maxHp: 30, atk: 7, def: 0, weakness: 'physical',
+                intro: '"Have you tried MY kombucha? It\'s alive. Like, LITERALLY alive. I can hear it breathing."',
+                attacks: [
+                    { name: 'Jar Throw', dmg: 9, msg: 'A mason jar of fermented tea shatters nearby. The smell is aggressive.' },
+                    { name: 'SCOBY Splash', dmg: 6, msg: '"Meet my mother!" She throws a SCOBY culture at Steve. It\'s gelatinous and warm.' },
+                    { name: 'Gut Health Lecture', dmg: 5, msg: '"Your microbiome is SCREAMING for help!" The lecture won\'t end.' }
+                ],
+                defeat: '"The pH was off anyway." (Walks away, jars clinking.)',
+                xp: 2, cacao: 10,
+                drop: { id: 'kombucha_jar', name: 'Homemade Kombucha', type: 'consumable', heal: 15, qty: 1, desc: 'Heals 15 HP. 10% chance of side effects.', dropChance: 0.5 }
+            },
+            'instagram_yogi': {
+                name: 'INSTAGRAM YOGI', emoji: '📸✨',
+                hp: 40, maxHp: 40, atk: 10, def: 0, weakness: 'physical',
+                intro: '"Wait — don\'t move. The light is PERFECT right now. Can you hold that crystal? Higher."',
+                attacks: [
+                    { name: 'Flash Photography', dmg: 8, msg: '"Smile! No — look PENSIVE." The flash blinds Steve.' },
+                    { name: 'Performative Vulnerability', dmg: 10, msg: '"I\'m sharing my AUTHENTIC self." Her follower count visibly increases mid-fight.' },
+                    { name: 'Sponsored Content', dmg: 6, msg: '"Use code JADE15 for 15% off Moonflower Botanicals!" Psychic ad damage.' }
+                ],
+                defeat: '"My engagement rate..." (Checks phone. Zero likes. Crumbles.)',
+                xp: 2, cacao: 12,
+                drop: { id: 'ring_light', name: 'Ring Light', type: 'accessory', desc: '+5 charisma (aesthetic)', dropChance: 0.3 }
             }
         };
+
+        // ═══════════════════════════════════════════════════════════════════
+        // RANDOM ENCOUNTER SYSTEM
+        // ═══════════════════════════════════════════════════════════════════
+        const ENCOUNTER_POOLS = {
+            path: [
+                { id: 'hugger',          minDay: 1, weight: 3 },
+                { id: 'pamphlet_pusher', minDay: 1, weight: 3 },
+                { id: 'oil_warrior',     minDay: 1, weight: 2 },
+                { id: 'sound_healer',    minDay: 2, weight: 2 },
+                { id: 'oversharer_enemy',minDay: 2, weight: 2 },
+            ],
+            garden: [
+                { id: 'yoga_snob',       minDay: 2, weight: 2 },
+                { id: 'boundary_violator',minDay: 2, weight: 2 },
+                { id: 'shadow_enthusiast',minDay: 3, weight: 2 },
+                { id: 'kombucha_evangelist',minDay: 3, weight: 1 },
+                { id: 'instagram_yogi',  minDay: 4, weight: 1 },
+                { id: 'oversharer_enemy',minDay: 2, weight: 1 },
+            ]
+        };
+
+        function rollRandomEncounter(areaId) {
+            const pool = ENCOUNTER_POOLS[areaId];
+            if (!pool) return null;
+
+            // Filter by current day
+            const available = pool.filter(e => gameState.currentDay >= e.minDay);
+            if (available.length === 0) return null;
+
+            // Weighted random selection
+            const totalWeight = available.reduce((sum, e) => sum + e.weight, 0);
+            let roll = Math.random() * totalWeight;
+            for (const entry of available) {
+                roll -= entry.weight;
+                if (roll <= 0) return entry.id;
+            }
+            return available[available.length - 1].id;
+        }
+
+        const ENCOUNTER_INTROS = {
+            path: [
+                'Someone approaches on the garden path. They have that look.',
+                'A figure emerges from behind the prayer flags. They want something.',
+                'Steve hears footsteps. Then humming. Then a sales pitch forming in the distance.',
+                'The path narrows. A stranger blocks the way. They\'re smiling. This is bad.',
+                'A shadow falls across the gravel path. It smells like essential oils.',
+                'Steve rounds the corner and immediately regrets it.',
+            ],
+            garden: [
+                'The sacred garden isn\'t as peaceful as advertised.',
+                'Something rustles in the meditation bushes.',
+                'A figure rises from behind the crystal garden. They\'ve been waiting.',
+                'Steve steps on a twig. Someone takes this as an invitation.',
+                'The garden path leads to an unavoidable human interaction.',
+                'A voice calls out from the labyrinth. "Hey! Over here! I need to tell you something!"',
+            ]
+        };
+
+        function triggerRandomEncounter(areaId) {
+            const enemyId = rollRandomEncounter(areaId);
+            if (!enemyId) return;
+
+            const enemy = enemyDB[enemyId];
+            gameState.currentBattleEnemy = enemyId;
+
+            const introPool = ENCOUNTER_INTROS[areaId] || ENCOUNTER_INTROS.path;
+            const introText = pickRandom(introPool);
+
+            // Show brief encounter text, then start battle
+            currentDialogue = [
+                { speaker: '', text: introText, thought: true },
+                { speaker: '', text: enemy.intro, thought: true, callback: '_start_random_battle' }
+            ];
+            dialogueIndex = 0;
+            showDialogueLine();
+        }
+
+        function spendAction() {
+            if (gameState.timeOfDay === 'evening') {
+                gameState.eveningActionsLeft = Math.max(0, gameState.eveningActionsLeft - 1);
+            } else {
+                gameState.actionsLeft = Math.max(0, gameState.actionsLeft - 1);
+                // Transition to evening when day actions run out
+                if (gameState.actionsLeft <= 0 && gameState.timeOfDay !== 'evening') {
+                    gameState.timeOfDay = 'evening';
+                    gameState.flags['night_mode'] = true;
+                    gameState.skillNotifications.push({
+                        type: 'unlock',
+                        text: 'EVENING',
+                        desc: 'The sun is setting. The fire pit beckons. Evening activities are now available.'
+                    });
+                }
+            }
+            updateHUD();
+        }
+
+        function grantMaxHP(bonusId, amount, message) {
+            if (gameState.hpBonuses[bonusId]) return false; // already earned
+            gameState.hpBonuses[bonusId] = true;
+            gameState.maxHp += amount;
+            gameState.hp = Math.min(gameState.hp + amount, gameState.maxHp);
+            gameState.skillNotifications.push({
+                type: 'unlock',
+                text: `MAX HP +${amount} (${gameState.maxHp})`,
+                desc: message
+            });
+            updateHUD();
+            return true;
+        }
+
+        function grantMaxEP(bonusId, amount, message) {
+            if (gameState.epBonuses[bonusId]) return false;
+            gameState.epBonuses[bonusId] = true;
+            gameState.maxEp += amount;
+            gameState.ep = Math.min(gameState.ep + amount, gameState.maxEp);
+            gameState.skillNotifications.push({
+                type: 'spiritual',
+                text: `MAX EP +${amount} (${gameState.maxEp})`,
+                desc: message
+            });
+            updateHUD();
+            return true;
+        }
 
         // ═══════════════════════════════════════════════════════════════════
         // INTRO PAGES
@@ -1190,7 +1944,7 @@
             'She did not come back by Monday.\n\nShe texted: "I need more time.\nSomething is opening inside me."\n\nSteve did not know what was opening.\nSteve did not want to know.',
             'Then the texts stopped.\n\nThe credit card did not stop.\n$2,400 — "Transformational Immersion."\n$800 — "Sacred Sound Healing Intensive."\n$340 — "Artisanal Cacao Ceremony Kit."\n\nSteve does not know what artisanal cacao is.\nSteve knows what $3,540 is.',
             'You have tracked the charges to a place called\n"The Sanctuary of Infinite Becoming."\n\nIt used to be a golf course.\n\nYou have packed sensible shoes, a change of\nclothes, and the quiet certainty of a man\nwho has filed fourteen years of tax returns\nwithout a single error.',
-            'You are going to find your wife.\n\nYou are going to bring her home.\n\nYou are not going to "open" anything.'
+            'You are going to find your wife.\n\nYou are going to bring her home.\n\nYou are not going to "open" anything.\n\nYou packed a pen. For forms.'
         ];
 
         // ═══════════════════════════════════════════════════════════════════
@@ -1291,6 +2045,54 @@
         // ═══════════════════════════════════════════════════════════════════
         // EXPLORATION
         // ═══════════════════════════════════════════════════════════════════
+        const ROOM_FLAVOR = {
+            pavilion: [
+                'A welcome sign reads: "You Are Exactly Where You Need To Be." It\'s held up with duct tape.',
+                'Wind chimes tinkle in the breeze. Someone has hung crystals from every available surface.',
+                'The welcome pavilion smells like lavender and administrative anxiety.',
+            ],
+            path: [
+                'Prayer flags line the gravel path. One of them says "LIVE LAUGH LOVE" in Sanskrit. (It doesn\'t.)',
+                'The path winds between overgrown hedges. Someone has left crystals on every flat surface.',
+                'Birdsong mixes with distant chanting. A man in the distance is doing tai chi, or possibly having a seizure.',
+            ],
+            garden: [
+                'The sacred garden features a labyrinth made of river stones. Steve estimates it took 400 man-hours. Unpaid.',
+                'Someone has arranged crystals in a mandala pattern on the lawn. A squirrel is stealing one.',
+                'The garden is aggressively peaceful. Even the butterflies seem smug.',
+            ],
+            kitchen: [
+                'The kitchen runs on volunteer labor and good intentions. The health code violations run on their own.',
+                'Something is fermenting on every available counter surface. It might be kombucha. It might not.',
+                'The industrial kitchen hums with activity. A handwritten sign reads: "FOOD IS LOVE. LOVE IS LABOR. LABOR IS FREE."',
+            ],
+            dorms: [
+                'The dorm smells like incense, unwashed yoga mats, and the collective anxiety of thirty strangers.',
+                'Someone has left a crystal on your pillow. Again.',
+                'The bunk creaks. The walls are thin. Someone nearby is journaling out loud.',
+            ],
+            studio: [
+                'The movement studio has floor-to-ceiling mirrors and a persistent smell of body odor masked by palo santo.',
+                'Yoga mats are scattered like fallen soldiers. The mirrors reflect Steve\'s posture back at him. It\'s not great.',
+                'The studio is empty except for the residual energy of a hundred sun salutations. And some mold.',
+            ],
+            main_hall: [
+                'The main hall seats sixty. The cushions are arranged in a circle. There is no way to sit inconspicuously.',
+                'Didgeridoo music drifts from hidden speakers. Steve can\'t find the off switch. There is no off switch.',
+            ],
+            firepit: [
+                'Embers glow in the fire pit. The night sky is vast and unhelpful.',
+                'The fire crackles. Sparks rise into darkness. Someone left a half-eaten granola bar on the bench.',
+            ],
+            ceremony: [
+                'The ceremony space is a large yurt. It smells like burned sage, sweat, and revelation.',
+                'Fabric walls billow in the wind. The space feels bigger on the inside. Or Steve is getting smaller.',
+            ],
+            back_office: [
+                'Fluorescent lights. A filing cabinet. A laptop running Excel. The real sanctuary.',
+            ],
+        };
+
         function enterRoom(roomId) {
             gameState.currentRoom = roomId;
             const room = rooms[roomId];
@@ -1314,6 +2116,19 @@
                 slot.onclick = () => {
                     // Don't restart dialogue if one is already running
                     if (currentDialogue) return;
+
+                    // Brandon's daily progression
+                    if (npcId === 'brandon' && npc.dynamicDialogue) {
+                        const day = gameState.currentDay;
+                        const brandonKey = day <= 5 ? 'brandon_day' + day : 'brandon_generic';
+                        // Don't replay the same day's dialogue
+                        if (gameState.flags['brandon_day' + day + '_done']) {
+                            startDialogue('brandon_generic');
+                        } else {
+                            startDialogue(brandonKey);
+                        }
+                        return;
+                    }
 
                     // Context-aware dialogue for NPCs in different rooms
                     if (npcId === 'maya' && gameState.currentRoom === 'firepit') {
@@ -1348,15 +2163,81 @@
                 }
             });
 
+            // Take a Walk — grinding buttons
+            if (roomId === 'path' || roomId === 'garden') {
+                const walkBtn = document.createElement('button');
+                walkBtn.textContent = '🚶 Take a Walk';
+                walkBtn.style.cssText = 'background: #2a4024; color: #b8d8b0; border: 2px solid #5a8a4a;';
+                walkBtn.onclick = () => {
+                    if (currentDialogue) return;
+                    if (gameState.timeOfDay === 'evening' && gameState.eveningActionsLeft <= 0) {
+                        currentDialogue = [{ speaker: '', text: 'Steve is exhausted. Time to sleep.', thought: true }];
+                        dialogueIndex = 0; showDialogueLine(); return;
+                    }
+                    if (gameState.timeOfDay !== 'evening' && gameState.actionsLeft <= 0) {
+                        currentDialogue = [{ speaker: '', text: 'Steve has done enough for the day phase. Evening is approaching...', thought: true }];
+                        dialogueIndex = 0; showDialogueLine();
+                        gameState.timeOfDay = 'evening';
+                        gameState.flags['night_mode'] = true;
+                        updateHUD(); return;
+                    }
+                    spendAction();
+                    triggerRandomEncounter(roomId);
+                };
+                navButtons.appendChild(walkBtn);
+            }
+
+            // Sleep button in Dorms
+            if (roomId === 'dorms') {
+                const sleepBtn = document.createElement('button');
+                sleepBtn.textContent = '💤 Go to Sleep';
+                sleepBtn.style.cssText = 'background: #2a2440; color: #d4c8f0; border: 2px solid #6b5b9a;';
+                sleepBtn.onclick = () => {
+                    if (currentDialogue) return; // don't sleep mid-conversation
+                    goToSleep();
+                };
+                navButtons.appendChild(sleepBtn);
+            }
+
             // Clear dialogue
             clearDialogue();
+
+            // Show room flavor text (only if no auto-trigger dialogue will fire)
+            const willAutoTrigger = (roomId === 'main_hall' && !gameState.flags['circle_done'])
+                || (roomId === 'back_office' && !gameState.flags['founder_defeated'])
+                || (roomId === 'firepit' && gameState.flags['circle_done'] && !gameState.flags['firepit_done']);
+            if (!willAutoTrigger && ROOM_FLAVOR[roomId]) {
+                const flavor = pickRandom(ROOM_FLAVOR[roomId]);
+                document.getElementById('dialogue-text').textContent = flavor;
+                document.getElementById('dialogue-text').style.color = '#999';
+            }
 
             // Auto-trigger dialogues for certain rooms
             if (roomId === 'main_hall' && !gameState.flags['circle_done']) {
                 setTimeout(() => startDialogue('sharing_circle'), 400);
             }
             if (roomId === 'back_office' && !gameState.flags['founder_defeated']) {
-                setTimeout(() => startDialogue('back_office_discover'), 400);
+                // Boss requires: Day 3+, completed sharing circle, cleared gatekeeper, talked to Maya at firepit
+                const bossReady = gameState.currentDay >= 3
+                    && gameState.flags['circle_done']
+                    && gameState.flags['gatekeeper_cleared']
+                    && gameState.flags['firepit_done'];
+                if (bossReady) {
+                    setTimeout(() => startDialogue('back_office_discover'), 400);
+                } else {
+                    // Not ready yet — the door is locked
+                    let hint = "Maybe he needs more time here.";
+                    if (!gameState.flags['circle_done']) hint = "He hasn't attended the evening program yet.";
+                    else if (!gameState.flags['firepit_done']) hint = "He should talk to Maya at the fire pit first.";
+                    else if (gameState.currentDay < 3) hint = "Something tells him he's not ready yet. Give it another day.";
+                    setTimeout(() => {
+                        currentDialogue = [
+                            { speaker: '', text: `The door is locked. A sign reads: 'Staff Only — Align Your Intentions Before Entering.'\n\nSteve tries the handle anyway. It doesn't budge. ${hint}`, thought: true }
+                        ];
+                        dialogueIndex = 0;
+                        showDialogueLine();
+                    }, 400);
+                }
             }
             if (roomId === 'firepit' && gameState.flags['circle_done'] && !gameState.flags['firepit_done']) {
                 setTimeout(() => startDialogue('maya_firepit'), 400);
@@ -1379,7 +2260,9 @@
         let dialogueIndex = 0;
 
         function startDialogue(treeId) {
-            currentDialogue = dialogueData[treeId];
+            const data = dialogueData[treeId];
+            // Support function-based dialogue (for dynamic/random text)
+            currentDialogue = typeof data === 'function' ? data() : data;
             if (!currentDialogue) return;
             dialogueIndex = 0;
             showDialogueLine();
@@ -1485,6 +2368,11 @@
                 case 'circle_done':
                     gameState.flags['circle_done'] = true;
                     gameState.flags['night_mode'] = true;
+                    // Attending the ceremony drops Normality by 3
+                    gameState.normality = Math.max(0, gameState.normality - 3);
+                    checkSkillUnlocks();
+                    checkEnhancements();
+                    grantMaxHP('sharing_circle', 5, 'Surviving the sharing circle took more endurance than anything Steve has ever done. Including his marriage.');
                     break;
                 case 'meditator_intel':
                     gameState.flags['meditator_intel'] = true;
@@ -1542,8 +2430,33 @@
                 case 'breathwork_heal':
                     gameState.ep = gameState.maxEp;
                     break;
+                case 'talked_breathwork_monk':
+                    gameState.flags['talked_breathwork_monk'] = true;
+                    break;
                 case 'talked_receptionist':
                     gameState.flags['talked_receptionist'] = true;
+                    break;
+                case '_start_random_battle':
+                    startBattle();
+                    return;
+                case 'brandon_day1_done':
+                    gameState.flags['brandon_day1_done'] = true;
+                    gameState.flags['talked_brandon'] = true;
+                    gameState.flags['brandon_watch_seen'] = true;
+                    break;
+                case 'brandon_day2_done':
+                    gameState.flags['brandon_day2_done'] = true;
+                    break;
+                case 'brandon_day3_done':
+                    gameState.flags['brandon_day3_done'] = true;
+                    gameState.flags['brandon_watch_donated'] = true;
+                    gameState.insight++;
+                    break;
+                case 'brandon_day4_done':
+                    gameState.flags['brandon_day4_done'] = true;
+                    break;
+                case 'brandon_day5_done':
+                    gameState.flags['brandon_day5_done'] = true;
                     break;
                 case 'end_walk':
                     startDialogue('departure');
@@ -1558,12 +2471,471 @@
             document.getElementById('norm-val').textContent = gameState.normality;
             document.getElementById('insight-val').textContent = gameState.insight;
             document.getElementById('cacao-val').textContent = gameState.cacao;
+            document.getElementById('day-val').textContent = gameState.currentDay;
 
             const hpPct = (gameState.hp / gameState.maxHp) * 100;
             const epPct = (gameState.ep / gameState.maxEp) * 100;
             document.getElementById('hp-bar').style.width = hpPct + '%';
             document.getElementById('ep-bar').style.width = epPct + '%';
+
+            // Show ego death counter if > 0
+            const egoDisplay = document.getElementById('ego-death-display');
+            if (gameState.deathCount > 0) {
+                egoDisplay.style.display = '';
+                document.getElementById('ego-death-val').textContent = gameState.deathCount;
+            } else {
+                egoDisplay.style.display = 'none';
+            }
+
+            // Time of day & actions
+            const timeEl = document.getElementById('time-val');
+            if (timeEl) timeEl.textContent = gameState.timeOfDay;
+            const actionsEl = document.getElementById('actions-val');
+            if (actionsEl) {
+                actionsEl.textContent = gameState.timeOfDay === 'evening'
+                    ? gameState.eveningActionsLeft
+                    : gameState.actionsLeft;
+            }
+            document.getElementById('hp-max').textContent = gameState.maxHp;
+            document.getElementById('ep-max').textContent = gameState.maxEp;
         }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // DAY CYCLE — SLEEP & MORNING
+        // ═══════════════════════════════════════════════════════════════════
+        const morningMessages = [
+            { day: 1, text: "You are assigned to Bunk 4. The mattress is a yoga mat on plywood. There is no pillow. The pillowcase says 'DREAMS ARE THE SOUL\'S SPREADSHEETS.'" },
+            { day: 2, text: "The singing bowl alarm goes off at 5:47 AM. Steve stares at the ceiling. Someone nearby is doing gratitude affirmations. Loudly." },
+            { day: 3, text: "Someone left a crystal on your pillow. Again. Steve puts it in his pocket. He doesn't know why." },
+            { day: 4, text: "Steve wakes up before the singing bowl. He's horrified to realize his body has adjusted to the schedule." },
+            { day: 5, text: "A Karma Yogi knocks on the door. 'Morning circle in ten!' Steve knows what morning circle is now. He hates that he knows." },
+            { day: 6, text: "Steve dreamed about spreadsheets. But the columns were labeled 'Gratitude,' 'Surrender,' and 'Q3 Revenue.' He woke up confused about which ones were real." },
+            { day: 7, text: "Someone wrote 'NAMASTE STEVE' on the bathroom mirror in what appears to be turmeric. Steve is almost touched. Almost." },
+        ];
+
+        function getMorningMessage() {
+            const day = gameState.currentDay;
+            const specific = morningMessages.find(m => m.day === day);
+            if (specific) return specific.text;
+            // For days beyond the written ones, cycle through generic messages
+            const generic = [
+                `Day ${day}. Steve has been here ${day} days. His boss has left ${day + 2} voicemails.`,
+                `Day ${day}. The kombucha is starting to taste normal. This is how it begins.`,
+                `Day ${day}. Steve catches himself nodding during breakfast. Not agreeing — just nodding. The nod is involuntary now.`,
+            ];
+            return generic[(day - 1) % generic.length];
+        }
+
+        function goToSleep() {
+            // Increment day
+            gameState.currentDay++;
+
+            // Reset day phase
+            gameState.timeOfDay = 'morning';
+            gameState.actionsLeft = 4;
+            gameState.eveningActionsLeft = 2;
+            gameState.encountersToday = 0;
+            delete gameState.flags['night_mode'];
+
+            // Restore HP and EP
+            gameState.hp = gameState.maxHp;
+            gameState.ep = gameState.maxEp;
+
+            // Normality drops from sleeping at the retreat (-1 per night)
+            gameState.normality = Math.max(0, gameState.normality - 1);
+
+            // Reset defeated minor enemies so they reappear
+            const resettableFlags = ['oil_defeated', 'meditator_defeated'];
+            resettableFlags.forEach(flag => {
+                delete gameState.flags[flag];
+            });
+
+            // Check for new skill unlocks and spiritual enhancements
+            checkSkillUnlocks();
+            checkEnhancements();
+
+            // Max HP growth from sleeping at the retreat
+            if (gameState.currentDay === 2) {
+                grantMaxHP('sleep_day1', 5, 'The yoga mat smells like someone else\'s journey. Steve sleeps anyway. He wakes up slightly less fragile.');
+            }
+            // Max EP from first meditation (automatic on Day 2)
+            if (gameState.currentDay === 2) {
+                grantMaxEP('forced_meditation', 5, 'Steve accidentally meditated during the morning silence. His mind feels slightly less cluttered.');
+            }
+
+            updateHUD();
+
+            // Show morning message, then any skill notifications
+            gameState.currentRoom = 'dorms';
+            enterRoom('dorms');
+            setTimeout(() => {
+                const msg = getMorningMessage();
+                currentDialogue = [
+                    { speaker: '', text: msg, thought: true }
+                ];
+                dialogueIndex = 0;
+                showDialogueLine();
+
+                // After morning message, show queued skill notifications
+                if (gameState.skillNotifications.length > 0) {
+                    showSkillNotifications();
+                }
+            }, 300);
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // MENU — QUEST LOG & INVENTORY
+        // ═══════════════════════════════════════════════════════════════════
+        let menuOpen = false;
+        let menuTab = 'quests';
+
+        // Quest definitions — each unlocks (becomes visible) when the previous one is done
+        // 'revealFlag' = the flag that must be set for this quest to appear (null = always visible)
+        const questData = [
+            { text: 'Talk to the Receptionist',     flag: 'talked_receptionist', revealFlag: null },
+            { text: 'Survive the Oil Warrior',       flag: 'oil_defeated_once',   revealFlag: 'talked_receptionist' },
+            { text: 'Find the Groundskeeper',        flag: 'talked_frank',        revealFlag: 'talked_receptionist' },
+            { text: 'Visit the Kitchen',             flag: 'talked_maya',         revealFlag: 'map_obtained' },
+            { text: 'Attend the evening program',    flag: 'circle_done',         revealFlag: 'talked_maya' },
+            { text: 'Meet Maya at the Fire Pit',     flag: 'firepit_done',        revealFlag: 'circle_done' },
+            { text: 'Get past the Gatekeeper',       flag: 'gatekeeper_cleared',  revealFlag: 'firepit_done' },
+            { text: 'Confront Founder Paul',         flag: 'founder_defeated',    revealFlag: 'gatekeeper_cleared' },
+        ];
+
+        function renderMenu() {
+            const body = document.getElementById('menu-body');
+            if (menuTab === 'quests') {
+                renderQuests(body);
+            } else if (menuTab === 'skills') {
+                renderSkills(body);
+            } else {
+                renderInventory(body);
+            }
+        }
+
+        function renderQuests(container) {
+            let html = '<div class="menu-section-title">The Sanctuary</div>';
+            let anyPending = false;
+
+            questData.forEach(q => {
+                const done = gameState.flags[q.flag];
+                const revealed = !q.revealFlag || gameState.flags[q.revealFlag];
+
+                if (!revealed) return; // hidden — not yet unlocked
+
+                const cls = done ? 'done' : 'current';
+                const check = done ? '☑' : '☐';
+
+                if (!done && !anyPending) {
+                    anyPending = true; // mark first pending as the active quest
+                }
+
+                html += `<div class="quest-item ${cls}">
+                    <span class="quest-check">${check}</span>
+                    <span>${q.text}</span>
+                </div>`;
+            });
+
+            // Progress counter
+            const completed = questData.filter(q => gameState.flags[q.flag]).length;
+            html += `<div style="margin-top: 12px; color: #6a6050; font-size: 10px;">${completed}/${questData.length} completed</div>`;
+
+            // Day info
+            html += `<div style="margin-top: 16px;" class="menu-section-title">Status</div>`;
+            html += `<div style="color: #8a7e6a;">Day ${gameState.currentDay} at The Sanctuary</div>`;
+            if (gameState.deathCount > 0) {
+                html += `<div style="color: #8a7e6a;">Ego deaths: ${gameState.deathCount}</div>`;
+            }
+
+            container.innerHTML = html;
+        }
+
+        function renderInventory(container) {
+            let html = '';
+
+            // Equipped gear
+            const weapons = gameState.inventory.filter(i => i.type === 'weapon');
+            const armor = gameState.inventory.filter(i => i.type === 'armor');
+            if (weapons.length || armor.length) {
+                html += '<div class="menu-section-title">Equipped</div>';
+                weapons.forEach(item => {
+                    html += `<div class="inv-item">
+                        <div><span class="inv-item-name">⚔ ${item.name}</span></div>
+                        <div class="inv-item-detail">${item.dmg} dmg</div>
+                    </div>`;
+                });
+                armor.forEach(item => {
+                    html += `<div class="inv-item">
+                        <div><span class="inv-item-name">🛡 ${item.name}</span></div>
+                        <div class="inv-item-detail">${item.def} def</div>
+                    </div>`;
+                });
+            }
+
+            // Consumables
+            const consumables = gameState.inventory.filter(i => i.type === 'consumable');
+            if (consumables.length) {
+                html += '<div class="menu-section-title" style="margin-top: 12px;">Consumables</div>';
+                consumables.forEach(item => {
+                    const qty = item.qty ? ` ×${item.qty}` : '';
+                    const effect = item.heal ? `heals ${item.heal} HP` : '';
+                    html += `<div class="inv-item">
+                        <div><span class="inv-item-name">🍵 ${item.name}${qty}</span></div>
+                        <div class="inv-item-detail">${effect}</div>
+                    </div>`;
+                });
+            }
+
+            // Key items
+            const keys = gameState.inventory.filter(i => i.type === 'key');
+            if (keys.length) {
+                html += '<div class="menu-section-title" style="margin-top: 12px;">Key Items</div>';
+                keys.forEach(item => {
+                    html += `<div class="inv-item">
+                        <div><span class="inv-item-name">🔑 ${item.name}</span></div>
+                        <div class="inv-item-detail"></div>
+                    </div>`;
+                });
+            }
+
+            // Currency
+            html += '<div class="menu-section-title" style="margin-top: 12px;">Currency</div>';
+            html += `<div class="inv-item">
+                <div><span class="inv-item-name">🫘 Cacao Beans</span></div>
+                <div class="inv-item-detail">${gameState.cacao}</div>
+            </div>`;
+
+            if (!html.trim()) {
+                html = '<div style="color: #6a6050;">Steve\'s messenger bag is empty. Somehow this feels appropriate.</div>';
+            }
+
+            container.innerHTML = html;
+        }
+
+        function renderSkills(container) {
+            let html = '';
+
+            // ── Physical branch ──
+            html += '<div class="skill-branch-title">⚔ Fists (Physical)</div>';
+            const physSkills = Object.values(SKILL_DB).filter(s => s.branch === 'physical').sort((a,b) => a.tier - b.tier);
+            physSkills.forEach(skill => {
+                const unlocked = gameState.unlockedSkills.includes(skill.id);
+                const enhanced = gameState.enhancedSkills[skill.id];
+                const enh = enhanced ? ENHANCEMENT_DB.find(e => e.original === skill.id) : null;
+
+                if (unlocked && enh) {
+                    html += `<div class="skill-entry enhanced">
+                        <span><del>${skill.name}</del> → ${enh.name}</span>
+                        <span class="skill-progress">${enh.dmg} dmg</span>
+                    </div>`;
+                } else if (unlocked) {
+                    html += `<div class="skill-entry unlocked">
+                        <span>✓ ${skill.name}</span>
+                        <span class="skill-progress">${skill.dmg} dmg${skill.ep ? ' · ' + skill.ep + ' EP' : ''}</span>
+                    </div>`;
+                } else {
+                    const progress = getSkillProgress(skill);
+                    html += `<div class="skill-entry locked">
+                        <span>🔒 ${skill.name}</span>
+                        <span class="skill-progress">${progress.text}
+                            <span class="skill-progress-bar"><span class="skill-progress-fill" style="width:${progress.pct}%"></span></span>
+                        </span>
+                    </div>`;
+                }
+            });
+
+            // ── Verbal branch ──
+            html += '<div class="skill-branch-title">🗣 Mouth (Verbal)</div>';
+            const verbSkills = Object.values(SKILL_DB).filter(s => s.branch === 'verbal').sort((a,b) => a.tier - b.tier);
+            verbSkills.forEach(skill => {
+                const unlocked = gameState.unlockedSkills.includes(skill.id);
+                const enhanced = gameState.enhancedSkills[skill.id];
+                const enh = enhanced ? ENHANCEMENT_DB.find(e => e.original === skill.id) : null;
+
+                if (unlocked && enh) {
+                    html += `<div class="skill-entry enhanced">
+                        <span><del>${skill.name}</del> → ${enh.name}</span>
+                        <span class="skill-progress">${enh.dmg} dmg</span>
+                    </div>`;
+                } else if (unlocked) {
+                    html += `<div class="skill-entry unlocked">
+                        <span>✓ ${skill.name}</span>
+                        <span class="skill-progress">${skill.dmg > 0 ? skill.dmg + ' dmg' : skill.effect}${skill.ep ? ' · ' + skill.ep + ' EP' : ''}</span>
+                    </div>`;
+                } else {
+                    const progress = getSkillProgress(skill);
+                    html += `<div class="skill-entry locked">
+                        <span>🔒 ${skill.name}</span>
+                        <span class="skill-progress">${progress.text}
+                            <span class="skill-progress-bar"><span class="skill-progress-fill" style="width:${progress.pct}%"></span></span>
+                        </span>
+                    </div>`;
+                }
+            });
+
+            // ── Spiritual section ──
+            html += '<div class="skill-branch-title">✨ Spirit (Involuntary)</div>';
+            const spiritSkills = Object.values(SKILL_DB).filter(s => s.branch === 'spiritual').sort((a,b) => a.tier - b.tier);
+            if (spiritSkills.every(s => !gameState.unlockedSkills.includes(s.id))) {
+                html += '<div class="skill-entry locked" style="font-style:italic;">Steve doesn\'t do... whatever this would be.</div>';
+            }
+            spiritSkills.forEach(skill => {
+                const unlocked = gameState.unlockedSkills.includes(skill.id);
+                if (unlocked) {
+                    html += `<div class="skill-entry unlocked" style="color:#7abfa0;">
+                        <span>✓ ${skill.name}</span>
+                        <span class="skill-progress">${skill.desc}</span>
+                    </div>`;
+                } else {
+                    const normNeeded = skill.unlock.maxNormality;
+                    const normDist = gameState.normality - normNeeded;
+                    html += `<div class="skill-entry locked">
+                        <span>🔒 ???</span>
+                        <span class="skill-progress">Normality ≤ ${normNeeded} (now: ${gameState.normality})</span>
+                    </div>`;
+                }
+            });
+
+            // ── Normality ticker ──
+            html += `<div class="norm-ticker">
+                <div class="norm-ticker-label">Normality</div>
+                <div class="norm-ticker-val">${gameState.normality}</div>`;
+
+            // Find next threshold
+            const nextEnh = ENHANCEMENT_DB
+                .filter(e => !gameState.enhancedSkills[e.original] && gameState.unlockedSkills.includes(e.original))
+                .sort((a,b) => b.normGate - a.normGate)[0];
+            const nextSpirit = Object.values(SKILL_DB)
+                .filter(s => s.branch === 'spiritual' && !gameState.unlockedSkills.includes(s.id) && s.unlock.maxNormality)
+                .sort((a,b) => b.unlock.maxNormality - a.unlock.maxNormality)[0];
+
+            const nextThreshold = [nextEnh, nextSpirit]
+                .filter(Boolean)
+                .map(x => x.normGate || (x.unlock && x.unlock.maxNormality))
+                .sort((a,b) => b - a)[0];
+
+            if (nextThreshold !== undefined) {
+                html += `<div class="norm-ticker-next">Next transformation at ≤ ${nextThreshold}</div>`;
+            }
+            html += '</div>';
+
+            // ── Attack counters ──
+            html += `<div style="margin-top: 12px; color: #6a6050; font-size: 10px;">
+                Physical attacks used: ${gameState.physicalAttacks}<br>
+                Verbal attacks used: ${gameState.verbalAttacks}
+            </div>`;
+
+            container.innerHTML = html;
+        }
+
+        function getSkillProgress(skill) {
+            if (!skill.unlock) return { text: '', pct: 100 };
+            const parts = [];
+            let totalPct = 0;
+            let checks = 0;
+
+            if (skill.unlock.physicalAttacks) {
+                const have = gameState.physicalAttacks;
+                const need = skill.unlock.physicalAttacks;
+                parts.push(`${Math.min(have, need)}/${need} phys`);
+                totalPct += Math.min(100, (have / need) * 100);
+                checks++;
+            }
+            if (skill.unlock.verbalAttacks) {
+                const have = gameState.verbalAttacks;
+                const need = skill.unlock.verbalAttacks;
+                parts.push(`${Math.min(have, need)}/${need} verb`);
+                totalPct += Math.min(100, (have / need) * 100);
+                checks++;
+            }
+            if (skill.unlock.insight) {
+                const have = gameState.insight;
+                const need = skill.unlock.insight;
+                parts.push(`Insight ${have}/${need}`);
+                totalPct += Math.min(100, (have / need) * 100);
+                checks++;
+            }
+            if (skill.unlock.day) {
+                const have = gameState.currentDay;
+                const need = skill.unlock.day;
+                parts.push(`Day ${have}/${need}`);
+                totalPct += Math.min(100, (have / need) * 100);
+                checks++;
+            }
+            return { text: parts.join(' · '), pct: checks > 0 ? totalPct / checks : 0 };
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // SKILL NOTIFICATIONS
+        // ═══════════════════════════════════════════════════════════════════
+        function showSkillNotifications() {
+            if (gameState.skillNotifications.length === 0) return;
+
+            const notif = gameState.skillNotifications.shift();
+            const el = document.createElement('div');
+            el.className = 'skill-notification';
+            const typeClass = notif.type === 'enhancement' ? ' enhancement' : notif.type === 'spiritual' ? ' spiritual' : '';
+            el.innerHTML = `
+                <div class="skill-notification-title${typeClass}">${notif.text}</div>
+                <div class="skill-notification-desc">${notif.desc}</div>
+                <div class="skill-notification-dismiss">Click to continue...</div>
+            `;
+            el.onclick = () => {
+                el.remove();
+                // Show next notification if there are more
+                if (gameState.skillNotifications.length > 0) {
+                    setTimeout(showSkillNotifications, 200);
+                }
+            };
+            document.getElementById('screen').appendChild(el);
+        }
+
+        function toggleMenu() {
+            menuOpen = !menuOpen;
+            const overlay = document.getElementById('menu-overlay');
+            if (menuOpen) {
+                renderMenu();
+                overlay.classList.add('active');
+            } else {
+                overlay.classList.remove('active');
+            }
+        }
+
+        function closeMenu() {
+            menuOpen = false;
+            document.getElementById('menu-overlay').classList.remove('active');
+        }
+
+        // Menu button
+        document.getElementById('menu-toggle-btn').onclick = (e) => {
+            e.stopPropagation();
+            toggleMenu();
+        };
+
+        // Close button
+        document.getElementById('menu-close-btn').onclick = (e) => {
+            e.stopPropagation();
+            closeMenu();
+        };
+
+        // Tab switching
+        document.querySelectorAll('.menu-tab').forEach(tab => {
+            tab.onclick = (e) => {
+                e.stopPropagation();
+                menuTab = tab.dataset.tab;
+                document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                renderMenu();
+            };
+        });
+
+        // ESC to close menu
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Escape' && menuOpen) {
+                e.preventDefault();
+                closeMenu();
+            }
+        });
 
         // ═══════════════════════════════════════════════════════════════════
         // BATTLE
@@ -1573,7 +2945,13 @@
             playerTurn: true,
             isOver: false,
             phase: 1,
-            phase1HP: 0
+            phase1HP: 0,
+            enduring: false,
+            enemyStunned: false,
+            dot: null,
+            smokeScreen: 0,
+            blocking: 0,
+            buffNext: false
         };
 
         function startBattle() {
@@ -1583,14 +2961,29 @@
             battleState.phase = 1;
             battleState.playerTurn = true;
             battleState.isOver = false;
+            battleState.enduring = false;
+            battleState.enemyStunned = false;
+            battleState.dot = null;
+            battleState.smokeScreen = 0;
+            battleState.blocking = 0;
+            battleState.buffNext = false;
+
+            // Reset stillness for meditator
+            if (battleState.enemy.stillnessShield) {
+                battleState.enemy.stillnessBroken = false;
+            }
 
             if (battleState.enemy.isBoss) {
                 battleState.phase1HP = 30;
             }
 
+            // Clear battle log
+            document.getElementById('battle-log').innerHTML = '';
+
             updateBattleDisplay();
             logBattle(battleState.enemy.intro);
             document.getElementById('victory-overlay').classList.remove('active');
+            restoreMainMenu();
         }
 
         function updateBattleDisplay() {
@@ -1663,6 +3056,7 @@
                 logBattle('Brandon collapses. "I haven\'t eaten in three days..."');
                 logBattle('Phase 2: Paul steps forward!');
                 battleState.enemy.name = 'THE FOUNDER';
+                battleState.enemy.hp = battleState.enemy.maxHp; // Reset HP for Phase 2
                 updateBattleDisplay();
                 battleState.playerTurn = true;
                 document.getElementById('battle-turn-info').textContent = 'Your Turn';
@@ -1671,137 +3065,170 @@
             return false;
         }
 
-        function executeAction(action) {
+        function executeSkill(skillId) {
             if (!battleState.playerTurn || battleState.isOver) return;
+
+            const skill = getEffectiveSkill(skillId);
+            const baseSkill = SKILL_DB[skillId] || skill;
+
+            // EP check
+            if (skill.ep > 0 && gameState.ep < skill.ep) {
+                logBattle('Not enough EP!');
+                return;
+            }
+
             battleState.playerTurn = false;
             document.getElementById('battle-turn-info').textContent = 'Enemy Turn';
             battleState.enduring = false;
 
-            switch(action) {
-                case 'attack': {
-                    const dmg = 5 + Math.floor(Math.random() * 3);
-                    dealEnemyDmg(dmg);
-                    logBattle(`Steve attacks with the Orientation Pamphlet! ${dmg} damage!`);
-                    break;
+            // Spend EP
+            if (skill.ep > 0) gameState.ep -= skill.ep;
+
+            // Track attack counters (use base skill branch, not enhanced)
+            if (baseSkill.branch === 'physical') gameState.physicalAttacks++;
+            if (baseSkill.branch === 'verbal') gameState.verbalAttacks++;
+
+            // Apply buff_next bonus if active
+            let dmgMultiplier = 1;
+            if (battleState.buffNext) {
+                dmgMultiplier = 1.3;
+                battleState.buffNext = false;
+                logBattle('(The Nod\'s focus amplifies the attack!)');
+            }
+
+            // Calculate damage with weakness check
+            let dmg = Math.round(skill.dmg * dmgMultiplier);
+            if (dmg > 0) {
+                // Weakness bonus: +50% damage if attack type matches enemy weakness
+                if (skill.type === battleState.enemy.weakness) {
+                    dmg = Math.round(dmg * 1.5);
+                    logBattle(`EFFECTIVE! ${battleState.enemy.name} is weak to ${skill.type}!`);
                 }
-                case 'spreadsheet': {
-                    if (gameState.ep >= 5) {
-                        gameState.ep -= 5;
-                        if (battleState.enemy.isBoss && battleState.phase === 1) {
-                            dealEnemyDmg(15);
-                            logBattle('"Brandon, you donated $2,400 to a gratitude fund with no receipts." 15 damage!');
-                        } else if (battleState.enemy.weakness === 'bureaucratic') {
-                            const d = battleState.enemy.hp;
-                            dealEnemyDmg(d);
-                            logBattle(`CRITICAL! Bureaucratic damage obliterates financial delusion! ${d} damage!`);
+                // Bonus spiritual damage from enhanced skills
+                if (skill.bonusType) {
+                    const bonus = Math.floor(dmg * 0.2);
+                    dmg += bonus;
+                }
+
+                // Meditator's Stillness Shield: 50% damage reduction unless broken by physical or Throw Rock
+                if (battleState.enemy.stillnessShield && !battleState.enemy.stillnessBroken) {
+                    if (skill.type === 'physical' && (skill.id === 'throw_rock' || skill.id === 'punch' || skill.id === 'headbutt' || skill.id === 'tackle')) {
+                        battleState.enemy.stillnessBroken = true;
+                        logBattle('The crude attack breaks his concentration! Stillness Shield shattered!');
+                    } else if (skill.type === 'physical' && skill.effect === 'stun_chance') {
+                        // Shove etc can break on stun
+                        if (Math.random() < 0.5) {
+                            battleState.enemy.stillnessBroken = true;
+                            logBattle('The shove disrupts his meditation!');
                         } else {
-                            dealEnemyDmg(20);
-                            logBattle('Spreadsheet Analysis deals 20 bureaucratic damage!');
+                            dmg = Math.floor(dmg * 0.5);
+                            logBattle('(Stillness Shield absorbs half the impact.)');
+                        }
+                    } else if (skill.type !== 'physical') {
+                        // Non-physical attacks are absorbed or heal
+                        if (skill.type === 'psychic') {
+                            dmg = Math.floor(dmg * 0.5);
+                            logBattle('(His meditation absorbs the psychic energy. Half damage.)');
                         }
                     } else {
-                        logBattle('Not enough EP!');
-                        battleState.playerTurn = true;
-                        return;
+                        // Basic physical (slap): halved
+                        dmg = Math.floor(dmg * 0.5);
+                        logBattle('(Stillness Shield absorbs half the impact.)');
+                    }
+                }
+
+                // Variance
+                dmg += Math.floor(Math.random() * 3) - 1;
+                dmg = Math.max(1, dmg);
+
+                dealEnemyDmg(dmg);
+                logBattle(`${getLogText(skill)} ${dmg} damage!`);
+
+                // Mirror reflection (Shadow Work Enthusiast)
+                if (battleState.enemy.mirrorActive && dmg > 0) {
+                    const reflected = Math.floor(dmg * 0.3);
+                    gameState.hp = Math.max(1, gameState.hp - reflected);
+                    logBattle(`The mirror reflects ${reflected} damage back at Steve!`);
+                    battleState.enemy.mirrorActive = false;
+                }
+            }
+
+            // Apply skill effects
+            switch (skill.effect) {
+                case 'stun_chance':
+                    if (Math.random() < 0.3) {
+                        battleState.enemyStunned = true;
+                        logBattle('The enemy is stunned!');
                     }
                     break;
-                }
-                case 'schedule': {
-                    if (gameState.ep >= 4) {
-                        gameState.ep -= 4;
-                        logBattle('"I\'ve blocked out 15 minutes for this conflict." Extra action!');
-                        battleState.playerTurn = true;
-                        updateBattleDisplay();
-                        document.getElementById('battle-turn-info').textContent = 'Your Turn';
-                        return;
-                    }
+                case 'stun':
+                    battleState.enemyStunned = true;
+                    if (dmg === 0) logBattle(getLogText(skill));
+                    logBattle('The enemy is stunned!');
                     break;
-                }
-                case 'risk': {
-                    if (gameState.ep >= 3) {
-                        gameState.ep -= 3;
-                        battleState.enemy.def = Math.max(0, (battleState.enemy.def || 0) - 2);
-                        logBattle('Risk Assessment: Enemy defense reduced!');
-                    }
+                case 'self_damage':
+                    gameState.hp = Math.max(1, gameState.hp - 5);
+                    logBattle('Steve also takes 5 damage. Worth it.');
                     break;
-                }
-                case 'audit': {
-                    if (gameState.ep >= 8) {
-                        gameState.ep -= 8;
-                        dealEnemyDmg(25);
-                        battleState.enemy.def = 0;
-                        logBattle('FULL AUDIT! 25 damage and all defenses stripped!');
-                    }
+                case 'pin':
+                    battleState.enemyStunned = true;
+                    logBattle('Enemy is pinned! They skip their turn.');
                     break;
-                }
-                case 'analyze':
-                    logBattle('═══ ANALYSIS ═══');
-                    logBattle(`Type: ${battleState.enemy.name}`);
-                    logBattle(`Weakness: ${battleState.enemy.weakness}`);
-                    logBattle(`HP: ${battleState.enemy.isBoss && battleState.phase === 1 ? battleState.phase1HP + '/30' : battleState.enemy.hp + '/' + battleState.enemy.maxHp}`);
-                    if (battleState.enemy.analyzeText) logBattle(battleState.enemy.analyzeText);
+                case 'block':
+                    battleState.blocking = 2;
+                    logBattle(getLogText(skill));
+                    logBattle(pickRandom([
+                        'Steve sets a boundary. Enemy attacks blocked for 2 turns.',
+                        'The boundary is established. Two turns of blessed silence.',
+                        'Steve draws a line. The enemy respects it. (First time that\'s ever worked.)',
+                        'Boundary set. For two turns, Steve is untouchable. Like a man in a meeting he didn\'t call.',
+                    ]));
+                    // Block doesn't end turn
                     battleState.playerTurn = true;
                     document.getElementById('battle-turn-info').textContent = 'Your Turn';
                     updateBattleDisplay();
+                    updateHUD();
+                    restoreMainMenu();
                     return;
-                case 'endure':
-                    battleState.enduring = true;
-                    logBattle('Steve grits his teeth. Damage reduced this turn.');
-                    logBattle('(He thinks about his desk. His ergonomic chair. The hum of fluorescent lighting.)');
+                case 'dot':
+                    battleState.dot = { dmg: skill.dmg, turns: 3, name: skill.name };
+                    if (dmg === 0) logBattle(getLogText(skill));
+                    logBattle(`${skill.name} will deal ${skill.dmg}/turn for 3 turns.`);
                     break;
-                case 'talk_boundary':
-                    if (battleState.enemy.isBoss && battleState.phase === 1) {
-                        dealEnemyDmg(12);
-                        logBattle('"Brandon, when was the last time you ate?" Brandon blinks. 12 damage!');
-                    } else {
-                        logBattle('"I\'m not interested. Thank you." Enemy stunned!');
-                        updateBattleDisplay();
-                        setTimeout(() => { battleState.playerTurn = true; document.getElementById('battle-turn-info').textContent = 'Your Turn'; }, 600);
-                        return;
-                    }
+                case 'heal':
+                    const healAmt = Math.min(skill.healAmt || 15, gameState.maxHp - gameState.hp);
+                    gameState.hp += healAmt;
+                    logBattle(getLogText(skill));
+                    logBattle(`Steve heals ${healAmt} HP!`);
                     break;
-                case 'talk_question':
-                    if (battleState.enemy.isBoss && battleState.phase === 1) {
-                        dealEnemyDmg(15);
-                        logBattle('"Brandon, where\'s your watch? The one your dad gave you?" 15 damage!');
-                    } else {
-                        dealEnemyDmg(8);
-                        logBattle('Steve asks a deeply uncomfortable question. 8 psychic damage!');
-                    }
+                case 'smoke':
+                    battleState.smokeScreen = 2;
+                    logBattle(getLogText(skill));
+                    logBattle('Smoke screen! Enemy accuracy -20% for 2 turns.');
                     break;
-                case 'talk_bore':
-                    dealEnemyDmg(6);
-                    logBattle('Steve explains FIFO vs LIFO inventory methods. 6 boredom damage.');
+                case 'buff_next':
+                    battleState.buffNext = true;
+                    logBattle(getLogText(skill));
+                    logBattle('Next attack deals +30% damage.');
+                    // Doesn't end turn
+                    battleState.playerTurn = true;
+                    document.getElementById('battle-turn-info').textContent = 'Your Turn';
+                    updateBattleDisplay();
+                    updateHUD();
+                    restoreMainMenu();
+                    return;
+                case 'mirror':
+                    battleState.enemy.mirrorActive = true;
+                    logBattle('The enemy sets up a psychic mirror! Next attack will be partially reflected!');
                     break;
-                case 'talk_validate':
-                    if (battleState.enemy.isBoss && battleState.phase === 1) {
-                        dealEnemyDmg(10);
-                        logBattle('"Brandon, you\'re a good person. That\'s why he chose you." 10 damage!');
-                    } else {
-                        battleState.enemy.atk = Math.max(5, (battleState.enemy.atk || 12) - 3);
-                        logBattle('"It sounds like you really believe in what you\'re doing." Attack power drops.');
-                    }
+                case null:
+                    if (dmg === 0) logBattle(getLogText(skill));
                     break;
-                case 'items': {
-                    const consumable = gameState.inventory.find(i => i.heal && (i.qty || 0) > 0);
-                    if (consumable) {
-                        const heal = Math.min(consumable.heal, gameState.maxHp - gameState.hp);
-                        gameState.hp += heal;
-                        consumable.qty--;
-                        if (consumable.qty <= 0) {
-                            gameState.inventory = gameState.inventory.filter(i => i.id !== consumable.id);
-                        }
-                        logBattle(`Steve uses ${consumable.name}. Restored ${heal} HP!`);
-                    } else {
-                        logBattle('No items!');
-                        battleState.playerTurn = true;
-                        return;
-                    }
-                    break;
-                }
             }
 
             updateBattleDisplay();
             updateHUD();
+            restoreMainMenu();
 
             // Check phase transition or defeat
             if (isEnemyDefeated()) {
@@ -1816,8 +3243,108 @@
             setTimeout(enemyTurn, 600);
         }
 
+        function executeAction(action) {
+            if (!battleState.playerTurn || battleState.isOver) return;
+
+            switch(action) {
+                case 'endure':
+                    battleState.playerTurn = false;
+                    document.getElementById('battle-turn-info').textContent = 'Enemy Turn';
+                    battleState.enduring = true;
+                    logBattle(pickRandom([
+                        'Steve grits his teeth. Damage reduced this turn.\n(He thinks about his desk. His ergonomic chair. The hum of fluorescent lighting.)',
+                        'Steve braces. He mentally recites his employee ID number. It helps. Damage reduced.',
+                        'Steve takes a deep breath and thinks about quarterly reports. The comfort of organized columns. Damage reduced.',
+                        'Steve endures. He\'s survived worse. (His wedding reception speech. The company rebrand. This is nothing.) Damage reduced.',
+                        'Steve plants his feet and thinks about his parking spot at the office. Reserved. Reliable. Damage reduced.',
+                    ]));
+                    updateBattleDisplay();
+                    setTimeout(enemyTurn, 600);
+                    break;
+                case 'flee':
+                    battleState.playerTurn = false;
+                    if (battleState.enemy.isBoss) {
+                        logBattle('Steve can\'t flee from a boss fight!');
+                        battleState.playerTurn = true;
+                        return;
+                    }
+                    if (Math.random() < 0.7) {
+                        logBattle(pickRandom([
+                            'Steve walks briskly away. It\'s not running. It\'s a strategic withdrawal.',
+                            'Steve turns and leaves. He doesn\'t look back. (He looks back once.)',
+                            'Steve executes a tactical retreat. His dignity is mostly intact.',
+                            '"I have somewhere to be." Steve doesn\'t, but the enemy doesn\'t know that.',
+                        ]));
+                        battleState.isOver = true;
+                        setTimeout(() => {
+                            showScreen('exploration');
+                            enterRoom(gameState.currentRoom);
+                        }, 800);
+                    } else {
+                        logBattle('Steve tries to leave but the enemy blocks the exit!');
+                        document.getElementById('battle-turn-info').textContent = 'Enemy Turn';
+                        setTimeout(enemyTurn, 600);
+                    }
+                    break;
+                case 'items': {
+                    const consumable = gameState.inventory.find(i => i.heal && (i.qty || 0) > 0);
+                    if (consumable) {
+                        battleState.playerTurn = false;
+                        document.getElementById('battle-turn-info').textContent = 'Enemy Turn';
+                        battleState.enduring = false;
+                        const heal = Math.min(consumable.heal, gameState.maxHp - gameState.hp);
+                        gameState.hp += heal;
+                        consumable.qty--;
+                        if (consumable.qty <= 0) {
+                            gameState.inventory = gameState.inventory.filter(i => i.id !== consumable.id);
+                        }
+                        logBattle(`Steve uses ${consumable.name}. Restored ${heal} HP!`);
+                        updateBattleDisplay();
+                        updateHUD();
+                        setTimeout(enemyTurn, 600);
+                    } else {
+                        logBattle('No items!');
+                    }
+                    break;
+                }
+            }
+        }
+
         function enemyTurn() {
             if (battleState.isOver) return;
+
+            // Apply DOT at start of enemy turn
+            if (battleState.dot && battleState.dot.turns > 0) {
+                const dotDmg = battleState.dot.dmg;
+                dealEnemyDmg(dotDmg);
+                logBattle(`${battleState.dot.name} ticks for ${dotDmg} damage!`);
+                battleState.dot.turns--;
+                if (battleState.dot.turns <= 0) {
+                    battleState.dot = null;
+                    logBattle(pickRandom([
+                        'The nagging finally stops.',
+                        'Steve runs out of things to complain about. Temporarily.',
+                        'The complaint has been fully processed. For now.',
+                        'Steve\'s grievance concludes. Another will form shortly.',
+                    ]));
+                }
+                if (isEnemyDefeated()) {
+                    if (battleState.enemy.isBoss && battleState.phase === 1) { advanceBossPhase(); return; }
+                    endBattle(true);
+                    return;
+                }
+            }
+
+            // Check if enemy is stunned
+            if (battleState.enemyStunned) {
+                logBattle(`${battleState.enemy.name} is stunned and can't act!`);
+                battleState.enemyStunned = false;
+                updateBattleDisplay();
+                updateHUD();
+                battleState.playerTurn = true;
+                document.getElementById('battle-turn-info').textContent = 'Your Turn';
+                return;
+            }
 
             // Pick attacks based on boss phase
             let attacks;
@@ -1840,26 +3367,56 @@
 
             if (attack.dmg) {
                 let dmg = attack.dmg + Math.floor(Math.random() * 4 - 2);
-                if (battleState.enduring) {
-                    dmg = Math.floor(dmg / 2);
-                    logBattle('(Endure reduces damage!)');
+
+                // Smoke screen: 20% miss chance
+                if (battleState.smokeScreen && battleState.smokeScreen > 0 && Math.random() < 0.2) {
+                    logBattle('The smoke obscures Steve! Attack misses!');
+                    dmg = 0;
                 }
-                dmg = Math.max(1, dmg);
-                gameState.hp = Math.max(0, gameState.hp - dmg);
-                shakeEmoji('steve-emoji');
-                logBattle(`Steve takes ${dmg} damage!`);
+
+                if (dmg > 0) {
+                    // Blocking from Set Boundary
+                    if (battleState.blocking && battleState.blocking > 0) {
+                        dmg = 0;
+                        logBattle(pickRandom([
+                            '(Steve\'s boundary holds! Attack blocked!)',
+                            '("I said NO." The boundary holds.)',
+                            '(The enemy can\'t get through. Steve has finally set a boundary that works.)',
+                            '(Blocked. Steve\'s therapist would be proud. If he had a therapist.)',
+                            '(The boundary absorbs the impact. Steve stands firm. Like a man who will not be upsold.)',
+                        ]));
+                    }
+
+                    if (battleState.enduring && dmg > 0) {
+                        dmg = Math.floor(dmg / 2);
+                        logBattle('(Endure reduces damage!)');
+                    }
+                    dmg = Math.max(0, dmg);
+                    if (dmg > 0) {
+                        gameState.hp = Math.max(0, gameState.hp - dmg);
+                        shakeEmoji('steve-emoji');
+                        logBattle(`Steve takes ${dmg} damage!`);
+                    }
+                }
             }
 
-            // Apply effects
+            // Decrement turn-based effects
+            if (battleState.smokeScreen && battleState.smokeScreen > 0) battleState.smokeScreen--;
+            if (battleState.blocking && battleState.blocking > 0) battleState.blocking--;
+
+            // Apply enemy attack effects
             if (attack.effect === 'defend') {
                 battleState.enemy.def = (battleState.enemy.def || 0) + 3;
                 logBattle('Enemy defense increased!');
             } else if (attack.effect === 'smudge') {
-                logBattle('Steve is Smudged! (Accuracy -20% for 3 turns)');
+                logBattle('Steve is Smudged! (He smells like burning sage.)');
             } else if (attack.effect === 'boss_buff') {
-                battleState.enemy.atk = (battleState.enemy.atk || 18) + 2;
+                battleState.enemy.atk = (battleState.enemy.atk || 16) + 2;
                 battleState.enemy.def = (battleState.enemy.def || 0) + 2;
                 logBattle('Paul restructures mid-fight! ATK and DEF increase!');
+            } else if (attack.effect === 'mirror') {
+                battleState.enemy.mirrorActive = true;
+                logBattle('The enemy sets up a psychic mirror! Next attack will be partially reflected!');
             }
 
             updateBattleDisplay();
@@ -1879,10 +3436,37 @@
             const title = document.getElementById('victory-title');
             const text = document.getElementById('victory-text');
 
+            // Check for new skill unlocks after every battle
+            checkSkillUnlocks();
+            checkEnhancements();
+
             if (won) {
-                title.textContent = 'VICTORY';
+                title.textContent = pickRandom(['VICTORY', 'RESOLVED', 'BOUNDARY ENFORCED', 'INTERACTION SURVIVED']);
                 gameState.insight += battleState.enemy.xp;
                 gameState.cacao += battleState.enemy.cacao;
+
+                // Equipment drops
+                const enemyData = enemyDB[gameState.currentBattleEnemy];
+                if (enemyData && enemyData.drop) {
+                    const isFirstKill = !gameState.flags['killed_' + gameState.currentBattleEnemy];
+                    const dropRoll = Math.random();
+                    if (isFirstKill || dropRoll < (enemyData.drop.dropChance || 0.3)) {
+                        gameState.flags['killed_' + gameState.currentBattleEnemy] = true;
+                        const drop = { ...enemyData.drop };
+                        delete drop.dropChance;
+                        // Don't add duplicates of non-consumable items
+                        if (drop.type !== 'consumable' && gameState.inventory.find(i => i.id === drop.id)) {
+                            // Already have it
+                        } else {
+                            gameState.inventory.push(drop);
+                            gameState.skillNotifications.push({
+                                type: 'unlock',
+                                text: `LOOT: ${drop.name}`,
+                                desc: drop.desc || ''
+                            });
+                        }
+                    }
+                }
 
                 // Set the correct defeat flag
                 const defeatFlagMap = {
@@ -1892,7 +3476,11 @@
                     'founder': 'founder_defeated',
                 };
                 const flagKey = defeatFlagMap[gameState.currentBattleEnemy] || '';
-                if (flagKey) gameState.flags[flagKey] = true;
+                if (flagKey) {
+                    gameState.flags[flagKey] = true;
+                    // Permanent "once" flag for quest tracking (survives sleep resets)
+                    gameState.flags[flagKey + '_once'] = true;
+                }
 
                 // Handle post-boss choices
                 if (gameState.currentBattleEnemy === 'founder') {
@@ -1922,7 +3510,7 @@
                     text.innerHTML = `${battleState.enemy.defeat}<br><br>+${battleState.enemy.xp} Insight  +${battleState.enemy.cacao} Cacao`;
                 }
             } else {
-                // EGO DEATH
+                // EGO DEATH — triggers a new day
                 const deathMessages = [
                     "You had what the community calls 'a breakthrough.' You call it 'losing consciousness.'",
                     "Steve lay on the floor. Someone was already burning sage.",
@@ -1931,13 +3519,29 @@
                     "The singing bowl brings you back. You briefly saw the void. It looked like a spreadsheet.",
                 ];
                 gameState.deathCount = (gameState.deathCount || 0) + 1;
+                gameState.currentDay++;
                 const msg = deathMessages[gameState.deathCount % deathMessages.length];
                 title.textContent = 'EGO DEATH';
-                text.innerHTML = `${msg}<br><br>Steve wakes up in the dorms.<br>HP restored to ${Math.floor(gameState.maxHp / 2)}. Normality -5.`;
-                gameState.hp = Math.floor(gameState.maxHp / 2);
-                gameState.ep = Math.floor(gameState.maxEp / 2);
+                text.innerHTML = `${msg}<br><br>Steve wakes up in the dorms. Day ${gameState.currentDay}.<br>HP fully restored. Normality -5.`;
+                gameState.hp = gameState.maxHp;
+                gameState.ep = gameState.maxEp;
                 gameState.normality = Math.max(0, gameState.normality - 5);
                 gameState.currentRoom = 'dorms';
+
+                // Reset day cycle (same as goToSleep)
+                gameState.timeOfDay = 'morning';
+                gameState.actionsLeft = 4;
+                gameState.eveningActionsLeft = 2;
+                gameState.encountersToday = 0;
+                delete gameState.flags['night_mode'];
+
+                // Reset defeated minor enemies (they come back each day)
+                const resettableFlags = ['oil_defeated', 'meditator_defeated'];
+                resettableFlags.forEach(flag => { delete gameState.flags[flag]; });
+
+                // Ego death opens you up — check for new spiritual skills
+                checkSkillUnlocks();
+                checkEnhancements();
             }
 
             updateHUD();
@@ -1950,6 +3554,7 @@
         document.addEventListener('keydown', (e) => {
             if (e.code === 'Space') {
                 e.preventDefault();
+                if (menuOpen) return; // don't advance game while menu is open
                 if (gameState.screen === 'title') {
                     startIntro();
                 } else if (gameState.screen === 'intro') {
@@ -1961,156 +3566,106 @@
                 } else if (gameState.screen === 'battle' && battleState.isOver) {
                     showScreen('exploration');
                     enterRoom(gameState.currentRoom);
+                    if (gameState.skillNotifications.length > 0) {
+                        setTimeout(showSkillNotifications, 300);
+                    }
                 }
             }
         });
 
-        document.addEventListener('click', () => {
+        // Track when dialogue just started so the same click doesn't instantly advance it
+        let dialogueJustStarted = false;
+        const _origStartDialogue = startDialogue;
+        startDialogue = function(treeId) {
+            dialogueJustStarted = true;
+            _origStartDialogue(treeId);
+            // Reset after this event cycle completes
+            setTimeout(() => { dialogueJustStarted = false; }, 0);
+        };
+
+        document.addEventListener('click', (e) => {
+            // Don't advance dialogue if an NPC or button was clicked (they handle their own logic)
+            if (menuOpen || e.target.closest('.menu-overlay') || e.target.closest('.menu-btn') || e.target.closest('.npc-slot') || e.target.closest('.choice-btn') || e.target.closest('.nav-buttons') || e.target.closest('.action-btn')) {
+                return;
+            }
             if (gameState.screen === 'title') {
                 startIntro();
             } else if (gameState.screen === 'intro') {
                 advanceIntro();
             } else if (gameState.screen === 'exploration') {
-                if (document.getElementById('continue-prompt').style.display !== 'none') {
+                if (!dialogueJustStarted && document.getElementById('continue-prompt').style.display !== 'none') {
                     advanceDialogue();
                 }
             } else if (gameState.screen === 'battle' && battleState.isOver) {
                 showScreen('exploration');
                 enterRoom(gameState.currentRoom);
+                if (gameState.skillNotifications.length > 0) {
+                    setTimeout(showSkillNotifications, 300);
+                }
             }
         });
 
-        document.getElementById('attack-btn').onclick = () => executeAction('attack');
-        document.getElementById('analyze-btn').onclick = () => executeAction('analyze');
-        document.getElementById('endure-btn').onclick = () => executeAction('endure');
-
-        // Skills submenu
-        document.getElementById('skills-btn').onclick = () => {
+        function openBranchSubmenu(branch) {
             const menu = document.getElementById('battle-menu');
             menu.innerHTML = '';
-            const skills = [
-                { label: `Spreadsheet [5 EP]`, action: 'spreadsheet', ok: gameState.ep >= 5 },
-                { label: `Schedule Opt [4 EP]`, action: 'schedule', ok: gameState.ep >= 4 },
-                { label: `Risk Assess [3 EP]`, action: 'risk', ok: gameState.ep >= 3 },
-            ];
-            if (gameState.insight >= 2) {
-                skills.push({ label: `Audit [8 EP]`, action: 'audit', ok: gameState.ep >= 8 });
+
+            const branchSkills = gameState.unlockedSkills
+                .filter(id => SKILL_DB[id] && SKILL_DB[id].branch === branch)
+                .map(id => getEffectiveSkill(id));
+
+            if (branchSkills.length === 0) {
+                const msg = document.createElement('div');
+                msg.style.cssText = 'color:#999; font-size:11px; padding:8px;';
+                msg.textContent = branch === 'spiritual' ? 'Steve doesn\'t do... whatever this would be.' : 'No skills available.';
+                menu.appendChild(msg);
             }
-            skills.forEach(s => {
+
+            branchSkills.forEach(skill => {
                 const btn = document.createElement('button');
                 btn.className = 'action-btn';
-                btn.textContent = s.label;
-                btn.disabled = !s.ok;
-                btn.onclick = () => { restoreMainMenu(); executeAction(s.action); };
+                const epText = skill.ep > 0 ? ` [${skill.ep} EP]` : '';
+                const dmgText = skill.dmg > 0 ? ` ${skill.dmg}dmg` : '';
+                const enhanced = skill.originalName ? ' ✦' : '';
+                btn.textContent = `${skill.name}${epText}${dmgText}${enhanced}`;
+                btn.disabled = skill.ep > 0 && gameState.ep < skill.ep;
+                // Find original skill ID for executeSkill
+                const origId = skill.originalName
+                    ? Object.keys(SKILL_DB).find(k => SKILL_DB[k].name === skill.originalName)
+                    : Object.keys(SKILL_DB).find(k => SKILL_DB[k].name === skill.name) || skill.id;
+                btn.onclick = () => { executeSkill(origId); };
                 menu.appendChild(btn);
             });
+
             const back = document.createElement('button');
             back.className = 'action-btn';
             back.textContent = '← Back';
             back.onclick = restoreMainMenu;
             menu.appendChild(back);
-        };
-
-        // Talk submenu
-        document.getElementById('talk-btn').onclick = () => {
-            const menu = document.getElementById('battle-menu');
-            menu.innerHTML = '';
-            const talks = [
-                { label: 'Set Boundary', action: 'talk_boundary' },
-                { label: 'Question', action: 'talk_question' },
-                { label: 'Bore', action: 'talk_bore' },
-                { label: 'Validate', action: 'talk_validate' },
-            ];
-            talks.forEach(t => {
-                const btn = document.createElement('button');
-                btn.className = 'action-btn';
-                btn.textContent = t.label;
-                btn.onclick = () => { restoreMainMenu(); executeAction(t.action); };
-                menu.appendChild(btn);
-            });
-            const back = document.createElement('button');
-            back.className = 'action-btn';
-            back.textContent = '← Back';
-            back.onclick = restoreMainMenu;
-            menu.appendChild(back);
-        };
-
-        // Items button
-        document.getElementById('items-btn').onclick = () => executeAction('items');
+        }
 
         function restoreMainMenu() {
             const menu = document.getElementById('battle-menu');
+            // Check if Spirit should be enabled
+            const hasSpirit = gameState.unlockedSkills.some(id => SKILL_DB[id] && SKILL_DB[id].branch === 'spiritual');
+
             menu.innerHTML = `
-                <button class="action-btn" id="attack-btn">Attack</button>
-                <button class="action-btn" id="skills-btn">Skills</button>
-                <button class="action-btn" id="talk-btn">Talk</button>
-                <button class="action-btn" id="analyze-btn">Analyze</button>
-                <button class="action-btn" id="items-btn">Items</button>
+                <button class="action-btn" id="fight-btn">Fight</button>
+                <button class="action-btn" id="mouth-btn">Mouth</button>
+                <button class="action-btn" id="spirit-btn" ${!hasSpirit ? 'disabled title="Steve doesn\'t do... whatever this would be."' : ''}>Spirit</button>
+                <button class="action-btn" id="items-btn">Item</button>
                 <button class="action-btn" id="endure-btn">Endure</button>
+                <button class="action-btn" id="flee-btn">Flee</button>
             `;
-            // Re-bind all handlers
-            document.getElementById('attack-btn').onclick = () => executeAction('attack');
-            document.getElementById('skills-btn').onclick = document.getElementById('skills-btn').onclick;
-            document.getElementById('talk-btn').onclick = document.getElementById('talk-btn').onclick;
-            document.getElementById('analyze-btn').onclick = () => executeAction('analyze');
-            document.getElementById('items-btn').onclick = () => executeAction('items');
-            document.getElementById('endure-btn').onclick = () => executeAction('endure');
-            // Need to rebind skills and talk submenus
             bindMenuButtons();
         }
 
         function bindMenuButtons() {
-            document.getElementById('attack-btn').onclick = () => executeAction('attack');
-            document.getElementById('analyze-btn').onclick = () => executeAction('analyze');
-            document.getElementById('endure-btn').onclick = () => executeAction('endure');
+            document.getElementById('fight-btn').onclick = () => openBranchSubmenu('physical');
+            document.getElementById('mouth-btn').onclick = () => openBranchSubmenu('verbal');
+            document.getElementById('spirit-btn').onclick = () => openBranchSubmenu('spiritual');
             document.getElementById('items-btn').onclick = () => executeAction('items');
-            document.getElementById('skills-btn').onclick = () => {
-                const menu = document.getElementById('battle-menu');
-                menu.innerHTML = '';
-                const skills = [
-                    { label: `Spreadsheet [5 EP]`, action: 'spreadsheet', ok: gameState.ep >= 5 },
-                    { label: `Schedule Opt [4 EP]`, action: 'schedule', ok: gameState.ep >= 4 },
-                    { label: `Risk Assess [3 EP]`, action: 'risk', ok: gameState.ep >= 3 },
-                ];
-                if (gameState.insight >= 2) {
-                    skills.push({ label: `Audit [8 EP]`, action: 'audit', ok: gameState.ep >= 8 });
-                }
-                skills.forEach(s => {
-                    const btn = document.createElement('button');
-                    btn.className = 'action-btn';
-                    btn.textContent = s.label;
-                    btn.disabled = !s.ok;
-                    btn.onclick = () => { restoreMainMenu(); executeAction(s.action); };
-                    menu.appendChild(btn);
-                });
-                const back = document.createElement('button');
-                back.className = 'action-btn';
-                back.textContent = '← Back';
-                back.onclick = restoreMainMenu;
-                menu.appendChild(back);
-            };
-            document.getElementById('talk-btn').onclick = () => {
-                const menu = document.getElementById('battle-menu');
-                menu.innerHTML = '';
-                const talks = [
-                    { label: 'Set Boundary', action: 'talk_boundary' },
-                    { label: 'Question', action: 'talk_question' },
-                    { label: 'Bore', action: 'talk_bore' },
-                    { label: 'Validate', action: 'talk_validate' },
-                ];
-                talks.forEach(t => {
-                    const btn = document.createElement('button');
-                    btn.className = 'action-btn';
-                    btn.textContent = t.label;
-                    btn.onclick = () => { restoreMainMenu(); executeAction(t.action); };
-                    menu.appendChild(btn);
-                });
-                const back = document.createElement('button');
-                back.className = 'action-btn';
-                back.textContent = '← Back';
-                back.onclick = restoreMainMenu;
-                menu.appendChild(back);
-            };
+            document.getElementById('endure-btn').onclick = () => executeAction('endure');
+            document.getElementById('flee-btn').onclick = () => executeAction('flee');
         }
         bindMenuButtons();
 

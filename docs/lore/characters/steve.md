@@ -19,25 +19,18 @@
 - **Spreadsheet Power:** MAX
 - **HP (Homeostasis Points):** Full
 
-## Skill Tree Ideas (Accounting Branch)
-- **Audit** — Devastating attack that exposes an enemy's financial structure
-- **Spreadsheet Analysis** — See through scams, reveal hidden costs
-- **Risk Assessment** — Detect traps and dangerous situations
-- **Schedule Optimization** — Time manipulation / extra turns
-- **Depreciation** — Weaken enemy over multiple turns
-- **Tax Write-Off** — Reduce damage taken (it's a business expense)
-- **Billable Hours** — Damage increases the longer combat goes on
+## Skill Branches
 
-## Skill Tree Ideas (Reluctant Spiritual Growth Branch)
-- Unlocked as Steve is forced to participate in spiritual activities
-- Each skill is something he picked up accidentally
-- **Accidental Breathwork** — Buff from hyperventilating during a panic attack
-- **Corporate Meditation** — 10-minute mindfulness from a workplace wellness program
-- **Ironic Crystal** — Someone gave him a crystal and it inexplicably works
+### Physical (Fists) — Player Choice
+Slap → Shove → Throw Rock → Punch → Headbutt → Tackle → Rage. Steve starts pathetic. Each tier is him snapping a little harder.
 
-## Character Arc (UNDECIDED)
-**Option A: Steve changes.** Slow transformation. By endgame he's doing breathwork unironically. Comedy comes from the gradual shift he doesn't notice.
+### Verbal (Mouth) — Player Choice
+Complain + Set Boundary → Nag → Insult + Change Subject → Mock + Guilt Trip → Gaslight + Cold Read → Manipulate + Destroy → Silence. Polite deflection escalates to psychological warfare.
 
-**Option B: Steve is immovable.** The spiritual world cannot touch him. His mundanity is his superpower. Comedy comes from his complete imperviousness.
+### Spiritual (Involuntary) — Happens to Steve
+Panic Breathing → Sage Toss → The Nod → Sound Bath → Empathic Read → Hold Space → Genuine Vulnerability. Steve doesn't choose any of these. They appear as Normality drops from sleeping at the retreat, attending ceremonies, and ego deaths. His existing Physical and Verbal skills also transform into spiritual-enhanced versions (Slap → Energy Slap, Insult → Accurate Insult).
 
-**Option C: Hybrid.** Steve thinks he hasn't changed but clearly has. The player sees it even if Steve doesn't.
+See `docs/game-design/skill-tree.md` and `docs/game-design/progression-system.md` for full details.
+
+## Character Arc (DECIDED)
+**Option C (Hybrid) — confirmed.** Steve thinks he hasn't changed but clearly has. The player sees it even if Steve doesn't. The skill tree IS the character arc: Steve's abilities literally transform from mundane to spiritual over the course of the game, whether the player wants it or not. By endgame, every version of Steve has been partially spiritualized. A Brawler Steve does chakra strikes. A Manipulator Steve reads auras. There is no build that avoids it.

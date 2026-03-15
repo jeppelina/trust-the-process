@@ -62,10 +62,10 @@ Notes:
 "I just... I just need one more recruit and I qualify for the leadership retreat in Sedona. ONE more. I've been saying that for eleven months."
 (drops: tiny bottle of overpriced oil)
 
-**[DEFEAT — if Steve uses Spreadsheet Analysis]**
-(Steve holds up a profit/loss statement)
+**[DEFEAT — if Steve uses Cold Read or Accurate Insult]**
+(Steve looks at her for three seconds and says something very quiet.)
 "You've spent $6,000 on inventory. You've sold $340. To your mother."
-(The Essential Oil Warrior stares at the numbers for a long time.)
+(The Essential Oil Warrior stares at him for a long time.)
 "...My mother bought out of pity, didn't she."
 (They walk away slowly. Somehow this feels worse than winning.)
 

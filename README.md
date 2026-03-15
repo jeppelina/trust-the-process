@@ -27,8 +27,8 @@ Zone 1 (The Sanctuary of Infinite Becoming) is playable with 3 explorable rooms,
 ### Decided
 - Engine: **Godot 4.3+** (GDScript, GL Compatibility)
 - Art style: **Procedural stick figures** via `_draw()` — no sprite assets needed
-- Combat: **Turn-based** with 5 damage types (Physical, Psychic, Bureaucratic, Spiritual, Cringe)
-- Progression: **Insight** as XP, **Normality** as tension meter, dual skill trees (Corporate vs Reluctant Spiritual)
+- Combat: **Turn-based** with 3 damage types (Physical, Psychic, Spiritual) and FIGHT/MOUTH/SPIRIT/ITEM/ENDURE/FLEE menu
+- Progression: **Insight** as XP, **Normality** as tension meter, three skill branches (Physical, Verbal, Spiritual — spiritual is involuntary)
 - Economy: Triple currency — **Cacao Coins**, Karma Points, real USD
 
 ### Open Questions

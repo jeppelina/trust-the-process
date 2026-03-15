@@ -147,7 +147,7 @@
 [CHOICE 3] "Because a groundskeeper told me you have a door I can walk through."
 > **Dharma John:** (long stare, then barks a laugh) Frank sent you, didn't he. Twelve years and that man still has zero respect for the container. (steps aside) Go. But know that what you find in there belongs to you.
 
-### If Steve Uses Risk Assessment
+### If Steve Uses Cold Read
 
 **Steve:** (examines Dharma John's history)
 

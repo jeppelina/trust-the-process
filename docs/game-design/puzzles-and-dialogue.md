@@ -15,7 +15,7 @@ Puzzles in this game are social, not mechanical. Steve doesn't push blocks or so
 **Zone 1 Example:** Dharma John guards the Ceremony Space. Solutions:
 - Raise Insight to required level through gameplay
 - Complete Frank's side quest for the master key (bypasses entirely)
-- Use Risk Assessment to discover John's real backstory, then talk him down
+- Use Cold Read to discover John's real backstory, then talk him down
 - Find a specific dialogue path that resonates with John's buried corporate identity
 
 **Design Rule:** Always at least 3 solutions. One combat-adjacent, one social, one clever/exploratory. Never require a specific path.

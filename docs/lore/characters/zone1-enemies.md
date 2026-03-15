@@ -23,7 +23,7 @@
 - *Anoint* — Throws essential oil. Deals poison damage + confusion (the smell is overwhelming).
 - *MLM Pitch* — Multi-turn attack that gets stronger each round as they escalate from casual mention to hard sell.
 - *"It's Not a Pyramid"* — Defense buff. They genuinely believe this.
-**Weakness:** Steve's "Spreadsheet Analysis" reveals their actual income ($-2,400/year). They flee in shame.
+**Weakness:** Psychic. Steve's verbal attacks (Insult, Guilt Trip, Cold Read) target her insecurity about the MLM. "Your ponytail is a cry for help" does bonus damage. At higher tiers, Accurate Insult reveals her actual income ($-2,400/year).
 **Drop:** Tiny bottle of overpriced oil (consumable: minor heal + smells weird)
 
 ---
@@ -89,7 +89,7 @@
 - *"That's Your Shadow"* — Any attack Steve makes is reflected back as "projection." 50% damage reflection.
 - *Armchair Analysis* — Unprovoked psychological reading. "I notice you have a pattern of..." Deals confusion damage.
 - *Integration Attempt* — Tries to force Steve to "sit with" an uncomfortable feeling. Stun for 1-2 turns.
-**Weakness:** Steve's "Audit" ability — analyzing THEIR shadow (financial records) deals massive damage.
+**Weakness:** Steve's "Cold Read" ability — seeing through their half-understood Jungian persona to the actual person underneath deals massive damage.
 **Drop:** Dog-eared Jung book (consumable: temporary intelligence buff, but Steve doesn't understand most of it)
 
 ---
@@ -117,7 +117,7 @@
 - *Spiritual Gaslighting* — "If you're frustrated, that's the work." Turns Steve's attacks against him.
 - *Ancient Wisdom* — Quotes something vaguely Eastern. Gains authority buff from nearby NPCs who nod along.
 - *Conditional Approval* — Offers to let Steve through IF he does something humiliating first.
-**Weakness:** Steve's "Risk Assessment" ability reveals the Gatekeeper has only been here 18 months and just talks with confidence.
+**Weakness:** Steve's "Cold Read" ability reveals the Gatekeeper has only been here 18 months and just talks with confidence.
 **Drop:** Access key to ceremony space (quest item)
 
 ## NPC (Non-Combat Characters)

@@ -35,13 +35,13 @@ A wall of photos showing Karma Yogis who have "completed their seva." The photos
 Every meal is an ordeal. Dinner is "a turmeric-ashwagandha-reishi broth infused with loving intention." There is no salt. There is no flavor. Someone asks for salt and three people stage an intervention about their "sodium attachment." Steve finds actual coffee being sold out of a maintenance closet by the groundskeeper. It's the black market economy of the retreat.
 
 ### The Workshop Schedule as a Puzzle
-The workshop schedule is intentionally overlapping so guests can't comparison-shop. Figuring out the real schedule — who teaches when, which rooms are actually available — is a literal puzzle Steve has to solve using Schedule Optimization.
+The workshop schedule is intentionally overlapping so guests can't comparison-shop. Figuring out the real schedule — who teaches when, which rooms are actually available — is a literal puzzle Steve has to solve using his accountant's eye for overlapping timeslots.
 
 ### The Founder's TED Talk Rehearsal
 Steve accidentally walks in on The Founder rehearsing a TED talk in front of a mirror. The talk is called "The Courage to Be Ordinary" and it's being given by a man who changed his name, built a cult, and hasn't done his own laundry in eight years.
 
 ### The Sweat Lodge Without a Permit
-An underground (literally and figuratively) ceremony happening in an unpermitted structure. Someone passes out from the heat and the facilitator says "they're journeying." Steve's Risk Assessment ability flags multiple OSHA violations.
+An underground (literally and figuratively) ceremony happening in an unpermitted structure. Someone passes out from the heat and the facilitator says "they're journeying." Steve's accountant brain immediately flags multiple OSHA violations.
 
 ### The Night Walk
 Steve walks the grounds at night. He sees: a facilitator sneaking to The Founder's cabin, two Karma Yogis having a whispered conversation about escaping, someone meditating alone who might actually be having a real spiritual experience, and a beautiful sky that Steve grudgingly admits is nice. A rare quiet scene.
