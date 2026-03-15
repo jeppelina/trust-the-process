@@ -653,21 +653,28 @@
         .skill-notification {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(20, 15, 8, 0.95);
+            background: rgba(20, 15, 8, 0.97);
             z-index: 60;
             display: flex;
+            animation: notifAppear 0.4s ease-out;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             padding: 30px;
             cursor: pointer;
         }
+        @keyframes notifAppear {
+            0% { opacity: 0; transform: scale(1.05); }
+            100% { opacity: 1; transform: scale(1); }
+        }
         .skill-notification-title {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: bold;
-            color: #d4c090;
+            color: #e8d4a0;
             margin-bottom: 12px;
             text-align: center;
+            text-shadow: 0 0 12px rgba(212, 192, 144, 0.4);
+            letter-spacing: 1px;
         }
         .skill-notification-title.enhancement {
             color: #b8a0d8;
@@ -681,6 +688,7 @@
             text-align: center;
             max-width: 400px;
             line-height: 1.5;
+            white-space: pre-line;
             font-style: italic;
         }
         .skill-notification-dismiss {
@@ -811,8 +819,8 @@
         const gameState = {
             screen: 'title',
             currentRoom: 'pavilion',
-            hp: 60, maxHp: 60,
-            qi: 30, maxQi: 30,
+            hp: 50, maxHp: 50,
+            qi: 10, maxQi: 10,
             normality: 95,
             insight: 0,
             cacao: 0,
@@ -848,7 +856,7 @@
         // ═══════════════════════════════════════════════════════════════════
         const SKILL_DB = {
             // ── PHYSICAL (Fists) ──
-            slap:        { id: 'slap',        name: 'Slap',        branch: 'physical', tier: 0, ep: 0,  dmg: 4,  type: 'physical', effect: null,
+            slap:        { id: 'slap',        name: 'Slap',        branch: 'physical', tier: 0, ep: 0,  dmg: 3,  type: 'physical', effect: null,
                            desc: 'Open palm. Undignified.', log: [
                                'Steve slaps with an open palm. It\'s not a punch. It\'s a punctuation mark.',
                                'Steve slaps. He briefly considers whether his health insurance covers this.',
@@ -856,24 +864,24 @@
                                'Steve slaps like a man who has never slapped anyone. Because he hasn\'t. Until now.',
                                'The slap echoes. Steve\'s palm stings. This is not in his job description.',
                            ] },
-            shove:       { id: 'shove',       name: 'Shove',       branch: 'physical', tier: 1, ep: 3,  dmg: 8,  type: 'physical', effect: 'stun_chance',
+            shove:       { id: 'shove',       name: 'Shove',       branch: 'physical', tier: 1, ep: 3,  dmg: 7,  type: 'physical', effect: 'stun_chance',
                            desc: 'Pushback. Chance to stun.', log: 'Steve shoves with both hands. He immediately wants to apologize.',
-                           unlock: { physicalAttacks: 3 } },
+                           unlock: { physicalAttacks: 6 } },
             throw_rock:  { id: 'throw_rock',  name: 'Throw Rock',  branch: 'physical', tier: 2, ep: 6,  dmg: 14, type: 'physical', effect: null,
                            desc: 'Ranged. Can\'t miss. Crude.', log: 'Steve picks up a rock and throws it at a human being. His father would understand.',
-                           unlock: { physicalAttacks: 8 } },
-            punch:       { id: 'punch',       name: 'Punch',       branch: 'physical', tier: 3, ep: 8,  dmg: 18, type: 'physical', effect: 'stun_chance',
+                           unlock: { physicalAttacks: 18 } },
+            punch:       { id: 'punch',       name: 'Punch',       branch: 'physical', tier: 3, ep: 8,  dmg: 20, type: 'physical', effect: 'stun_chance',
                            desc: 'First real attack. Hurts his hand.', log: 'Steve makes a fist. He does not tuck his thumb correctly. It still works.',
-                           unlock: { physicalAttacks: 15 } },
-            headbutt:    { id: 'headbutt',    name: 'Headbutt',    branch: 'physical', tier: 4, ep: 10, dmg: 22, type: 'physical', effect: 'self_damage',
+                           unlock: { physicalAttacks: 35 } },
+            headbutt:    { id: 'headbutt',    name: 'Headbutt',    branch: 'physical', tier: 4, ep: 10, dmg: 26, type: 'physical', effect: 'self_damage',
                            desc: 'Heavy hit. Steve also takes damage.', log: 'Steve headbutts. He loses feeling in his forehead.',
-                           unlock: { physicalAttacks: 25, insight: 3 } },
-            tackle:      { id: 'tackle',      name: 'Tackle',      branch: 'physical', tier: 5, ep: 14, dmg: 28, type: 'physical', effect: 'pin',
+                           unlock: { physicalAttacks: 55, insight: 4 } },
+            tackle:      { id: 'tackle',      name: 'Tackle',      branch: 'physical', tier: 5, ep: 14, dmg: 34, type: 'physical', effect: 'pin',
                            desc: 'Full weight. Both go down. Enemy skips turn.', log: 'Steve played rugby once. He was terrible. But 190 pounds counts for something.',
-                           unlock: { physicalAttacks: 40, day: 4 } },
+                           unlock: { physicalAttacks: 80, day: 5 } },
 
             // ── VERBAL (Mouth) ──
-            complain:    { id: 'complain',    name: 'Complain',    branch: 'verbal',   tier: 0, ep: 0,  dmg: 4,  type: 'psychic',  effect: null,
+            complain:    { id: 'complain',    name: 'Complain',    branch: 'verbal',   tier: 0, ep: 0,  dmg: 3,  type: 'psychic',  effect: null,
                            desc: 'Annoyance damage. Persistent.', log: [
                                '"The water pressure in the shower is unacceptable."',
                                '"I was told there would be towels. ADEQUATE towels."',
@@ -891,19 +899,19 @@
                                '"I did NOT consent to this." The enemy hesitates.',
                                '"Per my previous statement: no." Steve\'s corporate tone is devastating.',
                            ] },
-            nag:         { id: 'nag',         name: 'Nag',         branch: 'verbal',   tier: 1, ep: 5,  dmg: 8,  type: 'psychic',  effect: 'dot',
-                           desc: '8 dmg/turn for 3 turns. Won\'t let it go.', log: '"Where is the CERTIFICATE? I asked about the certificate. Do you even HAVE a certificate?"',
-                           unlock: { verbalAttacks: 5, insight: 1 } },
-            insult:      { id: 'insult',      name: 'Insult',      branch: 'verbal',   tier: 2, ep: 7,  dmg: 15, type: 'psychic',  effect: null,
+            nag:         { id: 'nag',         name: 'Nag',         branch: 'verbal',   tier: 1, ep: 5,  dmg: 6,  type: 'psychic',  effect: 'dot',
+                           desc: '6 dmg/turn for 3 turns. Won\'t let it go.', log: '"Where is the CERTIFICATE? I asked about the certificate. Do you even HAVE a certificate?"',
+                           unlock: { verbalAttacks: 12, insight: 1 } },
+            insult:      { id: 'insult',      name: 'Insult',      branch: 'verbal',   tier: 2, ep: 7,  dmg: 16, type: 'psychic',  effect: null,
                            desc: 'Direct hit to self-image.', log: '"Your ponytail is a cry for help."',
-                           unlock: { verbalAttacks: 12, insight: 2 } },
+                           unlock: { verbalAttacks: 28, insight: 3 } },
             change_subject:{ id: 'change_subject', name: 'Change Subject', branch: 'verbal', tier: 2, ep: 6, dmg: 0, type: 'psychic', effect: 'stun',
                            desc: 'Stun 1 turn. Derails enemy.', log: '"Quick question — is this building up to code?" Enemy forgets what they were doing.',
-                           unlock: { verbalAttacks: 12, insight: 2 } },
+                           unlock: { verbalAttacks: 28, insight: 3 } },
 
             // ── SPIRITUAL (Involuntary) ──
-            panic_breathing: { id: 'panic_breathing', name: 'Panic Breathing', branch: 'spiritual', tier: 0, ep: 5, dmg: 0, type: 'spiritual', effect: 'heal', healAmt: 10,
-                           desc: 'Heal 10 HP. Accidental breathwork.', log: [
+            panic_breathing: { id: 'panic_breathing', name: 'Panic Breathing', branch: 'spiritual', tier: 0, ep: 5, dmg: 0, type: 'spiritual', effect: 'heal', healAmt: 8,
+                           desc: 'Heal 8 HP. Accidental breathwork.', log: [
                                'Steve hyperventilates. It accidentally becomes rhythmic. He heals.',
                                'Steve breathes in panic. Somehow it becomes a legitimate breathing technique.',
                                'Steve\'s stress breathing accidentally aligns with a recognized pranayama pattern. He\'s horrified.',
@@ -924,11 +932,11 @@
         // ═══════════════════════════════════════════════════════════════════
         const ENHANCEMENT_DB = [
             { original: 'slap',     enhanced: 'energy_slap',     normGate: 75,
-              name: 'Energy Slap', dmg: 10, ep: 0, type: 'physical', bonusType: 'spiritual', effect: null,
+              name: 'Energy Slap', dmg: 8, ep: 0, type: 'physical', bonusType: 'spiritual', effect: null,
               log: 'Steve slaps. His palm leaves a brief afterimage. "Why did that GLOW."',
               notification: 'Steve notices his hands tingling before he strikes. The impact leaves a faint shimmer. He shakes his hand out and mutters "static electricity."' },
             { original: 'complain', enhanced: 'mindful_complaint', normGate: 75,
-              name: 'Mindful Complaint', dmg: 4, ep: 0, type: 'psychic', bonusType: 'spiritual', effect: 'dot',
+              name: 'Mindful Complaint', dmg: 3, ep: 0, type: 'psychic', bonusType: 'spiritual', effect: 'dot',
               log: '"I feel that the water pressure doesn\'t honor my needs." It\'s an I-statement. It\'s more devastating this way.',
               notification: 'Steve phrases a complaint as an I-statement without realizing it. The receptionist tears up. Steve is confused.' },
             { original: 'shove',    enhanced: 'force_push',      normGate: 65,
@@ -943,6 +951,18 @@
             return skill.log;
         }
         function pickRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+        // Add consumable to inventory, stacking if it already exists
+        function addConsumable(id, name, heal, qty, qiHeal) {
+            const existing = gameState.inventory.find(i => i.id === id && i.type === 'consumable');
+            if (existing) {
+                existing.qty = (existing.qty || 0) + (qty || 1);
+            } else {
+                const item = { id, name, type: 'consumable', heal, qty: qty || 1 };
+                if (qiHeal) item.qiHeal = qiHeal;
+                gameState.inventory.push(item);
+            }
+        }
 
         // Get the effective version of a skill (enhanced if applicable)
         function getEffectiveSkill(skillId) {
@@ -978,17 +998,29 @@
                 if (gameState.unlockedSkills.includes(skill.id)) return;
                 if (isSkillUnlockable(skill)) {
                     gameState.unlockedSkills.push(skill.id);
+                    // Build rewarding stat line
+                    const statParts = [];
+                    if (skill.dmg > 0) statParts.push(`${skill.dmg} DMG`);
+                    if (skill.ep > 0) statParts.push(`${skill.ep} Qi`);
+                    if (skill.effect === 'stun' || skill.effect === 'stun_chance') statParts.push('STUN');
+                    if (skill.effect === 'pin') statParts.push('PIN');
+                    if (skill.effect === 'dot') statParts.push('DOT');
+                    if (skill.effect === 'block') statParts.push('BLOCK');
+                    if (skill.effect === 'heal') statParts.push(`HEAL ${skill.healAmt}`);
+                    if (skill.effect === 'smoke') statParts.push('SMOKE');
+                    if (skill.effect === 'buff_next') statParts.push('+30% NEXT');
+                    const statLine = statParts.length > 0 ? `\n[ ${statParts.join(' · ')} ]` : '';
                     if (skill.branch === 'spiritual') {
                         gameState.skillNotifications.push({
                             type: 'spiritual',
-                            text: `NEW ABILITY: ${skill.name}`,
-                            desc: skill.desc
+                            text: `★ NEW ABILITY: ${skill.name} ★`,
+                            desc: skill.desc + statLine
                         });
                     } else {
                         gameState.skillNotifications.push({
                             type: 'unlock',
-                            text: `NEW SKILL: ${skill.name}`,
-                            desc: skill.desc
+                            text: `★ NEW SKILL LEARNED: ${skill.name} ★`,
+                            desc: skill.desc + statLine
                         });
                     }
                 }
@@ -1634,7 +1666,12 @@
                     { name: 'Lavender Blitz', dmg: 14, msg: '"THIS ONE IS THERAPEUTIC GRADE!" A bottle shatters on Steve\'s chest.' }
                 ],
                 defeat: '"My mother bought out of pity, didn\'t she." (She walks away slowly.)',
-                xp: 3, cacao: 25
+                xp: 3, cacao: 25,
+                drops: [
+                    { id: 'oil_collection', name: 'Confiscated Oil Collection', type: 'consumable', heal: 20, qiHeal: 5, qty: 1, desc: 'Heals 20 HP, 5 Qi. Smells like a forest fire in a Whole Foods. Surprisingly restorative.', dropChance: 0.8 },
+                    { id: 'mlm_business_card', name: 'doTERRA Business Card', type: 'junk', desc: '"Be Your Own Boss!" Steve calculates the pyramid math on the back. It doesn\'t add up.', dropChance: 0.5 },
+                    { id: 'peppermint_vial', name: 'Peppermint Oil Vial', type: 'consumable', heal: 8, qty: 1, desc: 'Heals 8 HP. Burns the nostrils but clears the head.', dropChance: 0.4 },
+                ]
             },
             'meditator': {
                 name: 'COMPETITIVE MEDITATOR',
@@ -1651,7 +1688,12 @@
                     { name: 'Aggressive Namaste', dmg: 13, msg: '"NAMASTE!" (He bows so aggressively it\'s basically a headbutt.)' }
                 ],
                 defeat: '"I... I wasn\'t even the best meditator here?" (His knees crack loudly as he unfolds.)',
-                xp: 3, cacao: 30
+                xp: 3, cacao: 30,
+                drops: [
+                    { id: 'meditation_cushion', name: 'Competition-Grade Meditation Cushion', type: 'accessory', desc: '+2 Max HP. Surprisingly comfortable. Steve will never admit this.', bonusHp: 2, dropChance: 0.8 },
+                    { id: 'zen_tea', name: 'Competition-Grade Zen Tea', type: 'consumable', heal: 25, qiHeal: 8, qty: 1, desc: 'Heals 25 HP, 8 Qi. Brewed with the intensity of a man who meditates competitively.', dropChance: 0.6 },
+                    { id: 'cracked_mala', name: 'Cracked Mala Beads', type: 'junk', desc: 'Cracked under the pressure of competitive enlightenment. 107 beads. One is missing.', dropChance: 0.4 },
+                ]
             },
             'gatekeeper': {
                 name: 'THE GATEKEEPER',
@@ -1706,7 +1748,10 @@
                 ],
                 defeat: '"I... I just wanted human contact." (Falls over gently.)',
                 xp: 1, cacao: 5,
-                drop: { id: 'consent_card', name: 'Consent Card', type: 'accessory', desc: 'Blocks 1 physical attack per battle', dropChance: 1 }
+                drops: [
+                    { id: 'warm_feelings', name: 'Residual Warm Feelings', type: 'consumable', heal: 8, qty: 1, desc: 'Heals 8 HP. Steve doesn\'t know why he feels slightly better.', dropChance: 0.6 },
+                    { id: 'hug_coupon', name: 'Free Hug Coupon', type: 'junk', desc: 'Redeemable for one (1) unwanted hug. Non-transferable.', dropChance: 0.4 },
+                ]
             },
             'pamphlet_pusher': {
                 name: 'PAMPHLET PUSHER', emoji: '📄😤',
@@ -1718,7 +1763,10 @@
                 ],
                 defeat: '"Nobody reads them anyway." (Drops a stack of flyers.)',
                 xp: 1, cacao: 5,
-                drop: { id: 'workshop_flyer', name: 'Workshop Flyer', type: 'evidence', desc: 'Evidence of overlapping scheduling', dropChance: 0.5 }
+                drops: [
+                    { id: 'workshop_flyer', name: 'Workshop Flyer', type: 'evidence', desc: 'Evidence of overlapping scheduling. Steve notes the font choice is criminal.', dropChance: 0.5 },
+                    { id: 'herbal_tea_bag', name: 'Herbal Tea Bag', type: 'consumable', heal: 5, qty: 1, desc: 'Heals 5 HP. Tastes like hot lawn clippings.', dropChance: 0.5 },
+                ]
             },
             'sound_healer': {
                 name: 'FERAL SOUND HEALER', emoji: '🎸😵',
@@ -1730,7 +1778,11 @@
                 ],
                 defeat: '"But... Spotify said I had 12 monthly listeners." (Strings snap.)',
                 xp: 1, cacao: 8,
-                drop: { id: 'offkey_ukulele', name: 'Off-Key Ukulele', type: 'weapon', dmg: 3, desc: '+3 psychic damage', dropChance: 0.4 }
+                drops: [
+                    { id: 'broken_ukulele_string', name: 'Broken Ukulele String', type: 'junk', desc: 'A snapped string. Still vibrating with residual bad music.', dropChance: 0.5 },
+                    { id: 'ear_plugs', name: 'Improvised Ear Plugs', type: 'consumable', heal: 10, qty: 1, desc: 'Heals 10 HP. The silence is medicinal.', dropChance: 0.4 },
+                    { id: 'singing_bowl_shard', name: 'Singing Bowl Shard', type: 'consumable', qiHeal: 5, qty: 1, desc: 'Restores 5 Qi. The resonance lingers.', dropChance: 0.3 },
+                ]
             },
             'oversharer_enemy': {
                 name: 'THE OVERSHARER', emoji: '😭📢',
@@ -1743,7 +1795,11 @@
                 ],
                 defeat: '"Thank you for witnessing my process." (Walks away, somehow lighter.)',
                 xp: 2, cacao: 8,
-                drop: { id: 'emotional_baggage', name: 'Emotional Baggage', type: 'accessory', desc: '+2 psychic DEF', dropChance: 0.5 }
+                drops: [
+                    { id: 'emotional_baggage', name: 'Emotional Baggage', type: 'junk', desc: 'A metaphysical weight. Steve can feel it in his messenger bag. It does nothing.', dropChance: 0.5 },
+                    { id: 'used_tissue_pile', name: 'Damp Tissue Pile', type: 'junk', desc: 'Wet. Abundant. Useless. Like the conversation.', dropChance: 0.3 },
+                    { id: 'catharsis_residue', name: 'Catharsis Residue', type: 'consumable', heal: 12, qty: 1, desc: 'Heals 12 HP. Secondhand emotional release. Surprisingly effective.', dropChance: 0.4 },
+                ]
             },
             'yoga_snob': {
                 name: 'YOGA SNOB', emoji: '🧘‍♀️👃',
@@ -1756,7 +1812,11 @@
                 ],
                 defeat: '"I... I\'ve only been to Bali. I just watched a lot of YouTube." (Collapses from flexibility.)',
                 xp: 2, cacao: 12,
-                drop: { id: 'yoga_mat', name: 'Overpriced Yoga Mat', type: 'armor', def: 2, desc: '+2 DEF, smells like sandalwood', dropChance: 0.4 }
+                drops: [
+                    { id: 'yoga_mat', name: 'Overpriced Yoga Mat', type: 'armor', def: 2, desc: '+2 DEF. Smells like sandalwood and condescension.', dropChance: 0.3 },
+                    { id: 'alignment_snack', name: 'Activated Almonds', type: 'consumable', heal: 15, qty: 1, desc: 'Heals 15 HP. Steve doesn\'t know what "activated" means. They taste like almonds.', dropChance: 0.5 },
+                    { id: 'mysore_postcard', name: 'Postcard from Bali (Labeled Mysore)', type: 'junk', desc: 'She wrote "Namaste" on the back. The postmark says Kuta Beach.', dropChance: 0.3 },
+                ]
             },
             'boundary_violator': {
                 name: 'BOUNDARY VIOLATOR', emoji: '🫂❌',
@@ -1769,7 +1829,10 @@
                 ],
                 defeat: '"Wait — you actually DON\'T want to be hugged? That\'s... allowed?" (Genuine confusion.)',
                 xp: 2, cacao: 10,
-                drop: { id: 'consent_pamphlet', name: 'Consent Workshop Pamphlet', type: 'evidence', desc: 'Ironic evidence', dropChance: 0.5 }
+                drops: [
+                    { id: 'consent_pamphlet', name: 'Consent Workshop Pamphlet', type: 'evidence', desc: 'Ironic evidence. She clearly didn\'t read it.', dropChance: 0.5 },
+                    { id: 'personal_space_herb', name: 'Personal Space Herb', type: 'consumable', qiHeal: 8, qty: 1, desc: 'Restores 8 Qi. The smell creates a 3-foot buffer zone.', dropChance: 0.4 },
+                ]
             },
             'shadow_enthusiast': {
                 name: 'SHADOW WORK ENTHUSIAST', emoji: '🪞🧠',
@@ -1782,7 +1845,11 @@
                 ],
                 defeat: '"Maybe MY shadow is... pretending to understand Jung after reading one Wikipedia article." (Existential crisis.)',
                 xp: 3, cacao: 15,
-                drop: { id: 'jung_book', name: 'Dog-Eared Jung Book', type: 'accessory', desc: '+3 Insight on read', dropChance: 0.4 }
+                drops: [
+                    { id: 'jung_book', name: 'Dog-Eared Jung Book', type: 'accessory', desc: '+2 Insight. Steve reads two paragraphs. Understands none of it. Feels smarter anyway.', bonusInsight: 2, dropChance: 0.35 },
+                    { id: 'shadow_journal', name: 'Shadow Work Journal', type: 'consumable', heal: 10, qiHeal: 5, qty: 1, desc: 'Heals 10 HP, 5 Qi. Writing "I forgive my father" heals more than expected.', dropChance: 0.5 },
+                    { id: 'broken_mirror', name: 'Cracked Hand Mirror', type: 'junk', desc: 'Seven years bad luck. Or seven years of not seeing your shadow. Same thing.', dropChance: 0.3 },
+                ]
             },
             'kombucha_evangelist': {
                 name: 'KOMBUCHA EVANGELIST', emoji: '🫙💥',
@@ -1795,7 +1862,11 @@
                 ],
                 defeat: '"The pH was off anyway." (Walks away, jars clinking.)',
                 xp: 2, cacao: 10,
-                drop: { id: 'kombucha_jar', name: 'Homemade Kombucha', type: 'consumable', heal: 15, qty: 1, desc: 'Heals 15 HP. 10% chance of side effects.', dropChance: 0.5 }
+                drops: [
+                    { id: 'kombucha_jar', name: 'Homemade Kombucha', type: 'consumable', heal: 15, qty: 1, desc: 'Heals 15 HP. 10% chance of side effects.', dropChance: 0.5 },
+                    { id: 'mystery_scoby', name: 'Mystery SCOBY', type: 'junk', desc: 'It\'s alive. It\'s gelatinous. Steve keeps it at arm\'s length. It pulses.', dropChance: 0.3 },
+                    { id: 'probiotic_shot', name: 'Probiotic Shot', type: 'consumable', heal: 5, qiHeal: 3, qty: 1, desc: 'Heals 5 HP, 3 Qi. Tastes like vinegar had a baby with despair.', dropChance: 0.4 },
+                ]
             },
             'instagram_yogi': {
                 name: 'INSTAGRAM YOGI', emoji: '📸✨',
@@ -1808,7 +1879,12 @@
                 ],
                 defeat: '"My engagement rate..." (Checks phone. Zero likes. Crumbles.)',
                 xp: 2, cacao: 12,
-                drop: { id: 'ring_light', name: 'Ring Light', type: 'accessory', desc: '+5 charisma (aesthetic)', dropChance: 0.3 }
+                drops: [
+                    { id: 'ring_light', name: 'Ring Light', type: 'junk', desc: 'Emits warm light. Does nothing. Steve looks good in it though.', dropChance: 0.3 },
+                    { id: 'moon_milk', name: 'Moon Milk', type: 'consumable', heal: 20, qty: 1, desc: 'Heals 20 HP. Warm oat milk with turmeric and ashwagandha. It\'s actually delicious. Steve is furious.', dropChance: 0.4 },
+                    { id: 'gratitude_crystal', name: 'Gratitude Crystal', type: 'consumable', qiHeal: 10, qty: 1, desc: 'Restores 10 Qi. Steve holds it and feels calm. He puts it down immediately.', dropChance: 0.3 },
+                    { id: 'discount_code', name: 'Discount Code Card', type: 'junk', desc: '"JADE15 for 15% off Moonflower Botanicals." The influencer economy persists.', dropChance: 0.3 },
+                ]
             }
         };
 
@@ -2426,25 +2502,41 @@
                 case 'add_coffee':
                     if (gameState.cacao >= 80) {
                         gameState.cacao -= 80;
-                        gameState.inventory.push({ id: 'coffee', name: 'Actual Coffee', heal: 30, qty: 1 });
+                        addConsumable('coffee', 'Actual Coffee', 30, 1);
+                        gameState.skillNotifications.push({ type: 'unlock', text: 'OBTAINED: Actual Coffee', desc: 'Full HP restore. Contraband. Worth every bean.' });
+                    } else {
+                        gameState.skillNotifications.push({ type: 'unlock', text: 'NOT ENOUGH CACAO', desc: `Need 80, have ${gameState.cacao}. Steve's purchasing power is limited.` });
                     }
                     break;
                 case 'add_cacao_drink':
                     if (gameState.cacao >= 50) {
                         gameState.cacao -= 50;
-                        gameState.inventory.push({ id: 'cacao_drink', name: 'Cacao Drink', heal: 20, qty: 1 });
+                        addConsumable('cacao_drink', 'Cacao Drink', 20, 1);
+                        gameState.skillNotifications.push({ type: 'unlock', text: 'OBTAINED: Cacao Drink', desc: 'Heals 20 HP. It\'s chocolate. Just chocolate.' });
+                    } else {
+                        gameState.skillNotifications.push({ type: 'unlock', text: 'NOT ENOUGH CACAO', desc: `Need 50, have ${gameState.cacao}. The economy is cruel.` });
                     }
                     break;
                 case 'add_kombucha':
                     if (gameState.cacao >= 20) {
                         gameState.cacao -= 20;
-                        gameState.inventory.push({ id: 'kombucha', name: 'Kombucha', heal: 10, qty: 1 });
+                        addConsumable('kombucha', 'Kombucha', 10, 1);
+                        gameState.skillNotifications.push({ type: 'unlock', text: 'OBTAINED: Kombucha', desc: 'Heals 10 HP. 10% chance of regret.' });
+                    } else {
+                        gameState.skillNotifications.push({ type: 'unlock', text: 'NOT ENOUGH CACAO', desc: `Need 20, have ${gameState.cacao}. Even the cheap stuff is out of reach.` });
                     }
                     break;
                 case 'add_wifi_password':
                     if (gameState.cacao >= 100) {
-                        gameState.cacao -= 100;
-                        gameState.inventory.push({ id: 'wifi_password', name: 'WiFi Password (scribbled on napkin)', type: 'key' });
+                        if (!gameState.inventory.find(i => i.id === 'wifi_password')) {
+                            gameState.cacao -= 100;
+                            gameState.inventory.push({ id: 'wifi_password', name: 'WiFi Password (scribbled on napkin)', type: 'key', desc: '"consciousness2012" — written on a napkin in shaky handwriting.' });
+                            gameState.skillNotifications.push({ type: 'unlock', text: 'OBTAINED: WiFi Password', desc: 'The most expensive napkin Steve has ever bought.' });
+                        } else {
+                            gameState.skillNotifications.push({ type: 'unlock', text: 'ALREADY OWNED', desc: 'Steve already has the WiFi password. One napkin is enough.' });
+                        }
+                    } else {
+                        gameState.skillNotifications.push({ type: 'unlock', text: 'NOT ENOUGH CACAO', desc: `Need 100, have ${gameState.cacao}. Digital freedom has a price.` });
                     }
                     break;
                 case 'add_retreat_map':
@@ -2455,6 +2547,8 @@
                     break;
                 case 'breathwork_heal':
                     gameState.qi = gameState.maxQi;
+                    // First breathwork session grants +3 max Qi
+                    grantMaxQi('breathwork_session', 3, 'The breathing actually did something. Steve\'s Qi capacity grew. He will never admit this.');
                     break;
                 case 'talked_breathwork_monk':
                     gameState.flags['talked_breathwork_monk'] = true;
@@ -2582,11 +2676,17 @@
 
             // Max HP growth from sleeping at the retreat
             if (gameState.currentDay === 2) {
-                grantMaxHP('sleep_day1', 5, 'The yoga mat smells like someone else\'s journey. Steve sleeps anyway. He wakes up slightly less fragile.');
+                grantMaxHP('sleep_day1', 3, 'The yoga mat smells like someone else\'s journey. Steve sleeps anyway. He wakes up marginally less fragile.');
+            }
+            if (gameState.currentDay === 4) {
+                grantMaxHP('sleep_day3', 5, 'Three nights on a yoga mat. Steve\'s body is adapting. His chiropractor would weep.');
             }
             // Max Qi from first meditation (automatic on Day 2)
             if (gameState.currentDay === 2) {
-                grantMaxQi('forced_meditation', 5, 'Steve accidentally meditated during the morning silence. His "Qi" increased. He puts "Qi" in air quotes even in his own thoughts.');
+                grantMaxQi('forced_meditation', 3, 'Steve accidentally meditated during the morning silence. His "Qi" increased. He puts "Qi" in air quotes even in his own thoughts.');
+            }
+            if (gameState.currentDay === 4) {
+                grantMaxQi('ambient_qi', 5, 'Steve can feel energy in the air now. He hates this. But his Qi capacity grew anyway.');
             }
 
             updateHUD();
@@ -2704,10 +2804,36 @@
                 html += '<div class="menu-section-title" style="margin-top: 12px;">Consumables</div>';
                 consumables.forEach(item => {
                     const qty = item.qty ? ` ×${item.qty}` : '';
-                    const effect = item.heal ? `heals ${item.heal} HP` : '';
+                    const effects = [];
+                    if (item.heal) effects.push(`heals ${item.heal} HP`);
+                    if (item.qiHeal) effects.push(`restores ${item.qiHeal} Qi`);
                     html += `<div class="inv-item">
                         <div><span class="inv-item-name">🍵 ${item.name}${qty}</span></div>
-                        <div class="inv-item-detail">${effect}</div>
+                        <div class="inv-item-detail">${effects.join(', ') || item.desc || ''}</div>
+                    </div>`;
+                });
+            }
+
+            // Accessories
+            const accessories = gameState.inventory.filter(i => i.type === 'accessory');
+            if (accessories.length) {
+                html += '<div class="menu-section-title" style="margin-top: 12px;">Accessories</div>';
+                accessories.forEach(item => {
+                    html += `<div class="inv-item">
+                        <div><span class="inv-item-name">💍 ${item.name}</span></div>
+                        <div class="inv-item-detail">${item.desc || ''}</div>
+                    </div>`;
+                });
+            }
+
+            // Evidence
+            const evidence = gameState.inventory.filter(i => i.type === 'evidence');
+            if (evidence.length) {
+                html += '<div class="menu-section-title" style="margin-top: 12px;">Evidence</div>';
+                evidence.forEach(item => {
+                    html += `<div class="inv-item">
+                        <div><span class="inv-item-name">📋 ${item.name}</span></div>
+                        <div class="inv-item-detail">${item.desc || ''}</div>
                     </div>`;
                 });
             }
@@ -2719,7 +2845,19 @@
                 keys.forEach(item => {
                     html += `<div class="inv-item">
                         <div><span class="inv-item-name">🔑 ${item.name}</span></div>
-                        <div class="inv-item-detail"></div>
+                        <div class="inv-item-detail">${item.desc || ''}</div>
+                    </div>`;
+                });
+            }
+
+            // Junk
+            const junk = gameState.inventory.filter(i => i.type === 'junk');
+            if (junk.length) {
+                html += '<div class="menu-section-title" style="margin-top: 12px;">Junk</div>';
+                junk.forEach(item => {
+                    html += `<div class="inv-item">
+                        <div><span class="inv-item-name">🗑 ${item.name}</span></div>
+                        <div class="inv-item-detail">${item.desc || ''}</div>
                     </div>`;
                 });
             }
@@ -3091,6 +3229,35 @@
             return false;
         }
 
+        function showProgressHint(branch) {
+            // Find next locked skill in this branch
+            const count = branch === 'physical' ? gameState.physicalAttacks : gameState.verbalAttacks;
+            const nextSkill = Object.values(SKILL_DB).find(s => {
+                if (s.branch !== branch) return false;
+                if (gameState.unlockedSkills.includes(s.id)) return false;
+                if (!s.unlock) return false;
+                const reqCount = s.unlock.physicalAttacks || s.unlock.verbalAttacks || 0;
+                return reqCount > 0;
+            });
+            if (!nextSkill) return;
+            const reqCount = nextSkill.unlock.physicalAttacks || nextSkill.unlock.verbalAttacks || 0;
+            const remaining = reqCount - count;
+            // Show hints at specific thresholds
+            if (remaining === 3) {
+                logBattle(pickRandom([
+                    '(Something is shifting. Steve can feel it.)',
+                    '(A new instinct is forming. Almost there...)',
+                    '(Steve\'s muscles remember something his brain hasn\'t learned yet.)',
+                ]));
+            } else if (remaining === 1) {
+                logBattle(pickRandom([
+                    '(One more. Steve can feel it at the edge of his awareness.)',
+                    '(Almost... something is about to click.)',
+                    '(The next strike will be different. Steve doesn\'t know how he knows.)',
+                ]));
+            }
+        }
+
         function executeSkill(skillId) {
             if (!battleState.playerTurn || battleState.isOver) return;
 
@@ -3113,6 +3280,9 @@
             // Track attack counters (use base skill branch, not enhanced)
             if (baseSkill.branch === 'physical') gameState.physicalAttacks++;
             if (baseSkill.branch === 'verbal') gameState.verbalAttacks++;
+
+            // Progress hints — show when close to next skill unlock
+            showProgressHint(baseSkill.branch);
 
             // Apply buff_next bonus if active
             let dmgMultiplier = 1;
@@ -3163,9 +3333,9 @@
                     }
                 }
 
-                // Variance
-                dmg += Math.floor(Math.random() * 3) - 1;
-                dmg = Math.max(1, dmg);
+                // Variance: ±20% random range — makes fights unpredictable
+                const variance = 0.8 + Math.random() * 0.4; // 0.8 to 1.2
+                dmg = Math.max(1, Math.round(dmg * variance));
 
                 dealEnemyDmg(dmg);
                 logBattle(`${getLogText(skill)} ${dmg} damage!`);
@@ -3322,24 +3492,7 @@
                     }
                     break;
                 case 'items': {
-                    const consumable = gameState.inventory.find(i => i.heal && (i.qty || 0) > 0);
-                    if (consumable) {
-                        battleState.playerTurn = false;
-                        document.getElementById('battle-turn-info').textContent = 'Enemy Turn';
-                        battleState.enduring = false;
-                        const heal = Math.min(consumable.heal, gameState.maxHp - gameState.hp);
-                        gameState.hp += heal;
-                        consumable.qty--;
-                        if (consumable.qty <= 0) {
-                            gameState.inventory = gameState.inventory.filter(i => i.id !== consumable.id);
-                        }
-                        logBattle(`Steve uses ${consumable.name}. Restored ${heal} HP!`);
-                        updateBattleDisplay();
-                        updateHUD();
-                        setTimeout(enemyTurn, 600);
-                    } else {
-                        logBattle('No items!');
-                    }
+                    openItemSubmenu();
                     break;
                 }
             }
@@ -3401,7 +3554,9 @@
             logBattle(attack.msg);
 
             if (attack.dmg) {
-                let dmg = attack.dmg + Math.floor(Math.random() * 4 - 2);
+                // ±20% variance on enemy attacks
+                const eVariance = 0.8 + Math.random() * 0.4;
+                let dmg = Math.max(1, Math.round(attack.dmg * eVariance));
 
                 // Smoke screen: 20% miss chance
                 if (battleState.smokeScreen && battleState.smokeScreen > 0 && Math.random() < 0.2) {
@@ -3480,27 +3635,63 @@
                 gameState.insight += battleState.enemy.xp;
                 gameState.cacao += battleState.enemy.cacao;
 
-                // Equipment drops
+                // Loot drops — supports both single `drop` and multi `drops` array
                 const enemyData = enemyDB[gameState.currentBattleEnemy];
-                if (enemyData && enemyData.drop) {
+                const dropTable = enemyData.drops || (enemyData.drop ? [enemyData.drop] : []);
+                if (dropTable.length > 0) {
                     const isFirstKill = !gameState.flags['killed_' + gameState.currentBattleEnemy];
-                    const dropRoll = Math.random();
-                    if (isFirstKill || dropRoll < (enemyData.drop.dropChance || 0.3)) {
-                        gameState.flags['killed_' + gameState.currentBattleEnemy] = true;
-                        const drop = { ...enemyData.drop };
-                        delete drop.dropChance;
-                        // Don't add duplicates of non-consumable items
-                        if (drop.type !== 'consumable' && gameState.inventory.find(i => i.id === drop.id)) {
-                            // Already have it
-                        } else {
-                            gameState.inventory.push(drop);
-                            gameState.skillNotifications.push({
-                                type: 'unlock',
-                                text: `LOOT: ${drop.name}`,
-                                desc: drop.desc || ''
-                            });
+                    dropTable.forEach(dropDef => {
+                        const chance = dropDef.dropChance || 0.3;
+                        // First kill: guaranteed drop for highest-chance item, normal rolls for rest
+                        const roll = Math.random();
+                        if (roll < chance || (isFirstKill && chance >= 0.5)) {
+                            const drop = { ...dropDef };
+                            delete drop.dropChance;
+                            // Handle by type
+                            if (drop.type === 'consumable') {
+                                addConsumable(drop.id, drop.name, drop.heal || 0, drop.qty || 1, drop.qiHeal || 0);
+                                gameState.skillNotifications.push({
+                                    type: 'unlock',
+                                    text: `LOOT: ${drop.name}`,
+                                    desc: drop.desc || ''
+                                });
+                            } else if (drop.type === 'junk') {
+                                // Junk: add to inventory for flavor, no duplicates
+                                if (!gameState.inventory.find(i => i.id === drop.id)) {
+                                    gameState.inventory.push(drop);
+                                    gameState.skillNotifications.push({
+                                        type: 'unlock',
+                                        text: `JUNK: ${drop.name}`,
+                                        desc: drop.desc || ''
+                                    });
+                                }
+                            } else if (!gameState.inventory.find(i => i.id === drop.id)) {
+                                // Equipment, accessories, evidence — no duplicates
+                                gameState.inventory.push(drop);
+                                gameState.skillNotifications.push({
+                                    type: 'unlock',
+                                    text: `LOOT: ${drop.name}`,
+                                    desc: drop.desc || ''
+                                });
+                                // Apply permanent stat bonuses
+                                if (drop.bonusHp) {
+                                    grantMaxHP('item_' + drop.id, drop.bonusHp, drop.name + ' grants permanent toughness.');
+                                }
+                                if (drop.bonusQi) {
+                                    grantMaxQi('item_' + drop.id, drop.bonusQi, drop.name + ' expands Steve\'s energy.');
+                                }
+                                if (drop.bonusInsight) {
+                                    gameState.insight += drop.bonusInsight;
+                                    gameState.skillNotifications.push({
+                                        type: 'unlock',
+                                        text: `+${drop.bonusInsight} INSIGHT`,
+                                        desc: 'Knowledge gained, however reluctantly.'
+                                    });
+                                }
+                            }
                         }
-                    }
+                    });
+                    if (isFirstKill) gameState.flags['killed_' + gameState.currentBattleEnemy] = true;
                 }
 
                 // Set the correct defeat flag
@@ -3639,6 +3830,61 @@
                 }
             }
         });
+
+        function openItemSubmenu() {
+            const menu = document.getElementById('battle-menu');
+            menu.innerHTML = '';
+
+            const usable = gameState.inventory.filter(i => i.type === 'consumable' && (i.qty || 0) > 0);
+            if (usable.length === 0) {
+                const msg = document.createElement('div');
+                msg.style.cssText = 'color:#999; font-size:11px; padding:8px;';
+                msg.textContent = 'Steve\'s bag contains nothing useful. Like most of his life.';
+                menu.appendChild(msg);
+            }
+
+            usable.forEach(item => {
+                const btn = document.createElement('button');
+                btn.className = 'action-btn';
+                const effects = [];
+                if (item.heal) effects.push(`${item.heal} HP`);
+                if (item.qiHeal) effects.push(`${item.qiHeal} Qi`);
+                btn.textContent = `${item.name} ×${item.qty} (${effects.join(', ')})`;
+                btn.onclick = () => {
+                    if (!battleState.playerTurn || battleState.isOver) return;
+                    battleState.playerTurn = false;
+                    document.getElementById('battle-turn-info').textContent = 'Enemy Turn';
+                    battleState.enduring = false;
+                    const msgs = [];
+                    if (item.heal) {
+                        const heal = Math.min(item.heal, gameState.maxHp - gameState.hp);
+                        gameState.hp += heal;
+                        if (heal > 0) msgs.push(`${heal} HP`);
+                    }
+                    if (item.qiHeal) {
+                        const qiGain = Math.min(item.qiHeal, gameState.maxQi - gameState.qi);
+                        gameState.qi += qiGain;
+                        if (qiGain > 0) msgs.push(`${qiGain} Qi`);
+                    }
+                    item.qty--;
+                    if (item.qty <= 0) {
+                        gameState.inventory = gameState.inventory.filter(i => i.id !== item.id);
+                    }
+                    logBattle(`Steve uses ${item.name}. Restored ${msgs.join(' and ') || 'nothing. It was expired.'}!`);
+                    updateBattleDisplay();
+                    updateHUD();
+                    restoreMainMenu();
+                    setTimeout(enemyTurn, 600);
+                };
+                menu.appendChild(btn);
+            });
+
+            const back = document.createElement('button');
+            back.className = 'action-btn';
+            back.textContent = '← Back';
+            back.onclick = restoreMainMenu;
+            menu.appendChild(back);
+        }
 
         function openBranchSubmenu(branch) {
             const menu = document.getElementById('battle-menu');
