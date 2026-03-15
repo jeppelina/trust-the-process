@@ -176,7 +176,7 @@
             right: -4px;
             width: 10px;
             height: 10px;
-            background: #e8c44a;
+            background: #e04040;
             border-radius: 50%;
             border: 2px solid #2a2218;
             animation: badgePulse 2s ease-in-out infinite;
@@ -835,7 +835,7 @@
         const gameState = {
             screen: 'title',
             currentRoom: 'pavilion',
-            hp: 50, maxHp: 50,
+            hp: 25, maxHp: 25,
             qi: 10, maxQi: 10,
             normality: 95,
             insight: 0,
@@ -852,9 +852,11 @@
             // Skill system
             physicalAttacks: 0,
             verbalAttacks: 0,
-            unlockedSkills: ['slap', 'complain', 'set_boundary'],
+            unlockedSkills: ['slap', 'complain'],
             skillNotifications: [],
             enhancedSkills: {},
+            skillUses: {},  // { 'slap': 14, 'complain': 8, ... }
+            skillLevels: {}, // { 'slap': 2, 'complain': 1, ... }
             // Day/action system
             timeOfDay: 'morning',  // morning, day, evening
             actionsLeft: 4,        // day actions
@@ -870,11 +872,22 @@
         };
 
         // ═══════════════════════════════════════════════════════════════════
+        // SKILL LEVELING CONSTANTS
+        // ═══════════════════════════════════════════════════════════════════
+        const SKILL_LEVEL_THRESHOLDS = [0, 10, 30, 60, 100, 150]; // uses to reach level 1,2,3,4,5
+        // Diminishing returns: each level adds less than the last
+        // Lv1: +14%, Lv2: +20%, Lv3: +24%, Lv4: +28%, Lv5: +32%
+        function getSkillLevelMultiplier(level) {
+            if (level <= 0) return 1;
+            return 1 + 0.10 * Math.sqrt(level * 2);
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
         // SKILL DATABASE
         // ═══════════════════════════════════════════════════════════════════
         const SKILL_DB = {
             // ── PHYSICAL (Fists) ──
-            slap:        { id: 'slap',        name: 'Slap',        branch: 'physical', tier: 0, ep: 0,  dmg: 3,  type: 'physical', effect: null,
+            slap:        { id: 'slap',        name: 'Slap',        branch: 'physical', tier: 0, ep: 0,  dmg: 3,  type: 'physical', effect: null, acc: 95,
                            desc: 'Open palm. Undignified.', log: [
                                'Steve slaps with an open palm. It\'s not a punch. It\'s a punctuation mark.',
                                'Steve slaps. He briefly considers whether his health insurance covers this.',
@@ -882,24 +895,24 @@
                                'Steve slaps like a man who has never slapped anyone. Because he hasn\'t. Until now.',
                                'The slap echoes. Steve\'s palm stings. This is not in his job description.',
                            ] },
-            shove:       { id: 'shove',       name: 'Shove',       branch: 'physical', tier: 1, ep: 3,  dmg: 7,  type: 'physical', effect: 'stun_chance',
+            shove:       { id: 'shove',       name: 'Shove',       branch: 'physical', tier: 1, ep: 3,  dmg: 7,  type: 'physical', effect: 'stun_chance', acc: 90,
                            desc: 'Pushback. Chance to stun.', log: 'Steve shoves with both hands. He immediately wants to apologize.',
-                           unlock: { physicalAttacks: 6 } },
-            throw_rock:  { id: 'throw_rock',  name: 'Throw Rock',  branch: 'physical', tier: 2, ep: 6,  dmg: 14, type: 'physical', effect: null,
+                           unlock: { physicalAttacks: 20 } },
+            throw_rock:  { id: 'throw_rock',  name: 'Throw Rock',  branch: 'physical', tier: 2, ep: 6,  dmg: 14, type: 'physical', effect: null, acc: 95,
                            desc: 'Ranged. Can\'t miss. Crude.', log: 'Steve picks up a rock and throws it at a human being. His father would understand.',
-                           unlock: { physicalAttacks: 18 } },
-            punch:       { id: 'punch',       name: 'Punch',       branch: 'physical', tier: 3, ep: 8,  dmg: 20, type: 'physical', effect: 'stun_chance',
+                           unlock: { physicalAttacks: 60 } },
+            punch:       { id: 'punch',       name: 'Punch',       branch: 'physical', tier: 3, ep: 8,  dmg: 20, type: 'physical', effect: 'stun_chance', acc: 85,
                            desc: 'First real attack. Hurts his hand.', log: 'Steve makes a fist. He does not tuck his thumb correctly. It still works.',
-                           unlock: { physicalAttacks: 35 } },
-            headbutt:    { id: 'headbutt',    name: 'Headbutt',    branch: 'physical', tier: 4, ep: 10, dmg: 26, type: 'physical', effect: 'self_damage',
+                           unlock: { physicalAttacks: 120 } },
+            headbutt:    { id: 'headbutt',    name: 'Headbutt',    branch: 'physical', tier: 4, ep: 10, dmg: 26, type: 'physical', effect: 'self_damage', acc: 80,
                            desc: 'Heavy hit. Steve also takes damage.', log: 'Steve headbutts. He loses feeling in his forehead.',
-                           unlock: { physicalAttacks: 55, insight: 4 } },
-            tackle:      { id: 'tackle',      name: 'Tackle',      branch: 'physical', tier: 5, ep: 14, dmg: 34, type: 'physical', effect: 'pin',
+                           unlock: { physicalAttacks: 180, insight: 6 } },
+            tackle:      { id: 'tackle',      name: 'Tackle',      branch: 'physical', tier: 5, ep: 14, dmg: 34, type: 'physical', effect: 'pin', acc: 85,
                            desc: 'Full weight. Both go down. Enemy skips turn.', log: 'Steve played rugby once. He was terrible. But 190 pounds counts for something.',
-                           unlock: { physicalAttacks: 80, day: 5 } },
+                           unlock: { physicalAttacks: 250, day: 6 } },
 
             // ── VERBAL (Mouth) ──
-            complain:    { id: 'complain',    name: 'Complain',    branch: 'verbal',   tier: 0, ep: 0,  dmg: 3,  type: 'psychic',  effect: null,
+            complain:    { id: 'complain',    name: 'Complain',    branch: 'verbal',   tier: 0, ep: 0,  dmg: 3,  type: 'psychic',  effect: null, acc: 95,
                            desc: 'Annoyance damage. Persistent.', log: [
                                '"The water pressure in the shower is unacceptable."',
                                '"I was told there would be towels. ADEQUATE towels."',
@@ -909,27 +922,28 @@
                                '"This mat smells like someone else\'s spiritual awakening."',
                                '"The breakfast didn\'t have protein. REAL protein. Not hemp seeds."',
                            ] },
-            set_boundary:{ id: 'set_boundary', name: 'Set Boundary', branch: 'verbal', tier: 0, ep: 0,  dmg: 0,  type: 'psychic',  effect: 'block',
-                           desc: '65% chance to block attacks for 2 turns. Free action.', log: [
+            set_boundary:{ id: 'set_boundary', name: 'Set Boundary', branch: 'verbal', tier: 0, ep: 2,  dmg: 0,  type: 'psychic',  effect: 'block', acc: 55,
+                           desc: '55% chance to block attacks for 2 turns. 2 Qi.', log: [
                                '"I\'m not comfortable with this." The enemy doesn\'t know how to respond.',
                                '"I need you to respect my personal space." Steve draws an invisible line with his finger.',
                                '"This interaction is over." Steve crosses his arms. It\'s surprisingly effective.',
                                '"I did NOT consent to this." The enemy hesitates.',
                                '"Per my previous statement: no." Steve\'s corporate tone is devastating.',
-                           ] },
-            nag:         { id: 'nag',         name: 'Nag',         branch: 'verbal',   tier: 1, ep: 5,  dmg: 6,  type: 'psychic',  effect: 'dot',
-                           desc: '6 dmg/turn for 3 turns. Won\'t let it go.', log: '"Where is the CERTIFICATE? I asked about the certificate. Do you even HAVE a certificate?"',
-                           unlock: { verbalAttacks: 12, insight: 1 } },
-            insult:      { id: 'insult',      name: 'Insult',      branch: 'verbal',   tier: 2, ep: 7,  dmg: 16, type: 'psychic',  effect: null,
-                           desc: 'Direct hit to self-image.', log: '"Your ponytail is a cry for help."',
-                           unlock: { verbalAttacks: 28, insight: 3 } },
-            change_subject:{ id: 'change_subject', name: 'Change Subject', branch: 'verbal', tier: 2, ep: 6, dmg: 0, type: 'psychic', effect: 'stun',
+                           ],
+                           unlock: { verbalAttacks: 8 } },
+            nag:         { id: 'nag',         name: 'Nag',         branch: 'verbal',   tier: 1, ep: 5,  dmg: 5,  type: 'psychic',  effect: 'dot', acc: 90, dotDmg: 3,
+                           desc: '5 dmg + 3 dmg/turn for 3 turns. Won\'t let it go.', log: '"Where is the CERTIFICATE? I asked about the certificate. Do you even HAVE a certificate?"',
+                           unlock: { verbalAttacks: 35, insight: 1 } },
+            insult:      { id: 'insult',      name: 'Insult',      branch: 'verbal',   tier: 2, ep: 7,  dmg: 16, type: 'psychic',  effect: 'defense_shred', acc: 90,
+                           desc: 'Psychic hit + lowers enemy DEF by 2.', log: '"Your ponytail is a cry for help."',
+                           unlock: { verbalAttacks: 80, insight: 3 } },
+            change_subject:{ id: 'change_subject', name: 'Change Subject', branch: 'verbal', tier: 2, ep: 6, dmg: 0, type: 'psychic', effect: 'stun', acc: 85,
                            desc: 'Stun 1 turn. Derails enemy.', log: '"Quick question — is this building up to code?" Enemy forgets what they were doing.',
-                           unlock: { verbalAttacks: 28, insight: 3 } },
+                           unlock: { verbalAttacks: 80, insight: 3 } },
 
             // ── SPIRITUAL (Involuntary) ──
-            panic_breathing: { id: 'panic_breathing', name: 'Panic Breathing', branch: 'spiritual', tier: 0, ep: 5, dmg: 0, type: 'spiritual', effect: 'heal', healAmt: 8,
-                           desc: 'Heal 8 HP. Accidental breathwork.', log: [
+            panic_breathing: { id: 'panic_breathing', name: 'Panic Breathing', branch: 'spiritual', tier: 0, ep: 5, dmg: 0, type: 'spiritual', effect: 'heal', acc: 100, healAmt: 20,
+                           desc: 'Heal 20 HP. Accidental breathwork.', log: [
                                'Steve hyperventilates. It accidentally becomes rhythmic. He heals.',
                                'Steve breathes in panic. Somehow it becomes a legitimate breathing technique.',
                                'Steve\'s stress breathing accidentally aligns with a recognized pranayama pattern. He\'s horrified.',
@@ -937,10 +951,10 @@
                                'Steve pants like a man who ran for a bus. His body interprets this as "wellness."',
                            ],
                            unlock: { maxNormality: 90 } },
-            sage_toss:   { id: 'sage_toss',   name: 'Sage Toss',   branch: 'spiritual', tier: 1, ep: 5,  dmg: 8,  type: 'spiritual', effect: 'smoke',
+            sage_toss:   { id: 'sage_toss',   name: 'Sage Toss',   branch: 'spiritual', tier: 1, ep: 5,  dmg: 8,  type: 'spiritual', effect: 'smoke', acc: 90,
                            desc: '8 dmg + smoke screen. -20% enemy accuracy.', log: 'Steve has watched someone light sage 400 times. Muscle memory.',
                            unlock: { maxNormality: 80 } },
-            the_nod:     { id: 'the_nod',     name: 'The Nod',     branch: 'spiritual', tier: 2, ep: 4,  dmg: 0,  type: 'spiritual', effect: 'buff_next',
+            the_nod:     { id: 'the_nod',     name: 'The Nod',     branch: 'spiritual', tier: 2, ep: 4,  dmg: 0,  type: 'spiritual', effect: 'buff_next', acc: 100,
                            desc: 'De-escalate + buff next attack +30%.', log: 'The nod is involuntary now. He does it in his sleep. It works on everyone.',
                            unlock: { maxNormality: 70 } },
         };
@@ -948,19 +962,36 @@
         // ═══════════════════════════════════════════════════════════════════
         // ENHANCEMENT DATABASE — spiritual transformations of existing skills
         // ═══════════════════════════════════════════════════════════════════
+        // Enhanced skills use dmgMin/dmgMax for variable damage (keeps base floor, widens ceiling)
         const ENHANCEMENT_DB = [
             { original: 'slap',     enhanced: 'energy_slap',     normGate: 75,
-              name: 'Energy Slap', dmg: 8, ep: 0, type: 'physical', bonusType: 'spiritual', effect: null,
+              name: 'Energy Slap', dmgMin: 3, dmgMax: 10, dmg: 6, ep: 0, type: 'physical', bonusType: 'spiritual', effect: null,
               log: 'Steve slaps. His palm leaves a brief afterimage. "Why did that GLOW."',
               notification: 'Steve notices his hands tingling before he strikes. The impact leaves a faint shimmer. He shakes his hand out and mutters "static electricity."' },
             { original: 'complain', enhanced: 'mindful_complaint', normGate: 75,
-              name: 'Mindful Complaint', dmg: 3, ep: 0, type: 'psychic', bonusType: 'spiritual', effect: 'dot',
+              name: 'Mindful Complaint', dmgMin: 3, dmgMax: 9, dmg: 5, ep: 0, type: 'psychic', bonusType: 'spiritual', effect: 'dot', dotDmg: 3,
               log: '"I feel that the water pressure doesn\'t honor my needs." It\'s an I-statement. It\'s more devastating this way.',
               notification: 'Steve phrases a complaint as an I-statement without realizing it. The receptionist tears up. Steve is confused.' },
             { original: 'shove',    enhanced: 'force_push',      normGate: 65,
-              name: 'Force Push', dmg: 14, ep: 0, type: 'physical', bonusType: 'spiritual', effect: 'stun',
+              name: 'Force Push', dmgMin: 7, dmgMax: 20, dmg: 12, ep: 0, type: 'physical', bonusType: 'spiritual', effect: 'stun',
               log: 'Steve shoves. The target slides further than physics allows. Steve stares at his hands.',
               notification: 'Steve shoves someone and they fly back three feet. Gravity doesn\'t explain it. Steve stares at his hands for a long time.' },
+            // ── LATE-GAME: High power, high risk ──
+            { original: 'throw_rock', enhanced: 'spirit_stone', normGate: 50,
+              name: 'Spirit Stone', dmgMin: 10, dmgMax: 30, dmg: 18, ep: 4, type: 'physical', bonusType: 'spiritual', effect: null,
+              riskEffect: 'self_damage_5',
+              log: 'Steve hurls a rock. It glows mid-flight. It was not glowing when he picked it up.',
+              notification: 'The rock is warm in Steve\'s hand. It hums. He throws it and it leaves a trail of light. Steve\'s hand is bleeding. He didn\'t grip it that hard.' },
+            { original: 'nag',       enhanced: 'existential_dread', normGate: 50,
+              name: 'Existential Dread', dmgMin: 5, dmgMax: 14, dmg: 8, ep: 5, type: 'psychic', bonusType: 'spiritual', effect: 'dot', dotDmg: 5,
+              riskEffect: 'qi_drain_2',
+              log: '"What if none of this is real? What if the retreat is a metaphor? What if YOU\'RE a metaphor?" The enemy\'s eyes go wide.',
+              notification: 'Steve says something that makes a stranger question the nature of reality. He didn\'t mean to. The words came from somewhere deeper. His Qi drains when he speaks like this.' },
+            { original: 'punch',     enhanced: 'third_eye_strike', normGate: 40,
+              name: 'Third Eye Strike', dmgMin: 15, dmgMax: 45, dmg: 28, ep: 8, type: 'physical', bonusType: 'spiritual', effect: 'stun_chance',
+              riskEffect: 'normality_drain',
+              log: 'Steve punches. His fist connects with something that isn\'t physical. The impact ripples. Steve\'s vision goes purple for a moment.',
+              notification: 'Steve\'s fist moves before he decides to throw it. The impact leaves a mark that looks like an eye. His normality is slipping faster now. Each strike takes something from him.' },
         ];
 
         // Resolve log text — supports string or array for rotating messages
@@ -990,8 +1021,12 @@
                     return {
                         id: enh.enhanced, name: enh.name, branch: SKILL_DB[skillId].branch,
                         tier: SKILL_DB[skillId].tier, ep: enh.ep, dmg: enh.dmg,
+                        dmgMin: enh.dmgMin, dmgMax: enh.dmgMax,
+                        dotDmg: enh.dotDmg,
                         type: enh.type, bonusType: enh.bonusType, effect: enh.effect,
-                        log: enh.log, originalName: SKILL_DB[skillId].name
+                        riskEffect: enh.riskEffect,
+                        log: enh.log, originalName: SKILL_DB[skillId].name,
+                        acc: SKILL_DB[skillId].acc
                     };
                 }
             }
@@ -1852,8 +1887,8 @@
             'cacao_dealer': { name: 'Cacao Dealer', color: '#2E8E18', emoji: '🍫😏', dialogue: 'cacao_dealer_shop', showFlag: 'talked_maya' },
             'gatekeeper': { name: 'Gatekeeper', color: '#A62424', emoji: '🚫🧙‍♂️', dialogue: 'gatekeeper_confront', hideFlag: 'gatekeeper_cleared' },
             'founder': { name: 'The Founder', color: '#C78C00', emoji: '👁️🕴️', dialogue: 'back_office_discover', hideFlag: 'founder_defeated' },
-            'mattis': { name: 'Mattis', color: '#5588AA', emoji: '🧔‍♂️😔', dialogue: 'mattis_day2', dynamicDialogue: true, showDay: 2 },
-            'jade': { name: 'Jade', color: '#DD55AA', emoji: '📱✨', dialogue: 'jade_intro', returnDialogue: 'jade_return', showDay: 2 },
+            'mattis': { name: 'Mattis', color: '#5588AA', emoji: '🧔‍♂️😔', dialogue: 'mattis_day2', dynamicDialogue: true, showDay: 3 },
+            'jade': { name: 'Jade', color: '#DD55AA', emoji: '📱✨', dialogue: 'jade_intro', returnDialogue: 'jade_return', showDay: 3 },
             'parking_realist': { name: 'Woman With Keys', color: '#999977', emoji: '🔑😶', dialogue: 'parking_realist' }
         };
 
@@ -1877,6 +1912,7 @@
                 xp: 3, cacao: 25,
                 drops: [
                     { id: 'oil_collection', name: 'Confiscated Oil Collection', type: 'consumable', heal: 20, qiHeal: 5, qty: 1, desc: 'Heals 20 HP, 5 Qi. Smells like a forest fire in a Whole Foods. Surprisingly restorative.', dropChance: 0.8 },
+                    { id: 'essential_oil_bomb', name: 'Essential Oil Bomb', type: 'weapon', atkBonus: 2, desc: '+2 ATK. A repurposed essential oil bottle. Steve throws it with the conviction of a man who has been anointed against his will.', dropChance: 0.25 },
                     { id: 'mlm_business_card', name: 'doTERRA Business Card', type: 'junk', desc: '"Be Your Own Boss!" Steve calculates the pyramid math on the back. It doesn\'t add up.', dropChance: 0.5 },
                     { id: 'peppermint_vial', name: 'Peppermint Oil Vial', type: 'consumable', heal: 8, qty: 1, desc: 'Heals 8 HP. Burns the nostrils but clears the head.', dropChance: 0.4 },
                 ]
@@ -1884,16 +1920,16 @@
             'meditator': {
                 name: 'COMPETITIVE MEDITATOR',
                 emoji: '🧘‍♂️💢',
-                hp: 60, maxHp: 60,
+                hp: 80, maxHp: 80,
                 atk: 12, def: 2,
                 weakness: 'physical',
                 intro: '"Your breathing technique is AMATEUR." (His stillness radiates hostility.)',
                 stillnessShield: true,
                 attacks: [
-                    { name: 'Judgmental Silence', dmg: 9, msg: 'He stares at Steve with the intensity of a man who meditates competitively.' },
-                    { name: 'Humble Brag Sutra', dmg: 10, msg: '"I once sat for 72 hours straight. In Dharamsala. Without water."' },
-                    { name: 'Om Barrage', dmg: 14, msg: '"OMMMMMMM!" The resonance shakes Steve\'s fillings loose.' },
-                    { name: 'Aggressive Namaste', dmg: 13, msg: '"NAMASTE!" (He bows so aggressively it\'s basically a headbutt.)' }
+                    { name: 'Judgmental Silence', dmg: 12, msg: 'He stares at Steve with the intensity of a man who meditates competitively.' },
+                    { name: 'Humble Brag Sutra', dmg: 14, msg: '"I once sat for 72 hours straight. In Dharamsala. Without water."' },
+                    { name: 'Om Barrage', dmg: 18, msg: '"OMMMMMMM!" The resonance shakes Steve\'s fillings loose.' },
+                    { name: 'Aggressive Namaste', dmg: 16, msg: '"NAMASTE!" (He bows so aggressively it\'s basically a headbutt.)' }
                 ],
                 defeat: '"I... I wasn\'t even the best meditator here?" (His knees crack loudly as he unfolds.)',
                 xp: 3, cacao: 30,
@@ -1922,7 +1958,7 @@
                 emoji: '🧑‍🦲😵‍💫',
                 phase2Emoji: '👁️🕴️',
                 phase3Emoji: '😱🕴️💀',
-                hp: 50, maxHp: 50,
+                hp: 120, maxHp: 120,
                 atk: 16, def: 3,
                 weakness: 'psychic',
                 intro: '"I really hoped you wouldn\'t do this, Akash Prem." Brandon enters, eyes glazed. BOSS BATTLE — Phase 1: Break Brandon\'s conditioning!',
@@ -1933,14 +1969,14 @@
                     { name: 'Love Bomb', dmg: 6, msg: '"You just don\'t UNDERSTAND! The Founder LOVES us!"' }
                 ],
                 attacks: [
-                    { name: 'Charismatic Redirect', dmg: 14, msg: '"What you\'re feeling is RESISTANCE. That means we\'re close to a breakthrough."' },
-                    { name: 'Gaslighting', dmg: 10, msg: '"I never said that. You\'re projecting. This is your trauma speaking."', effect: 'smudge' },
+                    { name: 'Charismatic Redirect', dmg: 18, msg: '"What you\'re feeling is RESISTANCE. That means we\'re close to a breakthrough."' },
+                    { name: 'Gaslighting', dmg: 14, msg: '"I never said that. You\'re projecting. This is your trauma speaking."', effect: 'smudge' },
                     { name: 'Financial Restructure', dmg: 0, msg: 'Paul adjusts his pricing model mid-battle.', effect: 'boss_buff' },
-                    { name: 'Inner Circle Invitation', dmg: 18, msg: '"Join me, Steve. You have a gift for systems."' }
+                    { name: 'Inner Circle Invitation', dmg: 24, msg: '"Join me, Steve. You have a gift for systems."' }
                 ],
                 phase3Attacks: [
-                    { name: 'Desperate Plea', dmg: 6, msg: '"Please. I built this from NOTHING."' },
-                    { name: 'Full Meltdown', dmg: 22, msg: 'Paul throws the desk. "I AM THE FOUNDER! I AM THE VISION!"' },
+                    { name: 'Desperate Plea', dmg: 10, msg: '"Please. I built this from NOTHING."' },
+                    { name: 'Full Meltdown', dmg: 30, msg: 'Paul throws the desk. "I AM THE FOUNDER! I AM THE VISION!"' },
                     { name: 'Vulnerable Honesty', dmg: 0, msg: '"I was a used car salesman in Tucson. I read one book about chakras. ONE BOOK."' }
                 ],
                 defeat: 'Paul sits in his ergonomic office chair.\n"It started as a joke. A weekend workshop called \'Awaken Your Truth.\' I made the flyer in Canva."\n"Then they came back. And they brought friends. And they brought money."\nHe looks at his hands. "I\'m not enlightened. I\'m just good at PowerPoint."',
@@ -1957,7 +1993,7 @@
                 defeat: '"I... I just wanted human contact." (Falls over gently.)',
                 xp: 1, cacao: 5,
                 drops: [
-                    { id: 'warm_feelings', name: 'Residual Warm Feelings', type: 'consumable', heal: 8, qty: 1, desc: 'Heals 8 HP. Steve doesn\'t know why he feels slightly better.', dropChance: 0.6 },
+                    { id: 'warm_feelings', name: 'Residual Warm Feelings', type: 'consumable', heal: 0, qiHeal: 5, qty: 1, desc: 'Restores 5 Qi. Steve doesn\'t know why he feels slightly better.', dropChance: 0.6 },
                     { id: 'hug_coupon', name: 'Free Hug Coupon', type: 'junk', desc: 'Redeemable for one (1) unwanted hug. Non-transferable.', dropChance: 0.4 },
                 ]
             },
@@ -1973,7 +2009,7 @@
                 xp: 1, cacao: 5,
                 drops: [
                     { id: 'workshop_flyer', name: 'Workshop Flyer', type: 'evidence', desc: 'Evidence of overlapping scheduling. Steve notes the font choice is criminal.', dropChance: 0.5 },
-                    { id: 'herbal_tea_bag', name: 'Herbal Tea Bag', type: 'consumable', heal: 5, qty: 1, desc: 'Heals 5 HP. Tastes like hot lawn clippings.', dropChance: 0.5 },
+                    { id: 'herbal_tea_bag', name: 'Herbal Tea Bag', type: 'consumable', heal: 0, qiHeal: 4, qty: 1, desc: 'Restores 4 Qi. Tastes like hot lawn clippings.', dropChance: 0.5 },
                 ]
             },
             'sound_healer': {
@@ -1988,7 +2024,7 @@
                 xp: 1, cacao: 8,
                 drops: [
                     { id: 'broken_ukulele_string', name: 'Broken Ukulele String', type: 'junk', desc: 'A snapped string. Still vibrating with residual bad music.', dropChance: 0.5 },
-                    { id: 'ear_plugs', name: 'Improvised Ear Plugs', type: 'consumable', heal: 10, qty: 1, desc: 'Heals 10 HP. The silence is medicinal.', dropChance: 0.4 },
+                    { id: 'ear_plugs', name: 'Improvised Ear Plugs', type: 'consumable', heal: 0, qiHeal: 8, qty: 1, desc: 'Restores 8 Qi. The silence is medicinal.', dropChance: 0.4 },
                     { id: 'singing_bowl_shard', name: 'Singing Bowl Shard', type: 'consumable', qiHeal: 5, qty: 1, desc: 'Restores 5 Qi. The resonance lingers.', dropChance: 0.3 },
                 ]
             },
@@ -2022,6 +2058,7 @@
                 xp: 2, cacao: 12,
                 drops: [
                     { id: 'yoga_mat', name: 'Overpriced Yoga Mat', type: 'armor', def: 2, desc: '+2 DEF. Smells like sandalwood and condescension.', dropChance: 0.3 },
+                    { id: 'resistance_band', name: 'Snapped Resistance Band', type: 'weapon', atkBonus: 3, desc: '+3 ATK. Stings when used as a whip. Steve discovers a talent he didn\'t know he had.', dropChance: 0.25 },
                     { id: 'alignment_snack', name: 'Activated Almonds', type: 'consumable', heal: 15, qty: 1, desc: 'Heals 15 HP. Steve doesn\'t know what "activated" means. They taste like almonds.', dropChance: 0.5 },
                     { id: 'mysore_postcard', name: 'Postcard from Bali (Labeled Mysore)', type: 'junk', desc: 'She wrote "Namaste" on the back. The postmark says Kuta Beach.', dropChance: 0.3 },
                 ]
@@ -2039,6 +2076,7 @@
                 xp: 2, cacao: 10,
                 drops: [
                     { id: 'consent_pamphlet', name: 'Consent Workshop Pamphlet', type: 'evidence', desc: 'Ironic evidence. She clearly didn\'t read it.', dropChance: 0.5 },
+                    { id: 'personal_space_staff', name: 'Pool Noodle of Personal Space', type: 'weapon', atkBonus: 2, verbBonus: 2, desc: '+2 ATK, +2 Verbal DMG. Steve found a pool noodle. He wields it like Gandalf if Gandalf worked in accounting.', dropChance: 0.3 },
                     { id: 'personal_space_herb', name: 'Personal Space Herb', type: 'consumable', qiHeal: 8, qty: 1, desc: 'Restores 8 Qi. The smell creates a 3-foot buffer zone.', dropChance: 0.4 },
                 ]
             },
@@ -2054,7 +2092,7 @@
                 defeat: '"Maybe MY shadow is... pretending to understand Jung after reading one Wikipedia article." (Existential crisis.)',
                 xp: 3, cacao: 15,
                 drops: [
-                    { id: 'jung_book', name: 'Dog-Eared Jung Book', type: 'accessory', desc: '+2 Insight. Steve reads two paragraphs. Understands none of it. Feels smarter anyway.', bonusInsight: 2, dropChance: 0.35 },
+                    { id: 'shadow_knife', name: 'Shadow Work Letter Opener', type: 'weapon', atkBonus: 4, desc: '+4 ATK. She was using it to "open her psyche." Steve will use it differently.', dropChance: 0.3 },
                     { id: 'shadow_journal', name: 'Shadow Work Journal', type: 'consumable', heal: 10, qiHeal: 5, qty: 1, desc: 'Heals 10 HP, 5 Qi. Writing "I forgive my father" heals more than expected.', dropChance: 0.5 },
                     { id: 'broken_mirror', name: 'Cracked Hand Mirror', type: 'junk', desc: 'Seven years bad luck. Or seven years of not seeing your shadow. Same thing.', dropChance: 0.3 },
                 ]
@@ -2072,6 +2110,7 @@
                 xp: 2, cacao: 10,
                 drops: [
                     { id: 'kombucha_jar', name: 'Homemade Kombucha', type: 'consumable', heal: 15, qty: 1, desc: 'Heals 15 HP. 10% chance of side effects.', dropChance: 0.5 },
+                    { id: 'fermented_grenade', name: 'Fermented Kombucha Grenade', type: 'weapon', atkBonus: 3, desc: '+3 ATK. Expired kombucha. Weaponizable. Steve shakes it before throwing.', dropChance: 0.25 },
                     { id: 'mystery_scoby', name: 'Mystery SCOBY', type: 'junk', desc: 'It\'s alive. It\'s gelatinous. Steve keeps it at arm\'s length. It pulses.', dropChance: 0.3 },
                     { id: 'probiotic_shot', name: 'Probiotic Shot', type: 'consumable', heal: 5, qiHeal: 3, qty: 1, desc: 'Heals 5 HP, 3 Qi. Tastes like vinegar had a baby with despair.', dropChance: 0.4 },
                 ]
@@ -2208,7 +2247,7 @@
                     gameState.timeOfDay = 'evening';
                     gameState.flags['night_mode'] = true;
                     // Fire pit opens on Day 3+ evenings after attending the sharing circle
-                    if (gameState.currentDay >= 3 && gameState.flags['circle_done']) {
+                    if (gameState.currentDay >= 4 && gameState.flags['circle_done']) {
                         gameState.flags['firepit_accessible'] = true;
                     }
                     gameState.skillNotifications.push({
@@ -2443,10 +2482,10 @@
             // Mattis — dynamic per day
             if (npcId === 'mattis') {
                 const day = gameState.currentDay;
-                if (day >= 5 && gameState.flags['mattis_day4_done']) return 'mattis_generic';
-                if (day >= 4 && gameState.flags['mattis_day3_done']) return 'mattis_day4';
-                if (day >= 3 && gameState.flags['mattis_day2_done']) return 'mattis_day3';
-                if (day >= 2 && !gameState.flags['mattis_day2_done']) return 'mattis_day2';
+                if (day >= 6 && gameState.flags['mattis_day4_done']) return 'mattis_generic';
+                if (day >= 5 && gameState.flags['mattis_day3_done']) return 'mattis_day4';
+                if (day >= 4 && gameState.flags['mattis_day2_done']) return 'mattis_day3';
+                if (day >= 3 && !gameState.flags['mattis_day2_done']) return 'mattis_day2';
                 return '';
             }
 
@@ -2462,7 +2501,7 @@
                 if (gameState.flags['has_master_key']) return 'frank_master_key_done';
                 if (gameState.flags['pipe_quest_done'] && gameState.flags['firepit_done'] && gameState.currentDay >= 4) return 'frank_gives_key';
                 if (gameState.flags['pipe_quest_done']) return 'frank_post_pipe';
-                if (gameState.flags['talked_frank'] && gameState.currentDay >= 2) return 'frank_pipe_quest';
+                if (gameState.flags['talked_frank'] && gameState.currentDay >= 3) return 'frank_pipe_quest';
                 if (gameState.flags['talked_frank']) return 'frank_return';
                 return 'frank';
             }
@@ -2647,6 +2686,8 @@
             document.getElementById('dialogue-text').textContent = '';
             document.getElementById('choices-container').innerHTML = '';
             document.getElementById('continue-prompt').style.display = 'none';
+            // Remove badges for NPCs whose dialogue is now seen
+            document.querySelectorAll('.npc-new-badge').forEach(badge => badge.remove());
         }
 
         // ═══════════════════════════════════════════════════════════════════
@@ -2843,6 +2884,10 @@
                     gameState.qi = gameState.maxQi;
                     // First breathwork session grants +3 max Qi
                     grantMaxQi('breathwork_session', 3, 'The breathing actually did something. Steve\'s Qi capacity grew. He will never admit this.');
+                    // Doing breathwork lowers normality — Steve is participating
+                    gameState.normality = Math.max(0, gameState.normality - 2);
+                    checkSkillUnlocks();
+                    checkEnhancements();
                     break;
                 case 'talked_breathwork_monk':
                     gameState.flags['talked_breathwork_monk'] = true;
@@ -2894,15 +2939,27 @@
                     addConsumable('pre_workout', 'Jade\'s Pre-Workout', 15, 2, 10);
                     gameState.skillNotifications.push({ type: 'unlock', text: 'OBTAINED: Jade\'s Pre-Workout ×2', desc: 'Heals 15 HP & 10 Qi. Tastes like artificial watermelon and ambition.' });
                     gameState.insight++;
+                    // Posing for crystals with an influencer — normality eroding
+                    gameState.normality = Math.max(0, gameState.normality - 1);
+                    checkSkillUnlocks();
+                    checkEnhancements();
                     break;
                 case 'talked_parking_realist':
                     gameState.flags['talked_parking_realist'] = true;
                     gameState.insight++;
+                    // "A scam that accidentally works" — existential hit to normality
+                    gameState.normality = Math.max(0, gameState.normality - 2);
+                    checkSkillUnlocks();
+                    checkEnhancements();
                     break;
                 case 'pipe_quest_done':
                     gameState.flags['pipe_quest_done'] = true;
                     grantMaxHP('pipe_fix', 5, 'Fixing real plumbing. With real tools. Steve hasn\'t felt this competent since his last audit. +5 Max HP.');
                     gameState.insight++;
+                    // Doing manual labor at the retreat — Steve is settling in
+                    gameState.normality = Math.max(0, gameState.normality - 2);
+                    checkSkillUnlocks();
+                    checkEnhancements();
                     break;
                 case 'got_master_key':
                     gameState.flags['got_master_key'] = true;
@@ -3128,15 +3185,18 @@
             if (weapons.length || armor.length) {
                 html += '<div class="menu-section-title">Equipped</div>';
                 weapons.forEach(item => {
+                    const stats = [];
+                    if (item.atkBonus) stats.push(`+${item.atkBonus} ATK`);
+                    if (item.verbBonus) stats.push(`+${item.verbBonus} Verbal`);
                     html += `<div class="inv-item">
                         <div><span class="inv-item-name">⚔ ${item.name}</span></div>
-                        <div class="inv-item-detail">${item.dmg} dmg</div>
+                        <div class="inv-item-detail" style="color:#e8c44a;">${stats.join(', ') || 'Weapon'}</div>
                     </div>`;
                 });
                 armor.forEach(item => {
                     html += `<div class="inv-item">
                         <div><span class="inv-item-name">🛡 ${item.name}</span></div>
-                        <div class="inv-item-detail">${item.def} def</div>
+                        <div class="inv-item-detail">+${item.def} DEF</div>
                     </div>`;
                 });
             }
@@ -3231,9 +3291,14 @@
                 const enh = enhanced ? ENHANCEMENT_DB.find(e => e.original === skill.id) : null;
 
                 if (unlocked && enh) {
+                    const eLvl = gameState.skillLevels[skill.id] || 0;
+                    const eLvlText = eLvl > 0 ? ` Lv.${eLvl}` : '';
+                    const eDmg = enh.dmgMin !== undefined ? `${enh.dmgMin}-${enh.dmgMax}` : enh.dmg;
+                    const eQi = enh.ep > 0 ? ` · ${enh.ep} Qi` : '';
+                    const eRisk = enh.riskEffect ? ' ⚠' : '';
                     html += `<div class="skill-entry enhanced">
-                        <span><del>${skill.name}</del> → ${enh.name}</span>
-                        <span class="skill-progress">${enh.dmg} dmg</span>
+                        <span><del>${skill.name}</del> → ${enh.name}${eLvlText}</span>
+                        <span class="skill-progress">${eDmg} dmg${eQi}${eRisk}</span>
                     </div>`;
                 } else if (unlocked) {
                     html += `<div class="skill-entry unlocked">
@@ -3260,9 +3325,15 @@
                 const enh = enhanced ? ENHANCEMENT_DB.find(e => e.original === skill.id) : null;
 
                 if (unlocked && enh) {
+                    const eLvl = gameState.skillLevels[skill.id] || 0;
+                    const eLvlText = eLvl > 0 ? ` Lv.${eLvl}` : '';
+                    const eDmg = enh.dmgMin !== undefined ? `${enh.dmgMin}-${enh.dmgMax}` : enh.dmg;
+                    const eQi = enh.ep > 0 ? ` · ${enh.ep} Qi` : '';
+                    const eEffect = enh.effect === 'dot' ? ' +DOT' : (enh.effect === 'stun' ? ' +stun' : '');
+                    const eRisk = enh.riskEffect ? ' ⚠' : '';
                     html += `<div class="skill-entry enhanced">
-                        <span><del>${skill.name}</del> → ${enh.name}</span>
-                        <span class="skill-progress">${enh.dmg} dmg</span>
+                        <span><del>${skill.name}</del> → ${enh.name}${eLvlText}</span>
+                        <span class="skill-progress">${eDmg} dmg${eEffect}${eQi}${eRisk}</span>
                     </div>`;
                 } else if (unlocked) {
                     html += `<div class="skill-entry unlocked">
@@ -3481,7 +3552,7 @@
             }
 
             if (battleState.enemy.isBoss) {
-                battleState.phase1HP = 30;
+                battleState.phase1HP = 50;
             }
 
             // Clear battle log
@@ -3498,7 +3569,7 @@
             document.getElementById('steve-hp-max').textContent = gameState.maxHp;
             if (battleState.enemy.isBoss && battleState.phase === 1) {
                 document.getElementById('enemy-hp').textContent = battleState.phase1HP;
-                document.getElementById('enemy-hp-max').textContent = 30;
+                document.getElementById('enemy-hp-max').textContent = 50;
             } else {
                 document.getElementById('enemy-hp').textContent = battleState.enemy.hp;
                 document.getElementById('enemy-hp-max').textContent = battleState.enemy.maxHp;
@@ -3508,8 +3579,8 @@
 
             // Steve's emoji reacts to health
             const steveEmoji = document.getElementById('steve-emoji');
-            if (gameState.hp < 20) steveEmoji.textContent = '😵📊';
-            else if (gameState.hp < 40) steveEmoji.textContent = '😰📊';
+            if (gameState.hp < 8) steveEmoji.textContent = '😵📊';
+            else if (gameState.hp < 15) steveEmoji.textContent = '😰📊';
             else steveEmoji.textContent = '👔📊';
 
             // Enemy emoji — boss phases change appearance
@@ -3540,7 +3611,9 @@
             el.classList.add('hit');
         }
 
-        function dealEnemyDmg(dmg) {
+        function dealEnemyDmg(rawDmg) {
+            const def = battleState.enemy.def || 0;
+            const dmg = Math.max(1, rawDmg - def);
             shakeEmoji('enemy-emoji');
             if (battleState.enemy.isBoss && battleState.phase === 1) {
                 battleState.phase1HP = Math.max(0, battleState.phase1HP - dmg);
@@ -3613,6 +3686,56 @@
                 return;
             }
 
+            // Accuracy check
+            const baseAcc = skill.acc || 95;
+            const accBonus = (gameState.skillLevels[skillId] || 0) * 3;
+            const finalAcc = Math.min(100, baseAcc + accBonus);
+            if (Math.random() * 100 >= finalAcc) {
+                // Miss! Still spend Qi and count as use
+                logBattle(pickRandom([
+                    `${skill.name} misses! Steve whiffs.`,
+                    `${skill.name} fails to connect. Embarrassing.`,
+                    `Steve tries ${skill.name} but it doesn't land.`,
+                ]));
+                if (skill.ep > 0) gameState.qi -= skill.ep;
+                // Track counters even on miss
+                if (baseSkill.branch === 'physical') gameState.physicalAttacks++;
+                if (baseSkill.branch === 'verbal') gameState.verbalAttacks++;
+                // Track skill use on miss
+                gameState.skillUses[skillId] = (gameState.skillUses[skillId] || 0) + 1;
+                // Check level up on miss too
+                const uses = gameState.skillUses[skillId];
+                const currentLevel = gameState.skillLevels[skillId] || 0;
+                if (currentLevel < 5) {
+                    const nextThreshold = SKILL_LEVEL_THRESHOLDS[currentLevel + 1];
+                    if (nextThreshold && uses >= nextThreshold) {
+                        gameState.skillLevels[skillId] = currentLevel + 1;
+                        const newLevel = currentLevel + 1;
+                        gameState.skillNotifications.push({
+                            type: 'unlock',
+                            text: `${skill.name} LEVELED UP! → Lv.${newLevel}`,
+                            desc: `+${Math.round((getSkillLevelMultiplier(newLevel) - 1) * 100)}% total damage bonus. Practice makes perfect. Even when you miss.`
+                        });
+                    }
+                }
+                // Miss doesn't end turn for buff_next and block abilities
+                if (skill.effect === 'buff_next' || skill.effect === 'block') {
+                    battleState.playerTurn = true;
+                    document.getElementById('battle-turn-info').textContent = 'Your Turn';
+                    updateBattleDisplay();
+                    updateHUD();
+                    restoreMainMenu();
+                    return;
+                }
+                battleState.playerTurn = false;
+                document.getElementById('battle-turn-info').textContent = 'Enemy Turn';
+                updateBattleDisplay();
+                updateHUD();
+                restoreMainMenu();
+                setTimeout(enemyTurn, 600);
+                return;
+            }
+
             battleState.playerTurn = false;
             document.getElementById('battle-turn-info').textContent = 'Enemy Turn';
             battleState.enduring = false;
@@ -3635,9 +3758,27 @@
                 logBattle('(The Nod\'s focus amplifies the attack!)');
             }
 
-            // Calculate damage with weakness check
-            let dmg = Math.round(skill.dmg * dmgMultiplier);
+            // Calculate damage — enhanced skills use variable range (dmgMin-dmgMax)
+            let baseDmg = skill.dmg;
+            if (skill.dmgMin !== undefined && skill.dmgMax !== undefined) {
+                baseDmg = skill.dmgMin + Math.floor(Math.random() * (skill.dmgMax - skill.dmgMin + 1));
+            }
+            let dmg = Math.round(baseDmg * dmgMultiplier);
             if (dmg > 0) {
+                // Weapon ATK bonus from inventory
+                const weaponBonus = gameState.inventory
+                    .filter(i => i.type === 'weapon')
+                    .reduce((sum, i) => sum + (i.atkBonus || 0), 0);
+                // Branch-specific bonuses
+                const verbBonus = (skill.type === 'psychic') ? gameState.inventory
+                    .filter(i => i.type === 'weapon')
+                    .reduce((sum, i) => sum + (i.verbBonus || 0), 0) : 0;
+                dmg += weaponBonus + verbBonus;
+
+                // Skill level bonus
+                const skillLevel = gameState.skillLevels[skillId] || 0;
+                dmg = Math.round(dmg * getSkillLevelMultiplier(skillLevel));
+
                 // Weakness bonus: +50% damage if attack type matches enemy weakness
                 if (skill.type === battleState.enemy.weakness) {
                     dmg = Math.round(dmg * 1.5);
@@ -3692,6 +3833,25 @@
                 }
             }
 
+            // Track skill uses for leveling
+            const trackId = skillId; // use base skill id
+            gameState.skillUses[trackId] = (gameState.skillUses[trackId] || 0) + 1;
+            // Check for level up
+            const uses = gameState.skillUses[trackId];
+            const currentLevel = gameState.skillLevels[trackId] || 0;
+            if (currentLevel < 5) {
+                const nextThreshold = SKILL_LEVEL_THRESHOLDS[currentLevel + 1];
+                if (nextThreshold && uses >= nextThreshold) {
+                    gameState.skillLevels[trackId] = currentLevel + 1;
+                    const newLevel = currentLevel + 1;
+                    gameState.skillNotifications.push({
+                        type: 'unlock',
+                        text: `${skill.name} LEVELED UP! → Lv.${newLevel}`,
+                        desc: `+${Math.round((getSkillLevelMultiplier(newLevel) - 1) * 100)}% total damage bonus. Practice makes perfect. Even violent practice.`
+                    });
+                }
+            }
+
             // Apply skill effects
             switch (skill.effect) {
                 case 'stun_chance':
@@ -3714,24 +3874,15 @@
                     logBattle('Enemy is pinned! They skip their turn.');
                     break;
                 case 'block':
-                    if (Math.random() < 0.65) {
-                        battleState.blocking = 2;
-                        logBattle(getLogText(skill));
-                        logBattle(pickRandom([
-                            'Steve sets a boundary. Enemy attacks blocked for 2 turns.',
-                            'The boundary is established. Two turns of blessed silence.',
-                            'Steve draws a line. The enemy respects it. (First time that\'s ever worked.)',
-                            'Boundary set. For two turns, Steve is untouchable. Like a man in a meeting he didn\'t call.',
-                        ]));
-                    } else {
-                        logBattle(pickRandom([
-                            '"I\'m not comfortable with—" The enemy does not care. Boundary failed.',
-                            '"I need you to—" They walk right through it. Steve\'s boundary has no authority here.',
-                            'Steve sets a boundary. The enemy ignores it completely. Just like his manager.',
-                            '"Per my previous—" The enemy has not read Steve\'s previous. Boundary failed.',
-                        ]));
-                    }
-                    // Block doesn't end turn (whether it worked or not — you can try again)
+                    battleState.blocking = 2;
+                    logBattle(getLogText(skill));
+                    logBattle(pickRandom([
+                        'Steve sets a boundary. Enemy attacks blocked for 2 turns.',
+                        'The boundary is established. Two turns of blessed silence.',
+                        'Steve draws a line. The enemy respects it. (First time that\'s ever worked.)',
+                        'Boundary set. For two turns, Steve is untouchable. Like a man in a meeting he didn\'t call.',
+                    ]));
+                    // Block doesn't end turn
                     battleState.playerTurn = true;
                     document.getElementById('battle-turn-info').textContent = 'Your Turn';
                     updateBattleDisplay();
@@ -3739,9 +3890,13 @@
                     restoreMainMenu();
                     return;
                 case 'dot':
-                    battleState.dot = { dmg: skill.dmg, turns: 3, name: skill.name };
+                    battleState.dot = { dmg: skill.dotDmg || skill.dmg, turns: 3, name: skill.name };
                     if (dmg === 0) logBattle(getLogText(skill));
-                    logBattle(`${skill.name} will deal ${skill.dmg}/turn for 3 turns.`);
+                    logBattle(`${skill.name} will deal ${skill.dotDmg || skill.dmg}/turn for 3 turns.`);
+                    break;
+                case 'defense_shred':
+                    battleState.enemy.def = Math.max(0, (battleState.enemy.def || 0) - 2);
+                    logBattle('Enemy defense lowered by 2!');
                     break;
                 case 'heal':
                     const healAmt = Math.min(skill.healAmt || 15, gameState.maxHp - gameState.hp);
@@ -3772,6 +3927,32 @@
                 case null:
                     if (dmg === 0) logBattle(getLogText(skill));
                     break;
+            }
+
+            // Risk effects from dangerous late-game enhancements
+            if (skill.riskEffect) {
+                switch (skill.riskEffect) {
+                    case 'self_damage_5':
+                        const riskDmg = 3 + Math.floor(Math.random() * 5); // 3-7 HP
+                        gameState.hp = Math.max(1, gameState.hp - riskDmg);
+                        logBattle(`The spiritual energy burns Steve's hand. ${riskDmg} recoil damage.`);
+                        break;
+                    case 'qi_drain_2':
+                        const drain = Math.min(gameState.qi, 2);
+                        gameState.qi = Math.max(0, gameState.qi - drain);
+                        logBattle('The words pull from somewhere deep. Steve feels his Qi drain.');
+                        break;
+                    case 'normality_drain':
+                        gameState.normality = Math.max(0, gameState.normality - 1);
+                        checkSkillUnlocks();
+                        checkEnhancements();
+                        logBattle(pickRandom([
+                            '(Steve\'s sense of self flickers. Normality -1.)',
+                            '(Something is dissolving inside Steve. He can\'t name what. Normality -1.)',
+                            '(Each strike takes him further from the man who filled out tax returns. Normality -1.)',
+                        ]));
+                        break;
+                }
             }
 
             updateBattleDisplay();
@@ -3881,7 +4062,7 @@
             let attacks;
             if (battleState.enemy.isBoss && battleState.phase === 1) {
                 attacks = battleState.enemy.phase1Attacks || battleState.enemy.attacks;
-            } else if (battleState.enemy.isBoss && battleState.phase >= 2 && battleState.enemy.hp <= 15) {
+            } else if (battleState.enemy.isBoss && battleState.phase >= 2 && battleState.enemy.hp <= 30) {
                 if (battleState.phase === 2) {
                     battleState.phase = 3;
                     logBattle('Paul is desperate! Phase 3!');
@@ -3924,6 +4105,13 @@
                         dmg = Math.floor(dmg / 2);
                         logBattle('(Endure reduces damage!)');
                     }
+
+                    // Apply player armor defense
+                    const playerDef = gameState.inventory
+                        .filter(i => i.type === 'armor')
+                        .reduce((sum, i) => sum + (i.def || 0), 0);
+                    dmg = Math.max(1, dmg - playerDef);
+
                     dmg = Math.max(0, dmg);
                     if (dmg > 0) {
                         gameState.hp = Math.max(0, gameState.hp - dmg);
@@ -4248,15 +4436,26 @@
             branchSkills.forEach(skill => {
                 const btn = document.createElement('button');
                 btn.className = 'action-btn';
-                const epText = skill.ep > 0 ? ` [${skill.ep} Qi]` : '';
-                const dmgText = skill.dmg > 0 ? ` ${skill.dmg}dmg` : '';
-                const enhanced = skill.originalName ? ' ✦' : '';
-                btn.textContent = `${skill.name}${epText}${dmgText}${enhanced}`;
-                btn.disabled = skill.ep > 0 && gameState.qi < skill.ep;
-                // Find original skill ID for executeSkill
+                // Find original skill ID for executeSkill and level lookup
                 const origId = skill.originalName
                     ? Object.keys(SKILL_DB).find(k => SKILL_DB[k].name === skill.originalName)
                     : Object.keys(SKILL_DB).find(k => SKILL_DB[k].name === skill.name) || skill.id;
+                const level = gameState.skillLevels[origId] || 0;
+                const lvlText = level > 0 ? ` Lv.${level}` : '';
+                const epText = skill.ep > 0 ? ` [${skill.ep} Qi]` : '';
+                const dmgText = (skill.dmgMin !== undefined && skill.dmgMax !== undefined)
+                    ? ` ${skill.dmgMin}-${skill.dmgMax}dmg`
+                    : (skill.dmg > 0 ? ` ${skill.dmg}dmg` : '');
+                const accVal = skill.acc ? Math.min(100, skill.acc + level * 3) + '%' : '';
+                const accText = accVal ? ` ${accVal}` : '';
+                const enhanced = skill.originalName ? ' ✦' : '';
+                const riskText = skill.riskEffect ? ' ⚠' : '';
+                btn.textContent = `${skill.name}${lvlText}${epText}${dmgText}${accText}${enhanced}${riskText}`;
+                if (skill.riskEffect) {
+                    const riskDescs = { 'self_damage_5': 'Recoil damage', 'qi_drain_2': 'Drains Qi', 'normality_drain': 'Drains Normality' };
+                    btn.title = riskDescs[skill.riskEffect] || 'Risky';
+                }
+                btn.disabled = skill.ep > 0 && gameState.qi < skill.ep;
                 btn.onclick = () => { executeSkill(origId); };
                 menu.appendChild(btn);
             });
