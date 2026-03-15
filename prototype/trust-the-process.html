@@ -154,6 +154,7 @@
             text-align: center;
             cursor: pointer;
             transition: transform 0.15s;
+            position: relative;
         }
         .npc-slot:hover {
             transform: scale(1.15);
@@ -168,6 +169,21 @@
             font-weight: bold;
             color: #3a3a3a;
             margin-top: 2px;
+        }
+        .npc-new-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            width: 10px;
+            height: 10px;
+            background: #e8c44a;
+            border-radius: 50%;
+            border: 2px solid #2a2218;
+            animation: badgePulse 2s ease-in-out infinite;
+        }
+        @keyframes badgePulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.3); }
         }
         .nav-buttons {
             display: flex;
@@ -848,7 +864,9 @@
             qiBonuses: {},  // tracks which Qi increases have been earned
             // Encounter tracking
             lastEncounterRoom: null,
-            encountersToday: 0
+            encountersToday: 0,
+            // NPC dialogue tracking — stores last-seen dialogue key per NPC
+            npcSeenDialogue: {}
         };
 
         // ═══════════════════════════════════════════════════════════════════
@@ -1540,6 +1558,177 @@
                 { speaker: '', text: '(Three weeks later: The Sanctuary is shut down. The volunteers are scattered. Paul is under investigation. Eight people are homeless because they donated all their money and quit their jobs.)', thought: true },
                 { speaker: '', text: '(Steve saved the people he could. But there are costs.)', thought: true, callback: 'end_walk' }
             ],
+            // ═══════════════════════════════════════════════════════════════
+            // MATTIS — The Dark Mirror (Dorms, Day 2+)
+            // ═══════════════════════════════════════════════════════════════
+            'mattis_day2': [
+                { speaker: '', text: '(A tall man sits on the bunk across from Steve. He stares at the floor. He has the build of someone who used to care about his body.)', thought: true },
+                { speaker: 'Mattis', text: '(Swedish accent) Hello. You are new.' },
+                { speaker: 'Steve', text: 'I got here yesterday. Steve.' },
+                { speaker: 'Mattis', text: 'Mattis. I arrived... (counts on fingers) ...six months ago.' },
+                { speaker: 'Steve', text: 'Six MONTHS? The brochure said weekends.' },
+                { speaker: 'Mattis', text: 'Ja. My girlfriend said two weeks. That was in September. She went to the breathwork place up north. I came here to find her.' },
+                { speaker: '', text: '(Steve feels a cold recognition.)', thought: true },
+                { speaker: 'Steve', text: '...Did you find her?' },
+                { speaker: 'Mattis', text: '(long pause) She doesn\'t want to be found. That is what they all say here. "She is on her journey." As if leaving is a destination.' },
+                { speaker: 'Mattis', text: 'But I stayed. Because if I leave, it means I accept she is gone. And I am not ready to accept that.' },
+                { speaker: '', text: '(Steve says nothing. There is nothing to say.)', thought: true, callback: 'mattis_day2_done' }
+            ],
+            'mattis_day3': [
+                { speaker: '', text: '(Mattis is sitting in the same position. As if he hasn\'t moved.)', thought: true },
+                { speaker: 'Mattis', text: 'I thought if I came here I would understand. Why she stayed. Why the breathing and the crystals and the man with the white clothes.' },
+                { speaker: 'Mattis', text: 'I don\'t understand. I understand spreadsheets. I understand IKEA instructions. I do not understand why my girlfriend thinks the moon controls her ovaries.' },
+                { speaker: 'Steve', text: 'That\'s... not how that works.' },
+                { speaker: 'Mattis', text: 'I know. But she believes it. And she found thirty people here who believe it too. What do I have? Tax returns and a gym membership.' },
+                { speaker: '', text: '(Steve has tax returns and a gym membership. He feels personally attacked.)', thought: true, callback: 'mattis_day3_done' }
+            ],
+            'mattis_day4': [
+                { speaker: '', text: '(Mattis is wearing retreat whites. His regular clothes are folded neatly on the bunk. He looks exhausted.)', thought: true },
+                { speaker: 'Mattis', text: 'They gave me a spiritual name. Ananda. It means bliss.' },
+                { speaker: 'Steve', text: 'You don\'t look blissful.' },
+                { speaker: 'Mattis', text: 'I signed up for seva today. Kitchen work. It is easier than thinking.' },
+                { speaker: 'Steve', text: 'Mattis. That\'s how it starts. That\'s exactly how it starts.' },
+                { speaker: 'Mattis', text: '(quietly) I know. But the thinking is worse.' },
+                { speaker: '', text: '(Mattis turns away. His hand goes to his bare ring finger.)', thought: true, callback: 'mattis_day4_done' }
+            ],
+            'mattis_generic': () => [
+                { speaker: 'Mattis', text: pickRandom([
+                    '(Mattis is scrubbing pots. He doesn\'t look up. "Namaste, Akash." His accent makes it sound like a diagnosis.)',
+                    '(Mattis stares at the bunk above him. "Do you think the ceiling knows it is a ceiling? Or does it think it is a floor for someone else?" He has been here too long.)',
+                    '(Mattis is writing a letter. He crosses it out. Starts again. Crosses it out. Folds the paper into a tiny square.)',
+                    '(Mattis nods at Steve. The nod of two men who understand each other perfectly and wish they didn\'t.)',
+                ]) }
+            ],
+
+            // ═══════════════════════════════════════════════════════════════
+            // JADE — The Influencer (Studio, Day 2+)
+            // ═══════════════════════════════════════════════════════════════
+            'jade_intro': [
+                { speaker: '', text: '(A woman in expensive athleisure is holding an invisible phone up to an invisible ring light. She\'s rehearsing poses.)', thought: true },
+                { speaker: 'Jade', text: 'Wait — hold on — let me just — (poses) — no, that\'s not it. (poses again) The light is wrong. The light is always wrong here.' },
+                { speaker: 'Steve', text: 'There\'s no phone.' },
+                { speaker: 'Jade', text: 'I KNOW there\'s no phone. They TOOK my phone. I\'m on a sponsored digital detox for a wellness brand and I can\'t even POST about it. Do you know how much a sponsored detox post is worth? $400. Per story.' },
+                { speaker: 'Steve', text: 'You\'re being paid to not use your phone, but you need your phone to prove you\'re not using your phone.' },
+                { speaker: 'Jade', text: 'YES. It\'s a NIGHTMARE. My content calendar is RUINED.' },
+                { speaker: '', text: '(She lowers her invisible phone.)', thought: true },
+                { speaker: 'Jade', text: 'I\'m Jade. @JadeAligns. 4,200 followers. I had a really good growth month before I got here.' },
+                { speaker: 'Steve', text: '4,200 seems...' },
+                { speaker: 'Jade', text: 'It\'s about ENGAGEMENT, not numbers. I have INCREDIBLE engagement. My aunt likes everything.' },
+                { speaker: 'Jade', text: 'Look — there\'s a WiFi network coming from the Founder\'s cabin. If I could get the password, I could post from there. Just one story. "Day 5 of my digital detox, truly transformed." You know?' },
+                { speaker: '', text: '', choices: [
+                    { text: '"I might be able to help with that."', next: 'jade_accept' },
+                    { text: '"That sounds like your problem."', next: 'jade_decline' }
+                ]}
+            ],
+            'jade_accept': [
+                { speaker: 'Jade', text: 'Really?! Oh my god. You\'re literally saving my brand. If you find the WiFi password, bring it to me. I\'ll make it worth your while.' },
+                { speaker: 'Steve', text: 'How?' },
+                { speaker: 'Jade', text: 'I\'ll tag you. In the post. Your Qi will SKYROCKET.' },
+                { speaker: '', text: '(Steve doesn\'t know what that means in context. He\'s not sure Jade does either.)', thought: true, callback: 'talked_jade' }
+            ],
+            'jade_decline': [
+                { speaker: 'Jade', text: 'Fair. That\'s fair. Very boundaried of you. Very... (she\'s trying not to cry) ...authentic.' },
+                { speaker: '', text: '(Jade turns back to her invisible phone. She\'s taking a selfie with nothing.)', thought: true, callback: 'talked_jade' }
+            ],
+            'jade_return': () => [
+                { speaker: 'Jade', text: gameState.inventory.find(i => i.id === 'wifi_password') ?
+                    'Wait — do you have it? The WiFi password? Please tell me you have it.' :
+                    pickRandom([
+                        'Any luck with the WiFi? My engagement is dying. My AUNT hasn\'t liked anything in three days.',
+                        'I tried holding my old phone case up to the sky. Nothing happened. Obviously. But I had to try.',
+                        'Did you know this place doesn\'t even have a Google listing? How does it EXIST?',
+                    ])
+                },
+                ...(gameState.inventory.find(i => i.id === 'wifi_password') ?
+                    [{ speaker: '', text: '', choices: [
+                        { text: '"Here — consciousness2012."', next: 'jade_wifi_delivery' },
+                        { text: '"Not yet."', next: null }
+                    ]}] : [])
+            ],
+            'jade_wifi_delivery': [
+                { speaker: 'Steve', text: 'I got the password. "consciousness2012."' },
+                { speaker: 'Jade', text: '(gasps) Oh my GOD. You\'re an angel. A literal angel. Hold this crystal — no, higher — look pensive — MORE pensive — PERFECT.' },
+                { speaker: '', text: '(Steve holds a rose quartz for 40 takes of "spontaneous awakening." He has never felt less spontaneous.)', thought: true },
+                { speaker: 'Jade', text: 'Posted. Captioned: "When the universe sends you a sign, trust it." 14 likes already. My aunt is FAST.' },
+                { speaker: 'Jade', text: 'Here. Take this. It\'s my spare pre-workout. Also it\'s actually pretty good for fighting people. The caffeine hits different at altitude.' },
+                { speaker: '', text: '(Jade gives Steve a small pink packet. It smells like artificial watermelon and ambition.)', thought: true, callback: 'jade_quest_done' }
+            ],
+            'jade_done': () => [
+                { speaker: 'Jade', text: pickRandom([
+                    '"23 likes now! That\'s VIRAL for my niche. You\'re in my gratitude journal, Steve."',
+                    '"I\'m planning a reel about my "transformation." Can you hold the crystal again? No? Okay. Boundaries. Respect."',
+                    '"My sponsor wants me to stay another week. On one hand: content. On the other: NO WIFI. It\'s inhumane."',
+                ]) }
+            ],
+
+            // ═══════════════════════════════════════════════════════════════
+            // PARKING LOT REALIST
+            // ═══════════════════════════════════════════════════════════════
+            'parking_realist': [
+                { speaker: '', text: '(A woman stands next to a Subaru, car keys in her hand. She has been standing here a while.)', thought: true },
+                { speaker: 'Woman', text: '(not looking at Steve) I\'m leaving. I\'m definitely leaving.' },
+                { speaker: 'Steve', text: 'Your car is right there.' },
+                { speaker: 'Woman', text: 'I know where my car is. I\'ve been looking at my car for forty minutes.' },
+                { speaker: 'Steve', text: 'Why don\'t you just—' },
+                { speaker: 'Woman', text: 'Because if I leave, it means the last four months meant nothing. Four months, Steve. I quit my job. I told my mother I was "finding myself." My mother is a dentist. She didn\'t take it well.' },
+                { speaker: 'Steve', text: 'How do you know my name?' },
+                { speaker: 'Woman', text: 'Everyone knows your name. You\'re the accountant who asked the Receptionist about Wi-Fi. You\'re a LEGEND here.' },
+                { speaker: '', text: '(She turns her keys over in her hand.)', thought: true },
+                { speaker: 'Woman', text: 'The thing is... the breathing actually helped. The yoga was nice. The Founder is a fraud, obviously. But the people? Some of them are real. Maya is real. Frank is real.' },
+                { speaker: 'Woman', text: 'It\'s a scam that accidentally works. That\'s the worst kind. Because you can\'t just be angry about it.' },
+                { speaker: 'Steve', text: 'You could leave AND take the breathing with you.' },
+                { speaker: 'Woman', text: '(long pause) ...Huh. That\'s... that\'s really practical advice.' },
+                { speaker: '', text: '(She unlocks the car. She doesn\'t get in. But the door is open now.)', thought: true, callback: 'talked_parking_realist' }
+            ],
+
+            // ═══════════════════════════════════════════════════════════════
+            // FRANK — Expanded: Pipe Quest + Master Key
+            // ═══════════════════════════════════════════════════════════════
+            'frank_pipe_quest': [
+                { speaker: 'Frank', text: 'Hey, accountant. Got a minute?' },
+                { speaker: 'Steve', text: 'Depends. Is this a spiritual minute or a real one?' },
+                { speaker: 'Frank', text: 'Real one. Pipe burst behind the ceremony space. I need someone to hold the coupling while I solder. Everyone else here is "holding space" instead of holding wrenches.' },
+                { speaker: '', text: '', choices: [
+                    { text: '"I can hold a wrench."', next: 'frank_pipe_accept' },
+                    { text: '"I\'m kind of busy."', next: 'frank_pipe_decline' }
+                ]}
+            ],
+            'frank_pipe_accept': [
+                { speaker: 'Frank', text: 'Good man. Grab that pipe wrench from the shed.' },
+                { speaker: '', text: '(Steve holds copper pipe while Frank solders. It\'s the most competent interaction Steve has had in days.)', thought: true },
+                { speaker: 'Frank', text: 'You know, your wife did this exact same thing. Only guest who ever offered to help. She held the coupling for forty minutes without complaining.' },
+                { speaker: 'Steve', text: '...She hates plumbing.' },
+                { speaker: 'Frank', text: 'Maybe. But she was good at it. People are surprising sometimes.' },
+                { speaker: '', text: '(The pipe is fixed. Steve\'s hands smell like solder and something that might be pride.)', thought: true, callback: 'pipe_quest_done' }
+            ],
+            'frank_pipe_decline': [
+                { speaker: 'Frank', text: 'Fair enough. Offer stands.' },
+                { speaker: '', text: '(Frank goes back to his fence.)', thought: true }
+            ],
+            'frank_post_pipe': () => [
+                { speaker: 'Frank', text: pickRandom([
+                    'Pipe\'s holding. You did good work, Steve. Real work.',
+                    'The plumbing works better than the meditation program. Higher completion rate, too.',
+                    'I told Paul about the pipe fix. He said "the universe provides." I said "Steve provides." He didn\'t like that.',
+                ]) }
+            ],
+            'frank_gives_key': [
+                { speaker: 'Frank', text: 'Steve. Come here.' },
+                { speaker: '', text: '(Frank reaches into his overalls and pulls out a brass key.)', thought: true },
+                { speaker: 'Frank', text: 'Master key. Opens every door on the property. Including the back office.' },
+                { speaker: 'Steve', text: 'Why are you giving me this?' },
+                { speaker: 'Frank', text: 'Because you fixed my pipe. Because your wife was kind. And because Paul keeps documents in there that he shouldn\'t keep. Passports. Financial records. The works.' },
+                { speaker: 'Frank', text: 'I\'ve been here twelve years. I\'ve watched a hundred Steves come through. You\'re the first one who might actually do something about it.' },
+                { speaker: '', text: '(Steve takes the key. It\'s warm from Frank\'s pocket. It weighs more than it should.)', thought: true, callback: 'got_master_key' }
+            ],
+            'frank_master_key_done': () => [
+                { speaker: 'Frank', text: pickRandom([
+                    'Key still working? Good. Don\'t lose it. Only copy.',
+                    'Be careful in there. Paul checks the office every morning. Go at night.',
+                    'You know, when this was a golf course, the worst thing in that office was a jar of golf tees. Simpler times.',
+                ]) }
+            ],
+
             'departure': [
                 { speaker: '', text: '(Steve drives out of The Sanctuary. At the gate, they return his phone.)', thought: true },
                 { speaker: '', text: '(847 emails. 23 missed calls. A voicemail from his boss. Another from the bank. One text from an unknown number.)', thought: true },
@@ -1557,7 +1746,10 @@
                 name: 'THE WELCOME PAVILION',
                 color: 'rgb(225, 216, 204)',
                 npcs: ['receptionist'],
-                exits: [{ label: 'Path', room: 'path' }]
+                exits: [
+                    { label: 'Path', room: 'path' },
+                    { label: 'Parking Lot', room: 'parking_lot' }
+                ]
             },
             'path': {
                 name: 'THE GARDEN PATH',
@@ -1577,7 +1769,8 @@
                     { label: 'Path', room: 'path' },
                     { label: 'Movement Studio', room: 'studio', require: 'map_obtained' },
                     { label: 'Dorms', room: 'dorms', require: 'map_obtained' },
-                    { label: 'Fire Pit', room: 'firepit', require: 'night_mode' }
+                    { label: 'Supply Shed', room: 'supply_shed', require: 'talked_frank' },
+                    { label: 'Fire Pit', room: 'firepit', require: 'firepit_accessible' }
                 ]
             },
             'kitchen': {
@@ -1592,13 +1785,13 @@
             'dorms': {
                 name: 'THE DORMS',
                 color: 'rgb(217, 209, 224)',
-                npcs: ['brandon'],
+                npcs: ['brandon', 'mattis'],
                 exits: [{ label: 'Garden', room: 'garden' }]
             },
             'studio': {
                 name: 'THE MOVEMENT STUDIO',
                 color: 'rgb(225, 216, 204)',
-                npcs: ['meditator', 'breathwork_monk'],
+                npcs: ['meditator', 'breathwork_monk', 'jade'],
                 exits: [{ label: 'Garden', room: 'garden' }]
             },
             'main_hall': {
@@ -1622,7 +1815,7 @@
                 npcs: ['gatekeeper'],
                 exits: [
                     { label: 'Main Hall', room: 'main_hall' },
-                    { label: 'Back Office', room: 'back_office', require: 'gatekeeper_cleared' }
+                    { label: 'Back Office', room: 'back_office', require: 'gatekeeper_cleared', altRequire: 'has_master_key' }
                 ]
             },
             'back_office': {
@@ -1630,6 +1823,18 @@
                 color: 'rgb(235, 235, 230)',
                 npcs: ['founder'],
                 exits: [{ label: 'Ceremony Space', room: 'ceremony' }]
+            },
+            'parking_lot': {
+                name: 'THE PARKING LOT',
+                color: 'rgb(180, 180, 175)',
+                npcs: ['parking_realist'],
+                exits: [{ label: 'Pavilion', room: 'pavilion' }]
+            },
+            'supply_shed': {
+                name: 'THE SUPPLY SHED',
+                color: 'rgb(160, 145, 120)',
+                npcs: ['frank'],
+                exits: [{ label: 'Garden', room: 'garden' }]
             }
         };
 
@@ -1646,7 +1851,10 @@
             'breathwork_monk': { name: 'Breathwork Monk', color: '#1A59C6', emoji: '🌬️😌', dialogue: 'breathwork_monk', returnDialogue: 'breathwork_return', showFlag: 'meditator_defeated' },
             'cacao_dealer': { name: 'Cacao Dealer', color: '#2E8E18', emoji: '🍫😏', dialogue: 'cacao_dealer_shop', showFlag: 'talked_maya' },
             'gatekeeper': { name: 'Gatekeeper', color: '#A62424', emoji: '🚫🧙‍♂️', dialogue: 'gatekeeper_confront', hideFlag: 'gatekeeper_cleared' },
-            'founder': { name: 'The Founder', color: '#C78C00', emoji: '👁️🕴️', dialogue: 'back_office_discover', hideFlag: 'founder_defeated' }
+            'founder': { name: 'The Founder', color: '#C78C00', emoji: '👁️🕴️', dialogue: 'back_office_discover', hideFlag: 'founder_defeated' },
+            'mattis': { name: 'Mattis', color: '#5588AA', emoji: '🧔‍♂️😔', dialogue: 'mattis_day2', dynamicDialogue: true, showDay: 2 },
+            'jade': { name: 'Jade', color: '#DD55AA', emoji: '📱✨', dialogue: 'jade_intro', returnDialogue: 'jade_return', showDay: 2 },
+            'parking_realist': { name: 'Woman With Keys', color: '#999977', emoji: '🔑😶', dialogue: 'parking_realist' }
         };
 
         // ═══════════════════════════════════════════════════════════════════
@@ -1999,6 +2207,10 @@
                 if (gameState.actionsLeft <= 0 && gameState.timeOfDay !== 'evening') {
                     gameState.timeOfDay = 'evening';
                     gameState.flags['night_mode'] = true;
+                    // Fire pit opens on Day 3+ evenings after attending the sharing circle
+                    if (gameState.currentDay >= 3 && gameState.flags['circle_done']) {
+                        gameState.flags['firepit_accessible'] = true;
+                    }
                     gameState.skillNotifications.push({
                         type: 'unlock',
                         text: 'EVENING',
@@ -2193,7 +2405,87 @@
             back_office: [
                 'Fluorescent lights. A filing cabinet. A laptop running Excel. The real sanctuary.',
             ],
+            parking_lot: [
+                'Gravel, car bumpers, and the faint smell of freedom. A bumper sticker reads "COEXIST." Another reads "My other car is an astral body."',
+                'The parking lot is where the real world begins and the retreat world ends. Several cars have not moved in weeks.',
+                'A Subaru with a dream catcher hanging from the mirror. A Tesla with a "NAMASTE" license plate. Steve\'s rental sedan looks embarrassingly normal.',
+            ],
+            supply_shed: [
+                'Frank\'s domain. Tools, pipe fittings, WD-40. Zero crystals. The most honest building on the property.',
+                'Shelves of practical things: wrenches, tape, screws. A calendar from 2019. A mug that says "World\'s Okayest Plumber."',
+                'The shed smells like sawdust and competence. Steve feels more at home here than anywhere else on the property.',
+            ],
         };
+
+        // ═══════════════════════════════════════════════════════════════════
+        // NPC NEW DIALOGUE INDICATOR
+        // ═══════════════════════════════════════════════════════════════════
+        // Tracks what dialogue "version" each NPC is on
+        // Returns a string key representing the NPC's current dialogue state
+        function getNpcDialogueKey(npcId) {
+            const npc = npcs[npcId];
+            if (!npc) return '';
+
+            // Brandon — dynamic per day
+            if (npcId === 'brandon') {
+                const day = gameState.currentDay;
+                if (day <= 5 && !gameState.flags['brandon_day' + day + '_done']) return 'brandon_day' + day;
+                return 'brandon_generic';
+            }
+
+            // Maya at firepit
+            if (npcId === 'maya' && gameState.currentRoom === 'firepit') {
+                if (gameState.flags['founder_defeated']) return 'maya_post_boss';
+                if (gameState.flags['firepit_done']) return 'maya_return';
+                return 'maya_firepit';
+            }
+
+            // Mattis — dynamic per day
+            if (npcId === 'mattis') {
+                const day = gameState.currentDay;
+                if (day >= 5 && gameState.flags['mattis_day4_done']) return 'mattis_generic';
+                if (day >= 4 && gameState.flags['mattis_day3_done']) return 'mattis_day4';
+                if (day >= 3 && gameState.flags['mattis_day2_done']) return 'mattis_day3';
+                if (day >= 2 && !gameState.flags['mattis_day2_done']) return 'mattis_day2';
+                return '';
+            }
+
+            // Jade — quest stages
+            if (npcId === 'jade') {
+                if (gameState.flags['jade_quest_done']) return 'jade_done';
+                if (gameState.flags['talked_jade']) return 'jade_return';
+                return 'jade_intro';
+            }
+
+            // Frank — quest stages
+            if (npcId === 'frank') {
+                if (gameState.flags['has_master_key']) return 'frank_master_key_done';
+                if (gameState.flags['pipe_quest_done'] && gameState.flags['firepit_done'] && gameState.currentDay >= 4) return 'frank_gives_key';
+                if (gameState.flags['pipe_quest_done']) return 'frank_post_pipe';
+                if (gameState.flags['talked_frank'] && gameState.currentDay >= 2) return 'frank_pipe_quest';
+                if (gameState.flags['talked_frank']) return 'frank_return';
+                return 'frank';
+            }
+
+            // Post-defeat dialogue
+            if (npc.postDefeatDialogue && npc.defeatFlag && gameState.flags[npc.defeatFlag]) return npc.postDefeatDialogue;
+
+            // Return dialogue if talked before
+            if (npc.returnDialogue && gameState.flags['talked_' + npcId]) return npc.returnDialogue;
+
+            return npc.dialogue;
+        }
+
+        function npcHasNewDialogue(npcId) {
+            const currentKey = getNpcDialogueKey(npcId);
+            const seenKey = gameState.npcSeenDialogue[npcId];
+            // NPC has new content if we haven't seen this dialogue state yet
+            return currentKey && currentKey !== seenKey;
+        }
+
+        function markNpcDialogueSeen(npcId) {
+            gameState.npcSeenDialogue[npcId] = getNpcDialogueKey(npcId);
+        }
 
         function enterRoom(roomId) {
             gameState.currentRoom = roomId;
@@ -2211,43 +2503,40 @@
                 if (npc.hideFlag && gameState.flags[npc.hideFlag]) return;
                 // Only show if required flag is set
                 if (npc.showFlag && !gameState.flags[npc.showFlag]) return;
+                // Only show from certain day onward
+                if (npc.showDay && gameState.currentDay < npc.showDay) return;
+
+                const hasNew = npcHasNewDialogue(npcId);
+                const badge = hasNew ? '<div class="npc-new-badge"></div>' : '';
 
                 const slot = document.createElement('div');
                 slot.className = 'npc-slot';
-                slot.innerHTML = `<div class="npc-emoji">${npc.emoji}</div><div class="npc-label">${npc.name}</div>`;
+                slot.innerHTML = `${badge}<div class="npc-emoji">${npc.emoji}</div><div class="npc-label">${npc.name}</div>`;
                 slot.onclick = () => {
                     // Don't restart dialogue if one is already running
                     if (currentDialogue) return;
 
-                    // Brandon's daily progression
-                    if (npcId === 'brandon' && npc.dynamicDialogue) {
-                        const day = gameState.currentDay;
-                        const brandonKey = day <= 5 ? 'brandon_day' + day : 'brandon_generic';
-                        // Don't replay the same day's dialogue
-                        if (gameState.flags['brandon_day' + day + '_done']) {
-                            startDialogue('brandon_generic');
-                        } else {
-                            startDialogue(brandonKey);
-                        }
-                        return;
-                    }
+                    // Mark this NPC's dialogue as seen
+                    markNpcDialogueSeen(npcId);
 
-                    // Context-aware dialogue for NPCs in different rooms
-                    if (npcId === 'maya' && gameState.currentRoom === 'firepit') {
-                        if (gameState.flags['founder_defeated']) startDialogue('maya_post_boss');
-                        else if (gameState.flags['firepit_done']) startDialogue('maya_return');
-                        else startDialogue('maya_firepit');
-                        return;
-                    }
-
-                    // Use post-defeat dialogue if enemy was defeated
-                    if (npc.postDefeatDialogue && npc.defeatFlag && gameState.flags[npc.defeatFlag]) {
-                        startDialogue(npc.postDefeatDialogue);
-                    // Use return dialogue if we've talked before
-                    } else if (npc.returnDialogue && gameState.flags['talked_' + npcId]) {
-                        startDialogue(npc.returnDialogue);
+                    // Use getNpcDialogueKey for smart routing
+                    const dialogueKey = getNpcDialogueKey(npcId);
+                    if (dialogueKey) {
+                        startDialogue(dialogueKey);
+                    } else if (npc.dynamicDialogue) {
+                        // Dynamic NPCs with nothing new — show idle line
+                        currentDialogue = [{ speaker: '', text: `(${npc.name} has nothing new to say right now.)`, thought: true }];
+                        dialogueIndex = 0;
+                        showDialogueLine();
                     } else {
-                        startDialogue(npc.dialogue);
+                        // Fallback: use basic NPC dialogue config
+                        if (npc.postDefeatDialogue && npc.defeatFlag && gameState.flags[npc.defeatFlag]) {
+                            startDialogue(npc.postDefeatDialogue);
+                        } else if (npc.returnDialogue && gameState.flags['talked_' + npcId]) {
+                            startDialogue(npc.returnDialogue);
+                        } else {
+                            startDialogue(npc.dialogue);
+                        }
                     }
                 };
                 npcContainer.appendChild(slot);
@@ -2257,7 +2546,9 @@
             const navButtons = document.getElementById('nav-buttons');
             navButtons.innerHTML = '';
             room.exits.forEach(exit => {
-                if (!exit.require || gameState.flags[exit.require]) {
+                const requireMet = !exit.require || gameState.flags[exit.require];
+                const altMet = exit.altRequire && gameState.flags[exit.altRequire];
+                if (requireMet || altMet) {
                     const btn = document.createElement('button');
                     btn.textContent = exit.label;
                     btn.onclick = () => enterRoom(exit.room);
@@ -2281,6 +2572,9 @@
                         dialogueIndex = 0; showDialogueLine();
                         gameState.timeOfDay = 'evening';
                         gameState.flags['night_mode'] = true;
+                        if (gameState.currentDay >= 3 && gameState.flags['circle_done']) {
+                            gameState.flags['firepit_accessible'] = true;
+                        }
                         updateHUD(); return;
                     }
                     spendAction();
@@ -2578,6 +2872,44 @@
                 case 'brandon_day5_done':
                     gameState.flags['brandon_day5_done'] = true;
                     break;
+                case 'mattis_day2_done':
+                    gameState.flags['mattis_day2_done'] = true;
+                    gameState.insight++;
+                    break;
+                case 'mattis_day3_done':
+                    gameState.flags['mattis_day3_done'] = true;
+                    break;
+                case 'mattis_day4_done':
+                    gameState.flags['mattis_day4_done'] = true;
+                    gameState.normality = Math.max(0, gameState.normality - 2);
+                    checkSkillUnlocks();
+                    checkEnhancements();
+                    break;
+                case 'talked_jade':
+                    gameState.flags['talked_jade'] = true;
+                    break;
+                case 'jade_quest_done':
+                    gameState.flags['jade_quest_done'] = true;
+                    // Jade's reward: pre-workout packet (consumable)
+                    addConsumable('pre_workout', 'Jade\'s Pre-Workout', 15, 2, 10);
+                    gameState.skillNotifications.push({ type: 'unlock', text: 'OBTAINED: Jade\'s Pre-Workout ×2', desc: 'Heals 15 HP & 10 Qi. Tastes like artificial watermelon and ambition.' });
+                    gameState.insight++;
+                    break;
+                case 'talked_parking_realist':
+                    gameState.flags['talked_parking_realist'] = true;
+                    gameState.insight++;
+                    break;
+                case 'pipe_quest_done':
+                    gameState.flags['pipe_quest_done'] = true;
+                    grantMaxHP('pipe_fix', 5, 'Fixing real plumbing. With real tools. Steve hasn\'t felt this competent since his last audit. +5 Max HP.');
+                    gameState.insight++;
+                    break;
+                case 'got_master_key':
+                    gameState.flags['got_master_key'] = true;
+                    gameState.flags['has_master_key'] = true;
+                    gameState.inventory.push({ id: 'master_key', name: 'Frank\'s Master Key', type: 'key', desc: 'Opens every door on the property. Heavy with responsibility and brass.' });
+                    gameState.skillNotifications.push({ type: 'unlock', text: 'OBTAINED: Master Key', desc: 'Opens every door. Including the ones you shouldn\'t open.' });
+                    break;
                 case 'end_walk':
                     startDialogue('departure');
                     return;
@@ -2656,6 +2988,7 @@
             gameState.eveningActionsLeft = 2;
             gameState.encountersToday = 0;
             delete gameState.flags['night_mode'];
+            delete gameState.flags['firepit_accessible'];
 
             // Restore HP and Qi
             gameState.hp = gameState.maxHp;
@@ -2718,14 +3051,21 @@
         // Quest definitions — each unlocks (becomes visible) when the previous one is done
         // 'revealFlag' = the flag that must be set for this quest to appear (null = always visible)
         const questData = [
-            { text: 'Talk to the Receptionist',     flag: 'talked_receptionist', revealFlag: null },
-            { text: 'Survive the Oil Warrior',       flag: 'oil_defeated_once',   revealFlag: 'talked_receptionist' },
-            { text: 'Find the Groundskeeper',        flag: 'talked_frank',        revealFlag: 'talked_receptionist' },
-            { text: 'Visit the Kitchen',             flag: 'talked_maya',         revealFlag: 'map_obtained' },
-            { text: 'Attend the evening program',    flag: 'circle_done',         revealFlag: 'talked_maya' },
-            { text: 'Meet Maya at the Fire Pit',     flag: 'firepit_done',        revealFlag: 'circle_done' },
-            { text: 'Get past the Gatekeeper',       flag: 'gatekeeper_cleared',  revealFlag: 'firepit_done' },
-            { text: 'Confront Founder Paul',         flag: 'founder_defeated',    revealFlag: 'gatekeeper_cleared' },
+            // Main quest
+            { text: 'Talk to the Receptionist',     flag: 'talked_receptionist', revealFlag: null, type: 'main' },
+            { text: 'Survive the Oil Warrior',       flag: 'oil_defeated_once',   revealFlag: 'talked_receptionist', type: 'main' },
+            { text: 'Find the Groundskeeper',        flag: 'talked_frank',        revealFlag: 'talked_receptionist', type: 'main' },
+            { text: 'Visit the Kitchen',             flag: 'talked_maya',         revealFlag: 'map_obtained', type: 'main' },
+            { text: 'Attend the evening program',    flag: 'circle_done',         revealFlag: 'talked_maya', type: 'main' },
+            { text: 'Meet Maya at the Fire Pit',     flag: 'firepit_done',        revealFlag: 'circle_done', type: 'main' },
+            { text: 'Get past the Gatekeeper',       flag: 'gatekeeper_cleared',  revealFlag: 'firepit_done', type: 'main' },
+            { text: 'Confront Founder Paul',         flag: 'founder_defeated',    revealFlag: 'gatekeeper_cleared', type: 'main' },
+            // Side quests
+            { text: 'Help Frank fix the pipe',       flag: 'pipe_quest_done',     revealFlag: 'talked_frank', type: 'side' },
+            { text: 'Obtain Frank\'s Master Key',    flag: 'has_master_key',      revealFlag: 'pipe_quest_done', type: 'side' },
+            { text: 'Find the WiFi password for Jade', flag: 'jade_quest_done',   revealFlag: 'talked_jade', type: 'side' },
+            { text: 'Talk to the woman in the parking lot', flag: 'talked_parking_realist', revealFlag: 'talked_receptionist', type: 'side' },
+            { text: 'Follow Mattis\'s story',        flag: 'mattis_day4_done',    revealFlag: 'mattis_day2_done', type: 'side' },
         ];
 
         function renderMenu() {
@@ -2740,31 +3080,34 @@
         }
 
         function renderQuests(container) {
-            let html = '<div class="menu-section-title">The Sanctuary</div>';
-            let anyPending = false;
+            let html = '';
 
-            questData.forEach(q => {
-                const done = gameState.flags[q.flag];
-                const revealed = !q.revealFlag || gameState.flags[q.revealFlag];
+            // Render quest section
+            function renderQuestSection(title, type) {
+                const quests = questData.filter(q => q.type === type);
+                const revealed = quests.filter(q => !q.revealFlag || gameState.flags[q.revealFlag]);
+                if (revealed.length === 0) return '';
 
-                if (!revealed) return; // hidden — not yet unlocked
+                let section = `<div class="menu-section-title">${title}</div>`;
+                revealed.forEach(q => {
+                    const done = gameState.flags[q.flag];
+                    const cls = done ? 'done' : 'current';
+                    const check = done ? '☑' : '☐';
+                    section += `<div class="quest-item ${cls}">
+                        <span class="quest-check">${check}</span>
+                        <span>${q.text}</span>
+                    </div>`;
+                });
+                return section;
+            }
 
-                const cls = done ? 'done' : 'current';
-                const check = done ? '☑' : '☐';
-
-                if (!done && !anyPending) {
-                    anyPending = true; // mark first pending as the active quest
-                }
-
-                html += `<div class="quest-item ${cls}">
-                    <span class="quest-check">${check}</span>
-                    <span>${q.text}</span>
-                </div>`;
-            });
+            html += renderQuestSection('The Sanctuary — Main Quest', 'main');
+            html += renderQuestSection('Side Quests', 'side');
 
             // Progress counter
-            const completed = questData.filter(q => gameState.flags[q.flag]).length;
-            html += `<div style="margin-top: 12px; color: #6a6050; font-size: 10px;">${completed}/${questData.length} completed</div>`;
+            const revealed = questData.filter(q => !q.revealFlag || gameState.flags[q.revealFlag]);
+            const completed = revealed.filter(q => gameState.flags[q.flag]).length;
+            html += `<div style="margin-top: 12px; color: #6a6050; font-size: 10px;">${completed}/${revealed.length} completed</div>`;
 
             // Day info
             html += `<div style="margin-top: 16px;" class="menu-section-title">Status</div>`;
@@ -3760,6 +4103,7 @@
                 gameState.eveningActionsLeft = 2;
                 gameState.encountersToday = 0;
                 delete gameState.flags['night_mode'];
+                delete gameState.flags['firepit_accessible'];
 
                 // Reset defeated minor enemies (they come back each day)
                 const resettableFlags = ['oil_defeated', 'meditator_defeated'];
