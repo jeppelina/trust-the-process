@@ -2533,53 +2533,7 @@
             document.getElementById('room-bg').style.background = room.color;
 
             // NPCs — check hide/show flags
-            const npcContainer = document.getElementById('npc-container');
-            npcContainer.innerHTML = '';
-            room.npcs.forEach(npcId => {
-                if (!npcs[npcId]) return;
-                const npc = npcs[npcId];
-                // Hide if defeat/hide flag is set
-                if (npc.hideFlag && gameState.flags[npc.hideFlag]) return;
-                // Only show if required flag is set
-                if (npc.showFlag && !gameState.flags[npc.showFlag]) return;
-                // Only show from certain day onward
-                if (npc.showDay && gameState.currentDay < npc.showDay) return;
-
-                const hasNew = npcHasNewDialogue(npcId);
-                const badge = hasNew ? '<div class="npc-new-badge"></div>' : '';
-
-                const slot = document.createElement('div');
-                slot.className = 'npc-slot';
-                slot.innerHTML = `${badge}<div class="npc-emoji">${npc.emoji}</div><div class="npc-label">${npc.name}</div>`;
-                slot.onclick = () => {
-                    // Don't restart dialogue if one is already running
-                    if (currentDialogue) return;
-
-                    // Mark this NPC's dialogue as seen
-                    markNpcDialogueSeen(npcId);
-
-                    // Use getNpcDialogueKey for smart routing
-                    const dialogueKey = getNpcDialogueKey(npcId);
-                    if (dialogueKey) {
-                        startDialogue(dialogueKey);
-                    } else if (npc.dynamicDialogue) {
-                        // Dynamic NPCs with nothing new — show idle line
-                        currentDialogue = [{ speaker: '', text: `(${npc.name} has nothing new to say right now.)`, thought: true }];
-                        dialogueIndex = 0;
-                        showDialogueLine();
-                    } else {
-                        // Fallback: use basic NPC dialogue config
-                        if (npc.postDefeatDialogue && npc.defeatFlag && gameState.flags[npc.defeatFlag]) {
-                            startDialogue(npc.postDefeatDialogue);
-                        } else if (npc.returnDialogue && gameState.flags['talked_' + npcId]) {
-                            startDialogue(npc.returnDialogue);
-                        } else {
-                            startDialogue(npc.dialogue);
-                        }
-                    }
-                };
-                npcContainer.appendChild(slot);
-            });
+            renderNpcs(roomId);
 
             // Exits
             const navButtons = document.getElementById('nav-buttons');
@@ -2679,6 +2633,47 @@
             }
         }
 
+        function renderNpcs(roomId) {
+            const room = rooms[roomId];
+            const npcContainer = document.getElementById('npc-container');
+            npcContainer.innerHTML = '';
+            room.npcs.forEach(npcId => {
+                if (!npcs[npcId]) return;
+                const npc = npcs[npcId];
+                if (npc.hideFlag && gameState.flags[npc.hideFlag]) return;
+                if (npc.showFlag && !gameState.flags[npc.showFlag]) return;
+                if (npc.showDay && gameState.currentDay < npc.showDay) return;
+
+                const hasNew = npcHasNewDialogue(npcId);
+                const badge = hasNew ? '<div class="npc-new-badge"></div>' : '';
+
+                const slot = document.createElement('div');
+                slot.className = 'npc-slot';
+                slot.innerHTML = `${badge}<div class="npc-emoji">${npc.emoji}</div><div class="npc-label">${npc.name}</div>`;
+                slot.onclick = () => {
+                    if (currentDialogue) return;
+                    markNpcDialogueSeen(npcId);
+                    const dialogueKey = getNpcDialogueKey(npcId);
+                    if (dialogueKey) {
+                        startDialogue(dialogueKey);
+                    } else if (npc.dynamicDialogue) {
+                        currentDialogue = [{ speaker: '', text: `(${npc.name} has nothing new to say right now.)`, thought: true }];
+                        dialogueIndex = 0;
+                        showDialogueLine();
+                    } else {
+                        if (npc.postDefeatDialogue && npc.defeatFlag && gameState.flags[npc.defeatFlag]) {
+                            startDialogue(npc.postDefeatDialogue);
+                        } else if (npc.returnDialogue && gameState.flags['talked_' + npcId]) {
+                            startDialogue(npc.returnDialogue);
+                        } else {
+                            startDialogue(npc.dialogue);
+                        }
+                    }
+                };
+                npcContainer.appendChild(slot);
+            });
+        }
+
         function clearDialogue() {
             currentDialogue = null;
             dialogueIndex = 0;
@@ -2686,8 +2681,8 @@
             document.getElementById('dialogue-text').textContent = '';
             document.getElementById('choices-container').innerHTML = '';
             document.getElementById('continue-prompt').style.display = 'none';
-            // Remove badges for NPCs whose dialogue is now seen
-            document.querySelectorAll('.npc-new-badge').forEach(badge => badge.remove());
+            // Re-render NPCs so badges update based on actual seen state
+            if (gameState.currentRoom) renderNpcs(gameState.currentRoom);
         }
 
         // ═══════════════════════════════════════════════════════════════════
