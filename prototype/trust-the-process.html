@@ -1397,11 +1397,11 @@
             ],
             'sharing_circle': [
                 { speaker: '', text: '(The main hall has been arranged in a circle. About 30 people sit on cushions. There\'s a fire pit in the center. Someone starts playing a didgeridoo.)', thought: true },
-                { speaker: 'Facilitator', text: 'Welcome, beautiful souls, to our sharing circle. This is a sacred space. What\'s shared in circle stays in circle. Unless it needs processing in another circle.' },
-                { speaker: 'Facilitator', text: 'Who wants to begin?' },
+                { speaker: '🪷 Facilitator', text: 'Welcome, beautiful souls, to our sharing circle. This is a sacred space. What\'s shared in circle stays in circle. Unless it needs processing in another circle.' },
+                { speaker: '🪷 Facilitator', text: 'Who wants to begin?' },
                 { speaker: '', text: '(A woman\'s hand shoots up. She\'s shaking with emotion.)', thought: true },
-                { speaker: 'The Oversharer', text: '(sobbing) I just... I used to work in corporate. In marketing. And I was dead inside. So dead.' },
-                { speaker: 'The Oversharer', text: 'But this journey... being here... it\'s given me... I don\'t even know who I am yet but it\'s better than who I was!' },
+                { speaker: '😭 The Oversharer', text: '(sobbing) I just... I used to work in corporate. In marketing. And I was dead inside. So dead.' },
+                { speaker: '😭 The Oversharer', text: 'But this journey... being here... it\'s given me... I don\'t even know who I am yet but it\'s better than who I was!' },
                 { speaker: '', text: '', choices: [
                     { text: '"That\'s beautiful. Thank you for sharing."', next: 'sharing_circle_r1_validate' },
                     { text: '"Have you considered your ROI on this emotional labor?"', next: 'sharing_circle_r1_deflect' },
@@ -1410,25 +1410,25 @@
             ],
             'sharing_circle_r1_validate': [
                 { speaker: 'Steve', text: 'That\'s beautiful. Thank you for sharing your truth.' },
-                { speaker: 'The Oversharer', text: '(beaming through tears) Oh my god, thank you. That means so much.' },
+                { speaker: '😭 The Oversharer', text: '(beaming through tears) Oh my god, thank you. That means so much.' },
                 { speaker: '', text: '(Everyone nods sagely. You\'ve passed the first test of spiritual conformity.)', thought: true, callback: 'add_insight' },
                 { speaker: '', text: '', goto: 'sharing_circle_r2' }
             ],
             'sharing_circle_r1_deflect': [
                 { speaker: 'Steve', text: 'Have you calculated the ROI on this emotional labor? From a cost-benefit standpoint?' },
                 { speaker: '', text: '(Long silence.)', thought: true },
-                { speaker: 'The Oversharer', text: '(confused) I... what?' },
-                { speaker: 'Facilitator', text: 'Let\'s honor all perspectives in circle.' },
+                { speaker: '😭 The Oversharer', text: '(confused) I... what?' },
+                { speaker: '🪷 Facilitator', text: 'Let\'s honor all perspectives in circle.' },
                 { speaker: '', text: '(You\'ve made the first enemy at the Sanctuary.)', thought: true },
                 { speaker: '', text: '', goto: 'sharing_circle_r2' }
             ],
             'sharing_circle_r1_endure': [
                 { speaker: '', text: '(Steve says nothing. The silence stretches. The Oversharer finishes her sentence and sits down, satisfied.)', thought: true },
-                { speaker: 'The Oversharer', text: 'Thank you for witnessing my process.' },
+                { speaker: '😭 The Oversharer', text: 'Thank you for witnessing my process.' },
                 { speaker: '', text: '', goto: 'sharing_circle_r2' }
             ],
             'sharing_circle_r2': [
-                { speaker: 'Facilitator', text: 'Akash Prem. We haven\'t heard from you yet. What brought you to The Sanctuary?' },
+                { speaker: '🪷 Facilitator', text: 'Akash Prem. We haven\'t heard from you yet. What brought you to The Sanctuary?' },
                 { speaker: '', text: '', choices: [
                     { text: '"My wife disappeared here. I need to find her."', next: 'sharing_circle_r2_honest' },
                     { text: '"Professional development and synergistic alignment."', next: 'sharing_circle_r2_corporate' },
@@ -1438,24 +1438,24 @@
             'sharing_circle_r2_honest': [
                 { speaker: 'Steve', text: 'My wife came here three months ago. She disappeared. I\'m here to find her.' },
                 { speaker: '', text: '(The circle goes very still.)', thought: true },
-                { speaker: 'Facilitator', text: 'We honor your journey of reunion. When we\'re ready, what we seek finds us.' },
+                { speaker: '🪷 Facilitator', text: 'We honor your journey of reunion. When we\'re ready, what we seek finds us.' },
                 { speaker: '', text: '(It\'s clear no one in this circle is going to help.)', thought: true },
                 { speaker: '', text: '', goto: 'sharing_circle_r3' }
             ],
             'sharing_circle_r2_corporate': [
                 { speaker: 'Steve', text: 'Professional development. Synergistic team alignment. Exploring paradigm shifts in organizational wellness.' },
                 { speaker: '', text: '(Everyone nods enthusiastically.)', thought: true },
-                { speaker: 'Facilitator', text: 'Beautiful corporate framing of your soul\'s work.' },
+                { speaker: '🪷 Facilitator', text: 'Beautiful corporate framing of your soul\'s work.' },
                 { speaker: '', text: '', goto: 'sharing_circle_r3' }
             ],
             'sharing_circle_r2_refuse': [
                 { speaker: 'Steve', text: 'I\'m still processing. Observing with reverence.' },
-                { speaker: 'Facilitator', text: 'Wise. Silent witnessing is a profound practice.' },
+                { speaker: '🪷 Facilitator', text: 'Wise. Silent witnessing is a profound practice.' },
                 { speaker: '', text: '', goto: 'sharing_circle_r3' }
             ],
             'sharing_circle_r3': [
-                { speaker: 'Facilitator', text: 'Now we move into our final exercise. A vibrational alignment.' },
-                { speaker: 'Facilitator', text: 'This requires us to make sounds from our root chakra. Deep sounds. Primal sounds.' },
+                { speaker: '🪷 Facilitator', text: 'Now we move into our final exercise. A vibrational alignment.' },
+                { speaker: '🪷 Facilitator', text: 'This requires us to make sounds from our root chakra. Deep sounds. Primal sounds.' },
                 { speaker: '', text: '(Everyone is looking at you expectantly.)', thought: true },
                 { speaker: '', text: '', choices: [
                     { text: '"Let\'s do it."', next: 'sharing_circle_r3_join' },
@@ -1470,18 +1470,18 @@
             ],
             'sharing_circle_r3_sit': [
                 { speaker: '', text: '(Steve sits silently while 30 people make primal chakra sounds around him. He is invisible. He is also very conspicuous.)', thought: true },
-                { speaker: 'The Oversharer', text: '(opening one eye) Are you okay? Do you want to process?' },
+                { speaker: '😭 The Oversharer', text: '(opening one eye) Are you okay? Do you want to process?' },
                 { speaker: 'Steve', text: 'I\'m good.' },
                 { speaker: '', text: '', goto: 'sharing_circle_end' }
             ],
             'sharing_circle_r3_leave': [
                 { speaker: 'Steve', text: 'I need some air.' },
                 { speaker: '', text: '(Steve stands and walks toward the exit. The Oversharer immediately gets up and follows him.)', thought: true },
-                { speaker: 'The Oversharer', text: 'Can I process with you about this? I feel like I triggered something for you.' },
+                { speaker: '😭 The Oversharer', text: 'Can I process with you about this? I feel like I triggered something for you.' },
                 { speaker: '', text: '', goto: 'sharing_circle_end' }
             ],
             'sharing_circle_end': [
-                { speaker: 'Facilitator', text: 'Remember: what happens in circle stays in circle. Unless it needs processing in another circle.' },
+                { speaker: '🪷 Facilitator', text: 'Remember: what happens in circle stays in circle. Unless it needs processing in another circle.' },
                 { speaker: '', text: '(The sharing circle disbands. People wander off into the night with glazed expressions.)', thought: true },
                 { speaker: '', text: '(The fire pit should be accessible now. The meditation is over. Maya will be waiting.)', thought: true, callback: 'circle_done' }
             ],
@@ -1802,7 +1802,7 @@
                 npcs: ['frank'],
                 exits: [
                     { label: 'Path', room: 'path' },
-                    { label: 'Movement Studio', room: 'studio', require: 'map_obtained' },
+                    { label: 'Movement Studio', room: 'studio', require: 'oil_defeated_once' },
                     { label: 'Dorms', room: 'dorms', require: 'map_obtained' },
                     { label: 'Supply Shed', room: 'supply_shed', require: 'talked_frank' },
                     { label: 'Fire Pit', room: 'firepit', require: 'firepit_accessible' }
@@ -1835,7 +1835,7 @@
                 npcs: [],
                 exits: [
                     { label: 'Kitchen', room: 'kitchen' },
-                    { label: 'Ceremony Space', room: 'ceremony', require: 'circle_done', requireDay: 4 }
+                    { label: 'Ceremony Space', room: 'ceremony', require: 'meditator_defeated_once', requireDay: 4 }
                 ]
             },
             'firepit': {
@@ -2465,10 +2465,16 @@
             const npc = npcs[npcId];
             if (!npc) return '';
 
-            // Brandon — dynamic per day
+            // Brandon — dynamic per day, each step requires talking previous day + 1 day gap
             if (npcId === 'brandon') {
                 const day = gameState.currentDay;
-                if (day <= 5 && !gameState.flags['brandon_day' + day + '_done']) return 'brandon_day' + day;
+                // Day 1: always available
+                if (!gameState.flags['brandon_day1_done']) return day >= 1 ? 'brandon_day1' : '';
+                // Day 2+: requires previous day done AND at least 1 day gap
+                if (!gameState.flags['brandon_day2_done']) return day >= 2 ? 'brandon_day2' : '';
+                if (!gameState.flags['brandon_day3_done']) return day >= 3 ? 'brandon_day3' : '';
+                if (!gameState.flags['brandon_day4_done']) return day >= 4 ? 'brandon_day4' : '';
+                if (!gameState.flags['brandon_day5_done']) return day >= 5 ? 'brandon_day5' : '';
                 return 'brandon_generic';
             }
 
@@ -2626,6 +2632,7 @@
                 // Boss requires: Day 3+, completed sharing circle, cleared gatekeeper, talked to Maya at firepit
                 const bossReady = gameState.currentDay >= 5
                     && gameState.flags['circle_done']
+                    && gameState.flags['meditator_defeated_once']
                     && gameState.flags['gatekeeper_cleared']
                     && gameState.flags['firepit_done'];
                 if (bossReady) {
@@ -2634,6 +2641,7 @@
                     // Not ready yet — the door is locked
                     let hint = "Maybe he needs more time here.";
                     if (!gameState.flags['circle_done']) hint = "He hasn't attended the evening program yet.";
+                    else if (!gameState.flags['meditator_defeated_once']) hint = "There's someone in the movement studio he needs to deal with first.";
                     else if (!gameState.flags['firepit_done']) hint = "He should talk to Maya at the fire pit first.";
                     else if (gameState.currentDay < 5) hint = "Something tells him he's not ready yet. Give it another day.";
                     setTimeout(() => {
@@ -3126,9 +3134,10 @@
             { text: 'Survive the Oil Warrior',       flag: 'oil_defeated_once',   revealFlag: 'talked_receptionist', type: 'main' },
             { text: 'Find the Groundskeeper',        flag: 'talked_frank',        revealFlag: 'talked_receptionist', type: 'main' },
             { text: 'Visit the Kitchen',             flag: 'talked_maya',         revealFlag: 'map_obtained', type: 'main' },
+            { text: 'Defeat the Meditation Trainer', flag: 'meditator_defeated_once', revealFlag: 'oil_defeated_once', type: 'main' },
             { text: 'Attend the evening program',    flag: 'circle_done',         revealFlag: 'talked_maya', type: 'main' },
             { text: 'Meet Maya at the Fire Pit',     flag: 'firepit_done',        revealFlag: 'circle_done', type: 'main' },
-            { text: 'Get past the Gatekeeper',       flag: 'gatekeeper_cleared',  revealFlag: 'firepit_done', type: 'main' },
+            { text: 'Get past the Gatekeeper',       flag: 'gatekeeper_cleared',  revealFlag: 'meditator_defeated_once', type: 'main' },
             { text: 'Confront Founder Paul',         flag: 'founder_defeated',    revealFlag: 'gatekeeper_cleared', type: 'main' },
             // Side quests
             { text: 'Help Frank fix the pipe',       flag: 'pipe_quest_done',     revealFlag: 'talked_frank', type: 'side' },
