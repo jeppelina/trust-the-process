@@ -1835,7 +1835,7 @@
                 npcs: [],
                 exits: [
                     { label: 'Kitchen', room: 'kitchen' },
-                    { label: 'Ceremony Space', room: 'ceremony', require: 'circle_done' }
+                    { label: 'Ceremony Space', room: 'ceremony', require: 'circle_done', requireDay: 4 }
                 ]
             },
             'firepit': {
@@ -2541,7 +2541,8 @@
             room.exits.forEach(exit => {
                 const requireMet = !exit.require || gameState.flags[exit.require];
                 const altMet = exit.altRequire && gameState.flags[exit.altRequire];
-                if (requireMet || altMet) {
+                const dayMet = !exit.requireDay || gameState.currentDay >= exit.requireDay;
+                if ((requireMet || altMet) && dayMet) {
                     const btn = document.createElement('button');
                     btn.textContent = exit.label;
                     btn.onclick = () => enterRoom(exit.room);
@@ -2592,7 +2593,8 @@
             clearDialogue();
 
             // Show room flavor text (only if no auto-trigger dialogue will fire)
-            const willAutoTrigger = (roomId === 'main_hall' && !gameState.flags['circle_done'])
+            const circleWillTrigger = roomId === 'main_hall' && !gameState.flags['circle_done'];
+            const willAutoTrigger = circleWillTrigger
                 || (roomId === 'back_office' && !gameState.flags['founder_defeated'])
                 || (roomId === 'firepit' && gameState.flags['circle_done'] && !gameState.flags['firepit_done']);
             if (!willAutoTrigger && ROOM_FLAVOR[roomId]) {
@@ -2603,11 +2605,26 @@
 
             // Auto-trigger dialogues for certain rooms
             if (roomId === 'main_hall' && !gameState.flags['circle_done']) {
-                setTimeout(() => startDialogue('sharing_circle'), 400);
+                // Sharing circle requires: Day 3+ AND evening
+                const circleReady = gameState.currentDay >= 3 && gameState.timeOfDay === 'evening';
+                if (circleReady) {
+                    setTimeout(() => startDialogue('sharing_circle'), 400);
+                } else {
+                    let reason = gameState.currentDay < 3
+                        ? 'A sign on the wall reads: "Next group meditation: Day 3." Steve counts on his fingers. Not yet.'
+                        : 'The hall is empty. A schedule on the wall says the meditation circle happens in the evening.';
+                    setTimeout(() => {
+                        currentDialogue = [
+                            { speaker: '', text: reason, thought: true }
+                        ];
+                        dialogueIndex = 0;
+                        showDialogueLine();
+                    }, 400);
+                }
             }
             if (roomId === 'back_office' && !gameState.flags['founder_defeated']) {
                 // Boss requires: Day 3+, completed sharing circle, cleared gatekeeper, talked to Maya at firepit
-                const bossReady = gameState.currentDay >= 3
+                const bossReady = gameState.currentDay >= 5
                     && gameState.flags['circle_done']
                     && gameState.flags['gatekeeper_cleared']
                     && gameState.flags['firepit_done'];
@@ -2618,7 +2635,7 @@
                     let hint = "Maybe he needs more time here.";
                     if (!gameState.flags['circle_done']) hint = "He hasn't attended the evening program yet.";
                     else if (!gameState.flags['firepit_done']) hint = "He should talk to Maya at the fire pit first.";
-                    else if (gameState.currentDay < 3) hint = "Something tells him he's not ready yet. Give it another day.";
+                    else if (gameState.currentDay < 5) hint = "Something tells him he's not ready yet. Give it another day.";
                     setTimeout(() => {
                         currentDialogue = [
                             { speaker: '', text: `The door is locked. A sign reads: 'Staff Only — Align Your Intentions Before Entering.'\n\nSteve tries the handle anyway. It doesn't budge. ${hint}`, thought: true }
@@ -2800,6 +2817,7 @@
                 case 'circle_done':
                     gameState.flags['circle_done'] = true;
                     gameState.flags['night_mode'] = true;
+                    gameState.flags['firepit_accessible'] = true;
                     // Attending the ceremony drops Normality by 3
                     gameState.normality = Math.max(0, gameState.normality - 3);
                     checkSkillUnlocks();
@@ -3040,7 +3058,7 @@
             gameState.eveningActionsLeft = 2;
             gameState.encountersToday = 0;
             delete gameState.flags['night_mode'];
-            delete gameState.flags['firepit_accessible'];
+            // firepit_accessible is permanent once earned via circle_done
 
             // Restore HP and Qi
             gameState.hp = gameState.maxHp;
@@ -4286,7 +4304,7 @@
                 gameState.eveningActionsLeft = 2;
                 gameState.encountersToday = 0;
                 delete gameState.flags['night_mode'];
-                delete gameState.flags['firepit_accessible'];
+                // firepit_accessible is permanent once earned via circle_done
 
                 // Reset defeated minor enemies (they come back each day)
                 const resettableFlags = ['oil_defeated', 'meditator_defeated'];
