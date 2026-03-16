@@ -782,7 +782,7 @@
 
             <div id="battle-screen" class="screen-panel">
                 <div class="battle-header">
-                    <div><span id="steve-hp-label">STEVE</span> <span id="steve-hp">60</span>/<span id="steve-hp-max">60</span> HP</div>
+                    <div><span id="steve-hp-label">STEVE</span> <span id="steve-hp">60</span>/<span id="steve-hp-max">60</span> HP &nbsp;<span style="color:#7b68ee;">✦</span> <span id="steve-qi">20</span>/<span id="steve-qi-max">20</span> <span style="color:#7b68ee;">Qi</span></div>
                     <div id="battle-turn-info" style="font-weight: bold;">Your Turn</div>
                     <div><span id="enemy-name-label">ENEMY</span> <span id="enemy-hp">50</span>/<span id="enemy-hp-max">50</span> HP</div>
                 </div>
@@ -957,19 +957,19 @@
                                '"Per my previous statement: no." Steve\'s corporate tone is devastating.',
                            ],
                            unlock: { verbalAttacks: 8 } },
-            nag:         { id: 'nag',         name: 'Nag',         branch: 'verbal',   tier: 1, ep: 5,  dmg: 5,  type: 'psychic',  effect: 'dot', acc: 90, dotDmg: 3,
-                           desc: '5 dmg + 3 dmg/turn for 3 turns. Won\'t let it go.', log: '"Where is the CERTIFICATE? I asked about the certificate. Do you even HAVE a certificate?"',
+            nag:         { id: 'nag',         name: 'Nag',         branch: 'verbal',   tier: 1, ep: 4,  dmg: 6,  type: 'psychic',  effect: 'dot', acc: 90, dotDmg: 3,
+                           desc: '6 dmg + 3 dmg/turn for 3 turns. 4 Qi. Won\'t let it go.', log: '"Where is the CERTIFICATE? I asked about the certificate. Do you even HAVE a certificate?"',
                            unlock: { verbalAttacks: 35, insight: 1 } },
-            insult:      { id: 'insult',      name: 'Insult',      branch: 'verbal',   tier: 2, ep: 7,  dmg: 16, type: 'psychic',  effect: 'defense_shred', acc: 90,
-                           desc: 'Psychic hit + lowers enemy DEF by 2.', log: '"Your ponytail is a cry for help."',
+            insult:      { id: 'insult',      name: 'Insult',      branch: 'verbal',   tier: 2, ep: 6,  dmg: 18, type: 'psychic',  effect: 'defense_shred', acc: 90,
+                           desc: 'Psychic hit + lowers enemy DEF by 2. 6 Qi.', log: '"Your ponytail is a cry for help."',
                            unlock: { verbalAttacks: 80, insight: 3 } },
             change_subject:{ id: 'change_subject', name: 'Change Subject', branch: 'verbal', tier: 2, ep: 6, dmg: 0, type: 'psychic', effect: 'stun', acc: 85,
                            desc: 'Stun 1 turn. Derails enemy.', log: '"Quick question — is this building up to code?" Enemy forgets what they were doing.',
                            unlock: { verbalAttacks: 80, insight: 3 } },
 
             // ── SPIRITUAL (Involuntary) ──
-            panic_breathing: { id: 'panic_breathing', name: 'Panic Breathing', branch: 'spiritual', tier: 0, ep: 5, dmg: 0, type: 'spiritual', effect: 'heal', acc: 100, healAmt: 20,
-                           desc: 'Heal 20 HP. Accidental breathwork.', log: [
+            panic_breathing: { id: 'panic_breathing', name: 'Panic Breathing', branch: 'spiritual', tier: 0, ep: 4, dmg: 0, type: 'spiritual', effect: 'heal', acc: 100, healAmt: 20,
+                           desc: 'Heal 20 HP. 4 Qi. Accidental breathwork.', log: [
                                'Steve hyperventilates. It accidentally becomes rhythmic. He heals.',
                                'Steve breathes in panic. Somehow it becomes a legitimate breathing technique.',
                                'Steve\'s stress breathing accidentally aligns with a recognized pranayama pattern. He\'s horrified.',
@@ -977,11 +977,11 @@
                                'Steve pants like a man who ran for a bus. His body interprets this as "wellness."',
                            ],
                            unlock: { maxNormality: 90 } },
-            sage_toss:   { id: 'sage_toss',   name: 'Sage Toss',   branch: 'spiritual', tier: 1, ep: 5,  dmg: 8,  type: 'spiritual', effect: 'smoke', acc: 90,
-                           desc: '8 dmg + smoke screen. -20% enemy accuracy.', log: 'Steve has watched someone light sage 400 times. Muscle memory.',
+            sage_toss:   { id: 'sage_toss',   name: 'Sage Toss',   branch: 'spiritual', tier: 1, ep: 4,  dmg: 10,  type: 'spiritual', effect: 'smoke', acc: 95,
+                           desc: '10 dmg + smoke screen. -20% enemy accuracy. 4 Qi.', log: 'Steve has watched someone light sage 400 times. Muscle memory.',
                            unlock: { maxNormality: 80 } },
-            the_nod:     { id: 'the_nod',     name: 'The Nod',     branch: 'spiritual', tier: 2, ep: 4,  dmg: 0,  type: 'spiritual', effect: 'buff_next', acc: 100,
-                           desc: 'De-escalate + buff next attack +30%.', log: 'The nod is involuntary now. He does it in his sleep. It works on everyone.',
+            the_nod:     { id: 'the_nod',     name: 'The Nod',     branch: 'spiritual', tier: 2, ep: 3,  dmg: 0,  type: 'spiritual', effect: 'buff_next', acc: 100,
+                           desc: 'Buff next attack +30%. 3 Qi. Cheap and reliable.', log: 'The nod is involuntary now. He does it in his sleep. It works on everyone.',
                            unlock: { maxNormality: 70 } },
         };
 
@@ -990,34 +990,39 @@
         // ═══════════════════════════════════════════════════════════════════
         // Enhanced skills use dmgMin/dmgMax for variable damage (keeps base floor, widens ceiling)
         const ENHANCEMENT_DB = [
-            { original: 'slap',     enhanced: 'energy_slap',     normGate: 75,
-              name: 'Energy Slap', dmgMin: 3, dmgMax: 10, dmg: 6, ep: 0, type: 'physical', bonusType: 'spiritual', effect: null,
-              log: 'Steve slaps. His palm leaves a brief afterimage. "Why did that GLOW."',
-              notification: 'Steve notices his hands tingling before he strikes. The impact leaves a faint shimmer. He shakes his hand out and mutters "static electricity."' },
-            { original: 'complain', enhanced: 'mindful_complaint', normGate: 75,
-              name: 'Mindful Complaint', dmgMin: 3, dmgMax: 9, dmg: 5, ep: 0, type: 'psychic', bonusType: 'spiritual', effect: 'dot', dotDmg: 3,
-              log: '"I feel that the water pressure doesn\'t honor my needs." It\'s an I-statement. It\'s more devastating this way.',
-              notification: 'Steve phrases a complaint as an I-statement without realizing it. The receptionist tears up. Steve is confused.' },
-            { original: 'shove',    enhanced: 'force_push',      normGate: 65,
-              name: 'Force Push', dmgMin: 7, dmgMax: 20, dmg: 12, ep: 4, type: 'physical', bonusType: 'spiritual', effect: 'stun',
-              log: 'Steve shoves. The target slides further than physics allows. Steve stares at his hands.',
-              notification: 'Steve shoves someone and they fly back three feet. Gravity doesn\'t explain it. Steve stares at his hands for a long time.' },
-            // ── LATE-GAME: High power, high risk ──
-            { original: 'throw_rock', enhanced: 'spirit_stone', normGate: 50,
-              name: 'Spirit Stone', dmgMin: 10, dmgMax: 30, dmg: 18, ep: 4, type: 'physical', bonusType: 'spiritual', effect: null,
+            // ── EARLY SIGNS (high normality) — subtle changes, small boosts ──
+            { original: 'slap',     enhanced: 'energy_slap',     normGate: 85,
+              name: 'Energy Slap', dmgMin: 3, dmgMax: 7, dmg: 4, ep: 0, type: 'physical', bonusType: 'spiritual', effect: null,
+              riskEffect: 'twitch',
+              log: 'Steve slaps. His palm tingles afterward. "Must be the dry air."',
+              notification: 'Steve\'s slaps leave a faint warmth. Probably friction. Definitely friction.' },
+            { original: 'complain', enhanced: 'mindful_complaint', normGate: 80,
+              name: 'Mindful Complaint', dmgMin: 3, dmgMax: 7, dmg: 4, ep: 0, type: 'psychic', bonusType: 'spiritual', effect: null,
+              riskEffect: 'twitch',
+              log: '"I feel that the water pressure doesn\'t honor my needs." It came out as an I-statement. Steve didn\'t mean to do that.',
+              notification: 'Steve phrases a complaint as an I-statement without realizing it. The words felt... different. He clears his throat.' },
+            // ── MID-GAME: Noticeable changes, mild costs ──
+            { original: 'shove',    enhanced: 'force_push',      normGate: 70,
+              name: 'Force Push', dmgMin: 5, dmgMax: 14, dmg: 8, ep: 3, type: 'physical', bonusType: 'spiritual', effect: 'stun_chance',
+              riskEffect: 'self_damage_2',
+              log: 'Steve shoves. The target slides a bit further than expected. "Must have been off balance."',
+              notification: 'Steve shoves someone and they stumble back farther than they should. Could be adrenaline. Could be.' },
+            { original: 'nag',       enhanced: 'existential_dread', normGate: 60,
+              name: 'Existential Dread', dmgMin: 5, dmgMax: 10, dmg: 6, ep: 4, type: 'psychic', bonusType: 'spiritual', effect: 'dot', dotDmg: 3,
+              riskEffect: 'qi_drain_2',
+              log: '"What if none of this is real? What if the retreat is a metaphor?" The enemy\'s eyes go wide. Steve didn\'t plan that sentence.',
+              notification: 'Steve says something that makes a stranger question reality. He didn\'t mean to. The words came from somewhere he can\'t name.' },
+            // ── LATE-GAME: Powerful but costly ──
+            { original: 'throw_rock', enhanced: 'spirit_stone', normGate: 45,
+              name: 'Spirit Stone', dmgMin: 8, dmgMax: 22, dmg: 14, ep: 4, type: 'physical', bonusType: 'spiritual', effect: null,
               riskEffect: 'self_damage_5',
               log: 'Steve hurls a rock. It glows mid-flight. It was not glowing when he picked it up.',
               notification: 'The rock is warm in Steve\'s hand. It hums. He throws it and it leaves a trail of light. Steve\'s hand is bleeding. He didn\'t grip it that hard.' },
-            { original: 'nag',       enhanced: 'existential_dread', normGate: 50,
-              name: 'Existential Dread', dmgMin: 5, dmgMax: 14, dmg: 8, ep: 5, type: 'psychic', bonusType: 'spiritual', effect: 'dot', dotDmg: 5,
-              riskEffect: 'qi_drain_2',
-              log: '"What if none of this is real? What if the retreat is a metaphor? What if YOU\'RE a metaphor?" The enemy\'s eyes go wide.',
-              notification: 'Steve says something that makes a stranger question the nature of reality. He didn\'t mean to. The words came from somewhere deeper. His Qi drains when he speaks like this.' },
-            { original: 'punch',     enhanced: 'third_eye_strike', normGate: 40,
-              name: 'Third Eye Strike', dmgMin: 15, dmgMax: 45, dmg: 28, ep: 8, type: 'physical', bonusType: 'spiritual', effect: 'stun_chance',
+            { original: 'punch',     enhanced: 'third_eye_strike', normGate: 35,
+              name: 'Third Eye Strike', dmgMin: 12, dmgMax: 32, dmg: 20, ep: 7, type: 'physical', bonusType: 'spiritual', effect: 'stun_chance',
               riskEffect: 'normality_drain',
-              log: 'Steve punches. His fist connects with something that isn\'t physical. The impact ripples. Steve\'s vision goes purple for a moment.',
-              notification: 'Steve\'s fist moves before he decides to throw it. The impact leaves a mark that looks like an eye. His normality is slipping faster now. Each strike takes something from him.' },
+              log: 'Steve punches. His fist connects with something that isn\'t physical. His vision goes purple for a moment.',
+              notification: 'Steve\'s fist moves before he decides to throw it. The impact leaves a mark that looks like an eye. Each strike takes something from him.' },
         ];
 
         // Resolve log text — supports string or array for rotating messages
@@ -1258,17 +1263,11 @@
                 { speaker: 'Maya', text: 'Good luck, Steve. Pranayama Peak is north of here. Three days\' drive if you follow the recommendations.' }
             ],
             'brandon_arrive': [
-                { speaker: '', text: '(A young man with a backward baseball cap bounces on the bunk above yours.)', thought: true },
-                { speaker: 'Brandon', text: 'Dude! Welcome! You are going to LOVE it here. This place is incredible!' },
+                { speaker: '', text: '(A young man with a backward baseball cap bounces on the bunk above yours. Patagonia vest. Vibrating with enthusiasm.)', thought: true },
+                { speaker: 'Brandon', text: 'Dude! Welcome! I\'m Brandon. Well, spiritually I\'m Surya. But Brandon for official stuff. You should come to yoga!' },
                 { speaker: 'Steve', text: 'I\'ve been here for four hours.' },
-                { speaker: 'Brandon', text: 'Exactly! Isn\'t it amazing? I just got here yesterday. The energy is like... (gestures wildly) ...everywhere.' },
-                { speaker: '', text: '(He jumps down and pulls a yoga mat from his backpack.)', thought: true },
-                { speaker: 'Brandon', text: 'I\'m Brandon, by the way. Well, spiritually I\'m Surya. But Brandon for official stuff. You should come to yoga with me this afternoon. It\'s going to change your life. I can feel it.' },
-                { speaker: 'Steve', text: 'Where\'s your watch?' },
-                { speaker: 'Brandon', text: 'Oh man, I donated it! They have this gratitude fund and I just felt like... why am I enslaved to timekeeping, you know?' },
-                { speaker: '', text: '(He looks genuinely happy about this poor decision.)', thought: true },
-                { speaker: 'Brandon', text: 'You should donate something too. It\'s liberation, bro.' },
-                { speaker: '', text: '', callback: 'talked_brandon' }
+                { speaker: 'Brandon', text: 'Exactly! Isn\'t it amazing? The energy is like... (gestures wildly) ...everywhere. I donated my watch to the gratitude fund. Why am I enslaved to timekeeping, you know?' },
+                { speaker: '', text: '(He looks genuinely happy about this poor decision. He has his dad\'s tan line on his wrist.)', thought: true, callback: 'talked_brandon' },
             ],
             'brandon_act2': [
                 { speaker: 'Brandon', text: 'Hey brother! I\'m feeling my edges dissolve, you know? Like, I\'m becoming one with the universe.' },
@@ -1513,62 +1512,62 @@
                 { speaker: '', text: '(He makes a sound that might be a laugh or a sob.)', thought: true, callback: 'gatekeeper_cleared' }
             ],
             'back_office_discover': [
-                { speaker: '', text: '(The back office is a jarring contrast. Fluorescent lights. A file cabinet. A desk with three monitors. Professional accounting software. This is the real Sanctuary.)', thought: true },
-                { speaker: '', text: '(Steve opens the filing cabinet. Inside: dozens of passports. Recommendation letters. Bank statements. A folder labeled "PIPELINE.")', thought: true },
-                { speaker: 'Steve', text: '(reading) One point two million in annual revenue. One hundred eighty thousand to a personal LLC. Forty unpaid volunteers.' },
-                { speaker: '', text: '(The Pipeline folder. Color-coded spreadsheets. Each Sanctuary guest rated by net worth, psychological profile, and "suggestibility index." Steve\'s wife is highlighted in green. Green means "ready for transfer.")', thought: true },
-                { speaker: '', text: '(Transfer fees. The Sanctuary sends people to Pranayama Peak. Pranayama Peak sends them to Burning Man. Each stop takes a cut. It\'s a franchise model. For human beings.)', thought: true },
+                { speaker: '', text: '(The back office is a jarring contrast. Fluorescent lights. A filing cabinet. A desk with a surprisingly modern laptop and a Nespresso machine. This is the real Sanctuary.)', thought: true },
+                { speaker: '', text: '(Steve opens the filing cabinet. Inside: dozens of passports. Recommendation letters in a neat stack. A folder labeled "PIPELINE." The font is Helvetica. Professional.)', thought: true },
+                { speaker: 'Steve', text: '(reading) One point two million in annual revenue. One hundred eighty thousand to a personal LLC. Forty unpaid volunteers. The LLC is registered in Delaware. Of course it is.' },
+                { speaker: '', text: '(The Pipeline folder. Color-coded spreadsheets. Each guest rated by net worth, psychological profile, and "suggestibility index." Steve\'s wife is highlighted in green. Green means "ready for transfer." There\'s a column for "retention methods." It includes love-bombing, financial dependency, and "ego death (controlled).")', thought: true },
+                { speaker: '', text: '(Transfer fees. The Sanctuary sends people to Pranayama Peak. Pranayama Peak sends them to the desert. Each stop takes a cut. It\'s a franchise model. For human beings. Steve recognizes the structure — it\'s an MLM. With chakras.)', thought: true },
                 { speaker: '', text: '(The lights change. The yurt flap opens.)', thought: true },
                 { speaker: 'The Founder', text: 'I thought you might end up here.' },
-                { speaker: '', text: '(Paul stands in the doorway. He is not smiling. He doesn\'t need to.)', thought: true },
+                { speaker: '', text: '(Paul stands in the doorway. White linen. The smile of a man who has never once doubted himself. He has a smoothie.)', thought: true },
                 { speaker: '', text: '', choices: [
-                    { text: '"I\'ve seen the Pipeline folder."', next: 'founder_prefight' },
+                    { text: '"I found your spreadsheet."', next: 'founder_prefight' },
                     { text: '"I\'m leaving with these documents."', next: 'founder_battle_start' }
                 ]}
             ],
             'founder_prefight': [
-                { speaker: 'The Founder', text: 'Good. Then you understand the scale of what I\'ve built.' },
-                { speaker: 'The Founder', text: 'Every retreat center, every wellness festival, every silent meditation weekend — they\'re all feeders. I didn\'t invent the pipeline, Steve. I optimized it.' },
-                { speaker: 'The Founder', text: 'Your wife scored a 94 on suggestibility. Highest I\'ve seen. She\'ll go all the way to the desert. And she\'ll thank me for it.' },
+                { speaker: 'The Founder', text: 'Good. Then you can appreciate the margins.' },
+                { speaker: 'The Founder', text: 'I was a used car salesman in Tucson. I read one book about chakras. ONE BOOK. And then people started giving me money. Do you know what that does to a person, Steve?' },
+                { speaker: 'Steve', text: 'You built a pipeline. For people.' },
+                { speaker: 'The Founder', text: 'I OPTIMIZED a pipeline. Every retreat, every breathwork weekend, every silent meditation — they\'re all feeders. Your wife scored a 94 on suggestibility. Highest I\'ve seen. She\'ll go all the way to the desert and she\'ll thank me for it.' },
                 { speaker: 'Steve', text: 'You\'re holding their passports.' },
-                { speaker: 'The Founder', text: 'Collateral. Standard practice. You\'re an accountant — you understand leverage.' },
+                { speaker: 'The Founder', text: '"For safekeeping." You\'re an accountant — you understand collateral. I also made the intake form in Canva. Would you like to see it? It\'s quite good.' },
                 { speaker: '', text: '', choices: [
-                    { text: '"You\'re insane."', next: 'founder_battle_start' },
-                    { text: '"How much money are we talking?"', next: 'founder_deal' }
+                    { text: '"How much money are we talking?"', next: 'founder_deal' },
+                    { text: '"You\'re done."', next: 'founder_battle_start' }
                 ]}
             ],
             'founder_deal': [
-                { speaker: 'The Founder', text: 'Across all locations? Seven figures quarterly. Growing 40% year over year. No taxes — it\'s all classified as donations.' },
+                { speaker: 'The Founder', text: 'Across all locations? Seven figures quarterly. Growing 40% year over year. No taxes — classified as donations. I headhunted my CFO from a hedge fund. He thinks he\'s on a "spiritual sabbatical."' },
                 { speaker: 'Steve', text: '...That\'s actually impressive accounting.' },
-                { speaker: 'The Founder', text: 'I know. I headhunted my CFO from a hedge fund. He thinks he\'s on a "spiritual sabbatical."' },
-                { speaker: '', text: '(Steve notices a spreadsheet column labeled "RETENTION METHODS." The entries include: love-bombing, sleep deprivation, financial dependency, and "ego death (controlled).")', thought: true },
-                { speaker: 'Steve', text: 'You\'re done.' },
+                { speaker: 'The Founder', text: 'I know! That\'s what I\'m saying! Join me, Steve. You have a gift for systems. I need someone who doesn\'t believe any of this. You\'d be perfect.' },
+                { speaker: 'Steve', text: 'You want me to help you run a cult.' },
+                { speaker: 'The Founder', text: '"Wellness franchise." The word cult is a tax nightmare.' },
+                { speaker: 'Steve', text: 'No.' },
                 { speaker: '', text: '', goto: 'founder_battle_start' }
             ],
             'founder_battle_start': [
                 { speaker: 'The Founder', text: 'I really hoped you wouldn\'t do that. Brandon?' },
-                { speaker: '', text: '(Paul presses something under his desk. Brandon enters from a side passage, eyes empty, ready to fight.)', thought: true, callback: 'start_founder_battle' }
+                { speaker: '', text: '(Paul presses something under his desk. A gong sounds. Brandon enters from a side passage, eyes glazed, ready to fight. Paul sips his smoothie.)', thought: true, callback: 'start_founder_battle' }
             ],
             'founder_escape': [
-                { speaker: '', text: '(Paul staggers. Brandon is on the floor. The monitors are cracked. But Paul is already moving.)', thought: true },
-                { speaker: 'The Founder', text: '(breathing hard) You think this changes anything? The pipeline doesn\'t need me. It runs itself.' },
-                { speaker: '', text: '(Paul pulls a bag from under the desk. Pre-packed. He\'s planned for this.)', thought: true },
+                { speaker: '', text: '(Paul staggers. Brandon is on the floor. The laptop is cracked. But Paul is already moving.)', thought: true },
+                { speaker: 'The Founder', text: '(breathing hard) You think this changes anything? I designed it to run without me. That\'s what separates a founder from an employee.' },
+                { speaker: '', text: '(Paul pulls a bag from under the desk. Pre-packed. Zip-lock bags of cash. Three passports with different names.)', thought: true },
                 { speaker: 'Steve', text: 'You had a go-bag.' },
-                { speaker: 'The Founder', text: 'I have go-bags in every location. That\'s what separates the founder from the flock.' },
-                { speaker: '', text: '(Paul opens a panel in the yurt wall. A hidden exit. Of course.)', thought: true },
-                { speaker: 'The Founder', text: 'Your wife is already at Pranayama Peak. Room 7. By the time you get there, she\'ll be ready for the next transfer. Burning Man. The big one.' },
+                { speaker: 'The Founder', text: 'I have go-bags in every location. Always have an exit strategy. That was in the chakra book too, actually. Chapter 4.' },
+                { speaker: '', text: '(Paul opens a panel in the yurt wall. Behind it: a hallway. Emergency lighting. The man built an escape route into a yurt.)', thought: true },
+                { speaker: 'The Founder', text: 'Your wife is at Pranayama Peak. Room 7. By the time you get there, she\'ll be ready for the next transfer.' },
                 { speaker: 'The Founder', text: 'Good luck, accountant. You\'re going to need a bigger spreadsheet.' },
-                { speaker: '', text: '(Paul disappears into the night. Steve is alone in the back office with a filing cabinet full of evidence and a growing list of places he needs to go.)', thought: true, callback: 'founder_escaped' },
+                { speaker: '', text: '(Paul disappears. Steve stands in the wreckage of a back office that smells like sage and corporate fraud.)', thought: true, callback: 'founder_escaped' },
             ],
             'founder_aftermath': [
                 { speaker: '', text: '(Steve gathers the documents. Passports. Pipeline records. Transfer agreements. He puts them in his sensible messenger bag.)', thought: true },
-                { speaker: '', text: '(Maya\'s passport. Mattis\'s wife\'s passport. Seven others. Steve leaves them on the desk with a note: "Your passports are here. — Steve.")', thought: true },
-                { speaker: '', text: '(In the Pipeline folder, Steve finds a map. Color-coded. Every node in the network.)', thought: true },
-                { speaker: '', text: '(The Sanctuary of Infinite Becoming → Pranayama Peak → The Silent Desert Convergence → Burning Man.)', thought: true },
-                { speaker: '', text: '(Each location bigger. Each location more expensive. Each one harder to leave.)', thought: true },
-                { speaker: 'Steve', text: '(quietly) She\'s at Pranayama Peak. Two hours north. Room 7.' },
-                { speaker: '', text: '(Steve folds the map. He puts it in his bag next to three energy bars and a tax return he never finished.)', thought: true },
-                { speaker: '', text: '(The Sanctuary is behind him. But it was only the first stop.)', thought: true, callback: 'end_walk' },
+                { speaker: '', text: '(Maya\'s passport. Mattis\'s wife\'s passport. Seven others. Steve leaves them on the desk with a post-it: "Your passports are here. — Steve Stevens, CPA.")', thought: true },
+                { speaker: '', text: '(In the Pipeline folder, Steve finds a map. Color-coded. Every node in the network. The design work is annoyingly professional.)', thought: true },
+                { speaker: '', text: '(The Sanctuary of Infinite Becoming → Pranayama Peak → The Silent Desert Convergence → Burning Man. Each location bigger. Each more expensive. Each one harder to leave.)', thought: true },
+                { speaker: 'Steve', text: '(folding the map carefully along the creases) She\'s at Pranayama Peak. Two hours north.' },
+                { speaker: '', text: '(Steve puts the map in his bag next to three energy bars, a pipe wrench he forgot to return to Frank, and a tax return he never finished. The Sanctuary is behind him. It was only the first node.)', thought: true, callback: 'end_walk' },
             ],
             // ═══════════════════════════════════════════════════════════════
             // MATTIS — The Dark Mirror (Dorms, Day 2+)
@@ -1788,17 +1787,17 @@
             ],
 
             'departure': [
-                { speaker: '', text: '(Steve drives out of The Sanctuary. At the gate, they return his phone.)', thought: true },
-                { speaker: '', text: '(847 emails. 23 missed calls. A voicemail from his boss asking if he\'s dead. One text from an unknown number.)', thought: true },
+                { speaker: '', text: '(Steve drives out of The Sanctuary of Infinite Becoming. At the gate, they return his phone. It has a sticker on it that says "BLESSED." He peels it off.)', thought: true },
+                { speaker: '', text: '(847 emails. 23 missed calls. A voicemail from his boss asking if he\'s dead. Another from his dentist. One text from an unknown number.)', thought: true },
                 { speaker: '', text: 'Unknown: Paul is already gone. He has other locations. Don\'t stop.', thought: true },
-                { speaker: '', text: '(Steve unfolds the pipeline map on the passenger seat. Four nodes. Four locations. His wife is at the second one.)', thought: true },
+                { speaker: '', text: '(Steve unfolds the pipeline map on the passenger seat. Paul\'s handwriting is surprisingly neat.)', thought: true },
                 { speaker: '', text: '(THE PIPELINE)', thought: true },
-                { speaker: '', text: '(✓ The Sanctuary of Infinite Becoming — CLEARED)', thought: true },
-                { speaker: '', text: '(→ Pranayama Peak — "Advanced Breathwork & Altitude Healing." Two hours north. Room 7. His wife is there.)', thought: true },
-                { speaker: '', text: '(→ The Silent Desert Convergence — "72-Hour Sensory Deprivation Experience." Somewhere in Nevada. Transfer fee: $15,000.)', thought: true },
-                { speaker: '', text: '(→ Burning Man — "Final Transformation." The end of the pipeline. Where people go in and something else comes out.)', thought: true },
-                { speaker: '', text: '(Steve starts the car. He has sensible shoes, a messenger bag full of evidence, and the quiet certainty of a man who has audited worse.)', thought: true },
-                { speaker: '', text: '(Pranayama Peak is two hours away. Paul is already there.)', thought: true },
+                { speaker: '', text: '(✓ The Sanctuary of Infinite Becoming — "Introductory Awakening." CLEARED. Steve has the spreadsheets to prove it.)', thought: true },
+                { speaker: '', text: '(→ Pranayama Peak — "Advanced Breathwork & Altitude Healing." Two hours north. Room 7. She\'s there. Transfer fee: $8,000.)', thought: true },
+                { speaker: '', text: '(→ The Silent Desert Convergence — "72-Hour Sensory Deprivation Experience." Nevada. Transfer fee: $15,000. The brochure says "clothing optional." Steve underlines this as a warning.)', thought: true },
+                { speaker: '', text: '(→ Burning Man — "Final Transformation." The end of the pipeline. Transfer fee: "everything you have left." Paul drew a little smiley face next to this one.)', thought: true },
+                { speaker: '', text: '(Steve starts the car. He has sensible shoes, a messenger bag full of evidence, a pipe wrench, and the quiet certainty of a man who has audited worse.)', thought: true },
+                { speaker: '', text: '(Pranayama Peak is two hours away. Paul is already there. Steve has not yet processed that he just fought a brainwashed man and watched a cult leader escape through a yurt wall. He will process it later. During tax season, probably.)', thought: true },
                 { speaker: '', text: '(TRUST THE PROCESS — END OF CHAPTER ONE)', thought: true },
                 { speaker: '', text: '(Steve will return.)', thought: true }
             ]
@@ -2005,17 +2004,17 @@
                     { name: 'Love Bomb', dmg: 6, msg: '"You just don\'t UNDERSTAND! The Founder LOVES us!"' }
                 ],
                 attacks: [
-                    { name: 'Pipeline Pitch', dmg: 18, msg: '"You could be useful, Steve. I need someone who understands numbers. The pipeline is growing."' },
-                    { name: 'Gaslighting', dmg: 14, msg: '"I never said that. Check the NDA you signed at reception. Paragraph 7."', effect: 'smudge' },
-                    { name: 'Corporate Restructure', dmg: 0, msg: 'Paul calmly reviews his contingency spreadsheet mid-battle.', effect: 'boss_buff' },
-                    { name: 'Suggestibility Index', dmg: 24, msg: '"Your wife scored a 94, Steve. You\'re about a 12. But pain moves the needle."' }
+                    { name: 'Charismatic Redirect', dmg: 18, msg: '"What you\'re feeling is RESISTANCE. That means we\'re close to a breakthrough." Paul learned this from a YouTube video. It works every time.' },
+                    { name: 'Gaslighting', dmg: 14, msg: '"I never said that. Check the NDA you signed at reception. Paragraph 7. I wrote it myself. In Canva."', effect: 'smudge' },
+                    { name: 'Financial Restructure', dmg: 0, msg: 'Paul adjusts his pricing model mid-battle. He has a pivot table for this.', effect: 'boss_buff' },
+                    { name: 'Inner Circle Invitation', dmg: 24, msg: '"Join me, Steve. You have a gift for systems. I\'ll make you CFO. The current one is on a vision quest."' }
                 ],
                 phase3Attacks: [
-                    { name: 'Scorched Earth Protocol', dmg: 10, msg: 'Paul starts deleting files. "You think I don\'t have backups? I have backups of my backups."' },
-                    { name: 'Full Meltdown', dmg: 30, msg: 'Paul throws a monitor. "I BUILT A FRANCHISE FROM A WEEKEND WORKSHOP AND A CANVA SUBSCRIPTION!"' },
-                    { name: 'The Founder\'s Truth', dmg: 0, msg: '"I don\'t believe any of it. I never did. That\'s what makes me good at this."' }
+                    { name: 'Scorched Earth', dmg: 10, msg: 'Paul starts deleting files. "I have backups. In THREE CLOUD SERVICES. You can\'t kill a man with redundant storage."' },
+                    { name: 'Full Meltdown', dmg: 30, msg: 'Paul throws the Nespresso machine. "I BUILT THIS FROM ONE BOOK ABOUT CHAKRAS AND A CANVA SUBSCRIPTION!"' },
+                    { name: 'Vulnerable Honesty', dmg: 0, msg: '"I don\'t believe any of it. I never did. That\'s what makes me GOOD at this." He straightens his linen shirt.' }
                 ],
-                defeat: 'Paul steadies himself against the desk. He is not broken. He is calculating.\n"You think this is over? This is one location. One node."\nHe opens a drawer. Grabs a pre-packed bag.\n"The pipeline runs itself. I designed it that way."',
+                defeat: 'Paul steadies himself against the desk. He is not broken. He is recalculating.\n"You think this is it? This is one location. One node in a franchise."\nHe straightens his linen shirt. "I was a used car salesman, Steve. You don\'t survive Tucson without a Plan B."',
                 xp: 8, cacao: 80
             },
             'hugger': {
@@ -3735,6 +3734,8 @@
         function updateBattleDisplay() {
             document.getElementById('steve-hp').textContent = gameState.hp;
             document.getElementById('steve-hp-max').textContent = gameState.maxHp;
+            document.getElementById('steve-qi').textContent = gameState.qi;
+            document.getElementById('steve-qi-max').textContent = gameState.maxQi;
             if (battleState.enemy.isBoss && battleState.phase === 1) {
                 document.getElementById('enemy-hp').textContent = battleState.phase1HP;
                 document.getElementById('enemy-hp-max').textContent = 50;
@@ -3844,6 +3845,20 @@
 
         function executeSkill(skillId) {
             if (!battleState.playerTurn || battleState.isOver) return;
+
+            // Check if player is twitching (self-stun from spiritual instability)
+            if (battleState.playerStunned) {
+                battleState.playerStunned = false;
+                logBattle(pickRandom([
+                    'Steve\'s body locks up. His hand won\'t close. The moment passes. Turn lost.',
+                    'Steve reaches for something inside himself and finds... static. He loses his turn.',
+                    'A flash of purple behind Steve\'s eyes. He freezes. "I\'m fine. I\'m fine."',
+                ]));
+                battleState.playerTurn = false;
+                document.getElementById('battle-turn-info').textContent = 'Enemy Turn';
+                setTimeout(enemyTurn, 1200);
+                return;
+            }
 
             const skill = getEffectiveSkill(skillId);
             const baseSkill = SKILL_DB[skillId] || skill;
@@ -4122,6 +4137,29 @@
             // Risk effects from dangerous late-game enhancements
             if (skill.riskEffect) {
                 switch (skill.riskEffect) {
+                    case 'twitch':
+                        // 20% chance of losing next turn — early sign of instability
+                        if (Math.random() < 0.20) {
+                            battleState.playerStunned = 1;
+                            logBattle(pickRandom([
+                                '(Steve\'s hand spasms. He freezes for a moment. "That was weird.")',
+                                '(A shiver runs through Steve. He loses focus briefly.)',
+                                '(Steve\'s vision blurs. Just for a second. He blinks it away.)',
+                                '(Something shifts inside Steve. He stumbles. "Low blood sugar.")',
+                            ]));
+                        }
+                        break;
+                    case 'self_damage_2':
+                        // Small recoil — 30% chance of 2-4 self damage
+                        if (Math.random() < 0.30) {
+                            const riskSmall = 2 + Math.floor(Math.random() * 3); // 2-4
+                            gameState.hp = Math.max(1, gameState.hp - riskSmall);
+                            logBattle(pickRandom([
+                                `The effort stings. ${riskSmall} recoil damage. Steve shakes his hand out.`,
+                                `Something snaps back. ${riskSmall} recoil. Steve\'s joints ache in places he didn't know he had.`,
+                            ]));
+                        }
+                        break;
                     case 'self_damage_5':
                         const riskDmg = 3 + Math.floor(Math.random() * 5); // 3-7 HP
                         gameState.hp = Math.max(1, gameState.hp - riskDmg);
@@ -4360,17 +4398,30 @@
                 gameState.normality = Math.max(0, gameState.normality - 1);
                 checkEnhancements();
 
-                // +5 Max HP every 3 battles won
+                // Alternating +3 Max HP / +3 Max Qi every 3 battles won
                 gameState.battlesWon = (gameState.battlesWon || 0) + 1;
                 if (gameState.battlesWon % 3 === 0) {
                     const milestone = gameState.battlesWon;
-                    grantMaxHP('battles_' + milestone, 5,
-                        pickRandom([
-                            'Steve\'s body is adapting to being hit. This is not the career growth he imagined.',
-                            'Three more fights survived. Steve\'s max HP increases. His therapist bill will too.',
-                            'Steve is measurably harder to kill. He adds this to his resume under "Skills."',
-                            'Another three altercations. Steve\'s constitution grows. His dignity does not.',
-                        ]));
+                    const cycle = Math.floor(milestone / 3); // 1, 2, 3, 4...
+                    if (cycle % 2 === 1) {
+                        // Odd milestones: +3 Max HP
+                        grantMaxHP('battles_' + milestone, 3,
+                            pickRandom([
+                                'Steve\'s body is adapting to being hit. This is not the career growth he imagined.',
+                                'Three more fights survived. Steve is marginally harder to kill. His therapist bill grows proportionally.',
+                                'Steve is measurably tougher. He adds this to his resume under "Skills."',
+                                'Another three altercations. Steve\'s constitution grows. His dignity does not.',
+                            ]));
+                    } else {
+                        // Even milestones: +3 Max Qi
+                        grantMaxQi('battles_qi_' + milestone, 3,
+                            pickRandom([
+                                'Steve\'s spiritual energy expands. He blames the altitude.',
+                                'Three fights and Steve can feel... something. He\'d like it to stop. Max Qi +3.',
+                                'Steve\'s Qi reserves deepen. His chakras remain firmly closed. He checked.',
+                                'More Qi. Steve doesn\'t know what Qi is. His body does. This is troubling.',
+                            ]));
+                    }
                 }
 
                 // Loot drops — supports both single `drop` and multi `drops` array
@@ -4654,7 +4705,7 @@
                 const riskText = skill.riskEffect ? ' ⚠' : '';
                 btn.textContent = `${skill.name}${lvlText}${epText}${dmgText}${accText}${enhanced}${riskText}`;
                 if (skill.riskEffect) {
-                    const riskDescs = { 'self_damage_5': 'Recoil damage', 'qi_drain_2': 'Drains Qi', 'normality_drain': 'Drains Normality' };
+                    const riskDescs = { 'twitch': 'May lose turn', 'self_damage_2': 'Small recoil', 'self_damage_5': 'Recoil damage', 'qi_drain_2': 'Drains Qi', 'normality_drain': 'Drains Normality' };
                     btn.title = riskDescs[skill.riskEffect] || 'Risky';
                 }
                 btn.disabled = skill.ep > 0 && gameState.qi < skill.ep;
