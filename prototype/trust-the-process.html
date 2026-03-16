@@ -1700,20 +1700,59 @@
             // PARKING LOT REALIST
             // ═══════════════════════════════════════════════════════════════
             'parking_realist': [
-                { speaker: '', text: '(A woman stands next to a Subaru, car keys in her hand. She has been standing here a while.)', thought: true },
-                { speaker: 'Woman', text: '(not looking at Steve) I\'m leaving. I\'m definitely leaving.' },
-                { speaker: 'Steve', text: 'Your car is right there.' },
-                { speaker: 'Woman', text: 'I know where my car is. I\'ve been looking at my car for forty minutes.' },
-                { speaker: 'Steve', text: 'Why don\'t you just—' },
-                { speaker: 'Woman', text: 'Because if I leave, it means the last four months meant nothing. Four months, Steve. I quit my job. I told my mother I was "finding myself." My mother is a dentist. She didn\'t take it well.' },
+                { speaker: '', text: '(A woman stands next to a Subaru. She\'s patting her pockets. She has been doing this a while.)', thought: true },
+                { speaker: 'Woman', text: '(not looking at Steve) I\'m leaving. I\'m definitely leaving. As soon as I find my damn keys.' },
+                { speaker: 'Steve', text: 'You lost your car keys?' },
+                { speaker: 'Woman', text: 'I didn\'t LOSE them. I had them. I put them in the "surrendering material possessions" bowl during a ceremony and then someone — I think the Founder\'s assistant — "cleansed" the bowl.' },
+                { speaker: 'Steve', text: 'They threw away your car keys.' },
+                { speaker: 'Woman', text: 'They "released them into the universe." Same thing, less useful.' },
+                { speaker: 'Steve', text: 'How long have you been here?' },
+                { speaker: 'Woman', text: 'Four months. I quit my job. I told my mother I was "finding myself." My mother is a dentist. She didn\'t take it well.' },
                 { speaker: 'Steve', text: 'How do you know my name?' },
                 { speaker: 'Woman', text: 'Everyone knows your name. You\'re the accountant who asked the Receptionist about Wi-Fi. You\'re a LEGEND here.' },
-                { speaker: '', text: '(She turns her keys over in her hand.)', thought: true },
+                { speaker: '', text: '(She kicks the front tire of her Subaru.)', thought: true },
                 { speaker: 'Woman', text: 'The thing is... the breathing actually helped. The yoga was nice. The Founder is a fraud, obviously. But the people? Some of them are real. Maya is real. Frank is real.' },
                 { speaker: 'Woman', text: 'It\'s a scam that accidentally works. That\'s the worst kind. Because you can\'t just be angry about it.' },
-                { speaker: 'Steve', text: 'You could leave AND take the breathing with you.' },
-                { speaker: 'Woman', text: '(long pause) ...Huh. That\'s... that\'s really practical advice.' },
-                { speaker: '', text: '(She unlocks the car. She doesn\'t get in. But the door is open now.)', thought: true, callback: 'talked_parking_realist' }
+                { speaker: 'Steve', text: 'I\'ll keep an eye out for the keys.' },
+                { speaker: 'Woman', text: '...Thanks. That\'s more than anyone else has said.' },
+                { speaker: '', text: '(The woman leans against the Subaru and stares at the sky. She\'s not going anywhere. Not yet.)', thought: true, callback: 'talked_parking_realist' }
+            ],
+            'parking_realist_return': () => [
+                { speaker: 'Woman', text: pickRandom([
+                    'Still keyless. Still here. Still "processing."',
+                    'I tried hotwiring it. The YouTube tutorial was in Sanskrit. I think they pranked me.',
+                    'Someone offered to drive me to town. In a van with no windows. I said no.',
+                    'My mother called. I told her I was "in a holding pattern." She said "like a plane?" I said "like a person."',
+                ]) }
+            ],
+            'parking_realist_token': [
+                { speaker: 'Steve', text: 'I found something.' },
+                { speaker: '', text: '(Steve holds up the carved wooden token.)', thought: true },
+                { speaker: 'Woman', text: 'That\'s... is that a decorative—' },
+                { speaker: 'Steve', text: 'Turn it over.' },
+                { speaker: 'Woman', text: '(reading) "Subaru Impreza 2019." Oh my GOD. They turned my key fob into a CEREMONY PROP?!' },
+                { speaker: 'Steve', text: 'They carved a flame around it.' },
+                { speaker: 'Woman', text: 'It\'s actually nice craftsmanship. Which makes it WORSE.' },
+                { speaker: '', text: '(She clicks the fob. The Subaru beeps. She stares at the open door.)', thought: true },
+                { speaker: 'Woman', text: '...' },
+                { speaker: 'Steve', text: 'You\'re not getting in.' },
+                { speaker: 'Woman', text: 'I\'m processing.' },
+                { speaker: 'Steve', text: 'You\'re stalling.' },
+                { speaker: 'Woman', text: '(long pause) ...Yeah. I am.' },
+                { speaker: 'Woman', text: 'I can\'t leave yet, Steve. I know I should. The keys are right here. The car works. My mother would be thrilled. But...' },
+                { speaker: 'Woman', text: 'If I leave now, who warns the next person? Who tells the next accountant that the Founder keeps passports in his office?' },
+                { speaker: 'Steve', text: '...He does what?' },
+                { speaker: 'Woman', text: 'Oh, you didn\'t know? Yeah. Check the back office. And here — take this. I won\'t need it where I\'m going.' },
+                { speaker: '', text: '(She doesn\'t specify where she\'s going. She also doesn\'t leave.)', thought: true },
+                { speaker: '', text: '(She hands you a woven vest that looks ridiculous but feels surprisingly sturdy.)', thought: true, callback: 'parking_token_delivered' }
+            ],
+            'parking_realist_post_delivery': () => [
+                { speaker: 'Woman', text: pickRandom([
+                    'I\'m still here. The car is running. Has been for twenty minutes. I\'m getting there.',
+                    'I moved the seat back. That counts as progress.',
+                    'I turned on the radio. It was playing a guided meditation. I turned it off.',
+                    'My mother texted a picture of a plane ticket. I\'m thinking about it. While sitting in the parking lot.',
+                ]) }
             ],
 
             // ═══════════════════════════════════════════════════════════════
@@ -1734,7 +1773,12 @@
                 { speaker: 'Frank', text: 'You know, your wife did this exact same thing. Only guest who ever offered to help. She held the coupling for forty minutes without complaining.' },
                 { speaker: 'Steve', text: '...She hates plumbing.' },
                 { speaker: 'Frank', text: 'Maybe. But she was good at it. People are surprising sometimes.' },
-                { speaker: '', text: '(The pipe is fixed. Steve\'s hands smell like solder and something that might be pride.)', thought: true, callback: 'pipe_quest_done' }
+                { speaker: '', text: '(The pipe is fixed. Steve\'s hands smell like solder and something that might be pride.)', thought: true, callback: 'pipe_quest_done' },
+                { speaker: 'Frank', text: 'Oh — almost forgot. Found this wedged behind the pipe. Some kind of ceremony junk.' },
+                { speaker: '', text: '(Frank tosses you a small object. It\'s a carved wooden token shaped like a flame. On the back, in tiny letters: "SUBARU IMPREZA 2019.")', thought: true },
+                { speaker: 'Steve', text: 'Frank, I think this is a car key.' },
+                { speaker: 'Frank', text: 'Huh. Everything\'s a metaphor here, so who can tell anymore.' },
+                { speaker: '', text: '(Obtained: Ceremonial Token. It\'s definitely a car key fob encased in carved wood.)', thought: true, callback: 'got_ceremonial_token' }
             ],
             'frank_pipe_decline': [
                 { speaker: 'Frank', text: 'Fair enough. Offer stands.' },
@@ -1880,7 +1924,7 @@
             'receptionist': { name: 'Receptionist', color: '#CC7700', emoji: '💁‍♀️✨', dialogue: 'receptionist', returnDialogue: 'receptionist_return' },
             'frank': { name: 'Groundskeeper', color: '#666666', emoji: '🧔🔧', dialogue: 'frank', returnDialogue: 'frank_return' },
             'oil_warrior': { name: '???', color: '#D12064', emoji: '🧴💥', dialogue: 'oil_warrior', hideFlag: 'oil_defeated' },
-            'maya': { name: 'Maya', color: '#B85726', emoji: '👩‍🍳🥣', dialogue: 'maya_kitchen', returnDialogue: 'maya_return' },
+            'maya': { name: 'Maya', color: '#B85726', emoji: '👩‍🍳🥣', dialogue: 'maya_kitchen', returnDialogue: 'maya_return', showFlag: 'oil_defeated_once' },
             'brandon': { name: 'Brandon', color: '#1B8D8D', emoji: '🧑‍🦲🙏', dialogue: 'brandon_day1', dynamicDialogue: true },
             'meditator': { name: '???', color: '#8034A0', emoji: '🧘‍♂️💢', dialogue: 'meditator_challenge', postDefeatDialogue: 'meditator_post', defeatFlag: 'meditator_defeated' },
             'breathwork_monk': { name: 'Breathwork Monk', color: '#1A59C6', emoji: '🌬️😌', dialogue: 'breathwork_monk', returnDialogue: 'breathwork_return', showFlag: 'meditator_defeated' },
@@ -1889,7 +1933,7 @@
             'founder': { name: 'The Founder', color: '#C78C00', emoji: '👁️🕴️', dialogue: 'back_office_discover', hideFlag: 'founder_defeated' },
             'mattis': { name: 'Mattis', color: '#5588AA', emoji: '🧔‍♂️😔', dialogue: 'mattis_day2', dynamicDialogue: true, showDay: 3 },
             'jade': { name: 'Jade', color: '#DD55AA', emoji: '📱✨', dialogue: 'jade_intro', returnDialogue: 'jade_return', showDay: 3 },
-            'parking_realist': { name: 'Woman With Keys', color: '#999977', emoji: '🔑😶', dialogue: 'parking_realist' }
+            'parking_realist': { name: 'Woman With No Keys', color: '#999977', emoji: '🚗😶', dialogue: 'parking_realist', dynamicDialogue: true }
         };
 
         // ═══════════════════════════════════════════════════════════════════
@@ -2507,9 +2551,17 @@
                 if (gameState.flags['has_master_key']) return 'frank_master_key_done';
                 if (gameState.flags['pipe_quest_done'] && gameState.flags['firepit_done'] && gameState.currentDay >= 4) return 'frank_gives_key';
                 if (gameState.flags['pipe_quest_done']) return 'frank_post_pipe';
-                if (gameState.flags['talked_frank'] && gameState.currentDay >= 3) return 'frank_pipe_quest';
+                if (gameState.flags['talked_frank'] && gameState.flags['circle_done']) return 'frank_pipe_quest';
                 if (gameState.flags['talked_frank']) return 'frank_return';
                 return 'frank';
+            }
+
+            // Parking lot woman — quest stages
+            if (npcId === 'parking_realist') {
+                if (gameState.flags['parking_token_delivered']) return 'parking_realist_post_delivery';
+                if (gameState.flags['has_ceremonial_token'] && gameState.flags['talked_parking_realist']) return 'parking_realist_token';
+                if (gameState.flags['talked_parking_realist']) return 'parking_realist_return';
+                return 'parking_realist';
             }
 
             // Post-defeat dialogue
@@ -2603,10 +2655,21 @@
             const willAutoTrigger = circleWillTrigger
                 || (roomId === 'back_office' && !gameState.flags['founder_defeated'])
                 || (roomId === 'firepit' && gameState.flags['circle_done'] && !gameState.flags['firepit_done']);
-            if (!willAutoTrigger && ROOM_FLAVOR[roomId]) {
-                const flavor = pickRandom(ROOM_FLAVOR[roomId]);
-                document.getElementById('dialogue-text').textContent = flavor;
-                document.getElementById('dialogue-text').style.color = '#999';
+            if (!willAutoTrigger) {
+                // Kitchen without Maya — special flavor text
+                if (roomId === 'kitchen' && !gameState.flags['oil_defeated_once']) {
+                    const kitchenEmpty = pickRandom([
+                        'The kitchen is unstaffed. A pile of dishes fills the sink. A note reads: "Dish duty is a meditation. Meditate when you feel called to." No one has felt called.',
+                        'Empty pots sit on cold burners. A schedule on the wall lists "Kitchen Coordinator: Maya" but she\'s nowhere to be seen. Probably avoiding whoever keeps burning the quinoa.',
+                        'The kitchen smells like old lentils and abandoned ambition. Someone wrote "CLEAN UP AFTER YOURSELF (namaste)" on the whiteboard. It hasn\'t worked.',
+                    ]);
+                    document.getElementById('dialogue-text').textContent = kitchenEmpty;
+                    document.getElementById('dialogue-text').style.color = '#999';
+                } else if (ROOM_FLAVOR[roomId]) {
+                    const flavor = pickRandom(ROOM_FLAVOR[roomId]);
+                    document.getElementById('dialogue-text').textContent = flavor;
+                    document.getElementById('dialogue-text').style.color = '#999';
+                }
             }
 
             // Auto-trigger dialogues for certain rooms
@@ -2982,6 +3045,20 @@
                     checkSkillUnlocks();
                     checkEnhancements();
                     break;
+                case 'parking_token_delivered':
+                    gameState.flags['parking_token_delivered'] = true;
+                    // Remove the token from inventory
+                    gameState.inventory = gameState.inventory.filter(i => i.id !== 'ceremonial_token');
+                    // Add the armor reward
+                    gameState.inventory.push({ id: 'woven_vest', name: 'Vest of Practical Wisdom', type: 'armor', def: 5, desc: 'A woven vest that looks ridiculous. Provides surprising clarity against manipulation tactics. +5 DEF.' });
+                    gameState.skillNotifications.push({ type: 'unlock', text: 'OBTAINED: Vest of Practical Wisdom', desc: '+5 DEF. Looks like a craft fair reject. Stops gaslighting cold.' });
+                    gameState.insight += 2;
+                    break;
+                case 'got_ceremonial_token':
+                    gameState.flags['has_ceremonial_token'] = true;
+                    gameState.inventory.push({ id: 'ceremonial_token', name: 'Ceremonial Token (Car Key)', type: 'quest', desc: 'A carved wooden token shaped like a flame. On the back: "SUBARU IMPREZA 2019." Someone is missing this.' });
+                    gameState.skillNotifications.push({ type: 'unlock', text: 'OBTAINED: Ceremonial Token', desc: 'Definitely a car key fob. The carving is nice though.' });
+                    break;
                 case 'got_master_key':
                     gameState.flags['got_master_key'] = true;
                     gameState.flags['has_master_key'] = true;
@@ -3144,6 +3221,7 @@
             { text: 'Obtain Frank\'s Master Key',    flag: 'has_master_key',      revealFlag: 'pipe_quest_done', type: 'side' },
             { text: 'Find the WiFi password for Jade', flag: 'jade_quest_done',   revealFlag: 'talked_jade', type: 'side' },
             { text: 'Talk to the woman in the parking lot', flag: 'talked_parking_realist', revealFlag: 'talked_receptionist', type: 'side' },
+            { text: 'Return the ceremonial token to the parking lot woman', flag: 'parking_token_delivered', revealFlag: 'has_ceremonial_token', type: 'side' },
             { text: 'Follow Mattis\'s story',        flag: 'mattis_day4_done',    revealFlag: 'mattis_day2_done', type: 'side' },
         ];
 
