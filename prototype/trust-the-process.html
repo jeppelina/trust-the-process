@@ -1165,15 +1165,20 @@
             'oil_warrior': [
                 { speaker: '???', text: 'Hey! Hey, wait! Can I just — have you heard of doTERRA?' },
                 { speaker: 'Steve', text: 'No.' },
-                { speaker: 'Essential Oil Warrior', text: 'It\'s not what you think. It\'s not a pyramid scheme. It\'s a WELLNESS ECOSYSTEM with a tiered distribution model.' },
-                { speaker: 'Steve', text: 'That is exactly what a pyramid scheme is.' },
-                { speaker: 'Essential Oil Warrior', text: 'A pyramid has a POINT at the TOP. This has a DIAMOND shape. Completely different geometry. Here — smell this.' },
-                { speaker: '', text: '(She thrusts a tiny bottle toward your face. The smell hits you like a forest fire in a health food store.)', thought: true },
+                { speaker: 'Essential Oil Warrior', text: 'It\'s not a pyramid scheme. It\'s a WELLNESS ECOSYSTEM with a tiered distribution model. A pyramid has a POINT at the TOP. This has a DIAMOND shape. Here — smell this.' },
                 { speaker: '', text: '', choices: [
                     { text: '"Get that away from me."', next: 'oil_fight' },
                     { text: '"How much do you actually make?"', next: 'oil_fight' },
                     { text: '(Try to walk away)', next: 'oil_fight' }
                 ]}
+            ],
+            'oil_warrior_rematch': [
+                { speaker: 'Essential Oil Warrior', text: pickRandom([
+                    '"YOU AGAIN? I have NEW OILS. Frankincense-infused RAGE."',
+                    '"I\'ve upgraded my product line. And my right hook."',
+                    '"Corporate said I need to close this sale OR ELSE."',
+                ]) },
+                { speaker: '', text: '(Here we go again.)', thought: true, callback: 'start_oil_battle' }
             ],
             'oil_fight': [
                 { speaker: 'Essential Oil Warrior', text: 'RECEIVE THIS BLESSING!' },
@@ -1344,6 +1349,14 @@
                 { speaker: 'Meditator', text: 'Yet here you are.' },
                 { speaker: '', text: '', callback: 'start_meditator_battle' }
             ],
+            'meditator_rematch': [
+                { speaker: 'Meditator', text: pickRandom([
+                    '"Back for more? My stillness has DEEPENED since yesterday."',
+                    '"I meditated on our last encounter. I found inner peace. I will use it to destroy you."',
+                    '"Your rock trick won\'t work twice." (It will.)',
+                ]) },
+                { speaker: '', text: '', callback: 'start_meditator_battle' }
+            ],
             'meditator_post': [
                 { speaker: '', text: '(The meditator is on his knees, breathing hard. His perfect stillness is gone.)', thought: true },
                 { speaker: 'Meditator', text: 'Your... unconventional approach has merit. You broke my Stillness with a ROCK. A literal ROCK.' },
@@ -1500,53 +1513,62 @@
                 { speaker: '', text: '(He makes a sound that might be a laugh or a sob.)', thought: true, callback: 'gatekeeper_cleared' }
             ],
             'back_office_discover': [
-                { speaker: '', text: '(The back office is a jarring contrast. Fluorescent lights. A file cabinet. A desk with a surprisingly modern laptop. Spreadsheets. This is the real Sanctuary.)', thought: true },
-                { speaker: '', text: '(Steve opens the filing cabinet. Inside: dozens of passports. Recommendation letters in a neat stack. Bank statements.)', thought: true },
-                { speaker: 'Steve', text: '(reading) One point two million in annual revenue. One hundred eighty thousand to a personal LLC. Forty unpaid volunteers on the roster.' },
-                { speaker: '', text: '(Steve finds his wife\'s recommendation letter. Dated three months ago. Addressed to Pranayama Peak. Recommends her for "advanced work.")', thought: true },
-                { speaker: '', text: '(Steve finds Maya\'s passport. He finds documents for seven other people.)', thought: true },
+                { speaker: '', text: '(The back office is a jarring contrast. Fluorescent lights. A file cabinet. A desk with three monitors. Professional accounting software. This is the real Sanctuary.)', thought: true },
+                { speaker: '', text: '(Steve opens the filing cabinet. Inside: dozens of passports. Recommendation letters. Bank statements. A folder labeled "PIPELINE.")', thought: true },
+                { speaker: 'Steve', text: '(reading) One point two million in annual revenue. One hundred eighty thousand to a personal LLC. Forty unpaid volunteers.' },
+                { speaker: '', text: '(The Pipeline folder. Color-coded spreadsheets. Each Sanctuary guest rated by net worth, psychological profile, and "suggestibility index." Steve\'s wife is highlighted in green. Green means "ready for transfer.")', thought: true },
+                { speaker: '', text: '(Transfer fees. The Sanctuary sends people to Pranayama Peak. Pranayama Peak sends them to Burning Man. Each stop takes a cut. It\'s a franchise model. For human beings.)', thought: true },
                 { speaker: '', text: '(The lights change. The yurt flap opens.)', thought: true },
                 { speaker: 'The Founder', text: 'I thought you might end up here.' },
-                { speaker: '', text: '(Paul stands in the doorway. He\'s wearing white linen. He\'s smiling.)', thought: true },
+                { speaker: '', text: '(Paul stands in the doorway. He is not smiling. He doesn\'t need to.)', thought: true },
                 { speaker: '', text: '', choices: [
-                    { text: '"I\'m leaving with these documents."', next: 'founder_battle_start' },
-                    { text: '"What if I\'m interested in a deal?"', next: 'founder_prefight' }
+                    { text: '"I\'ve seen the Pipeline folder."', next: 'founder_prefight' },
+                    { text: '"I\'m leaving with these documents."', next: 'founder_battle_start' }
                 ]}
             ],
             'founder_prefight': [
-                { speaker: 'The Founder', text: 'I was hoping you might be practical.' },
-                { speaker: 'The Founder', text: 'Take the recommendation letter. Go north to Pranayama Peak. Tell your wife the Sanctuary is wonderful. Forget the other documents.' },
-                { speaker: 'The Founder', text: 'I\'m not a bad man. I\'m running a business. Everyone here wants to be here. Until they don\'t. Then they go somewhere else.' },
+                { speaker: 'The Founder', text: 'Good. Then you understand the scale of what I\'ve built.' },
+                { speaker: 'The Founder', text: 'Every retreat center, every wellness festival, every silent meditation weekend — they\'re all feeders. I didn\'t invent the pipeline, Steve. I optimized it.' },
+                { speaker: 'The Founder', text: 'Your wife scored a 94 on suggestibility. Highest I\'ve seen. She\'ll go all the way to the desert. And she\'ll thank me for it.' },
                 { speaker: 'Steve', text: 'You\'re holding their passports.' },
-                { speaker: 'The Founder', text: 'For safekeeping. A small incentive to keep people engaged.' },
+                { speaker: 'The Founder', text: 'Collateral. Standard practice. You\'re an accountant — you understand leverage.' },
                 { speaker: '', text: '', choices: [
-                    { text: '"I\'ll take your deal."', next: 'founder_end_walk' },
-                    { text: '"I\'m not leaving without the passports."', next: 'founder_battle_start' }
+                    { text: '"You\'re insane."', next: 'founder_battle_start' },
+                    { text: '"How much money are we talking?"', next: 'founder_deal' }
                 ]}
             ],
+            'founder_deal': [
+                { speaker: 'The Founder', text: 'Across all locations? Seven figures quarterly. Growing 40% year over year. No taxes — it\'s all classified as donations.' },
+                { speaker: 'Steve', text: '...That\'s actually impressive accounting.' },
+                { speaker: 'The Founder', text: 'I know. I headhunted my CFO from a hedge fund. He thinks he\'s on a "spiritual sabbatical."' },
+                { speaker: '', text: '(Steve notices a spreadsheet column labeled "RETENTION METHODS." The entries include: love-bombing, sleep deprivation, financial dependency, and "ego death (controlled).")', thought: true },
+                { speaker: 'Steve', text: 'You\'re done.' },
+                { speaker: '', text: '', goto: 'founder_battle_start' }
+            ],
             'founder_battle_start': [
-                { speaker: 'The Founder', text: 'I really hoped you wouldn\'t do that.' },
-                { speaker: '', text: '(Paul closes the yurt door. Brandon enters from a side passage, still dazed, ready to fight.)', thought: true, callback: 'start_founder_battle' }
+                { speaker: 'The Founder', text: 'I really hoped you wouldn\'t do that. Brandon?' },
+                { speaker: '', text: '(Paul presses something under his desk. Brandon enters from a side passage, eyes empty, ready to fight.)', thought: true, callback: 'start_founder_battle' }
             ],
-            'founder_end_walk': [
-                { speaker: 'The Founder', text: 'Smart man. Your wife would be proud. Actually — she\'d be disappointed. She was more idealistic than you.' },
-                { speaker: 'Steve', text: 'Good thing I don\'t care what she thinks anymore.' },
-                { speaker: 'The Founder', text: '(nodding) That\'s the spirit. Here. Take the letter.' },
-                { speaker: '', text: '(Steve walks out with the recommendation letter. He knows where his wife is, but not who she\'s become. It feels like winning.)', thought: true, callback: 'end_walk' }
+            'founder_escape': [
+                { speaker: '', text: '(Paul staggers. Brandon is on the floor. The monitors are cracked. But Paul is already moving.)', thought: true },
+                { speaker: 'The Founder', text: '(breathing hard) You think this changes anything? The pipeline doesn\'t need me. It runs itself.' },
+                { speaker: '', text: '(Paul pulls a bag from under the desk. Pre-packed. He\'s planned for this.)', thought: true },
+                { speaker: 'Steve', text: 'You had a go-bag.' },
+                { speaker: 'The Founder', text: 'I have go-bags in every location. That\'s what separates the founder from the flock.' },
+                { speaker: '', text: '(Paul opens a panel in the yurt wall. A hidden exit. Of course.)', thought: true },
+                { speaker: 'The Founder', text: 'Your wife is already at Pranayama Peak. Room 7. By the time you get there, she\'ll be ready for the next transfer. Burning Man. The big one.' },
+                { speaker: 'The Founder', text: 'Good luck, accountant. You\'re going to need a bigger spreadsheet.' },
+                { speaker: '', text: '(Paul disappears into the night. Steve is alone in the back office with a filing cabinet full of evidence and a growing list of places he needs to go.)', thought: true, callback: 'founder_escaped' },
             ],
-            'founder_end_restructure': [
-                { speaker: 'Steve', text: 'You\'re not running this place efficiently. Wrong LLC structure. Volunteers need to be either contractors or employees. You\'re exposed to litigation.' },
-                { speaker: 'The Founder', text: 'I... what?' },
-                { speaker: 'Steve', text: 'I\'m going to fix it. New org chart. Payroll system. Quarterly reports. You\'ll make more money and have legal compliance.' },
-                { speaker: '', text: '(Two weeks later: The Sanctuary runs like an actual business. Paul is now Community Coordinator. His title is smaller but his liability is gone.)', thought: true },
-                { speaker: '', text: '(Steve has accidentally done to the Sanctuary what he was supposed to do for his marriage: made it more efficient.)', thought: true, callback: 'end_walk' }
-            ],
-            'founder_end_destroy': [
-                { speaker: 'Steve', text: 'I\'m sending this to the state. All of it. Financial documents, volunteer agreements, passport holder records.' },
-                { speaker: 'The Founder', text: 'You\'ll ruin it.' },
-                { speaker: 'Steve', text: 'Yes.' },
-                { speaker: '', text: '(Three weeks later: The Sanctuary is shut down. The volunteers are scattered. Paul is under investigation. Eight people are homeless because they donated all their money and quit their jobs.)', thought: true },
-                { speaker: '', text: '(Steve saved the people he could. But there are costs.)', thought: true, callback: 'end_walk' }
+            'founder_aftermath': [
+                { speaker: '', text: '(Steve gathers the documents. Passports. Pipeline records. Transfer agreements. He puts them in his sensible messenger bag.)', thought: true },
+                { speaker: '', text: '(Maya\'s passport. Mattis\'s wife\'s passport. Seven others. Steve leaves them on the desk with a note: "Your passports are here. — Steve.")', thought: true },
+                { speaker: '', text: '(In the Pipeline folder, Steve finds a map. Color-coded. Every node in the network.)', thought: true },
+                { speaker: '', text: '(The Sanctuary of Infinite Becoming → Pranayama Peak → The Silent Desert Convergence → Burning Man.)', thought: true },
+                { speaker: '', text: '(Each location bigger. Each location more expensive. Each one harder to leave.)', thought: true },
+                { speaker: 'Steve', text: '(quietly) She\'s at Pranayama Peak. Two hours north. Room 7.' },
+                { speaker: '', text: '(Steve folds the map. He puts it in his bag next to three energy bars and a tax return he never finished.)', thought: true },
+                { speaker: '', text: '(The Sanctuary is behind him. But it was only the first stop.)', thought: true, callback: 'end_walk' },
             ],
             // ═══════════════════════════════════════════════════════════════
             // MATTIS — The Dark Mirror (Dorms, Day 2+)
@@ -1767,10 +1789,18 @@
 
             'departure': [
                 { speaker: '', text: '(Steve drives out of The Sanctuary. At the gate, they return his phone.)', thought: true },
-                { speaker: '', text: '(847 emails. 23 missed calls. A voicemail from his boss. Another from the bank. One text from an unknown number.)', thought: true },
-                { speaker: '', text: 'Unknown: Your wife is at Pranayama Peak, two hours north. Room 7. She\'s expecting someone. Don\'t let her down.', thought: true },
-                { speaker: '', text: '(Steve puts the phone down. Pranayama Peak awaits. But The Sanctuary has taught him something: the person he finds might not be the person he lost.)', thought: true },
-                { speaker: '', text: '(END SANCTUARY ZONE)', thought: true }
+                { speaker: '', text: '(847 emails. 23 missed calls. A voicemail from his boss asking if he\'s dead. One text from an unknown number.)', thought: true },
+                { speaker: '', text: 'Unknown: Paul is already gone. He has other locations. Don\'t stop.', thought: true },
+                { speaker: '', text: '(Steve unfolds the pipeline map on the passenger seat. Four nodes. Four locations. His wife is at the second one.)', thought: true },
+                { speaker: '', text: '(THE PIPELINE)', thought: true },
+                { speaker: '', text: '(✓ The Sanctuary of Infinite Becoming — CLEARED)', thought: true },
+                { speaker: '', text: '(→ Pranayama Peak — "Advanced Breathwork & Altitude Healing." Two hours north. Room 7. His wife is there.)', thought: true },
+                { speaker: '', text: '(→ The Silent Desert Convergence — "72-Hour Sensory Deprivation Experience." Somewhere in Nevada. Transfer fee: $15,000.)', thought: true },
+                { speaker: '', text: '(→ Burning Man — "Final Transformation." The end of the pipeline. Where people go in and something else comes out.)', thought: true },
+                { speaker: '', text: '(Steve starts the car. He has sensible shoes, a messenger bag full of evidence, and the quiet certainty of a man who has audited worse.)', thought: true },
+                { speaker: '', text: '(Pranayama Peak is two hours away. Paul is already there.)', thought: true },
+                { speaker: '', text: '(TRUST THE PROCESS — END OF CHAPTER ONE)', thought: true },
+                { speaker: '', text: '(Steve will return.)', thought: true }
             ]
         };
 
@@ -1975,17 +2005,17 @@
                     { name: 'Love Bomb', dmg: 6, msg: '"You just don\'t UNDERSTAND! The Founder LOVES us!"' }
                 ],
                 attacks: [
-                    { name: 'Charismatic Redirect', dmg: 18, msg: '"What you\'re feeling is RESISTANCE. That means we\'re close to a breakthrough."' },
-                    { name: 'Gaslighting', dmg: 14, msg: '"I never said that. You\'re projecting. This is your trauma speaking."', effect: 'smudge' },
-                    { name: 'Financial Restructure', dmg: 0, msg: 'Paul adjusts his pricing model mid-battle.', effect: 'boss_buff' },
-                    { name: 'Inner Circle Invitation', dmg: 24, msg: '"Join me, Steve. You have a gift for systems."' }
+                    { name: 'Pipeline Pitch', dmg: 18, msg: '"You could be useful, Steve. I need someone who understands numbers. The pipeline is growing."' },
+                    { name: 'Gaslighting', dmg: 14, msg: '"I never said that. Check the NDA you signed at reception. Paragraph 7."', effect: 'smudge' },
+                    { name: 'Corporate Restructure', dmg: 0, msg: 'Paul calmly reviews his contingency spreadsheet mid-battle.', effect: 'boss_buff' },
+                    { name: 'Suggestibility Index', dmg: 24, msg: '"Your wife scored a 94, Steve. You\'re about a 12. But pain moves the needle."' }
                 ],
                 phase3Attacks: [
-                    { name: 'Desperate Plea', dmg: 10, msg: '"Please. I built this from NOTHING."' },
-                    { name: 'Full Meltdown', dmg: 30, msg: 'Paul throws the desk. "I AM THE FOUNDER! I AM THE VISION!"' },
-                    { name: 'Vulnerable Honesty', dmg: 0, msg: '"I was a used car salesman in Tucson. I read one book about chakras. ONE BOOK."' }
+                    { name: 'Scorched Earth Protocol', dmg: 10, msg: 'Paul starts deleting files. "You think I don\'t have backups? I have backups of my backups."' },
+                    { name: 'Full Meltdown', dmg: 30, msg: 'Paul throws a monitor. "I BUILT A FRANCHISE FROM A WEEKEND WORKSHOP AND A CANVA SUBSCRIPTION!"' },
+                    { name: 'The Founder\'s Truth', dmg: 0, msg: '"I don\'t believe any of it. I never did. That\'s what makes me good at this."' }
                 ],
-                defeat: 'Paul sits in his ergonomic office chair.\n"It started as a joke. A weekend workshop called \'Awaken Your Truth.\' I made the flyer in Canva."\n"Then they came back. And they brought friends. And they brought money."\nHe looks at his hands. "I\'m not enlightened. I\'m just good at PowerPoint."',
+                defeat: 'Paul steadies himself against the desk. He is not broken. He is calculating.\n"You think this is over? This is one location. One node."\nHe opens a drawer. Grabs a pre-packed bag.\n"The pipeline runs itself. I designed it that way."',
                 xp: 8, cacao: 80
             },
             'hugger': {
@@ -2572,6 +2602,10 @@
                 return 'parking_realist';
             }
 
+            // Elite enemy rematches — short dialogue on repeat encounters
+            if (npcId === 'oil_warrior' && gameState.flags['oil_defeated_once']) return 'oil_warrior_rematch';
+            if (npcId === 'meditator' && gameState.flags['meditator_defeated_once'] && !gameState.flags['meditator_defeated']) return 'meditator_rematch';
+
             // Post-defeat dialogue
             if (npc.postDefeatDialogue && npc.defeatFlag && gameState.flags[npc.defeatFlag]) return npc.postDefeatDialogue;
 
@@ -3077,6 +3111,10 @@
                     gameState.inventory.push({ id: 'master_key', name: 'Frank\'s Master Key', type: 'key', desc: 'Opens every door on the property. Heavy with responsibility and brass.' });
                     gameState.skillNotifications.push({ type: 'unlock', text: 'OBTAINED: Master Key', desc: 'Opens every door. Including the ones you shouldn\'t open.' });
                     break;
+                case 'founder_escaped':
+                    gameState.flags['paul_escaped'] = true;
+                    setTimeout(() => startDialogue('founder_aftermath'), 300);
+                    return;
                 case 'end_walk':
                     startDialogue('departure');
                     return;
@@ -4408,30 +4446,18 @@
                     gameState.flags[flagKey + '_once'] = true;
                 }
 
-                // Handle post-boss choices
+                // Handle post-boss: Paul escapes
                 if (gameState.currentBattleEnemy === 'founder') {
-                    text.innerHTML = `${battleState.enemy.defeat}<br><br>+${battleState.enemy.xp} Insight  +${battleState.enemy.cacao} Cacao<br><br>What do you do with the documents?`;
-                    // Add ending choice buttons to overlay
-                    const btnContainer = document.createElement('div');
-                    btnContainer.style.cssText = 'display:flex; flex-direction:column; gap:8px; margin-top:12px;';
-                    const choices = [
-                        { text: 'Walk away with your wife\'s letter', next: 'founder_end_walk' },
-                        { text: 'Restructure the Sanctuary (Steve can\'t help himself)', next: 'founder_end_restructure' },
-                        { text: 'Send everything to the authorities', next: 'founder_end_destroy' },
-                    ];
-                    choices.forEach(c => {
-                        const btn = document.createElement('button');
-                        btn.textContent = c.text;
-                        btn.style.cssText = 'padding:8px 16px; font-family:inherit; font-size:16px; cursor:pointer; background:#f0ece4; border:1px solid #999; border-radius:4px;';
-                        btn.onclick = () => {
-                            overlay.classList.remove('active');
-                            showScreen('exploration');
-                            enterRoom(gameState.currentRoom);
-                            setTimeout(() => startDialogue(c.next), 300);
-                        };
-                        btnContainer.appendChild(btn);
-                    });
-                    text.appendChild(btnContainer);
+                    text.innerHTML = `${battleState.enemy.defeat}<br><br>+${battleState.enemy.xp} Insight  +${battleState.enemy.cacao} Cacao`;
+                    // Auto-transition to escape sequence after click
+                    const continueHandler = () => {
+                        overlay.removeEventListener('click', continueHandler);
+                        overlay.classList.remove('active');
+                        showScreen('exploration');
+                        enterRoom(gameState.currentRoom);
+                        setTimeout(() => startDialogue('founder_escape'), 300);
+                    };
+                    setTimeout(() => overlay.addEventListener('click', continueHandler), 500);
                 } else {
                     text.innerHTML = `${battleState.enemy.defeat}<br><br>+${battleState.enemy.xp} Insight  +${battleState.enemy.cacao} Cacao`;
                 }
