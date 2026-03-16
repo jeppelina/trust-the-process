@@ -875,11 +875,37 @@
         // SKILL LEVELING CONSTANTS
         // ═══════════════════════════════════════════════════════════════════
         const SKILL_LEVEL_THRESHOLDS = [0, 10, 30, 60, 100, 150]; // uses to reach level 1,2,3,4,5
-        // Diminishing returns: each level adds less than the last
-        // Lv1: +14%, Lv2: +20%, Lv3: +24%, Lv4: +28%, Lv5: +32%
-        function getSkillLevelMultiplier(level) {
-            if (level <= 0) return 1;
-            return 1 + 0.10 * Math.sqrt(level * 2);
+        // Fixed +dmg per level per skill (replaces old % multiplier)
+        const SKILL_LEVEL_BONUS = {
+            // Physical — scales with base dmg
+            slap: 1,        // 3→4→5→6→7→8
+            shove: 1,       // 7→8→9→10→11→12
+            throw_rock: 2,  // 14→16→18→20→22→24
+            punch: 2,       // 20→22→24→26→28→30
+            headbutt: 3,    // 26→29→32→35→38→41
+            tackle: 3,      // 34→37→40→43→46→49
+            // Verbal
+            complain: 1,    // 3→4→5→6→7→8
+            set_boundary: 0,// utility (no dmg)
+            nag: 1,         // 5→6→7→8→9→10 (DOT stays same)
+            insult: 2,      // 16→18→20→22→24→26
+            change_subject: 0, // utility (no dmg)
+            // Spiritual
+            panic_breathing: 0, // heal only — bonus applied to healAmt instead
+            sage_toss: 1,   // 8→9→10→11→12→13
+            the_nod: 0,     // buff only
+        };
+        // Heal bonus per level for healing skills
+        const SKILL_HEAL_BONUS = {
+            panic_breathing: 3, // 20→23→26→29→32→35
+        };
+        function getSkillLevelDmgBonus(skillId, level) {
+            if (level <= 0) return 0;
+            return (SKILL_LEVEL_BONUS[skillId] || 0) * level;
+        }
+        function getSkillLevelHealBonus(skillId, level) {
+            if (level <= 0) return 0;
+            return (SKILL_HEAL_BONUS[skillId] || 0) * level;
         }
 
         // ═══════════════════════════════════════════════════════════════════
@@ -1984,7 +2010,8 @@
                     { id: 'oil_collection', name: 'Confiscated Oil Collection', type: 'consumable', heal: 20, qiHeal: 5, qty: 1, desc: 'Heals 20 HP, 5 Qi. Smells like a forest fire in a Whole Foods. Surprisingly restorative.', dropChance: 0.8 },
                     { id: 'essential_oil_bomb', name: 'Essential Oil Bomb', type: 'weapon', atkBonus: 2, desc: '+2 ATK. A repurposed essential oil bottle. Steve throws it with the conviction of a man who has been anointed against his will.', dropChance: 0.25 },
                     { id: 'mlm_business_card', name: 'doTERRA Business Card', type: 'junk', desc: '"Be Your Own Boss!" Steve calculates the pyramid math on the back. It doesn\'t add up.', dropChance: 0.5 },
-                    { id: 'peppermint_vial', name: 'Peppermint Oil Vial', type: 'consumable', heal: 8, qty: 1, desc: 'Heals 8 HP. Burns the nostrils but clears the head.', dropChance: 0.4 },
+                    { id: 'peppermint_vial', name: 'Peppermint Oil Vial', type: 'consumable', heal: 10, qiHeal: 5, qty: 1, desc: 'Heals 10 HP, 5 Qi. Burns the nostrils but clears the head and the mind.', dropChance: 0.4 },
+                    { id: 'oil_diffuser_pendant', name: 'Oil Diffuser Pendant', type: 'accessory', accBonus: 5, desc: '+5% accuracy. The fumes sharpen Steve\'s focus. He hates admitting this.', dropChance: 0.2 },
                 ]
             },
             'meditator': {
@@ -2021,7 +2048,11 @@
                     { name: 'Spiritual Authority', dmg: 11, msg: '"I have studied with masters in seven countries."' }
                 ],
                 defeat: '"My name is Dave. Dave Carver." (He sits on the floor.)',
-                xp: 4, cacao: 40
+                xp: 4, cacao: 40,
+                drops: [
+                    { id: 'authority_lanyard', name: 'Lanyard of False Authority', type: 'accessory', verbDmgBonus: 3, desc: '+3 Verbal DMG. Makes Steve look like he\'s in charge. He is not.', dropChance: 0.5 },
+                    { id: 'gate_key', name: 'Bent Gate Key', type: 'consumable', heal: 15, qiHeal: 10, qty: 1, desc: 'Heals 15 HP, 10 Qi. Symbols of gatekeeping, repurposed as healing.', dropChance: 0.6 },
+                ]
             },
             'founder': {
                 name: 'BRANDON (BRAINWASHED)',
@@ -2063,7 +2094,7 @@
                 defeat: '"I... I just wanted human contact." (Falls over gently.)',
                 xp: 1, cacao: 5,
                 drops: [
-                    { id: 'warm_feelings', name: 'Residual Warm Feelings', type: 'consumable', heal: 0, qiHeal: 5, qty: 1, desc: 'Restores 5 Qi. Steve doesn\'t know why he feels slightly better.', dropChance: 0.6 },
+                    { id: 'warm_feelings', name: 'Residual Warm Feelings', type: 'consumable', heal: 5, qiHeal: 8, qty: 1, desc: 'Heals 5 HP, 8 Qi. Steve doesn\'t know why he feels better. He refuses to think about it.', dropChance: 0.6 },
                     { id: 'hug_coupon', name: 'Free Hug Coupon', type: 'junk', desc: 'Redeemable for one (1) unwanted hug. Non-transferable.', dropChance: 0.4 },
                 ]
             },
@@ -2079,7 +2110,7 @@
                 xp: 1, cacao: 5,
                 drops: [
                     { id: 'workshop_flyer', name: 'Workshop Flyer', type: 'evidence', desc: 'Evidence of overlapping scheduling. Steve notes the font choice is criminal.', dropChance: 0.5 },
-                    { id: 'herbal_tea_bag', name: 'Herbal Tea Bag', type: 'consumable', heal: 0, qiHeal: 4, qty: 1, desc: 'Restores 4 Qi. Tastes like hot lawn clippings.', dropChance: 0.5 },
+                    { id: 'herbal_tea_bag', name: 'Herbal Tea Bag', type: 'consumable', heal: 5, qiHeal: 8, qty: 1, desc: 'Heals 5 HP, 8 Qi. Tastes like hot lawn clippings. The warmth helps though.', dropChance: 0.5 },
                 ]
             },
             'sound_healer': {
@@ -2095,7 +2126,7 @@
                 drops: [
                     { id: 'broken_ukulele_string', name: 'Broken Ukulele String', type: 'junk', desc: 'A snapped string. Still vibrating with residual bad music.', dropChance: 0.5 },
                     { id: 'ear_plugs', name: 'Improvised Ear Plugs', type: 'consumable', heal: 0, qiHeal: 8, qty: 1, desc: 'Restores 8 Qi. The silence is medicinal.', dropChance: 0.4 },
-                    { id: 'singing_bowl_shard', name: 'Singing Bowl Shard', type: 'consumable', qiHeal: 5, qty: 1, desc: 'Restores 5 Qi. The resonance lingers.', dropChance: 0.3 },
+                    { id: 'singing_bowl_shard', name: 'Singing Bowl Shard', type: 'consumable', heal: 0, qiHeal: 10, qty: 1, desc: 'Restores 10 Qi. The resonance lingers. Steve hums involuntarily.', dropChance: 0.3 },
                 ]
             },
             'oversharer_enemy': {
@@ -2112,7 +2143,7 @@
                 drops: [
                     { id: 'emotional_baggage', name: 'Emotional Baggage', type: 'junk', desc: 'A metaphysical weight. Steve can feel it in his messenger bag. It does nothing.', dropChance: 0.5 },
                     { id: 'used_tissue_pile', name: 'Damp Tissue Pile', type: 'junk', desc: 'Wet. Abundant. Useless. Like the conversation.', dropChance: 0.3 },
-                    { id: 'catharsis_residue', name: 'Catharsis Residue', type: 'consumable', heal: 12, qty: 1, desc: 'Heals 12 HP. Secondhand emotional release. Surprisingly effective.', dropChance: 0.4 },
+                    { id: 'catharsis_residue', name: 'Catharsis Residue', type: 'consumable', heal: 12, qiHeal: 5, qty: 1, desc: 'Heals 12 HP, 5 Qi. Secondhand emotional release. Surprisingly effective on both body and mind.', dropChance: 0.4 },
                 ]
             },
             'yoga_snob': {
@@ -2131,6 +2162,7 @@
                     { id: 'resistance_band', name: 'Snapped Resistance Band', type: 'weapon', atkBonus: 3, desc: '+3 ATK. Stings when used as a whip. Steve discovers a talent he didn\'t know he had.', dropChance: 0.25 },
                     { id: 'alignment_snack', name: 'Activated Almonds', type: 'consumable', heal: 15, qty: 1, desc: 'Heals 15 HP. Steve doesn\'t know what "activated" means. They taste like almonds.', dropChance: 0.5 },
                     { id: 'mysore_postcard', name: 'Postcard from Bali (Labeled Mysore)', type: 'junk', desc: 'She wrote "Namaste" on the back. The postmark says Kuta Beach.', dropChance: 0.3 },
+                    { id: 'flexibility_anklet', name: 'Stolen Anklet of Flexibility', type: 'accessory', accBonus: 3, bonusQi: 2, desc: '+3% accuracy, +2 Max Qi. Fell off during an advanced pose. Steve picks it up. Finders keepers.', dropChance: 0.2 },
                 ]
             },
             'boundary_violator': {
@@ -2165,6 +2197,7 @@
                     { id: 'shadow_knife', name: 'Shadow Work Letter Opener', type: 'weapon', atkBonus: 4, desc: '+4 ATK. She was using it to "open her psyche." Steve will use it differently.', dropChance: 0.3 },
                     { id: 'shadow_journal', name: 'Shadow Work Journal', type: 'consumable', heal: 10, qiHeal: 5, qty: 1, desc: 'Heals 10 HP, 5 Qi. Writing "I forgive my father" heals more than expected.', dropChance: 0.5 },
                     { id: 'broken_mirror', name: 'Cracked Hand Mirror', type: 'junk', desc: 'Seven years bad luck. Or seven years of not seeing your shadow. Same thing.', dropChance: 0.3 },
+                    { id: 'jung_bookmark', name: 'Annotated Jung Bookmark', type: 'accessory', dmgBonus: 1, bonusInsight: 1, desc: '+1 all DMG, +1 Insight. Highlights say "THIS IS ME." Steve reads one paragraph and feels slightly sharper.', dropChance: 0.25 },
                 ]
             },
             'kombucha_evangelist': {
@@ -2182,7 +2215,7 @@
                     { id: 'kombucha_jar', name: 'Homemade Kombucha', type: 'consumable', heal: 15, qty: 1, desc: 'Heals 15 HP. 10% chance of side effects.', dropChance: 0.5 },
                     { id: 'fermented_grenade', name: 'Fermented Kombucha Grenade', type: 'weapon', atkBonus: 3, desc: '+3 ATK. Expired kombucha. Weaponizable. Steve shakes it before throwing.', dropChance: 0.25 },
                     { id: 'mystery_scoby', name: 'Mystery SCOBY', type: 'junk', desc: 'It\'s alive. It\'s gelatinous. Steve keeps it at arm\'s length. It pulses.', dropChance: 0.3 },
-                    { id: 'probiotic_shot', name: 'Probiotic Shot', type: 'consumable', heal: 5, qiHeal: 3, qty: 1, desc: 'Heals 5 HP, 3 Qi. Tastes like vinegar had a baby with despair.', dropChance: 0.4 },
+                    { id: 'probiotic_shot', name: 'Probiotic Shot', type: 'consumable', heal: 8, qiHeal: 6, qty: 1, desc: 'Heals 8 HP, 6 Qi. Tastes like vinegar had a baby with despair. Weirdly restorative.', dropChance: 0.4 },
                 ]
             },
             'walking_trauma': {
@@ -2199,9 +2232,10 @@
                 xp: 2, cacao: 12,
                 drops: [
                     { id: 'trauma_blanket', name: 'Weighted Trauma Blanket', type: 'armor', def: 2, desc: '+2 DEF. It\'s very heavy. It\'s supposed to make you feel safe. Steve feels pinned down.', dropChance: 0.2 },
-                    { id: 'dried_tears', name: 'Vial of Dried Tears', type: 'consumable', heal: 8, qiHeal: 4, qty: 1, desc: 'Heals 8 HP, 4 Qi. Labeled "Ancestral Grief — DO NOT MICROWAVE." Steve is afraid to ask.', dropChance: 0.4 },
+                    { id: 'dried_tears', name: 'Vial of Dried Tears', type: 'consumable', heal: 12, qiHeal: 6, qty: 1, desc: 'Heals 12 HP, 6 Qi. Labeled "Ancestral Grief — DO NOT MICROWAVE." Steve is afraid to ask.', dropChance: 0.4 },
                     { id: 'coping_stone', name: 'Coping Mechanism Stone', type: 'consumable', qiHeal: 6, qty: 1, desc: 'Restores 6 Qi. A smooth river stone with "REGULATE" painted on it. It works. Steve hates that it works.', dropChance: 0.4 },
                     { id: 'inner_child_doll', name: 'Inner Child Doll', type: 'junk', desc: 'A handmade doll with button eyes and a name tag that says "Little You." Steve puts it in his bag face-down.', dropChance: 0.3 },
+                    { id: 'nervous_system_chart', name: 'Laminated Nervous System Chart', type: 'accessory', spiritDmgBonus: 2, desc: '+2 Spirit DMG. Steve doesn\'t understand polyvagal theory but his involuntary skills hit harder now.', dropChance: 0.2 },
                 ]
             },
             'seva_worker': {
@@ -2217,9 +2251,9 @@
                 defeat: '"I just... I can\'t go home. I don\'t have a home. I gave up my lease to live here. They said room and board. The room is a mat. The board is leftover quinoa."\n(Steve feels like he lost this fight regardless.)',
                 xp: 1, cacao: 5,
                 drops: [
-                    { id: 'dr_bronners', name: 'Dr. Bronner\'s Soap', type: 'consumable', heal: 12, qty: 1, desc: 'Heals 12 HP. The label has 3,000 words about cosmic unity. Steve reads none of them.', dropChance: 0.5 },
+                    { id: 'dr_bronners', name: 'Dr. Bronner\'s Soap', type: 'consumable', heal: 12, qiHeal: 4, qty: 1, desc: 'Heals 12 HP, 4 Qi. The label has 3,000 words about cosmic unity. Steve reads none of them but feels better.', dropChance: 0.5 },
                     { id: 'volunteer_badge', name: 'Seva Volunteer Badge', type: 'junk', desc: '"I AM SERVING." It\'s laminated. It\'s the only ID they have left.', dropChance: 0.3 },
-                    { id: 'cold_quinoa', name: 'Leftover Quinoa', type: 'consumable', heal: 5, qty: 1, desc: 'Heals 5 HP. Cold. Unseasoned. This is what they eat every day.', dropChance: 0.6 },
+                    { id: 'cold_quinoa', name: 'Leftover Quinoa', type: 'consumable', heal: 10, qty: 1, desc: 'Heals 10 HP. Cold. Unseasoned. This is what they eat every day. Still technically nourishing.', dropChance: 0.6 },
                     { id: 'mop_handle', name: 'Broken Mop Handle', type: 'weapon', atkBonus: 2, desc: '+2 ATK. Splintered from overuse. It has seen more action than most swords.', dropChance: 0.2 },
                 ]
             },
@@ -2239,6 +2273,7 @@
                     { id: 'moon_milk', name: 'Moon Milk', type: 'consumable', heal: 20, qty: 1, desc: 'Heals 20 HP. Warm oat milk with turmeric and ashwagandha. It\'s actually delicious. Steve is furious.', dropChance: 0.4 },
                     { id: 'gratitude_crystal', name: 'Gratitude Crystal', type: 'consumable', qiHeal: 10, qty: 1, desc: 'Restores 10 Qi. Steve holds it and feels calm. He puts it down immediately.', dropChance: 0.3 },
                     { id: 'discount_code', name: 'Discount Code Card', type: 'junk', desc: '"JADE15 for 15% off Moonflower Botanicals." The influencer economy persists.', dropChance: 0.3 },
+                    { id: 'brand_sunglasses', name: 'Influencer Sunglasses', type: 'accessory', verbDmgBonus: 2, accBonus: 2, desc: '+2 Verbal DMG, +2% ACC. Rose-tinted. Steve\'s complaints hit different when he looks this good.', dropChance: 0.2 },
                 ]
             }
         };
@@ -3390,9 +3425,17 @@
             if (accessories.length) {
                 html += '<div class="menu-section-title" style="margin-top: 12px;">Accessories</div>';
                 accessories.forEach(item => {
+                    const stats = [];
+                    if (item.dmgBonus) stats.push(`+${item.dmgBonus} DMG`);
+                    if (item.verbDmgBonus) stats.push(`+${item.verbDmgBonus} Verbal`);
+                    if (item.spiritDmgBonus) stats.push(`+${item.spiritDmgBonus} Spirit`);
+                    if (item.accBonus) stats.push(`+${item.accBonus}% ACC`);
+                    if (item.bonusHp) stats.push(`+${item.bonusHp} Max HP`);
+                    if (item.bonusQi) stats.push(`+${item.bonusQi} Max Qi`);
+                    const statText = stats.length > 0 ? stats.join(', ') : (item.desc || '');
                     html += `<div class="inv-item">
                         <div><span class="inv-item-name">💍 ${item.name}</span></div>
-                        <div class="inv-item-detail">${item.desc || ''}</div>
+                        <div class="inv-item-detail" style="color:#7abfa0;">${statText}</div>
                     </div>`;
                 });
             }
@@ -3461,7 +3504,8 @@
                 if (unlocked && enh) {
                     const eLvl = gameState.skillLevels[skill.id] || 0;
                     const eLvlText = eLvl > 0 ? ` Lv.${eLvl}` : '';
-                    const eDmg = enh.dmgMin !== undefined ? `${enh.dmgMin}-${enh.dmgMax}` : enh.dmg;
+                    const eLvlBonus = getSkillLevelDmgBonus(skill.id, eLvl);
+                    const eDmg = enh.dmgMin !== undefined ? `${enh.dmgMin + eLvlBonus}-${enh.dmgMax + eLvlBonus}` : (enh.dmg + eLvlBonus);
                     const eQi = enh.ep > 0 ? ` · ${enh.ep} Qi` : '';
                     const eRisk = enh.riskEffect ? ' ⚠' : '';
                     html += `<div class="skill-entry enhanced">
@@ -3469,9 +3513,13 @@
                         <span class="skill-progress">${eDmg} dmg${eQi}${eRisk}</span>
                     </div>`;
                 } else if (unlocked) {
+                    const uLvl = gameState.skillLevels[skill.id] || 0;
+                    const uLvlText = uLvl > 0 ? ` Lv.${uLvl}` : '';
+                    const uLvlBonus = getSkillLevelDmgBonus(skill.id, uLvl);
+                    const uDmg = skill.dmg + uLvlBonus;
                     html += `<div class="skill-entry unlocked">
-                        <span>✓ ${skill.name}</span>
-                        <span class="skill-progress">${skill.dmg} dmg${skill.ep ? ' · ' + skill.ep + ' Qi' : ''}</span>
+                        <span>✓ ${skill.name}${uLvlText}</span>
+                        <span class="skill-progress">${uDmg} dmg${skill.ep ? ' · ' + skill.ep + ' Qi' : ''}</span>
                     </div>`;
                 } else {
                     const progress = getSkillProgress(skill);
@@ -3495,7 +3543,8 @@
                 if (unlocked && enh) {
                     const eLvl = gameState.skillLevels[skill.id] || 0;
                     const eLvlText = eLvl > 0 ? ` Lv.${eLvl}` : '';
-                    const eDmg = enh.dmgMin !== undefined ? `${enh.dmgMin}-${enh.dmgMax}` : enh.dmg;
+                    const eLvlBonus = getSkillLevelDmgBonus(skill.id, eLvl);
+                    const eDmg = enh.dmgMin !== undefined ? `${enh.dmgMin + eLvlBonus}-${enh.dmgMax + eLvlBonus}` : (enh.dmg + eLvlBonus);
                     const eQi = enh.ep > 0 ? ` · ${enh.ep} Qi` : '';
                     const eEffect = enh.effect === 'dot' ? ' +DOT' : (enh.effect === 'stun' ? ' +stun' : '');
                     const eRisk = enh.riskEffect ? ' ⚠' : '';
@@ -3504,9 +3553,13 @@
                         <span class="skill-progress">${eDmg} dmg${eEffect}${eQi}${eRisk}</span>
                     </div>`;
                 } else if (unlocked) {
+                    const uLvl = gameState.skillLevels[skill.id] || 0;
+                    const uLvlText = uLvl > 0 ? ` Lv.${uLvl}` : '';
+                    const uLvlBonus = getSkillLevelDmgBonus(skill.id, uLvl);
+                    const uDmgVal = skill.dmg > 0 ? (skill.dmg + uLvlBonus) + ' dmg' : skill.effect;
                     html += `<div class="skill-entry unlocked">
-                        <span>✓ ${skill.name}</span>
-                        <span class="skill-progress">${skill.dmg > 0 ? skill.dmg + ' dmg' : skill.effect}${skill.ep ? ' · ' + skill.ep + ' Qi' : ''}</span>
+                        <span>✓ ${skill.name}${uLvlText}</span>
+                        <span class="skill-progress">${uDmgVal}${skill.ep ? ' · ' + skill.ep + ' Qi' : ''}</span>
                     </div>`;
                 } else {
                     const progress = getSkillProgress(skill);
@@ -3857,7 +3910,10 @@
             // Accuracy check
             const baseAcc = skill.acc || 95;
             const accBonus = (gameState.skillLevels[skillId] || 0) * 3;
-            const finalAcc = Math.min(100, baseAcc + accBonus);
+            const gearAccBonus = gameState.inventory
+                .filter(i => i.type === 'accessory' && i.accBonus)
+                .reduce((sum, i) => sum + i.accBonus, 0);
+            const finalAcc = Math.min(100, baseAcc + accBonus + gearAccBonus);
             if (Math.random() * 100 >= finalAcc) {
                 // Miss! Still spend Qi and count as use
                 logBattle(pickRandom([
@@ -3882,7 +3938,11 @@
                         gameState.skillNotifications.push({
                             type: 'unlock',
                             text: `${skill.name} LEVELED UP! → Lv.${newLevel}`,
-                            desc: `+${Math.round((getSkillLevelMultiplier(newLevel) - 1) * 100)}% total damage bonus. Practice makes perfect. Even when you miss.`
+                            desc: (SKILL_LEVEL_BONUS[skillId] || 0) > 0
+                                ? `+${(SKILL_LEVEL_BONUS[skillId]) * newLevel} total damage bonus. Practice makes perfect. Even when you miss.`
+                                : (SKILL_HEAL_BONUS[skillId] || 0) > 0
+                                    ? `+${(SKILL_HEAL_BONUS[skillId]) * newLevel} total heal bonus. Accidental competence.`
+                                    : `+${newLevel * 3}% accuracy bonus. Practice makes perfect. Even when you miss.`
                         });
                     }
                 }
@@ -3937,15 +3997,25 @@
                 const weaponBonus = gameState.inventory
                     .filter(i => i.type === 'weapon')
                     .reduce((sum, i) => sum + (i.atkBonus || 0), 0);
-                // Branch-specific bonuses
+                // Branch-specific bonuses from weapons
                 const verbBonus = (skill.type === 'psychic') ? gameState.inventory
                     .filter(i => i.type === 'weapon')
                     .reduce((sum, i) => sum + (i.verbBonus || 0), 0) : 0;
-                dmg += weaponBonus + verbBonus;
+                // Accessory bonuses
+                const accessoryDmg = gameState.inventory
+                    .filter(i => i.type === 'accessory')
+                    .reduce((sum, i) => {
+                        let b = 0;
+                        if (i.dmgBonus) b += i.dmgBonus;
+                        if (i.verbDmgBonus && skill.type === 'psychic') b += i.verbDmgBonus;
+                        if (i.spiritDmgBonus && skill.type === 'spiritual') b += i.spiritDmgBonus;
+                        return sum + b;
+                    }, 0);
+                dmg += weaponBonus + verbBonus + accessoryDmg;
 
-                // Skill level bonus
+                // Skill level bonus (fixed +dmg per level)
                 const skillLevel = gameState.skillLevels[skillId] || 0;
-                dmg = Math.round(dmg * getSkillLevelMultiplier(skillLevel));
+                dmg += getSkillLevelDmgBonus(skillId, skillLevel);
 
                 // Weakness bonus: +50% damage if attack type matches enemy weakness
                 if (skill.type === battleState.enemy.weakness) {
@@ -4015,7 +4085,11 @@
                     gameState.skillNotifications.push({
                         type: 'unlock',
                         text: `${skill.name} LEVELED UP! → Lv.${newLevel}`,
-                        desc: `+${Math.round((getSkillLevelMultiplier(newLevel) - 1) * 100)}% total damage bonus. Practice makes perfect. Even violent practice.`
+                        desc: (SKILL_LEVEL_BONUS[trackId] || 0) > 0
+                            ? `+${(SKILL_LEVEL_BONUS[trackId]) * newLevel} total damage bonus. Practice makes perfect. Even violent practice.`
+                            : (SKILL_HEAL_BONUS[trackId] || 0) > 0
+                                ? `+${(SKILL_HEAL_BONUS[trackId]) * newLevel} total heal bonus. Accidental competence.`
+                                : `+${newLevel * 3}% accuracy bonus. Practice makes perfect. Even violent practice.`
                     });
                 }
             }
@@ -4067,7 +4141,8 @@
                     logBattle('Enemy defense lowered by 2!');
                     break;
                 case 'heal':
-                    const healAmt = Math.min(skill.healAmt || 15, gameState.maxHp - gameState.hp);
+                    const baseHeal = (skill.healAmt || 15) + getSkillLevelHealBonus(skillId, gameState.skillLevels[skillId] || 0);
+                    const healAmt = Math.min(baseHeal, gameState.maxHp - gameState.hp);
                     gameState.hp += healAmt;
                     logBattle(getLogText(skill));
                     logBattle(`Steve heals ${healAmt} HP!`);
@@ -4611,10 +4686,12 @@
                 const level = gameState.skillLevels[origId] || 0;
                 const lvlText = level > 0 ? ` Lv.${level}` : '';
                 const epText = skill.ep > 0 ? ` [${skill.ep} Qi]` : '';
+                const lvlBonus = getSkillLevelDmgBonus(origId, level);
                 const dmgText = (skill.dmgMin !== undefined && skill.dmgMax !== undefined)
-                    ? ` ${skill.dmgMin}-${skill.dmgMax}dmg`
-                    : (skill.dmg > 0 ? ` ${skill.dmg}dmg` : '');
-                const accVal = skill.acc ? Math.min(100, skill.acc + level * 3) + '%' : '';
+                    ? ` ${skill.dmgMin + lvlBonus}-${skill.dmgMax + lvlBonus}dmg`
+                    : (skill.dmg > 0 ? ` ${skill.dmg + lvlBonus}dmg` : (skill.healAmt ? ` heal ${skill.healAmt + getSkillLevelHealBonus(origId, level)}` : ''));
+                const gearAcc = gameState.inventory.filter(i => i.type === 'accessory' && i.accBonus).reduce((s,i) => s + i.accBonus, 0);
+                const accVal = skill.acc ? Math.min(100, skill.acc + level * 3 + gearAcc) + '%' : '';
                 const accText = accVal ? ` ${accVal}` : '';
                 const enhanced = skill.originalName ? ' ✦' : '';
                 const riskText = skill.riskEffect ? ' ⚠' : '';
