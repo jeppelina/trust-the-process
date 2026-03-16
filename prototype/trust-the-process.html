@@ -2185,6 +2185,25 @@
                     { id: 'probiotic_shot', name: 'Probiotic Shot', type: 'consumable', heal: 5, qiHeal: 3, qty: 1, desc: 'Heals 5 HP, 3 Qi. Tastes like vinegar had a baby with despair.', dropChance: 0.4 },
                 ]
             },
+            'walking_trauma': {
+                name: 'WALKING TRAUMA', emoji: '🧟‍♀️💔',
+                hp: 35, maxHp: 35, atk: 8, def: 0, weakness: 'psychic',
+                intro: '(A figure shuffles toward Steve. Eyes glazed. Arms slightly raised. She moves like someone whose nervous system left the building three workshops ago.)\n"Have you... processed... your birth trauma...?"',
+                attacks: [
+                    { name: 'Trauma Diagnosis', dmg: 7, msg: '"That polo shirt... is a trauma response." Steve is hit by an unsolicited assessment of his attachment style.' },
+                    { name: 'Somatic Flashback', dmg: 10, msg: '"I\'m having a somatic flashback about YOUR energy." She trembles. Steve takes psychic splash damage.' },
+                    { name: 'Unprocessed Grief Grab', dmg: 6, msg: 'She reaches for Steve\'s arm. "Your body is holding your grandmother\'s sadness." Steve didn\'t even know his grandmother was sad.' },
+                    { name: 'Triggered', dmg: 12, msg: '"You TRIGGERED me. Your existence is a trigger." She vibrates at a frequency that shouldn\'t be possible for a human being.' }
+                ],
+                defeat: '"Maybe... I\'m the trauma..." (She sits down cross-legged and begins processing her defeat. She will be here for hours.)',
+                xp: 2, cacao: 12,
+                drops: [
+                    { id: 'trauma_blanket', name: 'Weighted Trauma Blanket', type: 'armor', def: 2, desc: '+2 DEF. It\'s very heavy. It\'s supposed to make you feel safe. Steve feels pinned down.', dropChance: 0.2 },
+                    { id: 'dried_tears', name: 'Vial of Dried Tears', type: 'consumable', heal: 8, qiHeal: 4, qty: 1, desc: 'Heals 8 HP, 4 Qi. Labeled "Ancestral Grief — DO NOT MICROWAVE." Steve is afraid to ask.', dropChance: 0.4 },
+                    { id: 'coping_stone', name: 'Coping Mechanism Stone', type: 'consumable', qiHeal: 6, qty: 1, desc: 'Restores 6 Qi. A smooth river stone with "REGULATE" painted on it. It works. Steve hates that it works.', dropChance: 0.4 },
+                    { id: 'inner_child_doll', name: 'Inner Child Doll', type: 'junk', desc: 'A handmade doll with button eyes and a name tag that says "Little You." Steve puts it in his bag face-down.', dropChance: 0.3 },
+                ]
+            },
             'instagram_yogi': {
                 name: 'INSTAGRAM YOGI', emoji: '📸✨',
                 hp: 40, maxHp: 40, atk: 10, def: 0, weakness: 'physical',
@@ -2213,6 +2232,7 @@
                 { id: 'hugger',          minDay: 1, weight: 4 },
                 { id: 'pamphlet_pusher', minDay: 1, weight: 4 },
                 { id: 'sound_healer',    minDay: 1, weight: 2 },
+                { id: 'walking_trauma',  minDay: 1, weight: 3 },
                 { id: 'oversharer_enemy',minDay: 2, weight: 2 },
                 { id: 'yoga_snob',       minDay: 2, weight: 1, elite: true },
                 { id: 'boundary_violator',minDay: 2, weight: 1, elite: true },
@@ -2220,6 +2240,7 @@
             garden: [
                 { id: 'pamphlet_pusher', minDay: 1, weight: 2 },
                 { id: 'sound_healer',    minDay: 1, weight: 2 },
+                { id: 'walking_trauma',  minDay: 1, weight: 2 },
                 { id: 'yoga_snob',       minDay: 2, weight: 2 },
                 { id: 'boundary_violator',minDay: 2, weight: 2 },
                 { id: 'shadow_enthusiast',minDay: 3, weight: 2 },
