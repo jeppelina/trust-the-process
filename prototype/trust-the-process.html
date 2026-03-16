@@ -844,7 +844,7 @@
             flags: {},
             inventory: [
                 { id: 'polo', name: 'Steve\'s Polo Shirt', type: 'armor', def: 2 },
-                { id: 'energy_bar', name: 'Energy Bar', type: 'consumable', heal: 20, qty: 3 }
+                { id: 'energy_bar', name: 'Energy Bar', type: 'consumable', heal: 20, qiHeal: 5, qty: 3 }
             ],
             currentBattleEnemy: null,
             deathCount: 0,
@@ -999,7 +999,7 @@
               log: '"I feel that the water pressure doesn\'t honor my needs." It\'s an I-statement. It\'s more devastating this way.',
               notification: 'Steve phrases a complaint as an I-statement without realizing it. The receptionist tears up. Steve is confused.' },
             { original: 'shove',    enhanced: 'force_push',      normGate: 65,
-              name: 'Force Push', dmgMin: 7, dmgMax: 20, dmg: 12, ep: 0, type: 'physical', bonusType: 'spiritual', effect: 'stun',
+              name: 'Force Push', dmgMin: 7, dmgMax: 20, dmg: 12, ep: 4, type: 'physical', bonusType: 'spiritual', effect: 'stun',
               log: 'Steve shoves. The target slides further than physics allows. Steve stares at his hands.',
               notification: 'Steve shoves someone and they fly back three feet. Gravity doesn\'t explain it. Steve stares at his hands for a long time.' },
             // ── LATE-GAME: High power, high risk ──
@@ -1995,14 +1995,14 @@
             'oil_warrior': {
                 name: 'ESSENTIAL OIL WARRIOR',
                 emoji: '🧴💥',
-                hp: 45, maxHp: 45,
-                atk: 11, def: 1,
+                hp: 35, maxHp: 35,
+                atk: 8, def: 0,
                 weakness: 'psychic',
                 intro: '"Your aura is STAGNANT. Receive this blessing!" (She\'s stronger than she looks. Much stronger.)',
                 attacks: [
-                    { name: 'Anoint', dmg: 12, msg: '"RECEIVE THIS BLESSING!" She hurls peppermint oil at Steve. It burns like betrayal.' },
-                    { name: 'MLM Pitch', dmg: 8, msg: '"What if I told you that for a ONE-TIME investment of $150..." The words bore into Steve\'s skull.' },
-                    { name: 'Lavender Blitz', dmg: 14, msg: '"THIS ONE IS THERAPEUTIC GRADE!" A bottle shatters on Steve\'s chest.' }
+                    { name: 'Anoint', dmg: 8, msg: '"RECEIVE THIS BLESSING!" She hurls peppermint oil at Steve. It burns like betrayal.' },
+                    { name: 'MLM Pitch', dmg: 5, msg: '"What if I told you that for a ONE-TIME investment of $150..." The words bore into Steve\'s skull.' },
+                    { name: 'Lavender Blitz', dmg: 10, msg: '"THIS ONE IS THERAPEUTIC GRADE!" A bottle shatters on Steve\'s chest.' }
                 ],
                 defeat: '"My mother bought out of pity, didn\'t she." (She walks away slowly.)',
                 xp: 3, cacao: 25,
@@ -2094,7 +2094,7 @@
                 defeat: '"I... I just wanted human contact." (Falls over gently.)',
                 xp: 1, cacao: 5,
                 drops: [
-                    { id: 'warm_feelings', name: 'Residual Warm Feelings', type: 'consumable', heal: 5, qiHeal: 8, qty: 1, desc: 'Heals 5 HP, 8 Qi. Steve doesn\'t know why he feels better. He refuses to think about it.', dropChance: 0.6 },
+                    { id: 'warm_feelings', name: 'Residual Warm Feelings', type: 'consumable', heal: 10, qiHeal: 8, qty: 1, desc: 'Heals 10 HP, 8 Qi. Steve doesn\'t know why he feels better. He refuses to think about it.', dropChance: 0.6 },
                     { id: 'hug_coupon', name: 'Free Hug Coupon', type: 'junk', desc: 'Redeemable for one (1) unwanted hug. Non-transferable.', dropChance: 0.4 },
                 ]
             },
@@ -2110,7 +2110,7 @@
                 xp: 1, cacao: 5,
                 drops: [
                     { id: 'workshop_flyer', name: 'Workshop Flyer', type: 'evidence', desc: 'Evidence of overlapping scheduling. Steve notes the font choice is criminal.', dropChance: 0.5 },
-                    { id: 'herbal_tea_bag', name: 'Herbal Tea Bag', type: 'consumable', heal: 5, qiHeal: 8, qty: 1, desc: 'Heals 5 HP, 8 Qi. Tastes like hot lawn clippings. The warmth helps though.', dropChance: 0.5 },
+                    { id: 'herbal_tea_bag', name: 'Herbal Tea Bag', type: 'consumable', heal: 10, qiHeal: 8, qty: 1, desc: 'Heals 10 HP, 8 Qi. Tastes like hot lawn clippings. The warmth helps though.', dropChance: 0.5 },
                 ]
             },
             'sound_healer': {
@@ -2125,7 +2125,7 @@
                 xp: 1, cacao: 8,
                 drops: [
                     { id: 'broken_ukulele_string', name: 'Broken Ukulele String', type: 'junk', desc: 'A snapped string. Still vibrating with residual bad music.', dropChance: 0.5 },
-                    { id: 'ear_plugs', name: 'Improvised Ear Plugs', type: 'consumable', heal: 0, qiHeal: 8, qty: 1, desc: 'Restores 8 Qi. The silence is medicinal.', dropChance: 0.4 },
+                    { id: 'ear_plugs', name: 'Improvised Ear Plugs', type: 'consumable', heal: 5, qiHeal: 12, qty: 1, desc: 'Heals 5 HP, 12 Qi. The silence is medicinal. Steve\'s mind clears.', dropChance: 0.4 },
                     { id: 'singing_bowl_shard', name: 'Singing Bowl Shard', type: 'consumable', heal: 0, qiHeal: 10, qty: 1, desc: 'Restores 10 Qi. The resonance lingers. Steve hums involuntarily.', dropChance: 0.3 },
                 ]
             },
@@ -2160,7 +2160,7 @@
                 drops: [
                     { id: 'yoga_mat', name: 'Overpriced Yoga Mat', type: 'armor', def: 2, desc: '+2 DEF. Smells like sandalwood and condescension.', dropChance: 0.3 },
                     { id: 'resistance_band', name: 'Snapped Resistance Band', type: 'weapon', atkBonus: 3, desc: '+3 ATK. Stings when used as a whip. Steve discovers a talent he didn\'t know he had.', dropChance: 0.25 },
-                    { id: 'alignment_snack', name: 'Activated Almonds', type: 'consumable', heal: 15, qty: 1, desc: 'Heals 15 HP. Steve doesn\'t know what "activated" means. They taste like almonds.', dropChance: 0.5 },
+                    { id: 'alignment_snack', name: 'Activated Almonds', type: 'consumable', heal: 18, qiHeal: 5, qty: 1, desc: 'Heals 18 HP, 5 Qi. Steve doesn\'t know what "activated" means. They taste like almonds. Good almonds.', dropChance: 0.5 },
                     { id: 'mysore_postcard', name: 'Postcard from Bali (Labeled Mysore)', type: 'junk', desc: 'She wrote "Namaste" on the back. The postmark says Kuta Beach.', dropChance: 0.3 },
                     { id: 'flexibility_anklet', name: 'Stolen Anklet of Flexibility', type: 'accessory', accBonus: 3, bonusQi: 2, desc: '+3% accuracy, +2 Max Qi. Fell off during an advanced pose. Steve picks it up. Finders keepers.', dropChance: 0.2 },
                 ]
@@ -2195,7 +2195,7 @@
                 xp: 3, cacao: 15,
                 drops: [
                     { id: 'shadow_knife', name: 'Shadow Work Letter Opener', type: 'weapon', atkBonus: 4, desc: '+4 ATK. She was using it to "open her psyche." Steve will use it differently.', dropChance: 0.3 },
-                    { id: 'shadow_journal', name: 'Shadow Work Journal', type: 'consumable', heal: 10, qiHeal: 5, qty: 1, desc: 'Heals 10 HP, 5 Qi. Writing "I forgive my father" heals more than expected.', dropChance: 0.5 },
+                    { id: 'shadow_journal', name: 'Shadow Work Journal', type: 'consumable', heal: 15, qiHeal: 8, qty: 1, desc: 'Heals 15 HP, 8 Qi. Writing "I forgive my father" heals more than expected.', dropChance: 0.5 },
                     { id: 'broken_mirror', name: 'Cracked Hand Mirror', type: 'junk', desc: 'Seven years bad luck. Or seven years of not seeing your shadow. Same thing.', dropChance: 0.3 },
                     { id: 'jung_bookmark', name: 'Annotated Jung Bookmark', type: 'accessory', dmgBonus: 1, bonusInsight: 1, desc: '+1 all DMG, +1 Insight. Highlights say "THIS IS ME." Steve reads one paragraph and feels slightly sharper.', dropChance: 0.25 },
                 ]
@@ -2212,7 +2212,7 @@
                 defeat: '"The pH was off anyway." (Walks away, jars clinking.)',
                 xp: 2, cacao: 10,
                 drops: [
-                    { id: 'kombucha_jar', name: 'Homemade Kombucha', type: 'consumable', heal: 15, qty: 1, desc: 'Heals 15 HP. 10% chance of side effects.', dropChance: 0.5 },
+                    { id: 'kombucha_jar', name: 'Homemade Kombucha', type: 'consumable', heal: 18, qiHeal: 5, qty: 1, desc: 'Heals 18 HP, 5 Qi. 10% chance of side effects. 100% chance of regret.', dropChance: 0.5 },
                     { id: 'fermented_grenade', name: 'Fermented Kombucha Grenade', type: 'weapon', atkBonus: 3, desc: '+3 ATK. Expired kombucha. Weaponizable. Steve shakes it before throwing.', dropChance: 0.25 },
                     { id: 'mystery_scoby', name: 'Mystery SCOBY', type: 'junk', desc: 'It\'s alive. It\'s gelatinous. Steve keeps it at arm\'s length. It pulses.', dropChance: 0.3 },
                     { id: 'probiotic_shot', name: 'Probiotic Shot', type: 'consumable', heal: 8, qiHeal: 6, qty: 1, desc: 'Heals 8 HP, 6 Qi. Tastes like vinegar had a baby with despair. Weirdly restorative.', dropChance: 0.4 },
@@ -2270,7 +2270,7 @@
                 xp: 2, cacao: 12,
                 drops: [
                     { id: 'ring_light', name: 'Ring Light', type: 'junk', desc: 'Emits warm light. Does nothing. Steve looks good in it though.', dropChance: 0.3 },
-                    { id: 'moon_milk', name: 'Moon Milk', type: 'consumable', heal: 20, qty: 1, desc: 'Heals 20 HP. Warm oat milk with turmeric and ashwagandha. It\'s actually delicious. Steve is furious.', dropChance: 0.4 },
+                    { id: 'moon_milk', name: 'Moon Milk', type: 'consumable', heal: 25, qiHeal: 8, qty: 1, desc: 'Heals 25 HP, 8 Qi. Warm oat milk with turmeric and ashwagandha. It\'s actually delicious. Steve is furious.', dropChance: 0.4 },
                     { id: 'gratitude_crystal', name: 'Gratitude Crystal', type: 'consumable', qiHeal: 10, qty: 1, desc: 'Restores 10 Qi. Steve holds it and feels calm. He puts it down immediately.', dropChance: 0.3 },
                     { id: 'discount_code', name: 'Discount Code Card', type: 'junk', desc: '"JADE15 for 15% off Moonflower Botanicals." The influencer economy persists.', dropChance: 0.3 },
                     { id: 'brand_sunglasses', name: 'Influencer Sunglasses', type: 'accessory', verbDmgBonus: 2, accBonus: 2, desc: '+2 Verbal DMG, +2% ACC. Rose-tinted. Steve\'s complaints hit different when he looks this good.', dropChance: 0.2 },
@@ -2874,6 +2874,10 @@
             document.getElementById('continue-prompt').style.display = 'none';
             // Re-render NPCs so badges update based on actual seen state
             if (gameState.currentRoom) renderNpcs(gameState.currentRoom);
+            // Show any queued notifications immediately (shop purchases, quest rewards, etc.)
+            if (gameState.skillNotifications.length > 0) {
+                setTimeout(showSkillNotifications, 200);
+            }
         }
 
         // ═══════════════════════════════════════════════════════════════════
@@ -3033,8 +3037,8 @@
                 case 'add_cacao_drink':
                     if (gameState.cacao >= 50) {
                         gameState.cacao -= 50;
-                        addConsumable('cacao_drink', 'Cacao Drink', 20, 1);
-                        gameState.skillNotifications.push({ type: 'unlock', text: 'OBTAINED: Cacao Drink', desc: 'Heals 20 HP. It\'s chocolate. Just chocolate.' });
+                        addConsumable('cacao_drink', 'Cacao Drink', 25, 1, 8);
+                        gameState.skillNotifications.push({ type: 'unlock', text: 'OBTAINED: Cacao Drink', desc: 'Heals 25 HP, 8 Qi. It\'s chocolate. Just chocolate. Chocolate that heals.' });
                     } else {
                         gameState.skillNotifications.push({ type: 'unlock', text: 'NOT ENOUGH CACAO', desc: `Need 50, have ${gameState.cacao}. The economy is cruel.` });
                     }
@@ -3042,8 +3046,8 @@
                 case 'add_kombucha':
                     if (gameState.cacao >= 20) {
                         gameState.cacao -= 20;
-                        addConsumable('kombucha', 'Kombucha', 10, 1);
-                        gameState.skillNotifications.push({ type: 'unlock', text: 'OBTAINED: Kombucha', desc: 'Heals 10 HP. 10% chance of regret.' });
+                        addConsumable('kombucha', 'Kombucha', 15, 1, 5);
+                        gameState.skillNotifications.push({ type: 'unlock', text: 'OBTAINED: Kombucha', desc: 'Heals 15 HP, 5 Qi. 10% chance of regret.' });
                     } else {
                         gameState.skillNotifications.push({ type: 'unlock', text: 'NOT ENOUGH CACAO', desc: `Need 20, have ${gameState.cacao}. Even the cheap stuff is out of reach.` });
                     }
@@ -4409,6 +4413,19 @@
                 gameState.insight += battleState.enemy.xp;
                 gameState.cacao += battleState.enemy.cacao;
 
+                // +5 Max HP every 3 battles won
+                gameState.battlesWon = (gameState.battlesWon || 0) + 1;
+                if (gameState.battlesWon % 3 === 0) {
+                    const milestone = gameState.battlesWon;
+                    grantMaxHP('battles_' + milestone, 5,
+                        pickRandom([
+                            'Steve\'s body is adapting to being hit. This is not the career growth he imagined.',
+                            'Three more fights survived. Steve\'s max HP increases. His therapist bill will too.',
+                            'Steve is measurably harder to kill. He adds this to his resume under "Skills."',
+                            'Another three altercations. Steve\'s constitution grows. His dignity does not.',
+                        ]));
+                }
+
                 // Loot drops — supports both single `drop` and multi `drops` array
                 const enemyData = enemyDB[gameState.currentBattleEnemy];
                 const dropTable = enemyData.drops || (enemyData.drop ? [enemyData.drop] : []);
@@ -4547,6 +4564,11 @@
 
             updateHUD();
             overlay.classList.add('active');
+
+            // Show loot/level notifications immediately on the victory screen
+            if (gameState.skillNotifications.length > 0) {
+                setTimeout(showSkillNotifications, 500);
+            }
         }
 
         // ═══════════════════════════════════════════════════════════════════
