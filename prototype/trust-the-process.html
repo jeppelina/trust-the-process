@@ -2204,6 +2204,25 @@
                     { id: 'inner_child_doll', name: 'Inner Child Doll', type: 'junk', desc: 'A handmade doll with button eyes and a name tag that says "Little You." Steve puts it in his bag face-down.', dropChance: 0.3 },
                 ]
             },
+            'seva_worker': {
+                name: 'KARMA YOGI', emoji: '🧹😵',
+                hp: 22, maxHp: 22, atk: 5, def: 0, weakness: 'physical',
+                intro: '(A gaunt figure in stained whites blocks the path. Dark circles under their eyes. They\'re holding a mop like a weapon — because it IS their weapon. They haven\'t slept. They haven\'t been paid. They have been "compensated in spiritual growth.")\n"I\'m sorry but this area needs to be CLEANSED. Energetically AND literally."',
+                attacks: [
+                    { name: 'Mop Strike', dmg: 5, msg: 'A wet mop slaps Steve across the face. It smells like Dr. Bronner\'s and desperation.' },
+                    { name: 'Guilt Trip', dmg: 7, msg: '"I\'ve been up since 4 AM cleaning toilets for FREE and you\'re just WALKING AROUND?" Steve feels terrible.' },
+                    { name: 'Schedule Recital', dmg: 4, msg: '"5 AM: clean bathrooms. 6 AM: prep breakfast. 7 AM: set up yoga room. 8 AM: more bathrooms. 9 AM—" The list doesn\'t end. Steve zones out.' },
+                    { name: 'Devotional Collapse', dmg: 3, msg: 'They fall to their knees. "This is my PRACTICE. This is my PATH." They\'re crying into the mop bucket. Steve takes empathy damage.' }
+                ],
+                defeat: '"I just... I can\'t go home. I don\'t have a home. I gave up my lease to live here. They said room and board. The room is a mat. The board is leftover quinoa."\n(Steve feels like he lost this fight regardless.)',
+                xp: 1, cacao: 5,
+                drops: [
+                    { id: 'dr_bronners', name: 'Dr. Bronner\'s Soap', type: 'consumable', heal: 12, qty: 1, desc: 'Heals 12 HP. The label has 3,000 words about cosmic unity. Steve reads none of them.', dropChance: 0.5 },
+                    { id: 'volunteer_badge', name: 'Seva Volunteer Badge', type: 'junk', desc: '"I AM SERVING." It\'s laminated. It\'s the only ID they have left.', dropChance: 0.3 },
+                    { id: 'cold_quinoa', name: 'Leftover Quinoa', type: 'consumable', heal: 5, qty: 1, desc: 'Heals 5 HP. Cold. Unseasoned. This is what they eat every day.', dropChance: 0.6 },
+                    { id: 'mop_handle', name: 'Broken Mop Handle', type: 'weapon', atkBonus: 2, desc: '+2 ATK. Splintered from overuse. It has seen more action than most swords.', dropChance: 0.2 },
+                ]
+            },
             'instagram_yogi': {
                 name: 'INSTAGRAM YOGI', emoji: '📸✨',
                 hp: 40, maxHp: 40, atk: 10, def: 0, weakness: 'physical',
@@ -2233,6 +2252,7 @@
                 { id: 'pamphlet_pusher', minDay: 1, weight: 4 },
                 { id: 'sound_healer',    minDay: 1, weight: 2 },
                 { id: 'walking_trauma',  minDay: 1, weight: 3 },
+                { id: 'seva_worker',     minDay: 1, weight: 3 },
                 { id: 'oversharer_enemy',minDay: 2, weight: 2 },
                 { id: 'yoga_snob',       minDay: 2, weight: 1, elite: true },
                 { id: 'boundary_violator',minDay: 2, weight: 1, elite: true },
@@ -2241,6 +2261,7 @@
                 { id: 'pamphlet_pusher', minDay: 1, weight: 2 },
                 { id: 'sound_healer',    minDay: 1, weight: 2 },
                 { id: 'walking_trauma',  minDay: 1, weight: 2 },
+                { id: 'seva_worker',     minDay: 1, weight: 3 },
                 { id: 'yoga_snob',       minDay: 2, weight: 2 },
                 { id: 'boundary_violator',minDay: 2, weight: 2 },
                 { id: 'shadow_enthusiast',minDay: 3, weight: 2 },
