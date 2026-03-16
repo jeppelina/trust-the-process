@@ -3256,8 +3256,8 @@
             gameState.hp = gameState.maxHp;
             gameState.qi = gameState.maxQi;
 
-            // Normality drops from sleeping at the retreat (-1 per night)
-            gameState.normality = Math.max(0, gameState.normality - 1);
+            // Normality drops from sleeping at the retreat (-2 per night)
+            gameState.normality = Math.max(0, gameState.normality - 2);
 
             // Reset defeated minor enemies so they reappear
             const resettableFlags = ['oil_defeated', 'meditator_defeated'];
@@ -4413,6 +4413,10 @@
                 gameState.insight += battleState.enemy.xp;
                 gameState.cacao += battleState.enemy.cacao;
 
+                // Every battle won erodes normality — fighting crystal healers is not normal
+                gameState.normality = Math.max(0, gameState.normality - 1);
+                checkEnhancements();
+
                 // +5 Max HP every 3 battles won
                 gameState.battlesWon = (gameState.battlesWon || 0) + 1;
                 if (gameState.battlesWon % 3 === 0) {
@@ -4539,10 +4543,10 @@
                 gameState.currentDay++;
                 const msg = deathMessages[gameState.deathCount % deathMessages.length];
                 title.textContent = 'EGO DEATH';
-                text.innerHTML = `${msg}<br><br>Steve wakes up in the dorms. Day ${gameState.currentDay}.<br>HP fully restored. Normality -5.`;
+                text.innerHTML = `${msg}<br><br>Steve wakes up in the dorms. Day ${gameState.currentDay}.<br>HP fully restored. Normality -8.`;
                 gameState.hp = gameState.maxHp;
                 gameState.qi = gameState.maxQi;
-                gameState.normality = Math.max(0, gameState.normality - 5);
+                gameState.normality = Math.max(0, gameState.normality - 8);
                 gameState.currentRoom = 'dorms';
 
                 // Reset day cycle (same as goToSleep)
