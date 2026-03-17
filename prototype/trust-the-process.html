@@ -1244,23 +1244,28 @@
                 { speaker: 'Maya', text: '(glancing toward the door) Fire pit. After the circle. Don\'t be late.' }
             ],
             'maya_firepit': [
-                { speaker: '', text: '(Fire pit. Night sky. Maya sits alone by the flames.)', thought: true },
-                { speaker: 'Maya', text: 'Your wife was smart. Asked questions. Paul noticed her — invited her to the inner circle. After two weeks she was gone. Sent to Pranayama Peak. Each retreat feeds the next. It\'s a supply chain.' },
-                { speaker: 'Steve', text: 'Does he have her documents?' },
-                { speaker: 'Maya', text: 'He has everyone\'s. Her passport. Mine too. That\'s why I\'m still here. The documents are in the back office, past the ceremony space.' },
+                { speaker: '', text: '(Fire pit. Night sky. Maya sits alone by the flames. She doesn\'t look up.)', thought: true },
+                { speaker: 'Steve', text: 'My wife. What happened to her?' },
+                { speaker: 'Maya', text: 'She was smart. Asked questions. Paul noticed — that\'s how it starts. He invites you to the inner circle. Makes you feel chosen.' },
+                { speaker: 'Steve', text: 'She wouldn\'t fall for that.' },
+                { speaker: 'Maya', text: 'Everyone says that. After two weeks she was gone. Sent to Pranayama Peak. Each retreat feeds the next one. It\'s a supply chain.' },
+                { speaker: 'Steve', text: 'Does he have her passport?' },
+                { speaker: 'Maya', text: 'He has everyone\'s. Mine too. That\'s why I\'m still here — seven months on a two-week stay. The documents are in the back office, past the ceremony space.' },
                 { speaker: 'Steve', text: 'Then we get them back.' },
-                { speaker: 'Maya', text: 'The Gatekeeper guards the entrance. Get past him, grab my documents too. Don\'t get caught — Paul doesn\'t react well to audits.' },
+                { speaker: 'Maya', text: 'The Gatekeeper guards the entrance. He\'s been Paul\'s man for three years. Get past him, grab my passport too.' },
                 { speaker: 'Steve', text: 'I once audited a circus. Three sets of books and a lion with tax issues. This can\'t be worse.' },
-                { speaker: '', text: '(Maya almost laughs. Steve has a plan.)', thought: true, callback: 'firepit_done' }
+                { speaker: '', text: '(Maya almost laughs. It\'s the first time she\'s smiled in months.)', thought: true, callback: 'firepit_done' }
             ],
             'maya_post_boss': [
-                { speaker: '', text: '(Maya stands at the sanctuary gates, holding a worn passport.)', thought: true },
-                { speaker: 'Maya', text: 'Thank you. I\'ve been here seven months. I almost forgot what outside felt like.' },
-                { speaker: 'Steve', text: 'Are you going to look for her? Your wife?' },
-                { speaker: 'Maya', text: 'She\'s not the same person you married. Paul\'s pipeline doesn\'t just move bodies — it transforms them.' },
-                { speaker: 'Steve', text: 'Neither am I. I just restructured a wellness center that was running at two million in annual revenue. That\'s not in my job description.' },
-                { speaker: '', text: '(Maya almost smiles.)', thought: true },
-                { speaker: 'Maya', text: 'Good luck, Steve. Pranayama Peak is north of here. Three days\' drive if you follow the recommendations.' }
+                { speaker: '', text: '(Maya stands at the sanctuary gates, holding a worn passport. Her hands are shaking slightly.)', thought: true },
+                { speaker: 'Maya', text: 'Seven months. I almost forgot what outside smelled like. Turns out it smells like asphalt and freedom.' },
+                { speaker: 'Steve', text: 'What will you do?' },
+                { speaker: 'Maya', text: 'Go home. Call my mother. Eat something that isn\'t activated.' },
+                { speaker: 'Steve', text: 'Paul got away.' },
+                { speaker: 'Maya', text: 'He always does. Steve — your wife. She\'s not the same person you married. The pipeline doesn\'t just move people. It changes them.' },
+                { speaker: 'Steve', text: 'Neither am I. I just fought a brainwashed kid and watched a man escape through a yurt wall. That\'s not in my job description.' },
+                { speaker: '', text: '(Maya almost smiles. It looks rusty.)', thought: true },
+                { speaker: 'Maya', text: 'Good luck, Steve. Pranayama Peak is north. Two hours if you drive like you audit — methodically and slightly too fast.' }
             ],
             'brandon_arrive': [
                 { speaker: '', text: '(A young man with a backward baseball cap bounces on the bunk above yours. Patagonia vest. Vibrating with enthusiasm.)', thought: true },
@@ -1295,10 +1300,12 @@
             ],
             'brandon_day1': [
                 { speaker: '', text: '(A young man with a backward baseball cap bounces on the bunk above yours. Patagonia vest. His dad\'s Timex on his wrist.)', thought: true },
-                { speaker: 'Brandon', text: 'Dude! Welcome! The energy here is like... (gestures wildly) ...everywhere. I\'m Brandon. You should come to yoga!' },
-                { speaker: 'Steve', text: 'I\'m here to find my wife.' },
-                { speaker: 'Brandon', text: 'Love is the highest vibration, man. (taps his watch) My dad gave me this Timex twenty years ago. Keeps me grounded.' },
-                { speaker: '', text: '(Steve notices the watch. It\'s a nice watch. Brandon is a nice kid.)', thought: true, callback: 'brandon_day1_done' }
+                { speaker: 'Brandon', text: 'Hey! I don\'t think we\'ve properly met. I\'m Brandon.' },
+                { speaker: 'Steve', text: 'Steve. I\'m here to find my wife.' },
+                { speaker: 'Brandon', text: 'Dude, that\'s beautiful. Love is the highest vibration. (taps his watch) My dad gave me this Timex. Twenty years. Keeps me grounded, you know?' },
+                { speaker: 'Steve', text: 'That\'s a good watch.' },
+                { speaker: 'Brandon', text: 'Right? It\'s like the one real thing I have here. Everything else is... energy.' },
+                { speaker: '', text: '(Steve notices Brandon still has the watch. It\'s a small thing. It matters.)', thought: true, callback: 'brandon_day1_done' }
             ],
             'brandon_day2': [
                 { speaker: '', text: '(Brandon is sitting cross-legged on his bunk, wearing retreat whites. He\'s trying to meditate but keeps peeking at Steve.)', thought: true },
@@ -1527,9 +1534,10 @@
             ],
             'founder_prefight': [
                 { speaker: 'The Founder', text: 'Good. Then you can appreciate the margins.' },
-                { speaker: 'The Founder', text: 'I was a used car salesman in Tucson. I read one book about chakras. ONE BOOK. And then people started giving me money. Do you know what that does to a person, Steve?' },
-                { speaker: 'Steve', text: 'You built a pipeline. For people.' },
-                { speaker: 'The Founder', text: 'I OPTIMIZED a pipeline. Every retreat, every breathwork weekend, every silent meditation — they\'re all feeders. Your wife scored a 94 on suggestibility. Highest I\'ve seen. She\'ll go all the way to the desert and she\'ll thank me for it.' },
+                { speaker: 'Steve', text: 'You scored my wife. Like a credit application.' },
+                { speaker: 'The Founder', text: 'Suggestibility index. She scored a 94. Highest I\'ve ever seen. I was a used car salesman in Tucson, Steve. I read one book about chakras. ONE BOOK. And then people started giving me money.' },
+                { speaker: 'Steve', text: 'So you built a pipeline. For human beings.' },
+                { speaker: 'The Founder', text: 'I OPTIMIZED a pipeline. Every retreat, every breathwork weekend — they\'re all feeders. Your wife\'ll go all the way to the desert and she\'ll thank me for it.' },
                 { speaker: 'Steve', text: 'You\'re holding their passports.' },
                 { speaker: 'The Founder', text: '"For safekeeping." You\'re an accountant — you understand collateral. I also made the intake form in Canva. Would you like to see it? It\'s quite good.' },
                 { speaker: '', text: '', choices: [
@@ -1552,14 +1560,17 @@
             ],
             'founder_escape': [
                 { speaker: '', text: '(Paul staggers. Brandon is on the floor. The laptop is cracked. But Paul is already moving.)', thought: true },
-                { speaker: 'The Founder', text: '(breathing hard) You think this changes anything? I designed it to run without me. That\'s what separates a founder from an employee.' },
-                { speaker: '', text: '(Paul pulls a bag from under the desk. Pre-packed. Zip-lock bags of cash. Three passports with different names.)', thought: true },
-                { speaker: 'Steve', text: 'You had a go-bag.' },
-                { speaker: 'The Founder', text: 'I have go-bags in every location. Always have an exit strategy. That was in the chakra book too, actually. Chapter 4.' },
-                { speaker: '', text: '(Paul opens a panel in the yurt wall. Behind it: a hallway. Emergency lighting. The man built an escape route into a yurt.)', thought: true },
-                { speaker: 'The Founder', text: 'Your wife is at Pranayama Peak. Room 7. By the time you get there, she\'ll be ready for the next transfer.' },
-                { speaker: 'The Founder', text: 'Good luck, accountant. You\'re going to need a bigger spreadsheet.' },
-                { speaker: '', text: '(Paul disappears. Steve stands in the wreckage of a back office that smells like sage and corporate fraud.)', thought: true, callback: 'founder_escaped' },
+                { speaker: 'The Founder', text: '(breathing hard) You think this changes anything? I designed it to run without me.' },
+                { speaker: 'Steve', text: 'Sit down, Paul.' },
+                { speaker: 'The Founder', text: 'That\'s what separates a founder from an employee. Exit strategy. Chapter 4 of the chakra book, actually.' },
+                { speaker: '', text: '(Paul pulls a bag from under the desk. Pre-packed. Zip-lock bags of cash. Three passports with different names. Steve recognizes the structure — it\'s a bug-out bag. A very organized one.)', thought: true },
+                { speaker: 'Steve', text: 'You had a go-bag this whole time.' },
+                { speaker: 'The Founder', text: 'I have one in every location. You\'d understand if you thought bigger, Steve.' },
+                { speaker: '', text: '(Paul opens a panel in the yurt wall. Behind it: a hallway with emergency lighting. The man built an escape route into a yurt. Steve has to admit that\'s impressive project management.)', thought: true },
+                { speaker: 'The Founder', text: 'Your wife is at Pranayama Peak. Room 7. Good luck, accountant.' },
+                { speaker: 'Steve', text: 'I\'ll find you.' },
+                { speaker: 'The Founder', text: '(already walking away) No you won\'t. But you\'ll try. That\'s what makes you useful.' },
+                { speaker: '', text: '(Paul disappears. Steve stands in the wreckage of a back office that smells like sage and corporate fraud. He is alone. He is furious. He has a plan.)', thought: true, callback: 'founder_escaped' },
             ],
             'founder_aftermath': [
                 { speaker: '', text: '(Steve gathers the documents. Passports. Pipeline records. Transfer agreements. He puts them in his sensible messenger bag.)', thought: true },
@@ -1574,34 +1585,44 @@
             // ═══════════════════════════════════════════════════════════════
             'mattis_day2': [
                 { speaker: '', text: '(A huge man on the bunk across from Steve. Broad shoulders, the posture of someone used to whiteboards. His eyes are somewhere else.)', thought: true },
-                { speaker: 'Mattis', text: 'Mattis. I am here with my wife. She is in a kundalini connection with a badger. That means we cannot have sex.' },
+                { speaker: 'Mattis', text: 'You are new. I can tell because you still look confused. I am Mattis. Environmental engineer. Or I was. Now I am... here.' },
+                { speaker: 'Steve', text: 'Steve. Accountant. Also confused.' },
+                { speaker: 'Mattis', text: 'My wife brought me. She is in a kundalini connection with a badger. That means we cannot have sex.' },
                 { speaker: 'Steve', text: '...A badger.' },
-                { speaker: 'Mattis', text: 'A spirit badger. The regular badger does not care about our sex life. Before the badger it was her trauma about not giving birth to the reincarnation of the Buddha. I told her that is not how the Buddha works. She said I was "blocked."' },
-                { speaker: 'Steve', text: 'So no sex at all?' },
-                { speaker: 'Mattis', text: 'Once a week she allows "reparative intimacy." I lie flat inside her while apologizing for ancestral crimes. I have to list specific historical events. Last week I got through the Thirty Years\' War. She said my delivery lacked remorse.' },
-                { speaker: 'Steve', text: 'Mattis—' },
+                { speaker: 'Mattis', text: 'A spirit badger. The regular badger does not care about our sex life.' },
+                { speaker: 'Steve', text: 'What did you do before the badger?' },
+                { speaker: 'Mattis', text: 'Before the badger was her trauma about not giving birth to the reincarnation of the Buddha. I told her that is not how the Buddha works. She said I was "blocked."' },
+                { speaker: 'Steve', text: 'Mattis, is there any... normal intimacy?' },
+                { speaker: 'Mattis', text: 'Once a week she allows "reparative intimacy." I lie flat while apologizing for ancestral crimes. Specific historical events. Last week I got through the Thirty Years\' War. She said my delivery lacked remorse.' },
+                { speaker: 'Steve', text: 'That\'s—' },
                 { speaker: 'Mattis', text: 'The worst part is I am running out of wars. I may need to research more.' },
-                { speaker: 'Steve', text: 'Why are you here?' },
+                { speaker: 'Steve', text: 'Why are you here, Mattis?' },
                 { speaker: 'Mattis', text: 'Because she asked. She said if I really loved her I would try. So I am trying.' },
-                { speaker: '', text: '(Steve says nothing. There is nothing to say.)', thought: true, callback: 'mattis_day2_done' }
+                { speaker: '', text: '(Steve says nothing. There is nothing to say. They sit in the silence of two men who understand their marriages are failing and can do absolutely nothing about it.)', thought: true, callback: 'mattis_day2_done' }
             ],
             'mattis_day3': [
                 { speaker: '', text: '(Mattis looks thinner. His Patagonia quarter-zip hangs looser. The man is shrinking.)', thought: true },
-                { speaker: 'Mattis', text: 'Couples\' breathwork. She said my exhales were "confrontational." I was breathing, Steve. With my nose.' },
+                { speaker: 'Steve', text: 'How was couples\' breathwork?' },
+                { speaker: 'Mattis', text: 'She said my exhales were "confrontational." I was breathing, Steve. With my nose.' },
+                { speaker: 'Steve', text: 'How do you breathe confrontationally?' },
                 { speaker: 'Mattis', text: 'The facilitator said I should "release my masculine armor." I said it is not armor, it is a quarter-zip. He said that was exactly the kind of thing my armor would say.' },
-                { speaker: 'Mattis', text: 'She wants me to quit my job. Says environmental engineering is "the architecture of control." I design water treatment plants, Steve. Clean drinking water. Apparently the pipes are a metaphor.' },
+                { speaker: 'Steve', text: 'What about work? You still calling your firm?' },
+                { speaker: 'Mattis', text: 'She wants me to quit. Says environmental engineering is "the architecture of control." I design water treatment plants, Steve. Clean drinking water. Apparently the pipes are a metaphor.' },
                 { speaker: '', text: '(Mattis stares at his hands. They are the hands of someone who has held a lot of blueprints.)', thought: true, callback: 'mattis_day3_done' }
             ],
             'mattis_day4': [
-                { speaker: '', text: '(Mattis is in retreat whites. Patagonia folded on the bunk. He looks smaller. As if someone let the air out of him.)', thought: true },
-                { speaker: 'Mattis', text: '(quietly) I called my firm. I resigned. She said I was "clinging to my identity as an engineer." They gave me a spiritual name. Ananda. It means bliss.' },
+                { speaker: '', text: '(Mattis is in retreat whites. Patagonia folded neatly on the bunk. He looks smaller. As if someone let the air out of him.)', thought: true },
+                { speaker: 'Steve', text: 'Mattis. Where\'s the quarter-zip?' },
+                { speaker: 'Mattis', text: '(quietly) I called my firm. I resigned.' },
+                { speaker: 'Steve', text: 'You quit your job.' },
+                { speaker: 'Mattis', text: 'She said I was "clinging to my identity as an engineer." They gave me a spiritual name. Ananda. It means bliss.' },
                 { speaker: 'Steve', text: 'You don\'t look blissful.' },
                 { speaker: 'Mattis', text: 'I signed up for kitchen seva. Dishwashing. It is easier than thinking.' },
-                { speaker: '', text: '(His hand goes to his bare ring finger. The wedding band is gone.)', thought: true },
-                { speaker: 'Mattis', text: '(very quietly) I researched more wars. For the reparative intimacy. The Taiping Rebellion. Thirty million dead. She said my presentation was "getting better." She smiled at me yesterday.' },
-                { speaker: 'Steve', text: 'Mattis—' },
+                { speaker: '', text: '(His hand goes to his bare ring finger. The wedding band is gone. Steve doesn\'t ask about the ring.)', thought: true },
+                { speaker: 'Mattis', text: '(very quietly) I researched more wars. For the reparative intimacy. The Taiping Rebellion. Thirty million dead. She said my presentation was "getting better." She smiled at me, Steve. Yesterday.' },
+                { speaker: 'Steve', text: 'Mattis...' },
                 { speaker: 'Mattis', text: 'So maybe it is working.' },
-                { speaker: '', text: '(Some things you can\'t fix with an audit.)', thought: true, callback: 'mattis_day4_done' }
+                { speaker: '', text: '(Some things you can\'t fix with an audit. Steve knows this. He sits with it anyway.)', thought: true, callback: 'mattis_day4_done' }
             ],
             'mattis_generic': () => [
                 { speaker: 'Mattis', text: pickRandom([
