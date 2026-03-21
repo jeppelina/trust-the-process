@@ -1161,7 +1161,7 @@
                 { speaker: 'Steve', text: 'I would like her specifically back.' },
                 { speaker: 'Receptionist', text: 'All in time! But first — your Intake Alignment. Three steps to attune your energy to the grounds. Can\'t have you wandering around unaligned. Company policy.' },
                 { speaker: 'Steve', text: 'What kind of company has an alignment policy?' },
-                { speaker: 'Receptionist', text: 'A WELLNESS company. Step one: surrender an attachment at the Gratitude Bowl in the garden. Step two: receive a blessing on the path. Step three: complete a grounding exercise. Then I can give you the full grounds map.' },
+                { speaker: 'Receptionist', text: 'A WELLNESS company. Step one: surrender an attachment at the Gratitude Bowl in the garden. Step two: have an authentic energetic exchange with a fellow soul. Step three: complete a grounding exercise. Then I can give you the full grounds map.' },
                 { speaker: 'Steve', text: 'And if I skip all that?' },
                 { speaker: 'Receptionist', text: '(leaning in) You can\'t. The garden and path are open but the rest of the grounds are... energetically sealed.' },
                 { speaker: '', text: '(She means locked. With actual locks.)', thought: true },
@@ -1172,7 +1172,7 @@
             ],
             'receptionist_return': () => {
                 // Check alignment progress
-                const steps = [gameState.flags['gratitude_done'], gameState.flags['oil_defeated_once'], gameState.flags['talked_frank']];
+                const steps = [gameState.flags['gratitude_done'], gameState.flags['had_authentic_exchange'], gameState.flags['talked_frank']];
                 const done = steps.filter(Boolean).length;
                 if (done >= 3 && !gameState.flags['map_obtained']) {
                     return [
@@ -1187,7 +1187,7 @@
                 if (!gameState.flags['map_obtained']) {
                     const hints = [];
                     if (!gameState.flags['gratitude_done']) hints.push('surrender an attachment at the Gratitude Bowl');
-                    if (!gameState.flags['oil_defeated_once']) hints.push('receive a blessing on the path');
+                    if (!gameState.flags['had_authentic_exchange']) hints.push('have an authentic energetic exchange with a fellow soul');
                     if (!gameState.flags['talked_frank']) hints.push('complete a grounding exercise in the garden');
                     return [
                         { speaker: 'Receptionist', text: `Akash Prem! Still working on your alignment? You still need to: ${hints.join(', ')}. Take your time! Or don\'t. I\'m not your mother.` }
@@ -3434,11 +3434,12 @@
             // Intake Alignment
             { text: 'Talk to the Receptionist',     flag: 'talked_receptionist', revealFlag: null, type: 'main' },
             { text: 'Surrender an attachment (Gratitude Bowl)', flag: 'gratitude_done', revealFlag: 'talked_receptionist', type: 'main' },
-            { text: 'Receive a "blessing" on the path', flag: 'oil_defeated_once', revealFlag: 'talked_receptionist', type: 'main' },
+            { text: 'Have an "authentic energetic exchange"', flag: 'had_authentic_exchange', revealFlag: 'talked_receptionist', type: 'main' },
             { text: 'Complete grounding exercise (talk to Frank)', flag: 'talked_frank', revealFlag: 'talked_receptionist', type: 'main' },
             { text: 'Get the full grounds map from Receptionist', flag: 'map_obtained', revealFlag: 'talked_frank', type: 'main' },
             // Main quest
             { text: 'Visit the Kitchen — find someone who knows something', flag: 'talked_maya', revealFlag: 'map_obtained', type: 'main' },
+            { text: 'Defeat the Oil Warrior on the path', flag: 'oil_defeated_once', revealFlag: 'map_obtained', type: 'main' },
             { text: 'Defeat the Meditation Trainer', flag: 'meditator_defeated_once', revealFlag: 'oil_defeated_once', type: 'main' },
             { text: 'Attend the evening program',    flag: 'circle_done',         revealFlag: 'talked_maya', type: 'main' },
             { text: 'Meet Maya at the Fire Pit',     flag: 'firepit_done',        revealFlag: 'circle_done', type: 'main' },
@@ -4563,6 +4564,18 @@
             const overlay = document.getElementById('victory-overlay');
             const title = document.getElementById('victory-title');
             const text = document.getElementById('victory-text');
+
+            // Intake Alignment: first "authentic energetic exchange" counts
+            if (!gameState.flags['had_authentic_exchange']) {
+                gameState.flags['had_authentic_exchange'] = true;
+                gameState.skillNotifications.push({
+                    type: 'unlock',
+                    text: 'AUTHENTIC EXCHANGE COMPLETE',
+                    desc: won
+                        ? 'Steve connected authentically with a fellow soul. By hitting them. The receptionist will count this.'
+                        : 'Steve was connected with authentically. Against his will. The receptionist will count this.'
+                });
+            }
 
             // Check for new skill unlocks after every battle
             checkSkillUnlocks();
