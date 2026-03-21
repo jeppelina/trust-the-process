@@ -1132,40 +1132,100 @@
         // ═══════════════════════════════════════════════════════════════════
         const dialogueData = {
             'receptionist': [
-                { speaker: 'Receptionist', text: 'Namaste, beautiful soul! Welcome to The Sanctuary of Infinite Becoming. I can feel your energy from here. It\'s very... dense.' },
+                { speaker: 'Receptionist', text: 'Namaste, beautiful soul! Welcome to The Sanctuary of Infinite Becoming!' },
                 { speaker: 'Steve', text: 'I have a reservation. Steve Stevens.' },
-                { speaker: 'Receptionist', text: 'We don\'t use the word "reservation." You\'ve set an INTENTION to arrive. Also I\'ll need your phone — sacred container, digital interference, it\'s mandatory.' },
-                { speaker: '', text: '(She confiscates Steve\'s phone while opening a completely normal Excel spreadsheet.)', thought: true },
+                { speaker: 'Receptionist', text: 'We don\'t use the word "reservation." You\'ve set an INTENTION to arrive. I can feel your energy from here. It\'s very... dense.' },
+                { speaker: 'Steve', text: 'Thank you?' },
+                { speaker: 'Receptionist', text: 'It\'s not a compliment. I\'ll need your phone — sacred container policy. Digital interference disrupts the field.' },
+                { speaker: 'Steve', text: 'What field?' },
+                { speaker: 'Receptionist', text: 'THE field. (She confiscates his phone while opening a completely normal Excel spreadsheet.) Your Sanskrit name is Akash Prem. Sky Love. It was waiting for you across lifetimes.' },
+                { speaker: 'Steve', text: 'My name is Steve.' },
+                { speaker: 'Receptionist', text: 'Not anymore!' },
+                { speaker: '', text: '(She hands you a name tag. "Akash Prem" in Comic Sans. It has a lotus sticker.)', thought: true },
                 { speaker: '', text: '', choices: [
                     { text: '"I\'m looking for my wife."', next: 'receptionist_wife' },
                     { text: '"Is there Wi-Fi here?"', next: 'receptionist_wifi' }
                 ]}
             ],
             'receptionist_wifi': [
-                { speaker: 'Receptionist', text: '(her voice drops to a whisper) There\'s none. I haven\'t checked my email in nine weeks. Is everything okay out there?' },
-                { speaker: '', text: '(The smile returns.)', thought: true },
-                { speaker: 'Receptionist', text: 'I mean — isn\'t that LIBERATING? Anyway — your Sanskrit name is Akash Prem. Sky Love. It was waiting for you across lifetimes.' },
-                { speaker: 'Steve', text: 'My name is Steve.' },
-                { speaker: '', text: '(She hands you a name tag. It says "Akash Prem" in Comic Sans.)', thought: true },
+                { speaker: 'Receptionist', text: '(her voice drops to a whisper) There\'s none. I haven\'t checked my email in nine weeks. Is everything okay out there? Is the economy still...' },
+                { speaker: 'Steve', text: 'The economy is the same.' },
+                { speaker: 'Receptionist', text: '(the smile snaps back) Isn\'t that LIBERATING? Freedom from information!' },
                 { speaker: '', text: '', goto: 'receptionist_wife' }
             ],
             'receptionist_wife': [
-                { speaker: 'Steve', text: 'I\'m looking for my wife. She was here a few weeks ago?' },
-                { speaker: 'Receptionist', text: 'We honor the privacy of all souls. I can\'t share details about another person\'s journey. She\'s the universe\'s wife now. We all belong to each other.' },
-                { speaker: 'Receptionist', text: 'Settle in first. Here\'s a map. Your space is in the dorms. Oh — and we use cacao beans as currency here. Ceremonial currency.' },
+                { speaker: 'Steve', text: 'I\'m looking for my wife. She was here a few weeks ago.' },
+                { speaker: 'Receptionist', text: 'We honor the privacy of all souls. I can\'t share details about another person\'s journey.' },
+                { speaker: 'Steve', text: 'She used my credit card. I have receipts.' },
+                { speaker: 'Receptionist', text: 'She\'s the universe\'s wife now, Steve. We all belong to each other.' },
+                { speaker: 'Steve', text: 'I would like her specifically back.' },
+                { speaker: 'Receptionist', text: 'All in time! But first — your Intake Alignment. Three steps to attune your energy to the grounds. Can\'t have you wandering around unaligned. Company policy.' },
+                { speaker: 'Steve', text: 'What kind of company has an alignment policy?' },
+                { speaker: 'Receptionist', text: 'A WELLNESS company. Step one: surrender an attachment at the Gratitude Bowl in the garden. Step two: receive a blessing on the path. Step three: complete a grounding exercise. Then I can give you the full grounds map.' },
+                { speaker: 'Steve', text: 'And if I skip all that?' },
+                { speaker: 'Receptionist', text: '(leaning in) You can\'t. The garden and path are open but the rest of the grounds are... energetically sealed.' },
+                { speaker: '', text: '(She means locked. With actual locks.)', thought: true },
+                { speaker: 'Receptionist', text: 'Oh — we use cacao beans as currency here. Ceremonial currency. The Cacao Dealer in the kitchen can help you spend it. Once you\'re aligned!' },
                 { speaker: 'Steve', text: 'You use chocolate as money.' },
-                { speaker: 'Receptionist', text: 'CACAO as a medium of ENERGETIC EXCHANGE. The Cacao Dealer in the kitchen can help you spend it.' },
-                { speaker: '', text: '(She hands you a map on recycled paper and a name tag that says "Akash Prem" in Comic Sans. Steve is dismissed.)', thought: true, callback: 'add_retreat_map' },
-                { speaker: '', text: '(Maybe someone else here knows something. Look around.)', thought: true, callback: 'talked_receptionist' }
+                { speaker: 'Receptionist', text: 'CACAO as a medium of ENERGETIC EXCHANGE.' },
+                { speaker: '', text: '(Steve is dismissed. The path and garden are accessible. The rest of the Sanctuary awaits his "alignment.")', thought: true, callback: 'talked_receptionist' }
             ],
-            'receptionist_return': () => [
-                { speaker: 'Receptionist', text: pickRandom([
-                    'Welcome back, Akash Prem! How are you LANDING today?',
-                    'Akash Prem! Your energy is... shifting. I can feel it. It\'s still very dense, but there are... wisps.',
-                    'Oh! You\'re still here! I mean — of COURSE you\'re still here. The Sanctuary holds all who need holding.',
-                    'Akash Prem! I pulled a tarot card for you this morning. It was The Tower. That\'s... it\'s a growth card.',
-                    'Namaste! Have you signed up for the cacao ceremony yet? It\'s very grounding. Unlike you. Currently.',
-                ]) }
+            'receptionist_return': () => {
+                // Check alignment progress
+                const steps = [gameState.flags['gratitude_done'], gameState.flags['oil_defeated_once'], gameState.flags['talked_frank']];
+                const done = steps.filter(Boolean).length;
+                if (done >= 3 && !gameState.flags['map_obtained']) {
+                    return [
+                        { speaker: 'Receptionist', text: 'Akash Prem! (checking her spreadsheet) You\'ve completed all three alignment steps! Your energy is... less dense. Still dense. But manageable.' },
+                        { speaker: 'Steve', text: 'Can I have the map now?' },
+                        { speaker: 'Receptionist', text: 'You\'ve EARNED the map now. There\'s a difference. Here — the kitchen, dorms, main hall, and everything else are open to you.' },
+                        { speaker: '', text: '(She hands you a map on recycled paper. It smells like lavender. The dorms, kitchen, and main hall are now accessible.)', thought: true, callback: 'add_retreat_map' },
+                        { speaker: 'Receptionist', text: 'Your wife — I still can\'t discuss other souls. But if I were you, I\'d settle in. Talk to people. Someone might know something. Not me, though. Definitely not me.' },
+                        { speaker: '', text: '(She winks. It\'s the least subtle wink in human history.)', thought: true }
+                    ];
+                }
+                if (!gameState.flags['map_obtained']) {
+                    const hints = [];
+                    if (!gameState.flags['gratitude_done']) hints.push('surrender an attachment at the Gratitude Bowl');
+                    if (!gameState.flags['oil_defeated_once']) hints.push('receive a blessing on the path');
+                    if (!gameState.flags['talked_frank']) hints.push('complete a grounding exercise in the garden');
+                    return [
+                        { speaker: 'Receptionist', text: `Akash Prem! Still working on your alignment? You still need to: ${hints.join(', ')}. Take your time! Or don\'t. I\'m not your mother.` }
+                    ];
+                }
+                return [
+                    { speaker: 'Receptionist', text: pickRandom([
+                        'Welcome back, Akash Prem! How are you LANDING today?',
+                        'Akash Prem! Your energy is... shifting. I can feel it. It\'s still very dense, but there are... wisps.',
+                        'Oh! You\'re still here! I mean — of COURSE you\'re still here. The Sanctuary holds all who need holding.',
+                        'Akash Prem! I pulled a tarot card for you this morning. It was The Tower. That\'s... it\'s a growth card.',
+                        'Namaste! Have you signed up for the cacao ceremony yet? It\'s very grounding. Unlike you. Currently.',
+                    ]) }
+                ];
+            },
+            'gratitude_bowl': [
+                { speaker: '', text: '(A large wooden bowl sits on a pedestal. A sign reads: "SURRENDER AN ATTACHMENT. Leave something behind to move forward." Several items are already inside: a phone case, a wedding ring, a business card that says "Regional Manager.")', thought: true },
+                { speaker: 'Steve', text: 'They want me to put something in a bowl.' },
+                { speaker: '', text: '', choices: [
+                    { text: 'Donate an Energy Bar (lose 1 Energy Bar)', next: 'gratitude_bowl_bar' },
+                    { text: 'Donate Steve\'s Business Card', next: 'gratitude_bowl_card' },
+                    { text: '"I\'m not putting anything in a bowl."', next: 'gratitude_bowl_refuse' }
+                ]}
+            ],
+            'gratitude_bowl_bar': [
+                { speaker: '', text: '(Steve places an energy bar in the bowl. It sits among crystals and abandoned hopes. It\'s the most sensible thing in there.)', thought: true },
+                { speaker: '', text: '(A wind chime sounds. Nothing happens. But something in the system has been... satisfied.)', thought: true, callback: 'gratitude_sacrifice_bar' },
+                { speaker: '', text: '(Intake Alignment Step 1 complete. The receptionist will be pleased. Steve is not.)', thought: true }
+            ],
+            'gratitude_bowl_card': [
+                { speaker: '', text: '(Steve reaches into his wallet. Behind the Costco card and the expired gym membership, he finds a business card. "Steve Stevens, CPA. Stevens & Associates." The associates are him. He is the associates.)', thought: true },
+                { speaker: 'Steve', text: '(placing it in the bowl) I have more at home.' },
+                { speaker: '', text: '(He does not have more at home. He had those printed at Staples. 500 for $29.99.)', thought: true, callback: 'gratitude_sacrifice_card' },
+                { speaker: '', text: '(Intake Alignment Step 1 complete.)', thought: true }
+            ],
+            'gratitude_bowl_refuse': [
+                { speaker: 'Steve', text: 'I\'m not surrendering my belongings to a salad bowl.' },
+                { speaker: '', text: '(The bowl sits there. Judgmentally. Steve will have to come back.)', thought: true }
             ],
             'oil_warrior': [
                 { speaker: '???', text: 'Hey! Hey, wait! Can I just — have you heard of doTERRA?' },
@@ -1221,7 +1281,11 @@
             ],
             'frank_end': [
                 { speaker: 'Frank', text: 'Tell you what, Steve. You seem alright. If you need anything practical — and I mean PRACTICAL, not energetic — come find me.' },
-                { speaker: '', text: '(Frank nods and returns to his fence. It\'s the most straightforward interaction you\'ve had since arriving.)', thought: true, callback: 'talked_frank' }
+                { speaker: 'Steve', text: 'The receptionist said I need a "grounding exercise" to complete my intake. Any idea what that means?' },
+                { speaker: 'Frank', text: '(hands Steve a pipe wrench) Hold that for ten seconds.' },
+                { speaker: '', text: '(Steve holds a pipe wrench. It is heavy and real and made of steel. It is the most grounded he has felt in two days.)', thought: true },
+                { speaker: 'Frank', text: 'There. You\'re grounded. Tell her Frank certified it.' },
+                { speaker: '', text: '(Intake Alignment Step 3 complete. Steve pockets the pipe wrench. It feels like a weapon. It might be.)', thought: true, callback: 'talked_frank' }
             ],
             'frank_return': () => [
                 { speaker: 'Frank', text: pickRandom([
@@ -1584,53 +1648,66 @@
             // MATTIS — The Dark Mirror (Dorms, Day 2+)
             // ═══════════════════════════════════════════════════════════════
             'mattis_day2': [
-                { speaker: '', text: '(A huge man on the bunk across from Steve. Broad shoulders, the posture of someone used to whiteboards. His eyes are somewhere else.)', thought: true },
-                { speaker: 'Mattis', text: 'You are new. I can tell because you still look confused. I am Mattis. Environmental engineer. Or I was. Now I am... here.' },
-                { speaker: 'Steve', text: 'Steve. Accountant. Also confused.' },
-                { speaker: 'Mattis', text: 'My wife brought me. She is in a kundalini connection with a badger. That means we cannot have sex.' },
+                { speaker: '', text: '(A huge man on the bunk across from Steve. Broad shoulders, Patagonia quarter-zip. His dad\'s watch would be on his wrist if he was Brandon\'s type. This one wears practical things. A wedding ring. Work boots.)', thought: true },
+                { speaker: 'Mattis', text: 'You are new. I am Mattis.' },
+                { speaker: 'Steve', text: 'Steve. How long have you been here?' },
+                { speaker: 'Mattis', text: 'Two weeks. My wife and I came together. She is doing very well. The programs are very... comprehensive.' },
+                { speaker: 'Steve', text: 'Comprehensive how?' },
+                { speaker: 'Mattis', text: 'She is exploring her spiritual connection. With a badger. A spirit badger. It is part of the kundalini program. Very normal here.' },
                 { speaker: 'Steve', text: '...A badger.' },
-                { speaker: 'Mattis', text: 'A spirit badger. The regular badger does not care about our sex life.' },
-                { speaker: 'Steve', text: 'What did you do before the badger?' },
-                { speaker: 'Mattis', text: 'Before the badger was her trauma about not giving birth to the reincarnation of the Buddha. I told her that is not how the Buddha works. She said I was "blocked."' },
-                { speaker: 'Steve', text: 'Mattis, is there any... normal intimacy?' },
-                { speaker: 'Mattis', text: 'Once a week she allows "reparative intimacy." I lie flat while apologizing for ancestral crimes. Specific historical events. Last week I got through the Thirty Years\' War. She said my delivery lacked remorse.' },
-                { speaker: 'Steve', text: 'That\'s—' },
-                { speaker: 'Mattis', text: 'The worst part is I am running out of wars. I may need to research more.' },
-                { speaker: 'Steve', text: 'Why are you here, Mattis?' },
-                { speaker: 'Mattis', text: 'Because she asked. She said if I really loved her I would try. So I am trying.' },
-                { speaker: '', text: '(Steve says nothing. There is nothing to say. They sit in the silence of two men who understand their marriages are failing and can do absolutely nothing about it.)', thought: true, callback: 'mattis_day2_done' }
+                { speaker: 'Mattis', text: 'It is a very reputable badger. She showed me the certificate.' },
+                { speaker: 'Steve', text: 'What do you do? Before here.' },
+                { speaker: 'Mattis', text: 'Environmental engineer. Water treatment. But she says I need to be more open. So I am being open. (pause) What do you do?' },
+                { speaker: 'Steve', text: 'Accountant.' },
+                { speaker: 'Mattis', text: 'Good. Practical. I like practical people. My wife says that is my problem.' },
+                { speaker: '', text: '(Mattis smiles. It is the smile of a man who has been told his personality is a problem and has decided to believe it.)', thought: true, callback: 'mattis_day2_done' }
             ],
             'mattis_day3': [
-                { speaker: '', text: '(Mattis looks thinner. His Patagonia quarter-zip hangs looser. The man is shrinking.)', thought: true },
-                { speaker: 'Steve', text: 'How was couples\' breathwork?' },
-                { speaker: 'Mattis', text: 'She said my exhales were "confrontational." I was breathing, Steve. With my nose.' },
-                { speaker: 'Steve', text: 'How do you breathe confrontationally?' },
+                { speaker: '', text: '(Mattis is on his bunk, still in the quarter-zip. He looks the same. Almost.)', thought: true },
+                { speaker: 'Steve', text: 'How\'s it going, Mattis?' },
+                { speaker: 'Mattis', text: 'Good! Very good. We did couples\' breathwork today.' },
+                { speaker: 'Steve', text: 'How was it?' },
+                { speaker: 'Mattis', text: 'She said my exhales were "confrontational." I was breathing, Steve. With my nose. But apparently the ANGLE was wrong.' },
+                { speaker: 'Steve', text: 'The angle of your breathing.' },
                 { speaker: 'Mattis', text: 'The facilitator said I should "release my masculine armor." I said it is not armor, it is a quarter-zip. He said that was exactly the kind of thing my armor would say.' },
-                { speaker: 'Steve', text: 'What about work? You still calling your firm?' },
-                { speaker: 'Mattis', text: 'She wants me to quit. Says environmental engineering is "the architecture of control." I design water treatment plants, Steve. Clean drinking water. Apparently the pipes are a metaphor.' },
-                { speaker: '', text: '(Mattis stares at his hands. They are the hands of someone who has held a lot of blueprints.)', thought: true, callback: 'mattis_day3_done' }
+                { speaker: 'Steve', text: 'That\'s...' },
+                { speaker: 'Mattis', text: '(quickly) But she is happy. She is making progress. That is what matters. Happy wife, happy... (he trails off) ...life.' },
+                { speaker: '', text: '(Mattis stares at his hands. They are the hands of someone who has held a lot of blueprints. He is holding nothing.)', thought: true, callback: 'mattis_day3_done' }
             ],
             'mattis_day4': [
+                { speaker: '', text: '(Mattis looks thinner. His Patagonia quarter-zip hangs looser. The man is shrinking.)', thought: true },
+                { speaker: 'Steve', text: 'Mattis. You okay?' },
+                { speaker: 'Mattis', text: '(defensive) I am fine. She wants me to quit my job. Says environmental engineering is "the architecture of control."' },
+                { speaker: 'Steve', text: 'You design water treatment plants.' },
+                { speaker: 'Mattis', text: 'Apparently the pipes are a metaphor. For control. I said the pipes are for clean drinking water. She said that is exactly what a controller would say.' },
+                { speaker: 'Steve', text: 'Are you going to quit?' },
+                { speaker: 'Mattis', text: '(long pause) She said if I really loved her I would try. So I am trying.' },
+                { speaker: '', text: '(His hand goes to his wedding ring. He turns it. Back and forth. A habit.)', thought: true, callback: 'mattis_day4_done' }
+            ],
+            'mattis_day5': [
                 { speaker: '', text: '(Mattis is in retreat whites. Patagonia folded neatly on the bunk. He looks smaller. As if someone let the air out of him.)', thought: true },
                 { speaker: 'Steve', text: 'Mattis. Where\'s the quarter-zip?' },
                 { speaker: 'Mattis', text: '(quietly) I called my firm. I resigned.' },
                 { speaker: 'Steve', text: 'You quit your job.' },
-                { speaker: 'Mattis', text: 'She said I was "clinging to my identity as an engineer." They gave me a spiritual name. Ananda. It means bliss.' },
+                { speaker: 'Mattis', text: 'They gave me a spiritual name. Ananda. It means bliss. She was very proud.' },
                 { speaker: 'Steve', text: 'You don\'t look blissful.' },
                 { speaker: 'Mattis', text: 'I signed up for kitchen seva. Dishwashing. It is easier than thinking.' },
-                { speaker: '', text: '(His hand goes to his bare ring finger. The wedding band is gone. Steve doesn\'t ask about the ring.)', thought: true },
-                { speaker: 'Mattis', text: '(very quietly) I researched more wars. For the reparative intimacy. The Taiping Rebellion. Thirty million dead. She said my presentation was "getting better." She smiled at me, Steve. Yesterday.' },
-                { speaker: 'Steve', text: 'Mattis...' },
-                { speaker: 'Mattis', text: 'So maybe it is working.' },
-                { speaker: '', text: '(Some things you can\'t fix with an audit. Steve knows this. He sits with it anyway.)', thought: true, callback: 'mattis_day4_done' }
+                { speaker: '', text: '(His hand goes to his ring finger. The wedding band is gone. Steve doesn\'t ask about the ring.)', thought: true },
+                { speaker: 'Steve', text: 'Mattis. What happened to the ring?' },
+                { speaker: 'Mattis', text: 'Gratitude bowl. She said material symbols of ownership were... she smiled when I did it.' },
+                { speaker: 'Steve', text: '...' },
+                { speaker: 'Mattis', text: '(very quietly) Once a week she allows "reparative intimacy." I lie flat while apologizing for ancestral crimes. Specific historical events. Last week I got through the Thirty Years\' War. She said my delivery lacked remorse.' },
+                { speaker: 'Steve', text: 'Mattis—' },
+                { speaker: 'Mattis', text: 'The worst part is I am running out of wars. I may need to research more. But she smiled at me, Steve. Yesterday. So maybe it is working.' },
+                { speaker: '', text: '(Some things you can\'t fix with an audit. Steve knows this. He sits with it anyway.)', thought: true, callback: 'mattis_day5_done' }
             ],
             'mattis_generic': () => [
                 { speaker: 'Mattis', text: pickRandom([
-                    '(Mattis is scrubbing pots. His hands — hands that held blueprints for water systems — are red from soap. He doesn\'t look up.)',
-                    '(Mattis stares at the bunk above him. He is very still. "She is at a crystal bath. I am not invited. The crystals do not want me there.")',
+                    '(Mattis is scrubbing pots. His hands — hands that designed water systems for 50,000 people — are red from soap. He doesn\'t look up.)',
+                    '(Mattis stares at the bunk above him. "She is at a crystal bath. I am not invited. The crystals do not want me there." He says this like it is normal.)',
                     '(Mattis is writing a letter. He crosses it out. Starts again. Crosses it out. Folds the paper into a tiny square and puts it under his pillow.)',
                     '(Mattis nods at Steve. The nod of two men who understand each other perfectly and wish they didn\'t.)',
-                    '(Mattis is reading a Wikipedia article on his one permitted phone hour. "The Hundred Years\' War," he mutters. "That should buy me three months.")',
+                    '(Mattis is reading a Wikipedia article on his one permitted phone hour. "The Hundred Years\' War," he mutters. "That should cover three months of reparative intimacy.")',
                 ]) }
             ],
 
@@ -1850,7 +1927,7 @@
             'garden': {
                 name: 'THE SACRED GARDEN',
                 color: 'rgb(199, 217, 191)',
-                npcs: ['frank'],
+                npcs: ['gratitude_bowl', 'frank'],
                 exits: [
                     { label: 'Path', room: 'path' },
                     { label: 'Movement Studio', room: 'studio', require: 'oil_defeated_once' },
@@ -1928,6 +2005,7 @@
         // NPCs
         // ═══════════════════════════════════════════════════════════════════
         const npcs = {
+            'gratitude_bowl': { name: 'Gratitude Bowl', color: '#998866', emoji: '🥣✨', dialogue: 'gratitude_bowl', hideFlag: 'gratitude_done' },
             'receptionist': { name: 'Receptionist', color: '#CC7700', emoji: '💁‍♀️✨', dialogue: 'receptionist', returnDialogue: 'receptionist_return' },
             'frank': { name: 'Groundskeeper', color: '#666666', emoji: '🧔🔧', dialogue: 'frank', returnDialogue: 'frank_return' },
             'oil_warrior': { name: '???', color: '#D12064', emoji: '🧴💥', dialogue: 'oil_warrior', hideFlag: 'oil_defeated' },
@@ -2567,17 +2645,21 @@
             const npc = npcs[npcId];
             if (!npc) return '';
 
-            // Brandon — dynamic per day, each step requires talking previous day + 1 day gap
+            // Brandon — dynamic per day, gated by flags + day gaps + story progress
             if (npcId === 'brandon') {
                 const day = gameState.currentDay;
                 // Day 1: always available
                 if (!gameState.flags['brandon_day1_done']) return day >= 1 ? 'brandon_day1' : '';
-                // Day 2+: requires previous day done AND at least 1 day gap
-                if (!gameState.flags['brandon_day2_done']) return day >= 2 ? 'brandon_day2' : '';
-                if (!gameState.flags['brandon_day3_done']) return day >= 3 ? 'brandon_day3' : '';
-                if (!gameState.flags['brandon_day4_done']) return day >= 4 ? 'brandon_day4' : '';
-                if (!gameState.flags['brandon_day5_done']) return day >= 5 ? 'brandon_day5' : '';
-                return 'brandon_generic';
+                // Day 2: requires day 2+, oil warrior defeated
+                if (!gameState.flags['brandon_day2_done'] && gameState.flags['oil_defeated_once']) return day >= 2 ? 'brandon_day2' : '';
+                // Day 3 (watch gone): requires day 4+, circle done
+                if (!gameState.flags['brandon_day3_done'] && gameState.flags['circle_done']) return day >= 4 ? 'brandon_day3' : '';
+                // Day 4 (glazed): requires day 6+, meditator defeated
+                if (!gameState.flags['brandon_day4_done'] && gameState.flags['meditator_defeated_once']) return day >= 6 ? 'brandon_day4' : '';
+                // Day 5 (guard): requires day 7+, firepit done
+                if (!gameState.flags['brandon_day5_done'] && gameState.flags['firepit_done']) return day >= 7 ? 'brandon_day5' : '';
+                if (gameState.flags['brandon_day5_done']) return 'brandon_generic';
+                return '';
             }
 
             // Maya at firepit
@@ -2587,12 +2669,17 @@
                 return 'maya_firepit';
             }
 
-            // Mattis — dynamic per day
+            // Mattis — dynamic per day, gated by flags + day gaps
             if (npcId === 'mattis') {
                 const day = gameState.currentDay;
-                if (day >= 6 && gameState.flags['mattis_day4_done']) return 'mattis_generic';
-                if (day >= 5 && gameState.flags['mattis_day3_done']) return 'mattis_day4';
-                if (day >= 4 && gameState.flags['mattis_day2_done']) return 'mattis_day3';
+                if (gameState.flags['mattis_day5_done']) return 'mattis_generic';
+                // Day5 reveal: requires day 7+, meditator defeated, day4 done
+                if (gameState.flags['mattis_day4_done'] && day >= 7 && gameState.flags['meditator_defeated_once']) return 'mattis_day5';
+                // Day4 (quit job): requires day 5+, circle done, day3 done
+                if (gameState.flags['mattis_day3_done'] && day >= 5 && gameState.flags['circle_done']) return 'mattis_day4';
+                // Day3 (breathwork): requires day 4+, oil defeated, day2 done
+                if (gameState.flags['mattis_day2_done'] && day >= 4 && gameState.flags['oil_defeated_once']) return 'mattis_day3';
+                // Day2 (intro): available from day 3
                 if (day >= 3 && !gameState.flags['mattis_day2_done']) return 'mattis_day2';
                 return '';
             }
@@ -3024,8 +3111,21 @@
                         gameState.skillNotifications.push({ type: 'unlock', text: 'NOT ENOUGH CACAO', desc: `Need 100, have ${gameState.cacao}. Digital freedom has a price.` });
                     }
                     break;
+                case 'gratitude_sacrifice_bar':
+                    gameState.flags['gratitude_done'] = true;
+                    // Remove one energy bar
+                    const bar = gameState.inventory.find(i => i.id === 'energy_bar' && i.type === 'consumable');
+                    if (bar && bar.qty > 1) bar.qty--;
+                    else if (bar) gameState.inventory = gameState.inventory.filter(i => i !== bar);
+                    gameState.skillNotifications.push({ type: 'unlock', text: 'ATTACHMENT SURRENDERED', desc: 'Steve put an energy bar in a bowl. He feels nothing. The bowl looks satisfied.' });
+                    break;
+                case 'gratitude_sacrifice_card':
+                    gameState.flags['gratitude_done'] = true;
+                    gameState.skillNotifications.push({ type: 'unlock', text: 'ATTACHMENT SURRENDERED', desc: 'Steve surrendered his business card. 500 for $29.99 at Staples. He\'ll never get those back.' });
+                    break;
                 case 'add_retreat_map':
                     gameState.flags['map_obtained'] = true;
+                    gameState.skillNotifications.push({ type: 'unlock', text: 'MAP OBTAINED', desc: 'The full grounds are now accessible. Kitchen, Dorms, Main Hall unlocked.' });
                     break;
                 case 'add_insight':
                     gameState.insight++;
@@ -3076,7 +3176,14 @@
                     break;
                 case 'mattis_day4_done':
                     gameState.flags['mattis_day4_done'] = true;
-                    gameState.normality = Math.max(0, gameState.normality - 2);
+                    gameState.normality = Math.max(0, gameState.normality - 1);
+                    checkSkillUnlocks();
+                    checkEnhancements();
+                    break;
+                case 'mattis_day5_done':
+                    gameState.flags['mattis_day5_done'] = true;
+                    gameState.normality = Math.max(0, gameState.normality - 3);
+                    gameState.insight += 2;
                     checkSkillUnlocks();
                     checkEnhancements();
                     break;
@@ -3276,11 +3383,14 @@
         // Quest definitions — each unlocks (becomes visible) when the previous one is done
         // 'revealFlag' = the flag that must be set for this quest to appear (null = always visible)
         const questData = [
-            // Main quest
+            // Intake Alignment
             { text: 'Talk to the Receptionist',     flag: 'talked_receptionist', revealFlag: null, type: 'main' },
-            { text: 'Survive the Oil Warrior',       flag: 'oil_defeated_once',   revealFlag: 'talked_receptionist', type: 'main' },
-            { text: 'Find the Groundskeeper',        flag: 'talked_frank',        revealFlag: 'talked_receptionist', type: 'main' },
-            { text: 'Visit the Kitchen',             flag: 'talked_maya',         revealFlag: 'map_obtained', type: 'main' },
+            { text: 'Surrender an attachment (Gratitude Bowl)', flag: 'gratitude_done', revealFlag: 'talked_receptionist', type: 'main' },
+            { text: 'Receive a "blessing" on the path', flag: 'oil_defeated_once', revealFlag: 'talked_receptionist', type: 'main' },
+            { text: 'Complete grounding exercise (talk to Frank)', flag: 'talked_frank', revealFlag: 'talked_receptionist', type: 'main' },
+            { text: 'Get the full grounds map from Receptionist', flag: 'map_obtained', revealFlag: 'talked_frank', type: 'main' },
+            // Main quest
+            { text: 'Visit the Kitchen — find someone who knows something', flag: 'talked_maya', revealFlag: 'map_obtained', type: 'main' },
             { text: 'Defeat the Meditation Trainer', flag: 'meditator_defeated_once', revealFlag: 'oil_defeated_once', type: 'main' },
             { text: 'Attend the evening program',    flag: 'circle_done',         revealFlag: 'talked_maya', type: 'main' },
             { text: 'Meet Maya at the Fire Pit',     flag: 'firepit_done',        revealFlag: 'circle_done', type: 'main' },
@@ -3292,7 +3402,7 @@
             { text: 'Find the WiFi password for Jade', flag: 'jade_quest_done',   revealFlag: 'talked_jade', type: 'side' },
             { text: 'Talk to the woman in the parking lot', flag: 'talked_parking_realist', revealFlag: 'talked_receptionist', type: 'side' },
             { text: 'Return the ceremonial token to the parking lot woman', flag: 'parking_token_delivered', revealFlag: 'has_ceremonial_token', type: 'side' },
-            { text: 'Follow Mattis\'s story',        flag: 'mattis_day4_done',    revealFlag: 'mattis_day2_done', type: 'side' },
+            { text: 'Follow Mattis\'s story',        flag: 'mattis_day5_done',    revealFlag: 'mattis_day2_done', type: 'side' },
         ];
 
         function renderMenu() {
