@@ -2870,6 +2870,54 @@
             }
         }
 
+        function getIdleLine(npcId) {
+            if (npcId === 'brandon') {
+                if (gameState.flags['brandon_day5_done']) return pickRandom([
+                    '(Brandon stares at his hands. He is somewhere else.)',
+                    '(Brandon hums a mantra. His eyes don\'t focus on anything.)',
+                ]);
+                if (gameState.flags['brandon_day3_done']) return pickRandom([
+                    '(Brandon is meditating. His lips move but no sound comes out. His wrist is bare.)',
+                    '(Brandon sits cross-legged, eyes closed. He looks peaceful. It is not peace.)',
+                    '(Brandon doesn\'t acknowledge Steve. He\'s deep in something that isn\'t sleep and isn\'t meditation.)',
+                ]);
+                if (gameState.flags['brandon_day1_done']) return pickRandom([
+                    '(Brandon is doing yoga on his bunk. He waves enthusiastically.)',
+                    '(Brandon is writing in his gratitude journal. He shows Steve a page. It says "EVERYTHING" in large letters.)',
+                    '(Brandon is stretching. "Dude, this place is so good for my hip flexors." He seems fine.)',
+                ]);
+                return '(Brandon bounces on his bunk, radiating enthusiasm.)';
+            }
+            if (npcId === 'mattis') {
+                if (gameState.flags['mattis_day5_done']) return pickRandom([
+                    '(Mattis is scrubbing pots. His hands are red from soap. He doesn\'t look up.)',
+                    '(Mattis nods at Steve. The nod of two men who understand each other perfectly and wish they didn\'t.)',
+                ]);
+                if (gameState.flags['mattis_day4_done']) return pickRandom([
+                    '(Mattis is sitting on his bunk. He is turning something invisible on his ring finger. A habit.)',
+                    '(Mattis is staring at the Patagonia quarter-zip folded on his bunk. He doesn\'t put it on.)',
+                ]);
+                if (gameState.flags['mattis_day3_done']) return pickRandom([
+                    '(Mattis is reading a pamphlet about "Sacred Masculine De-armoring." His jaw is tight.)',
+                    '(Mattis is on the phone with his firm. He hangs up quickly when Steve approaches. "Just checking in.")',
+                ]);
+                if (gameState.flags['mattis_day2_done']) return pickRandom([
+                    '(Mattis is on his bunk, polishing his work boots. He does this every evening. Routine.)',
+                    '(Mattis is reading an engineering journal. He hides it under his pillow when his wife walks past.)',
+                    '(Mattis smiles at Steve. "She is at a sound bath. I am not invited. The bowls do not want me there.")',
+                ]);
+                return '(A large man on the bunk across. He hasn\'t introduced himself yet.)';
+            }
+            if (npcId === 'parking_realist') {
+                if (gameState.flags['parking_token_delivered']) return pickRandom([
+                    '(She\'s sitting in the Subaru with the engine running. Just sitting. Not driving. Not yet.)',
+                    '(She waves. The engine is on. She\'ll leave when she\'s ready. She\'s almost ready.)',
+                ]);
+                return '(She\'s patting her pockets. Still looking for those keys.)';
+            }
+            return `(${npcs[npcId]?.name || 'They'} has nothing new to say right now.)`;
+        }
+
         function renderNpcs(roomId) {
             const room = rooms[roomId];
             const npcContainer = document.getElementById('npc-container');
@@ -2894,7 +2942,7 @@
                     if (dialogueKey) {
                         startDialogue(dialogueKey);
                     } else if (npc.dynamicDialogue) {
-                        currentDialogue = [{ speaker: '', text: `(${npc.name} has nothing new to say right now.)`, thought: true }];
+                        currentDialogue = [{ speaker: '', text: getIdleLine(npcId), thought: true }];
                         dialogueIndex = 0;
                         showDialogueLine();
                     } else {
